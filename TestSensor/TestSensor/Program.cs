@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,22 +18,24 @@ namespace TestSensor
 
         static void Main(string[] args)
         {
+            FileStream fs = new FileStream("results.txt", FileMode.Create);
+            var w = new StreamWriter(fs);
+            w.AutoFlush = true;
+            Console.SetOut(w);
+            Console.SetError(w);
+
+
             NxtBrick b = new NxtBrick(NxtCommLinkType.Bluetooth, 10);
             NxtUltrasonicSensor ul = new NxtUltrasonicSensor();
-            NxtUltrasonicSensor ur = new NxtUltrasonicSensor();
-            HiTechnicCompassSensor c = new HiTechnicCompassSensor();
             
 
-            b.Sensor1 = ur;
-            b.Sensor4 = ul;
-            b.Sensor2 = c;
+            b.Sensor1 = ul;
 
             ul.PollInterval = 20;
-            ur.PollInterval = 20;
-            c.PollInterval = 20;
 
             b.Connect();
 
+            string distance;
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
@@ -42,9 +45,10 @@ namespace TestSensor
                 }
                 else
                 {
-                    Console.WriteLine("ul = " + ul.DistanceCm.ToString());
-                    Console.WriteLine("ur = " + ur.DistanceCm.ToString());
-                    Console.WriteLine("c = " + c.TwoDegreeHeading().ToString());
+                    Console.WriteLine("Distance in cm?");
+                    distance = Console.ReadLine();
+                    Console.WriteLine("Actual distance(cm): " + distance);
+                    Console.WriteLine("Ultrasonic sensors measured distance(cm): " + ul.DistanceCm.ToString());
                     Console.WriteLine("\n");
                 }
             }
