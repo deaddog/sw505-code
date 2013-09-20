@@ -123,12 +123,13 @@ namespace KinectWPFOpenCV
                                 for (int i = 0; contours != null; contours = contours.HNext)
                                 {
                                     i++;
-
+                                    
                                     if ((contours.Area > Math.Pow(sliderMinSize.Value, 2)) && (contours.Area < Math.Pow(sliderMaxSize.Value, 2)))
                                     {
                                         MCvBox2D box = contours.GetMinAreaRect();
                                         openCVImg.Draw(box, new Bgr(System.Drawing.Color.Red), 2);
                                         blobCount++;
+                                        openCVImg.Draw(new CircleF(box.center,1),new Bgr( System.Drawing.Color.Red),2);
                                     }
                                 }
                             }
