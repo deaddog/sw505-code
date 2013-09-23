@@ -65,6 +65,7 @@
                 <TextBlock TextWrapping="Wrap" x:Name="txtInfo" Text="" Padding="10"/>
 
             </StackPanel>
+            <Button Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="60,37,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
 
         </Grid>
     </Border>
