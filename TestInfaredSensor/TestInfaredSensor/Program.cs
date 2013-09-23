@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NKH.MindSqualls;
+using NKH.MindSqualls.HiTechnic;
 
 namespace TestInfaredSensor
 {
@@ -21,8 +22,12 @@ namespace TestInfaredSensor
             NxtBrick b = new NxtBrick(NxtCommLinkType.Bluetooth, 10);
             NxtUltrasonicSensor u = new NxtUltrasonicSensor();
 
+
+            //NxtBluetoothConnection bc = new NxtBluetoothConnection("COM10");
+            //bc.Connect();
+
             b.Sensor1 = u;
-            u.PollInterval = 20;
+            //u.PollInterval = 20;
 
             b.Connect();
 
@@ -31,11 +36,29 @@ namespace TestInfaredSensor
                 if (Console.ReadKey(true).Key == ConsoleKey.Escape)
                 {
                     b.Disconnect();
+                    //bc.Disconnect();
                         return;
                 }
                 else
                 {
-                    Console.WriteLine(u.DistanceCm);
+                    u.Poll();
+                    
+                    byte? x = u.ReadMeasurementByteX(0);
+                    byte? y = u.ReadMeasurementByteX(1);
+                    if (x != null && y != null)
+                    {
+                        byte[] a = new byte[] { x.Value, y.Value };
+
+                        Console.WriteLine((y << 8)+x);
+                        //Console.WriteLine(BitConverter.ToInt16(a, 0));
+                    }
+                    
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Console.WriteLine(i + ": " + u.ReadMeasurementByteX((byte)i));
+                    }
+                    
+                    
                 }
             }
 
