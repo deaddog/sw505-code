@@ -28,9 +28,12 @@ namespace KinectWPFOpenCV
         KinectSensor sensor;
         WriteableBitmap depthBitmap;
         WriteableBitmap colorBitmap;
+        WriteableBitmap planeBitmap;
+        Skeleton[] skeletonData;
         DepthImagePixel[] depthPixels;
         List<PointF> points;
         bool work = false;
+        bool auto = false;
         byte[] colorPixels;
 
         int blobCount = 0;
@@ -65,11 +68,18 @@ namespace KinectWPFOpenCV
 
                 this.sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
                 this.sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                this.sensor.SkeletonStream.Enable();
+                skeletonData = new Skeleton[this.sensor.SkeletonStream.FrameSkeletonArrayLength];
+                this.sensor.SkeletonFrameReady += sensor_SkeletonFrameReady;
                 this.colorPixels = new byte[this.sensor.ColorStream.FramePixelDataLength];
                 this.depthPixels = new DepthImagePixel[this.sensor.DepthStream.FramePixelDataLength];
+                
                 this.colorBitmap = new WriteableBitmap(this.sensor.ColorStream.FrameWidth, this.sensor.ColorStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
                 this.depthBitmap = new WriteableBitmap(this.sensor.DepthStream.FrameWidth, this.sensor.DepthStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
+                this.planeBitmap = new WriteableBitmap(this.sensor.DepthStream.FrameWidth, this.sensor.DepthStream.FrameHeight, 96, 96, PixelFormats.Pbgra32, null);
+                
                 this.colorImg.Source = this.colorBitmap;
+                this.planeImg.Source = this.planeBitmap;
 
                 this.sensor.AllFramesReady += this.sensor_AllFramesReady;
 
@@ -93,6 +103,22 @@ namespace KinectWPFOpenCV
 
         }
 
+        void sensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+        {
+            using (SkeletonFrame s = e.OpenSkeletonFrame())
+            {
+                if (s != null)
+                {
+                    Tuple<float, float, float, float> plane = s.FloorClipPlane;
+                    //planeBitmap = BitmapFactory.ConvertToPbgra32Format(colorBitmap);
+                    planeBitmap.DrawLine(0, (int)(-plane.Item4 / plane.Item1), (int)(-plane.Item4 / plane.Item2), 0, 100);
+                    //planeBitmap.DrawRectangle(0, 0, 100, 100, Colors.Red);
+                    //this.planeImg.Source = this.planeBitmap;
+                    
+                }
+            }
+        }
+
         private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
             if (work == true)
@@ -104,7 +130,8 @@ namespace KinectWPFOpenCV
                 {
                     using (DepthImageFrame depthFrame = e.OpenDepthImageFrame())
                     {
-                        if (depthFrame != null )
+
+                        if (depthFrame != null)
                         {
 
                             blobCount = 0;
@@ -140,7 +167,9 @@ namespace KinectWPFOpenCV
                                 points.Add(FindClosest(points.Last(), temp));
                             }
 
-                            this.outImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
+                            //this.outImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
+                            //this.planeImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
+                           
                             txtBlobCount.Text = blobCount.ToString();
                         }
                     }
@@ -208,6 +237,11 @@ namespace KinectWPFOpenCV
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             work = true;
+        }
+
+        private void toggleRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            auto = !auto;
         }
     }
 }
