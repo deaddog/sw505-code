@@ -29,6 +29,7 @@ namespace KinectWPFOpenCV
         WriteableBitmap depthBitmap;
         WriteableBitmap colorBitmap;
         DepthImagePixel[] depthPixels;
+        List<PointF> points;
         bool work = false;
         byte[] colorPixels;
 
@@ -41,7 +42,8 @@ namespace KinectWPFOpenCV
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
             this.MouseDown += MainWindow_MouseDown;
-
+            points = new List<PointF>();
+            points.Add(new PointF(0, 0));
         }
 
 
@@ -93,7 +95,7 @@ namespace KinectWPFOpenCV
 
         private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
-           // if (work == true)
+            if (work == true)
             {
                 BitmapSource depthBmp = null;
                 blobCount = 0;
@@ -102,10 +104,12 @@ namespace KinectWPFOpenCV
                 {
                     using (DepthImageFrame depthFrame = e.OpenDepthImageFrame())
                     {
-                        if (depthFrame != null)
+                        if (depthFrame != null )
                         {
 
                             blobCount = 0;
+
+                            List<PointF> temp = new List<PointF>();
 
                             depthBmp = depthFrame.SliceDepthImage((int)sliderMin.Value, (int)sliderMax.Value);
 
@@ -123,15 +127,17 @@ namespace KinectWPFOpenCV
                                 for (int i = 0; contours != null; contours = contours.HNext)
                                 {
                                     i++;
-                                    
+
                                     if ((contours.Area > Math.Pow(sliderMinSize.Value, 2)) && (contours.Area < Math.Pow(sliderMaxSize.Value, 2)))
                                     {
                                         MCvBox2D box = contours.GetMinAreaRect();
                                         openCVImg.Draw(box, new Bgr(System.Drawing.Color.Red), 2);
                                         blobCount++;
-                                        openCVImg.Draw(new CircleF(box.center,1),new Bgr( System.Drawing.Color.Red),2);
+                                        temp.Add(box.center);
+                                        openCVImg.Draw(new CircleF(box.center, 1), new Bgr(System.Drawing.Color.Red), 2);
                                     }
                                 }
+                                points.Add(FindClosest(points.Last(), temp));
                             }
 
                             this.outImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
@@ -154,6 +160,22 @@ namespace KinectWPFOpenCV
                     work = false;
                 }
             }
+        }
+
+        private PointF FindClosest(PointF p, List<PointF> points)
+        {
+            float dist = float.MaxValue;
+            PointF closestPoint = new PointF();
+            foreach (var point in points)
+            {
+                float v = (point.X - p.X) + (point.Y - p.Y);
+                if (v < dist)
+                {
+                    dist = v;
+                    closestPoint = point;
+                }
+            }
+            return closestPoint;
         }
 
 
@@ -181,6 +203,11 @@ namespace KinectWPFOpenCV
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             work = !work;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            work = true;
         }
     }
 }
