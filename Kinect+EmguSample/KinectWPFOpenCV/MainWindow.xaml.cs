@@ -18,6 +18,11 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.IO;
 
+/*
+ * http://msdn.microsoft.com/en-us/library/hh973078.aspx#floor_determination
+ * http://en.wikipedia.org/wiki/Plane_(geometry)
+ */
+
 namespace KinectWPFOpenCV
 {
     /// <summary>
