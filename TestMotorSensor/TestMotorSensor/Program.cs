@@ -11,8 +11,8 @@ namespace TestMotorSensor
 {
     class Program
     {
-        static McNxtMotor mcl = new McNxtMotor();
-        static McNxtMotor mcr = new McNxtMotor();
+        static McNxtMotor mcb = new McNxtMotor();
+        static McNxtMotor mcc = new McNxtMotor();
         static void Main(string[] args)
         {
             FileStream fs = new FileStream("results.txt", FileMode.Create);
@@ -23,41 +23,41 @@ namespace TestMotorSensor
             Console.SetError(w);
 
 
-                McNxtBrick mcb = new McNxtBrick(NxtCommLinkType.Bluetooth, 10);
+                McNxtBrick mcbrick = new McNxtBrick(NxtCommLinkType.Bluetooth, 10);
 
                 
 
-                mcb.MotorB = mcl;
-                mcb.MotorC = mcr;
+                mcbrick.MotorB = mcb;
+                mcbrick.MotorC = mcc;
 
-                mcl.PollInterval = 1;
-                mcr.PollInterval = 1;
+                mcb.PollInterval = 1;
+                mcc.PollInterval = 1;
 
-                mcl.OnPolled += mcl_OnPolled;
-                mcr.OnPolled += mcr_OnPolled;
+                mcb.OnPolled += mcl_OnPolled;
+                mcc.OnPolled += mcr_OnPolled;
 
-                McNxtMotorSync motorPair = new McNxtMotorSync(mcl, mcr);
+                McNxtMotorSync motorPair = new McNxtMotorSync(mcb, mcc);
 
-                mcb.Connect();
+                mcbrick.Connect();
 
-                mcb.StartMotorControl();
+                mcbrick.StartMotorControl();
 
-                motorPair.Run(100, 3600, 0);
+                motorPair.Run(100, 360, 0);
 
                 Console.ReadKey();
 
-                mcb.Disconnect();
+                mcbrick.Disconnect();
         }
 
         static void mcr_OnPolled(NxtPollable polledItem)
         {
-            Console.WriteLine("r: " + mcr.TachoCount.Value);
+            Console.WriteLine("motor port c: " + mcc.TachoCount.Value);
         }
 
         private static void mcl_OnPolled(NxtPollable polledItem)
         {
 
-            Console.WriteLine("l: " + mcl.TachoCount.Value);
+            Console.WriteLine("motor port b: " + mcb.TachoCount.Value);
             
         }
     }
