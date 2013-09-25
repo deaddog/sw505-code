@@ -37,6 +37,7 @@ namespace KinectWPFOpenCV
         Skeleton[] skeletonData;
         DepthImagePixel[] depthPixels;
         List<PointF> points;
+        Tuple<float, float, float, float> plane;
         bool work = false;
         bool auto = false;
         byte[] colorPixels;
@@ -78,13 +79,12 @@ namespace KinectWPFOpenCV
                 this.sensor.SkeletonFrameReady += sensor_SkeletonFrameReady;
                 this.colorPixels = new byte[this.sensor.ColorStream.FramePixelDataLength];
                 this.depthPixels = new DepthImagePixel[this.sensor.DepthStream.FramePixelDataLength];
-                
+
                 this.colorBitmap = new WriteableBitmap(this.sensor.ColorStream.FrameWidth, this.sensor.ColorStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
                 this.depthBitmap = new WriteableBitmap(this.sensor.DepthStream.FrameWidth, this.sensor.DepthStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
                 this.planeBitmap = new WriteableBitmap(this.sensor.DepthStream.FrameWidth, this.sensor.DepthStream.FrameHeight, 96, 96, PixelFormats.Pbgra32, null);
-                
+
                 this.colorImg.Source = this.colorBitmap;
-                this.planeImg.Source = this.planeBitmap;
 
                 this.sensor.AllFramesReady += this.sensor_AllFramesReady;
 
@@ -114,14 +114,17 @@ namespace KinectWPFOpenCV
             {
                 if (s != null)
                 {
-                    Tuple<float, float, float, float> plane = s.FloorClipPlane;
+                    plane = s.FloorClipPlane;
                     //planeBitmap = BitmapFactory.ConvertToPbgra32Format(colorBitmap);
-                    planeBitmap.DrawLine(0, (int)(-plane.Item4 / plane.Item1), (int)(-plane.Item4 / plane.Item2), 0, 100);
+                    //planeBitmap.DrawLine(0, (int)(-plane.Item4 / plane.Item1), (int)(-plane.Item4 / plane.Item2), 0, 100);
                     //planeBitmap.DrawRectangle(0, 0, 100, 100, Colors.Red);
-                    //this.planeImg.Source = this.planeBitmap;
-                    
                 }
             }
+        }
+
+        float calculate_point_in_plane(PointF p)
+        {
+            return (plane.Item1 * p.X + plane.Item2 * p.Y + plane.Item4) / -plane.Item3;
         }
 
         private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
@@ -167,13 +170,19 @@ namespace KinectWPFOpenCV
                                         blobCount++;
                                         temp.Add(box.center);
                                         openCVImg.Draw(new CircleF(box.center, 1), new Bgr(System.Drawing.Color.Red), 2);
+                                        MCvFont f = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_PLAIN, 2,2);
+                                        //openCVImg.Draw(calculate_point_in_plane(box.center).ToString(), ref f, new System.Drawing.Point(10, 50), new Bgr(System.Drawing.Color.MediumSpringGreen));
+                                        openCVImg.Draw(plane.Item1.ToString(), ref f, new System.Drawing.Point(10, 100), new Bgr(System.Drawing.Color.MediumSpringGreen));
+                                        openCVImg.Draw(plane.Item2.ToString(), ref f, new System.Drawing.Point(10, 150), new Bgr(System.Drawing.Color.MediumSpringGreen));
+                                        openCVImg.Draw(plane.Item3.ToString(), ref f, new System.Drawing.Point(10, 200), new Bgr(System.Drawing.Color.MediumSpringGreen));
+                                        openCVImg.Draw(plane.Item4.ToString(), ref f, new System.Drawing.Point(10, 250), new Bgr(System.Drawing.Color.MediumSpringGreen));
                                     }
                                 }
                                 points.Add(FindClosest(points.Last(), temp));
                             }
 
-                            //this.outImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
-                            //this.planeImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
+                            this.outImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
+                            
                            
                             txtBlobCount.Text = blobCount.ToString();
                         }
