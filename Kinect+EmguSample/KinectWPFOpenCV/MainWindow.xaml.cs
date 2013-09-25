@@ -129,7 +129,7 @@ namespace KinectWPFOpenCV
 
         private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
-            if (work == true)
+            //if (work == true)
             {
                 BitmapSource depthBmp = null;
                 blobCount = 0;
