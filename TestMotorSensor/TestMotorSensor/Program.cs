@@ -42,7 +42,7 @@ namespace TestMotorSensor
 
                 mcbrick.StartMotorControl();
 
-                motorPair.Run(100, 360, 0);
+                motorPair.Run(100, 3600, 0);
 
                 Console.ReadKey();
 
