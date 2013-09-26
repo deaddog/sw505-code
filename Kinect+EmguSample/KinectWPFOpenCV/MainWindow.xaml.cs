@@ -36,10 +36,12 @@ namespace KinectWPFOpenCV
         WriteableBitmap planeBitmap;
         Skeleton[] skeletonData;
         DepthImagePixel[] depthPixels;
+        Image<Gray, Byte> gray_bg;
         List<PointF> points;
         Tuple<float, float, float, float> plane;
         bool work = false;
         bool auto = false;
+        bool bg = false;
         byte[] colorPixels;
 
         int blobCount = 0;
@@ -129,7 +131,21 @@ namespace KinectWPFOpenCV
 
         private void sensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
-            //if (work == true)
+            if (bg == false)
+            {
+                using (DepthImageFrame depthFrame = e.OpenDepthImageFrame())
+                {
+                    if (depthFrame != null)
+                    {
+                        BitmapSource bgBmp = depthFrame.SliceDepthImage(0, 3000);
+                        Image<Bgr, Byte> bgOpenCV = new Image<Bgr, byte>(bgBmp.ToBitmap());
+                        gray_bg = bgOpenCV.Convert<Gray, byte>();
+                        bg = true;
+                    }
+                }
+            }
+
+            if (work == true)
             {
                 BitmapSource depthBmp = null;
                 blobCount = 0;
@@ -151,6 +167,7 @@ namespace KinectWPFOpenCV
                             Image<Bgr, Byte> openCVImg = new Image<Bgr, byte>(depthBmp.ToBitmap());
                             Image<Gray, byte> gray_image = openCVImg.Convert<Gray, byte>();
 
+                            gray_image=  gray_image.AbsDiff(gray_bg);
                             using (MemStorage stor = new MemStorage())
                             {
                                 //Find contours with no holes try CV_RETR_EXTERNAL to find holes
@@ -170,7 +187,7 @@ namespace KinectWPFOpenCV
                                         blobCount++;
                                         temp.Add(box.center);
                                         openCVImg.Draw(new CircleF(box.center, 1), new Bgr(System.Drawing.Color.Red), 2);
-                                        MCvFont f = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_PLAIN, 2,2);
+                                        MCvFont f = new MCvFont(Emgu.CV.CvEnum.FONT.CV_FONT_HERSHEY_PLAIN, 2, 2);
                                         //openCVImg.Draw(calculate_point_in_plane(box.center).ToString(), ref f, new System.Drawing.Point(10, 50), new Bgr(System.Drawing.Color.MediumSpringGreen));
                                         openCVImg.Draw(plane.Item1.ToString(), ref f, new System.Drawing.Point(10, 100), new Bgr(System.Drawing.Color.MediumSpringGreen));
                                         openCVImg.Draw(plane.Item2.ToString(), ref f, new System.Drawing.Point(10, 150), new Bgr(System.Drawing.Color.MediumSpringGreen));
@@ -182,8 +199,9 @@ namespace KinectWPFOpenCV
                             }
 
                             this.outImg.Source = ImageHelpers.ToBitmapSource(openCVImg);
-                            
-                           
+                            this.bgImg.Source = ImageHelpers.ToBitmapSource(gray_bg);
+                            this.origGray.Source = ImageHelpers.ToBitmapSource(gray_image);
+
                             txtBlobCount.Text = blobCount.ToString();
                         }
                     }
@@ -255,7 +273,7 @@ namespace KinectWPFOpenCV
 
         private void toggleRefresh_Click(object sender, RoutedEventArgs e)
         {
-            auto = !auto;
+            bg = !bg;
         }
     }
 }

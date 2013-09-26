@@ -66,7 +66,9 @@
 
             </StackPanel>
             <Button x:Name="manualRefresh" Content="Refresh" Grid.Column="2" HorizontalAlignment="Left" Margin="60,37,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
-            <Button x:Name="toggleRefresh" Content="Toggle" Grid.Column="2" HorizontalAlignment="Left" Margin="176,37,0,0" VerticalAlignment="Top" Width="75" Click="toggleRefresh_Click"/>
+            <Button x:Name="bgcalc" Content="Calc bg" Grid.Column="2" HorizontalAlignment="Left" Margin="176,37,0,0" VerticalAlignment="Top" Width="75" Click="toggleRefresh_Click"/>
+            <Image x:Name="bgImg" Width="160" Height="120" Grid.Row="1" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" Margin="0,0,358,0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" />
+            <Image x:Name="origGray" Width="160" Height="120" Grid.Row="1" Stretch="Uniform" RenderTransformOrigin="0.5,0.5" Margin="0,0,172,0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" />
 
         </Grid>
     </Border>
