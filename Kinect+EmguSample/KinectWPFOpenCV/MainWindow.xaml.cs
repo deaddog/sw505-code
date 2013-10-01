@@ -40,7 +40,8 @@ namespace KinectWPFOpenCV
         List<PointF> points;
         Tuple<float, float, float, float> plane;
         bool work = false;
-        bool auto = false;
+        
+        
         bool bg = false;
         byte[] colorPixels;
 
@@ -164,6 +165,8 @@ namespace KinectWPFOpenCV
 
                             depthBmp = depthFrame.SliceDepthImage((int)sliderMin.Value, (int)sliderMax.Value);
 
+                            
+
                             Image<Bgr, Byte> openCVImg = new Image<Bgr, byte>(depthBmp.ToBitmap());
                             Image<Gray, byte> gray_image = openCVImg.Convert<Gray, byte>();
 
@@ -275,5 +278,6 @@ namespace KinectWPFOpenCV
         {
             bg = !bg;
         }
+
     }
 }
