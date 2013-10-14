@@ -8,7 +8,7 @@ using Emgu.CV.Structure;
 using Emgu.Util;
 using System.Drawing;
 
-namespace BackgroundSubstraction
+namespace BackgroundSubtraction
 {
     //Uses Frame Differencing for finding objects between two Bitmaps
     public class FrameDifferencing

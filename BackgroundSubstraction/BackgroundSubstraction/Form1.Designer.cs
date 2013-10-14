@@ -1,4 +1,4 @@
-﻿namespace BackgroundSubstraction
+﻿namespace BackgroundSubtraction
 {
     partial class Form1
     {
