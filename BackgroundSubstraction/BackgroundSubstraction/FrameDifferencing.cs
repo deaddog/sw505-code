@@ -30,7 +30,7 @@ namespace BackgroundSubtraction
 
         //Finds the contour from the thresholded bitmap and draws it on to the targetBitmap with a cross in the middle
         //contourThreshold is the size of the contour you want to find
-        public static Bitmap FindContour(Bitmap thresholdedBitmap, Bitmap targetBitmap, int contourThreshold = 500)
+        public static Bitmap FindContour(Bitmap thresholdedBitmap, Bitmap targetBitmap, int contourThresholdMinimum = 500, int contourThresholdMaximum = 1000)
         {
             Image<Bgr, Byte> difference = new Image<Bgr, byte>(thresholdedBitmap);
             Image<Bgr, Byte> target = new Image<Bgr, byte>(targetBitmap);
@@ -48,7 +48,7 @@ namespace BackgroundSubtraction
                     Contour<Point> currentContour = contours.ApproxPoly(contours.Perimeter * 0.05, storage);
 
                     //Draw the detected contour on the image
-                    if (currentContour.Area > contourThreshold) //only consider contours with area greater than 100 as default then take from form control
+                    if (currentContour.Area > contourThresholdMinimum && currentContour.Area < contourThresholdMaximum) //only consider contours with area greater than 100 as default then take from form control
                     {
                         target.Draw(currentContour.BoundingRectangle, new Bgr(Color.Red), 2);
 
