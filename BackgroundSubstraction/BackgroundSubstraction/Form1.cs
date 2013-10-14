@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.Util;
 
 namespace BackgroundSubstraction
 {
@@ -14,37 +17,21 @@ namespace BackgroundSubstraction
     {
         public Form1()
         {
-            
             InitializeComponent();
-            pictureBox1.Image = Properties.Resources.snapshot;
-            pictureBox2.Image = Properties.Resources.snapshot__1_;
+            pictureBox1.Image = Properties.Resources.snapshot2;
+            pictureBox2.Image = Properties.Resources.snapshot3;
 
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox2.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox3.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox3.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
 
-            pictureBox3.Image = subtract(new Bitmap(pictureBox1.Image), new Bitmap(pictureBox2.Image));
+            FrameDifferencing fd = new FrameDifferencing();
+
+            Bitmap diff = fd.Diff(Properties.Resources.snapshot3, Properties.Resources.snapshot2);
+            pictureBox4.Image = diff;
+            pictureBox3.Image = fd.FindContour(diff, Properties.Resources.snapshot3);
         }
 
-        
-        private Bitmap subtract(Bitmap bmp1, Bitmap bmp2)
-        {
-            Bitmap bmp = new Bitmap(bmp1.Width, bmp1.Height);
-            for (int i = 0; i < bmp1.Width; i++)
-            {
-                for (int k = 0; k < bmp1.Height; k++)
-                {
-                    if (bmp1.GetPixel(i,k) == bmp2.GetPixel(i,k))
-                    {
-                        bmp.SetPixel(i, k, Color.White);
-                    }
-                    else
-                    {
-                        bmp.SetPixel(i, k, bmp2.GetPixel(i, k));
-                    }
-                }
-            }
-            return bmp;
-        }
     }
 }
