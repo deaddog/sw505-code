@@ -40,25 +40,25 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(24, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(422, 408);
+            this.pictureBox1.Size = new System.Drawing.Size(640, 480);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Location = new System.Drawing.Point(852, 24);
+            this.pictureBox2.Location = new System.Drawing.Point(681, 24);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(469, 408);
+            this.pictureBox2.Size = new System.Drawing.Size(640, 480);
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             // 
             // pictureBox3
             // 
             this.pictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pictureBox3.Location = new System.Drawing.Point(493, 491);
+            this.pictureBox3.Location = new System.Drawing.Point(444, 247);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(308, 223);
+            this.pictureBox3.Size = new System.Drawing.Size(640, 480);
             this.pictureBox3.TabIndex = 2;
             this.pictureBox3.TabStop = false;
             // 
