@@ -4,8 +4,14 @@
 
 namespace NKH.MindSqualls
 {
+    /// <summary>
+    /// Class representing the Mindsensors High Precision Medium Range Infrared Distance Sensor
+    /// </summary>
     public class MindsensorsHPMRInfrared : NxtDigitalSensor
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MindsensorsHPMRInfrared"/> class.
+        /// </summary>
         public MindsensorsHPMRInfrared()
             : base()
         {
@@ -20,15 +26,29 @@ namespace NKH.MindSqualls
             Energize();
         }
 
+        /// <summary>
+        /// Reads the most-significant distance byte.
+        /// </summary>
+        /// <returns></returns>
         public byte? DistanceMSB()
         {
             return ReadByteFromAddress(0x43);
         }
+        /// <summary>
+        /// Reads the least-significant distance byte.
+        /// </summary>
+        /// <returns></returns>
         public byte? DistanceLSB()
         {
             return ReadByteFromAddress(0x42);
         }
 
+        /// <summary>
+        /// Gets the distance to an object, as read by the last call to <see cref="Poll"/>.
+        /// </summary>
+        /// <value>
+        /// The distance (int mm).
+        /// </value>
         public UInt16? Distance
         {
             get
@@ -41,10 +61,16 @@ namespace NKH.MindSqualls
             }
         }
 
+        /// <summary>
+        /// Turns on the sensor.
+        /// </summary>
         public void Energize()
         {
             CommandToAddress(0x41, 0x45);
         }
+        /// <summary>
+        /// Turns off the sensor.
+        /// </summary>
         public void DeEnergize()
         {
             CommandToAddress(0x41, 0x44);
@@ -53,6 +79,9 @@ namespace NKH.MindSqualls
         private byte? polldataMSB, polldataLSB;
         private object pollDataLock = new object();
 
+        /// <summary>
+        /// Poll the sensor and updates the <see cref="Distance"/> property.
+        /// </summary>
         public override void Poll()
         {
             if (Brick.IsConnected)
