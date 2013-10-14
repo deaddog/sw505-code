@@ -26,11 +26,11 @@ namespace NKH.MindSqualls
 
         public byte? DistanceMSB()
         {
-            return ReadByteFromAddress(0x45);
+            return ReadByteFromAddress(0x43);
         }
         public byte? DistanceLSB()
         {
-            return ReadByteFromAddress(0x44);
+            return ReadByteFromAddress(0x42);
         }
 
         public UInt16? Distance
@@ -39,7 +39,7 @@ namespace NKH.MindSqualls
             {
                 byte? msb = polldataMSB, lsb = polldataLSB;
                 if (msb.HasValue && lsb.HasValue)
-                    return (ushort?)((msb.Value << 8) & lsb.Value);
+                    return (ushort?)((msb.Value << 8) | lsb.Value);
                 else
                     return (ushort?)null;
             }
