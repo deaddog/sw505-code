@@ -17,9 +17,7 @@ namespace NKH.MindSqualls
 
             //Set sensor module mode to GP2Y0A21YK (Medium Range)
             CommandToAddress(0x41, 0x33);
-
-            //Energize sensor module
-            CommandToAddress(0x41, 0x45);
+            Energize();
         }
 
         public byte? DistanceMSB()
@@ -41,6 +39,15 @@ namespace NKH.MindSqualls
                 else
                     return (ushort?)null;
             }
+        }
+
+        public void Energize()
+        {
+            CommandToAddress(0x41, 0x45);
+        }
+        public void DeEnergize()
+        {
+            CommandToAddress(0x41, 0x44);
         }
 
         private byte? polldataMSB, polldataLSB;
