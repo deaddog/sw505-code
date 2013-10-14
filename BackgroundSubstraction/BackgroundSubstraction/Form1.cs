@@ -19,7 +19,6 @@ namespace BackgroundSubstraction
         const double ContourThresh = 500;
         public Form1()
         {
-
             InitializeComponent();
             pictureBox1.Image = Properties.Resources.snapshot2;
             pictureBox2.Image = Properties.Resources.snapshot3;
@@ -27,37 +26,13 @@ namespace BackgroundSubstraction
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox3.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
 
-            Image<Bgr, Byte> Frame = new Image<Bgr, byte>(Properties.Resources.snapshot3);
-            Image<Bgr, Byte> Previous_Frame = new Image<Bgr, byte>(Properties.Resources.snapshot2);
-            Image<Bgr, Byte> Difference;
+            FrameDifferencing fd = new FrameDifferencing();
 
-            Difference = Previous_Frame.AbsDiff(Frame); //find the absolute difference 
-            Difference = Difference.ThresholdBinary(new Bgr(Threshold, Threshold, Threshold), new Bgr(255, 255, 255));
-            pictureBox4.Image = Difference.ToBitmap();
-
-            Previous_Frame = Frame.Copy(); //copy the frame to act as the previous frame
-
-            using (MemStorage storage = new MemStorage()) //allocate storage for contour approximation
-                //detect the contours and loop through each of them
-                for (Contour<Point> contours = Difference.Convert<Gray, Byte>().FindContours(
-                      Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
-                      Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_LIST,
-                      storage);
-                   contours != null;
-                   contours = contours.HNext)
-                {
-                    //Create a contour for the current variable for us to work with
-                    Contour<Point> currentContour = contours.ApproxPoly(contours.Perimeter * 0.05, storage);
-
-                    //Draw the detected contour on the image
-                    if (currentContour.Area > ContourThresh) //only consider contours with area greater than 100 as default then take from form control
-                    {
-                        Frame.Draw(currentContour.BoundingRectangle, new Bgr(Color.Red), 2);
-                    }
-                }
-
-            pictureBox3.Image = Frame.ToBitmap();
+            Bitmap diff = fd.Diff(Properties.Resources.snapshot3, Properties.Resources.snapshot2);
+            pictureBox4.Image = diff;
+            pictureBox3.Image = fd.FindContour(diff, Properties.Resources.snapshot3);
         }
 
     }
