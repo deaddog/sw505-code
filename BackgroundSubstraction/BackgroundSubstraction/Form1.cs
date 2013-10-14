@@ -15,8 +15,6 @@ namespace BackgroundSubstraction
 {
     public partial class Form1 : Form
     {
-        const double Threshold = 50;
-        const double ContourThresh = 500;
         public Form1()
         {
             InitializeComponent();

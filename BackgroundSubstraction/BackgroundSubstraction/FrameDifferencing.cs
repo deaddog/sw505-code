@@ -42,14 +42,18 @@ namespace BackgroundSubstraction
                    contours != null;
                    contours = contours.HNext)
                 {
-                    //Create a contour for the current variable for us to work with
+                    //Create a contour for the current variable to work with
                     Contour<Point> currentContour = contours.ApproxPoly(contours.Perimeter * 0.05, storage);
 
                     //Draw the detected contour on the image
                     if (currentContour.Area > countourThreshold) //only consider contours with area greater than 100 as default then take from form control
                     {
                         target.Draw(currentContour.BoundingRectangle, new Bgr(Color.Red), 2);
-                        //Frame.Draw(new Cross2DF(new PointF(100,100), currentContour.), new Bgr(Color.Red), 5);
+
+                        //x and y coordinates for the middle of the contour
+                        int x = currentContour.BoundingRectangle.X + (currentContour.BoundingRectangle.Width/2);
+                        int y = currentContour.BoundingRectangle.Y + (currentContour.BoundingRectangle.Height/2);
+                        target.Draw(new Cross2DF(new PointF(x, y), 10, 10), new Bgr(Color.Red), 1);
                     }
                 }
             return target.ToBitmap();
