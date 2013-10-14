@@ -22,8 +22,6 @@ namespace NKH.MindSqualls
             CommandToAddress(0x41, 0x45);
         }
 
-        #region I2C protocol
-
         public byte? DistanceMSB()
         {
             return ReadByteFromAddress(0x43);
@@ -45,10 +43,6 @@ namespace NKH.MindSqualls
             }
         }
 
-        #endregion
-
-        #region NXT-G like events & NxtPollable overrides
-
         private byte? polldataMSB, polldataLSB;
         private object pollDataLock = new object();
 
@@ -69,7 +63,5 @@ namespace NKH.MindSqualls
                 //Handle distance-range events...
             }
         }
-
-        #endregion
     }
 }
