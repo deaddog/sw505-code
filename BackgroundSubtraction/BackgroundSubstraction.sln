@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundSubstraction", "BackgroundSubstraction\BackgroundSubstraction.csproj", "{B902B151-7C87-4E46-ADB8-A8042B02AE3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundSubtraction", "BackgroundSubtraction\BackgroundSubstraction.csproj", "{B902B151-7C87-4E46-ADB8-A8042B02AE3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
