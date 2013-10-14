@@ -16,7 +16,7 @@ namespace BackgroundSubstraction
         public FrameDifferencing() { }
 
         //Finds the absolute difference and thresholdes it
-        public Bitmap Diff(Bitmap current, Bitmap previous, int threshold = 50)
+        public static Bitmap Diff(Bitmap current, Bitmap previous, int threshold = 50)
         {
             Image<Bgr, Byte> frame = new Image<Bgr, byte>(current);
             Image<Bgr, Byte> previousFrame = new Image<Bgr, byte>(previous);
@@ -30,7 +30,7 @@ namespace BackgroundSubstraction
 
         //Finds the contour from the thresholded bitmap and draws it on to the targetBitmap with a cross in the middle
         //contourThreshold is the size of the contour you want to find
-        public Bitmap FindContour(Bitmap thresholdedBitmap, Bitmap targetBitmap, int contourThreshold = 500)
+        public static Bitmap FindContour(Bitmap thresholdedBitmap, Bitmap targetBitmap, int contourThreshold = 500)
         {
             Image<Bgr, Byte> difference = new Image<Bgr, byte>(thresholdedBitmap);
             Image<Bgr, Byte> target = new Image<Bgr, byte>(targetBitmap);
@@ -61,7 +61,7 @@ namespace BackgroundSubstraction
             return target.ToBitmap();
         }
 
-        public Point FindContourMiddleCoordinates(Bitmap thresholdedBitmap, Bitmap targetBitmap, int contourThreshold = 500)
+        public static Point FindContourMiddleCoordinates(Bitmap thresholdedBitmap, Bitmap targetBitmap, int contourThreshold = 500)
         {
             Image<Bgr, Byte> difference = new Image<Bgr, byte>(thresholdedBitmap);
             Image<Bgr, Byte> target = new Image<Bgr, byte>(targetBitmap);

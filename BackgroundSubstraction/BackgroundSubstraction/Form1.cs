@@ -23,11 +23,11 @@ namespace BackgroundSubstraction
             pictureBox3.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox4.SizeMode = PictureBoxSizeMode.CenterImage;
 
-            FrameDifferencing fd = new FrameDifferencing();
+            
 
-            Bitmap diff = fd.Diff(Properties.Resources.snapshot3, Properties.Resources.snapshot2);
+            Bitmap diff =FrameDifferencing.Diff(Properties.Resources.snapshot3, Properties.Resources.snapshot2);
             pictureBox4.Image = diff;
-            pictureBox3.Image = fd.FindContour(diff, Properties.Resources.snapshot3);
+            pictureBox3.Image = FrameDifferencing.FindContour(diff, Properties.Resources.snapshot3);
         }
 
     }
