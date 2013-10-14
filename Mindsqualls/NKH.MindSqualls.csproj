@@ -40,6 +40,7 @@
     <Compile Include="HiTechnicAccelerationSensor.cs" />
     <Compile Include="HiTechnicColorSensor.cs" />
     <Compile Include="HiTechnicCompassSensor.cs" />
+    <Compile Include="MindsensorsHPMRInfrared.cs" />
     <Compile Include="MotorControlProxy.cs" />
     <Compile Include="Nxt2ColorSensor.cs" />
     <Compile Include="NxtActiveSensor.cs" />
