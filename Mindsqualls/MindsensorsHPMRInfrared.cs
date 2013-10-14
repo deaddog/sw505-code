@@ -37,11 +37,36 @@ namespace NKH.MindSqualls
         {
             get
             {
-                byte? msb = DistanceMSB(), lsb = DistanceLSB();
+                byte? msb = polldataMSB, lsb = polldataLSB;
                 if (msb.HasValue && lsb.HasValue)
                     return (ushort?)((msb.Value << 8) & lsb.Value);
                 else
                     return (ushort?)null;
+            }
+        }
+
+        #endregion
+
+        #region NXT-G like events & NxtPollable overrides
+
+        private byte? polldataMSB, polldataLSB;
+        private object pollDataLock = new object();
+
+        public override void Poll()
+        {
+            if (Brick.IsConnected)
+            {
+                UInt16? oldDistance, newDistance;
+                lock (pollDataLock)
+                {
+                    oldDistance = Distance;
+                    polldataMSB = DistanceMSB();
+                    polldataLSB = DistanceLSB();
+                    base.Poll();
+                    newDistance = Distance;
+                }
+
+                //Handle distance-range events...
             }
         }
 
