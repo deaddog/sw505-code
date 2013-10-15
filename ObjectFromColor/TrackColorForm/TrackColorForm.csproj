@@ -99,6 +99,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BackgroundSubtraction\BackgroundSubtraction\BackgroundSubstraction.csproj">
+      <Project>{b902b151-7c87-4e46-adb8-a8042b02ae3c}</Project>
+      <Name>BackgroundSubstraction</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -13,6 +13,7 @@ namespace BackgroundSubtraction
     //Uses Frame Differencing for finding objects between two Bitmaps
     public class FrameDifferencing
     {
+        
         public FrameDifferencing() { }
 
         //Finds the absolute difference and thresholdes it
@@ -36,7 +37,8 @@ namespace BackgroundSubtraction
             Image<Bgr, Byte> target = new Image<Bgr, byte>(targetBitmap);
 
             using (MemStorage storage = new MemStorage()) //allocate storage for contour approximation
-                //detect the contours and loop through each of them
+            //detect the contours and loop through each of them
+            {
                 for (Contour<Point> contours = difference.Convert<Gray, Byte>().FindContours(
                       Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_SIMPLE,
                       Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_LIST,
@@ -52,12 +54,14 @@ namespace BackgroundSubtraction
                     {
                         target.Draw(currentContour.BoundingRectangle, new Bgr(Color.Red), 2);
 
+
                         //x and y coordinates for the middle of the contour
-                        int x = currentContour.BoundingRectangle.X + (currentContour.BoundingRectangle.Width/2);
-                        int y = currentContour.BoundingRectangle.Y + (currentContour.BoundingRectangle.Height/2);
+                        int x = currentContour.BoundingRectangle.X + (currentContour.BoundingRectangle.Width / 2);
+                        int y = currentContour.BoundingRectangle.Y + (currentContour.BoundingRectangle.Height / 2);
                         target.Draw(new Cross2DF(new PointF(x, y), 10, 10), new Bgr(Color.Red), 1);
                     }
                 }
+            }
             return target.ToBitmap();
         }
 

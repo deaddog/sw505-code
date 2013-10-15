@@ -36,25 +36,33 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Nmin = new System.Windows.Forms.NumericUpDown();
             this.Nmax = new System.Windows.Forms.NumericUpDown();
+            this.contour = new System.Windows.Forms.PictureBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.src)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.output)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nmin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nmax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.contour)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // src
             // 
-            this.src.Location = new System.Drawing.Point(12, 3);
+            this.src.Location = new System.Drawing.Point(12, 12);
             this.src.Name = "src";
-            this.src.Size = new System.Drawing.Size(332, 361);
+            this.src.Size = new System.Drawing.Size(325, 352);
+            this.src.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.src.TabIndex = 0;
             this.src.TabStop = false;
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(363, 12);
+            this.output.Location = new System.Drawing.Point(343, 12);
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(327, 352);
+            this.output.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.output.TabIndex = 1;
             this.output.TabStop = false;
             // 
@@ -120,11 +128,59 @@
             this.Nmax.TabIndex = 7;
             this.Nmax.ValueChanged += new System.EventHandler(this.Nmax_ValueChanged);
             // 
+            // contour
+            // 
+            this.contour.Location = new System.Drawing.Point(676, 12);
+            this.contour.Name = "contour";
+            this.contour.Size = new System.Drawing.Size(327, 352);
+            this.contour.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.contour.TabIndex = 8;
+            this.contour.TabStop = false;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(487, 375);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(61, 20);
+            this.numericUpDown1.TabIndex = 9;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(487, 401);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(61, 20);
+            this.numericUpDown2.TabIndex = 10;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 441);
+            this.ClientSize = new System.Drawing.Size(1010, 433);
+            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.contour);
             this.Controls.Add(this.Nmax);
             this.Controls.Add(this.Nmin);
             this.Controls.Add(this.label2);
@@ -139,6 +195,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.output)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nmin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Nmax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.contour)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,5 +213,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown Nmin;
         private System.Windows.Forms.NumericUpDown Nmax;
+        private System.Windows.Forms.PictureBox contour;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
     }
 }
