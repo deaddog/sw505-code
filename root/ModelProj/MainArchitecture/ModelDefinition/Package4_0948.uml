@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="0e92a79f-2f45-4cd4-a8bf-79f40e96a62c"
+  name="Data.dll" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <suppliersInternal>
+    <dependency
+      Id="2fe16a0d-e602-4548-963c-ce9e128f7327">
+      <packageMoniker
+        Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
+        LastKnownName="CommonLib.dll"
+        LastKnownLocation="Package7_0948.uml" />
+    </dependency>
+  </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="c416ec86-4dd7-41b7-9ae1-4ba1b513ffb5"
+        LastKnownName="Domain"
+        LastKnownLocation="Package5_0948.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
