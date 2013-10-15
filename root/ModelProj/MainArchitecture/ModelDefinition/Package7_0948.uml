@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
+  name="CommonLib.dll" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="9f4ed302-2643-4a8e-be0b-350dc6f877f4"
+        LastKnownName="DTOs"
+        LastKnownLocation="Package8_0948.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="745c6e46-2d67-4d70-801c-7b5d4bcec4de"
+        LastKnownName="TechnicalServices"
+        LastKnownLocation="Package9_0948.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="aa966401-6dc7-4a59-b6c4-445cd2c42f17"
+        LastKnownName="Exceptions"
+        LastKnownLocation="Package10_0948.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="62d0f44b-293a-4f68-adbf-2f00c256e61c"
+  name="SystemInterface" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <suppliersInternal>
+    <dependency
+      Id="73420bc2-f207-45f6-b5df-c3a9894624b3">
+      <packageMoniker
+        Id="661e504d-66d5-4ae1-a1d1-2b8244c27675"
+        LastKnownName="Control.dll"
+        LastKnownLocation="Package6_0948.uml" />
+    </dependency>
+    <dependency
+      Id="11fd103a-7749-435c-b6bd-5e9bfd67f6b8">
+      <packageMoniker
+        Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
+        LastKnownName="CommonLib.dll"
+        LastKnownLocation="Package7_0948.uml" />
+    </dependency>
+  </suppliersInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="a7860e1c-175c-4321-b026-d03b14129618"
+        LastKnownName="ConsoleUI.exe"
+        LastKnownLocation="Package1_0948.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="09d4639c-4153-4ab0-a0fe-ec531f08ec01"
+        LastKnownName="Network Interface"
+        LastKnownLocation="Package2_0948.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="f6e65958-d5f3-41f4-b93c-108fe20dce76"
+        LastKnownName="GUI.exe"
+        LastKnownLocation="Package3_0948.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
