@@ -21,7 +21,7 @@ namespace BackgroundSubtraction
         {
             Image<Bgr, Byte> frame = new Image<Bgr, byte>(current);
             Image<Bgr, Byte> previousFrame = new Image<Bgr, byte>(previous);
-            Image<Bgr, Byte> diff = new Image<Bgr,byte>(previous.Size);
+            Image<Bgr, Byte> diff;
 
             diff = frame.AbsDiff(previousFrame);
             diff = diff.ThresholdBinary(new Bgr(threshold, threshold, threshold), new Bgr(255, 255, 255));

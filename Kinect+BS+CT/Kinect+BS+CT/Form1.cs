@@ -20,7 +20,6 @@ namespace Kinect_BS_CT
         private KinectSensor k;
         public Form1()
         {
-            InitializeComponent();
 
             foreach (var potentialSensor in KinectSensor.KinectSensors)
             {
@@ -31,13 +30,16 @@ namespace Kinect_BS_CT
                 }
             }
 
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-
             this.k.Start();
             this.k.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
 
             this.k.ColorFrameReady += k_ColorFrameReady;
+
+            InitializeComponent();
+
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private Bitmap current;
@@ -45,25 +47,25 @@ namespace Kinect_BS_CT
         private bool isCurrent = false;
         void k_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
+
             if (e.OpenColorImageFrame() != null)
             {
                 if (isCurrent == false)
                 {
                     oldFrame = ImageToBitmap(e.OpenColorImageFrame());
-                    isCurrent = true;
-                }
-                else if (isCurrent)
-                {
-                    current = ImageToBitmap(e.OpenColorImageFrame());
-                    isCurrent = false;
+                    if (oldFrame != null)
+                    {
+                        isCurrent = true;
+                    }
                 }
 
+             current = ImageToBitmap(e.OpenColorImageFrame());
 
 
                 if (oldFrame != null && current != null)
                 {
-                    pictureBox1.Image = current;
-                    pictureBox2.Image = FrameDifferencing.FindContour(FrameDifferencing.Diff(current, oldFrame), current);
+                    pictureBox1.Image = oldFrame;
+                    pictureBox2.Image = FrameDifferencing.FindContour(FrameDifferencing.Diff(oldFrame, current), current, 3000, 5000);
                 }
             }
 
