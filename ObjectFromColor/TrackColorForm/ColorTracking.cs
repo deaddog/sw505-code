@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 
 namespace TrackColorForm
 {
-    class ColorTracking
+    public class ColorTracking
     {
         public ColorTracking()
         {
