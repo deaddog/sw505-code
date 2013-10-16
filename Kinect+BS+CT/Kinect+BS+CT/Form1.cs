@@ -22,6 +22,7 @@ namespace Kinect_BS_CT
 
         //used for selecting which tracking method is selected
         private bool frameDiferencing = true; //if true = frame differencing else colortracking
+
         public Form1()
         {
 
