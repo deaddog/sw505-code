@@ -67,7 +67,10 @@ namespace NKH.MindSqualls.HiTechnic
             get
             {
                 if (pollData == null) return null;
-                return (UInt16)(2 * pollData.Value);
+                if (oneData == null)
+                    return (UInt16)(2 * pollData.Value);
+                else
+                    return (UInt16)(2 * pollData.Value + oneData.Value);
             }
         }
 
@@ -152,7 +155,7 @@ namespace NKH.MindSqualls.HiTechnic
         /// <para>The data from the previous poll of the sensor.</para>
         /// </summary>
         /// <seealso cref="Poll"/>
-        protected byte? pollData;
+        protected byte? pollData, oneData;
 
         private object pollDataLock = new object();
 
@@ -172,6 +175,7 @@ namespace NKH.MindSqualls.HiTechnic
                 {
                     oldHeading = Heading;
                     pollData = TwoDegreeHeading();
+                    oneData = OneDegreeAdder();
                     base.Poll();
                     newHeading = Heading;
                 }
