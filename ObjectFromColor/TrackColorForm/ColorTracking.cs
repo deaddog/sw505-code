@@ -14,7 +14,7 @@ namespace TrackColorForm
         {
         }
 
-        public static Image TrackColor(Bitmap src, double min, double max)
+        public static Image TrackColor(Bitmap src, double hueMin, double hueMax)
         {
             Bitmap output = new Bitmap(src.Width, src.Height);
             BitmapData bdSrc = src.LockBits(new Rectangle(0,0,src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -35,7 +35,7 @@ namespace TrackColorForm
                         
                         double hue = c.GetHue();
 
-                        c = hue > max || hue < min ? Color.Black : Color.White;
+                        c = hue > hueMax || hue < hueMin ? Color.Black : Color.White;
 
                         rowOutput[j * PixelSize + 2] = c.R;
                         rowOutput[j * PixelSize + 1] = c.G;

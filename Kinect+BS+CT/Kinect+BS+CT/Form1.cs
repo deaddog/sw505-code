@@ -12,15 +12,20 @@ using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using BackgroundSubtraction;
 using TrackColorForm;
+using System.Threading;
 
 namespace Kinect_BS_CT
 {
     public partial class Form1 : Form
     {
         private KinectSensor k;
+
+        //used for selecting which tracking method is selected
+        private bool frameDiferencing = true; //if true = frame differencing else colortracking
         public Form1()
         {
 
+            //Getting sensor from the kinect
             foreach (var potentialSensor in KinectSensor.KinectSensors)
             {
                 if (potentialSensor.Status == KinectStatus.Connected)
@@ -30,9 +35,15 @@ namespace Kinect_BS_CT
                 }
             }
 
+            //Starting the sensor
             this.k.Start();
+            //Starting the colorstream
             this.k.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
 
+            // Wait for the sensor to be ready
+            Thread.Sleep(2000);
+
+            //Event for when a frame from the colorstream is ready
             this.k.ColorFrameReady += k_ColorFrameReady;
 
             InitializeComponent();
@@ -42,35 +53,65 @@ namespace Kinect_BS_CT
             pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
-        private Bitmap current;
+        //current and old frame
+        private Bitmap currentFrame;
         private Bitmap oldFrame;
-        private bool isCurrent = false;
+
+        //used for getting the first frame for frame differencing
+        private bool isOldFrameAssigned = false;
+
         void k_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
-
             if (e.OpenColorImageFrame() != null)
             {
-                if (isCurrent == false)
+                if (frameDiferencing)
                 {
-                    oldFrame = ImageToBitmap(e.OpenColorImageFrame());
-                    if (oldFrame != null)
-                    {
-                        isCurrent = true;
-                    }
+                    frameDifferencing(e);
                 }
-
-             current = ImageToBitmap(e.OpenColorImageFrame());
-
-
-                if (oldFrame != null && current != null)
+                else
                 {
-                    pictureBox1.Image = oldFrame;
-                    pictureBox2.Image = FrameDifferencing.FindContour(FrameDifferencing.Diff(oldFrame, current), current, 3000, 5000);
+                    colorTracking(e);
                 }
             }
-
         }
 
+        //Colortracking method
+        private void colorTracking(ColorImageFrameReadyEventArgs e)
+        {
+            currentFrame = ImageToBitmap(e.OpenColorImageFrame());
+            if (currentFrame != null)
+            {
+                pictureBox1.Image = ColorTracking.TrackColor(currentFrame, 298, 320);
+            }
+        }
+
+        //Frame differencing method
+        private void frameDifferencing(ColorImageFrameReadyEventArgs e)
+        {
+            if (isOldFrameAssigned == false)
+            {
+                oldFrame = ImageToBitmap(e.OpenColorImageFrame());
+                if (oldFrame != null)
+                {
+                    isOldFrameAssigned = true;
+                }
+            }
+            else if (isOldFrameAssigned)
+            {
+                currentFrame = ImageToBitmap(e.OpenColorImageFrame());
+            }
+
+
+            if (oldFrame != null && currentFrame != null)
+            {
+                pictureBox1.Image = oldFrame;
+                Bitmap bmp = FrameDifferencing.Diff(oldFrame, currentFrame);
+                pictureBox3.Image = bmp;
+                pictureBox2.Image = FrameDifferencing.FindContour(bmp, currentFrame, 500, 5000);
+            }
+        }
+
+        //ColorImageFram to Bitmap - used for converting CólorImageFram to Bitmap
         Bitmap ImageToBitmap(ColorImageFrame Image)
         {
             if (Image != null)
