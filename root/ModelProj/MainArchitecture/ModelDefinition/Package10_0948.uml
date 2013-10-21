@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="aa966401-6dc7-4a59-b6c4-445cd2c42f17"
+  name="Exceptions" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="46b54707-4b92-46ce-84b3-f3d750f72540"
+        name="ApplicationException"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="4de0be7d-a369-4e28-a9be-6a76c755986a"
+        name="ControlException"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="687eae29-5721-4000-a873-c44485208743"
+            isSubstitutable="false">
+            <classMoniker
+              Id="46b54707-4b92-46ce-84b3-f3d750f72540"
+              LastKnownName="ApplicationException"
+              LastKnownLocation="Package10_0948.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a8c58d7d-cb9e-456b-954d-b2283164bcdd"
+        name="DataException"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="cff74f77-ec7b-4bee-bfeb-98c86012344e"
+            isSubstitutable="false">
+            <classMoniker
+              Id="46b54707-4b92-46ce-84b3-f3d750f72540"
+              LastKnownName="ApplicationException"
+              LastKnownLocation="Package10_0948.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
