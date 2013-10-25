@@ -46,10 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GearingMotor.cs" />
+    <Compile Include="GearingSensor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RobotControl.cs" />
-    <Compile Include="UltraSonicControl.cs" />
     <Compile Include="UltraSonicData.cs" />
   </ItemGroup>
   <ItemGroup>
