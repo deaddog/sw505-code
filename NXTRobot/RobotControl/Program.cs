@@ -26,21 +26,11 @@ namespace NXTRobot
 
             brick.Connect();
 
-            RobotControl robot = new RobotControl(brick, leftMotor, rightMotor, sensorMotor, sensor, sensorData);
-
-            //robot.RotateSensor(100, 90, false);
-            for (int i = 0; i < 10; i++)
-            {
-                robot.Left(MotorControlMotorPort.PortA, (uint)5, true);
-                Thread.Sleep(1000);
-                robot.Right(MotorControlMotorPort.PortB, (uint)5, false);
-                Thread.Sleep(1000);
-                i++;
-            }
+            GearingMotor gm = new GearingMotor(leftMotor, rightMotor, brick);
+            GearingSensor gs = new GearingSensor(sensorMotor, brick);
+            gm.ForwardDegrees(50, 1000);
+            gs.RotateSensor(100, 180, true);
             
-            //robot.ForwardMM(50, 50);
-
-            //robot.ForwardDegrees(100, 100);
 
             brick.Disconnect();
 
