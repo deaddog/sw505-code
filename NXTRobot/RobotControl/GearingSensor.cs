@@ -25,16 +25,13 @@ namespace NXTRobot
         public McNxtBrick Brick
         {
             get { return brick; }
-            set { brick = value; }
         }
-        
 
         private McNxtMotor motor;
 
         public McNxtMotor Motor
         {
             get { return motor; }
-            set { motor = value; }
         }
 
         public static double SensorMotorGearRatio { get { return (1.0 / 40.0) * (24.0 / 56.0); } }
