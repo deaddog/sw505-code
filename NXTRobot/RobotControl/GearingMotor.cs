@@ -9,31 +9,45 @@ namespace NXTRobot
 {
     public class GearingMotor : McNxtMotor
     {
-        private static MotorControlMotorPort port;
-        private static McNxtBrick brick;
-        public GearingMotor() : base() 
-        {
-            port = this.Port;
-            brick = this.Brick;
-        }
+        private McNxtMotor leftMotor;
+        private McNxtMotor rightMotor;
+        private McNxtMotorSync motors;
+        private McNxtBrick brick;
 
-        public MotorControlMotorPort Port
+        public GearingMotor(McNxtMotor leftMotor, McNxtMotor rightMotor, McNxtBrick brick) : base() 
         {
-            get { return port; }
-            set { port = value; }
-        }
+            this.leftMotor = leftMotor;
+            this.rightMotor = rightMotor;
+            this.brick = brick;
 
+            if (!brick.IsMotorControlRunning())
+            {
+                brick.StartMotorControl();
+            }
+
+            motors = new McNxtMotorSync(leftMotor, rightMotor);
+        }
 
         public McNxtBrick Brick
         {
             get { return brick; }
-            set { brick = value; }
+        }
+        public McNxtMotorSync Motors
+        {
+            get { return motors; }
+        }
+        public McNxtMotor RightMotor
+        {
+            get { return rightMotor; }
+        }
+        public McNxtMotor LeftMotor
+        {
+            get { return leftMotor; }
         }
         
         public static double WheelRadiusMM { get { return 28; } }
         public static double WheelAxelLengthMM { get { return 162; } }
         public static double MotorsGearRatio { get { return 16.0 / 40.0; } }
-        public static double SensorMotorGearRatio { get { return (1.0 / 40.0) * (24.0 / 56.0); } }
         public static double WheelCircumferenceMM { get { return (WheelRadiusMM * 2.0 * Math.PI); } }
 
         public static uint ActualDegreesToMotorDegrees(uint degreesToTurn, double gearRatio)
@@ -46,39 +60,46 @@ namespace NXTRobot
             return (ActualDegreesToMotorDegrees(360, MotorsGearRatio) / (uint)WheelCircumferenceMM) * (uint)distanceMM;
         }
 
-        public static string TachoLimitToString(uint degressToTurn)
+        public void ReverseDegrees(sbyte power, ushort degrees)
         {
-            double length = (((WheelAxelLengthMM * Math.PI) / 360.0) * degressToTurn) * 2;
-            string l = MMToMotorDegrees(length).ToString();
-
-            switch (l.Length)
-            {
-                case 0:
-                    return "0";
-                case 1:
-                    return "00000" + l;
-                case 2:
-                    return "0000" + l;
-                case 3:
-                    return "000" + l;
-                case 4:
-                    return "00" + l;
-                case 5:
-                    return "0" + l;
-                default:
-                    throw new Exception("TachoLimit value is to big, has to be between 0-999999");
-            }
+            sbyte reverse = power;
+            motors.Run(reverse, (ushort)ActualDegreesToMotorDegrees(degrees, MotorsGearRatio), 0);
         }
 
-        public override void Run(uint degrees, bool forward)
+        public void ForwardDegrees(sbyte power, ushort degrees)
         {
-            if (forward)
+            sbyte forward = (sbyte)(-1 * power);
+            motors.Run(forward, (ushort)ActualDegreesToMotorDegrees(degrees, MotorsGearRatio), 0);
+        }
+
+        public void ReverseMM(sbyte power, ushort distanceMM)
+        {
+            sbyte reverse = power;
+            motors.Run(reverse, (ushort)MMToMotorDegrees(distanceMM), 0);
+        }
+
+        public void ForwardMM(sbyte power, ushort distanceMM)
+        {
+            sbyte forward = (sbyte)(-1 * power);
+            motors.Run(forward, (ushort)MMToMotorDegrees(distanceMM), 0);
+        }
+
+        public void RotateRobot(sbyte power, uint degrees, bool clockwise)
+        {
+            sbyte forward = power;
+            sbyte reverse = (sbyte)(-1 * power);
+
+            double length = ((WheelAxelLengthMM * Math.PI) / 360.0) * degrees;
+
+            if (clockwise)
             {
-                MotorControlProxy.CONTROLLED_MOTORCMD(brick.CommLink, port, "200", TachoLimitToString(degrees), '5');
+                leftMotor.Run(reverse, MMToMotorDegrees(length));
+                rightMotor.Run(forward, MMToMotorDegrees(length));
             }
             else
             {
-                MotorControlProxy.CONTROLLED_MOTORCMD(brick.CommLink, port, "200", TachoLimitToString(degrees), '5');
+                leftMotor.Run(forward, MMToMotorDegrees(length));
+                rightMotor.Run(reverse, MMToMotorDegrees(length));
             }
         }
 
