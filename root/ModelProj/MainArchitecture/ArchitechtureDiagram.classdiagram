@@ -229,7 +229,56 @@
                 <packageHasNamedElement>
                   <package Id="06769b90-504e-486a-8a81-f14685c1e003" name="Mindsqualls">
                     <elementDefinition Id="0f008b19-0dfe-416f-9b2e-e0b6b55c71b8" />
+                    <packagedElements>
+                      <packageHasNamedElement>
+                        <class Id="711f8613-5a81-4830-8ba4-06d18dea48e5" name="MSQRobot" isAbstract="false" isLeaf="false" isActiveClass="false">
+                          <elementDefinition Id="e125343a-2e72-498d-b4b2-2303380fe62f" />
+                          <suppliersInternal>
+                            <interfaceRealization Id="a1775b08-e1ac-46ec-b95b-fab35c1eead6">
+                              <interfaceMoniker Id="eb6343c2-b04c-452f-ae30-9b0450a50387" LastKnownName="IRobot" />
+                              <elementDefinition Id="1c0c6d81-dab6-4338-b761-04b157f934c9" />
+                            </interfaceRealization>
+                          </suppliersInternal>
+                        </class>
+                      </packageHasNamedElement>
+                    </packagedElements>
                   </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <Interface Id="eb6343c2-b04c-452f-ae30-9b0450a50387" name="IRobot" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="72b23806-9f1b-42d1-937c-d4a5d23076b6" />
+                  </Interface>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="429527e4-9959-4568-b737-d9355ca7b91e" name="RobotFactory" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="eb5c89b6-d866-4b5b-a194-dd10abae6260" />
+                    <targetEnds>
+                      <association Id="073acbb4-355d-4a6a-98bf-d156ce6aaea6" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+                        <interfaceMoniker Id="eb6343c2-b04c-452f-ae30-9b0450a50387" LastKnownName="IRobot" />
+                        <relationshipOwnedElementsInternal>
+                          <associationHasOwnedEnds>
+                            <memberEnd Id="21453eae-c590-4f4e-9e0a-c77502315598" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                              <elementDefinition Id="0d4bf6ef-300b-4237-8144-79436c42a5b1" />
+                            </memberEnd>
+                          </associationHasOwnedEnds>
+                          <associationHasOwnedEnds>
+                            <memberEnd Id="11be7059-8e43-49fc-a95b-90b38e0365de" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                              <elementDefinition Id="6ddfd3c3-4f0e-4fa8-9f4d-dcadf0ee60f7" />
+                            </memberEnd>
+                          </associationHasOwnedEnds>
+                        </relationshipOwnedElementsInternal>
+                        <elementDefinition Id="8d436cf5-9e8b-40f4-b68f-e3f7f673a88b" />
+                      </association>
+                    </targetEnds>
+                    <ownedOperationsInternal>
+                      <operation Id="40f77a3d-a890-4232-a9b8-43a8764579d9" name="RobotFactory getInstance" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                        <elementDefinition Id="83acd2bc-307e-45c3-b71b-577ee54dccb7" />
+                      </operation>
+                      <operation Id="f264ba7d-4616-4534-911e-40a9b9c7c092" name="IRobot createRobot" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                        <elementDefinition Id="55625f61-da54-42a3-9a67-98a381a57f2a" />
+                      </operation>
+                    </ownedOperationsInternal>
+                  </class>
                 </packageHasNamedElement>
               </packagedElements>
             </package>
