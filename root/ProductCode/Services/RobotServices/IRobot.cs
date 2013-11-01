@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLib;
 
-namespace Control
+namespace Services.RobotServices
 {
-    public class Class1
+    public interface IRobot
     {
+
+
+        
     }
 }
