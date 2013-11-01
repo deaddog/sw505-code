@@ -14,8 +14,26 @@ namespace Services.RobotServices.Mindsqualls
         {
 
         }
+        
 
+        public void TurnRobot(uint degrees)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void TurnSensor(uint degrees)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void Drive(bool forward, uint distanceInMM)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISensorData MeasureDistanceUsingSensor()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
