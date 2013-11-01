@@ -17,7 +17,7 @@ namespace BackgroundSubtraction
         public FrameDifferencing() { }
 
         //Finds the absolute difference and thresholdes it
-        public static Bitmap Diff(Bitmap current, Bitmap previous, int threshold = 50)
+        public static Bitmap GetDiff(Bitmap current, Bitmap previous, int threshold = 50)
         {
             Image<Bgr, Byte> frame = new Image<Bgr, byte>(current);
             Image<Bgr, Byte> previousFrame = new Image<Bgr, byte>(previous);

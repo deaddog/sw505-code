@@ -106,7 +106,7 @@ namespace Kinect_BS_CT
             if (oldFrame != null && currentFrame != null)
             {
                 pictureBox1.Image = oldFrame;
-                Bitmap bmp = FrameDifferencing.Diff(oldFrame, currentFrame);
+                Bitmap bmp = FrameDifferencing.GetDiff(oldFrame, currentFrame);
                 pictureBox3.Image = bmp;
                 pictureBox2.Image = FrameDifferencing.FindContour(bmp, currentFrame, 500, 5000);
             }

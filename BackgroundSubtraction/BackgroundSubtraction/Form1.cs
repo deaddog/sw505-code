@@ -25,7 +25,7 @@ namespace BackgroundSubtraction
 
             
 
-            Bitmap diff =FrameDifferencing.Diff(Properties.Resources.snapshot3, Properties.Resources.snapshot2);
+            Bitmap diff =FrameDifferencing.GetDiff(Properties.Resources.snapshot3, Properties.Resources.snapshot2);
             pictureBox4.Image = diff;
             pictureBox3.Image = FrameDifferencing.FindContour(diff, Properties.Resources.snapshot3, 3000, 5000);
         }
