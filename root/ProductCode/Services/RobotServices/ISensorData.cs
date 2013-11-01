@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace Services.RobotServices
 {
-    public class MSQRobot : IRobot
+    public interface ISensorData
     {
-
-
-        public MSQRobot()
-        {
-
-        }
 
 
 
