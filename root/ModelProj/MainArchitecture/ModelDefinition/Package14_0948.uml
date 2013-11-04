@@ -10,5 +10,78 @@
         LastKnownName="Mindsqualls"
         LastKnownLocation="Package15_0948.uml" />
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="72b23806-9f1b-42d1-937c-d4a5d23076b6"
+        name="IRobot"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="eb5c89b6-d866-4b5b-a194-dd10abae6260"
+        name="RobotFactory"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="8d436cf5-9e8b-40f4-b68f-e3f7f673a88b"
+            isDerived="false"
+            sourceEndRoleName=""
+            targetEndRoleName=""
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="72b23806-9f1b-42d1-937c-d4a5d23076b6"
+              LastKnownName="IRobot"
+              LastKnownLocation="Package14_0948.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0d4bf6ef-300b-4237-8144-79436c42a5b1"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6ddfd3c3-4f0e-4fa8-9f4d-dcadf0ee60f7"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedOperationsInternal>
+          <operation
+            Id="83acd2bc-307e-45c3-b71b-577ee54dccb7"
+            name="RobotFactory getInstance"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="55625f61-da54-42a3-9a67-98a381a57f2a"
+            name="IRobot createRobot"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
   </packagedElements>
 </package>

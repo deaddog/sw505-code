@@ -2,4 +2,25 @@
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
   Id="0f008b19-0dfe-416f-9b2e-e0b6b55c71b8"
-  name="Mindsqualls" xmlns="http://schemas.microsoft.com/dsltools/ModelStore" />
+  name="Mindsqualls" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="e125343a-2e72-498d-b4b2-2303380fe62f"
+        name="MSQRobot"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="1c0c6d81-dab6-4338-b761-04b157f934c9">
+            <interfaceMoniker
+              Id="72b23806-9f1b-42d1-937c-d4a5d23076b6"
+              LastKnownName="IRobot"
+              LastKnownLocation="Package14_0948.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

@@ -31,5 +31,13 @@
         LastKnownName="RobotServices"
         LastKnownLocation="Package14_0948.uml" />
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bc0ac138-1888-4e4f-8c4d-1f13e0c28019"
+        name="Class1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
   </packagedElements>
 </package>
