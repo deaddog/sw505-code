@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.RobotServices;
 using Services.RobotServices.Mindsqualls;
 using CommonLib.Interfaces;
+using System.Windows.Forms;
 
 namespace ServicesTest
 {
@@ -80,6 +81,20 @@ namespace ServicesTest
                 (data.Distance[1] < 50 && data.Distance[1] > 30));
         }
 
+        [TestMethod]
+        public void TurnSensor_RobotReadyAndAble_SensorTurns90Degrees()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            DialogResult result;
+
+            // Act
+            rob.TurnSensor(90);
+            result = MessageBox.Show("Did the robot sensor turn 90 degrees ?", "Test Result", MessageBoxButtons.YesNo);
+
+            // Assert
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
 
     }
 }
