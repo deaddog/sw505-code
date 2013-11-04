@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.RobotServices
+namespace CommonLib.Interfaces
 {
     public interface ISensorData
     {
 
-
+        byte distance { get; }
 
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NKH.MindSqualls;
 using NKH.MindSqualls.MotorControl;
+using CommonLib.Interfaces;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -12,7 +13,9 @@ namespace Services.RobotServices.Mindsqualls
     {
         private const byte SERIAL_PORT_NUMBER = 10;
         private const int SENSOR_POLL_INTERVAL = 20;
-        private NxtBrick robot;  
+        private NxtBrick robot;
+        private NxtUltrasonicSensor sensor1;
+        private NxtUltrasonicSensor sensor2;
 
         #region cTor Chain
 
@@ -22,15 +25,15 @@ namespace Services.RobotServices.Mindsqualls
         {
             robot = new NxtBrick(NxtCommLinkType.Bluetooth, serialPort);
 
-            NxtUltrasonicSensor sensor1 = new NxtUltrasonicSensor();
-            NxtUltrasonicSensor sensor2 = new NxtUltrasonicSensor();
+            sensor1 = new NxtUltrasonicSensor();
+            sensor2 = new NxtUltrasonicSensor();
 
             sensor1.PollInterval = sensorPollInteval;
             sensor2.PollInterval = sensorPollInteval;
 
             robot.Sensor1 = sensor1;
             robot.Sensor2 = sensor2;
-
+            
             robot.Connect();
         }
         
@@ -53,8 +56,6 @@ namespace Services.RobotServices.Mindsqualls
 
         public ISensorData MeasureDistanceUsingSensor()
         {
-            
-
 
             throw new NotImplementedException();
         }

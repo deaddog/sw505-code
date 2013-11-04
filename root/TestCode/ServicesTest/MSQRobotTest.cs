@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.RobotServices;
 using Services.RobotServices.Mindsqualls;
+using CommonLib.Interfaces;
 
 namespace ServicesTest
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.RobotServices;
+using CommonLib.Interfaces;
 
 namespace ServicesTest
 {
