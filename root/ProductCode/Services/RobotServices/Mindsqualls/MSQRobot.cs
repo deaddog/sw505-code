@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NKH.MindSqualls;
 using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
+using CommonLib.DTOs;
 
 namespace Services.RobotServices.Mindsqualls
 {
     public class MSQRobot : IRobot
     {
-        private const byte SERIAL_PORT_NUMBER = 10;
+        private const byte SERIAL_PORT_NUMBER = 3;
         private const int SENSOR_POLL_INTERVAL = 20;
+        private const ushort NUMBER_OF_SENSORS = 2;
+        private const byte DEFAULT_SENSOR_VALUE = 255;
         private NxtBrick robot;
         private NxtUltrasonicSensor sensor1;
         private NxtUltrasonicSensor sensor2;
@@ -56,8 +55,12 @@ namespace Services.RobotServices.Mindsqualls
 
         public ISensorData MeasureDistanceUsingSensor()
         {
+            byte[] data = new byte[NUMBER_OF_SENSORS];
 
-            throw new NotImplementedException();
+            data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
+            data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
+            
+            return new SensorDataDTO(data);
         }
     }
 }

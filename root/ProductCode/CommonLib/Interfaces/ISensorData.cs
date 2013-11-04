@@ -9,7 +9,7 @@ namespace CommonLib.Interfaces
     public interface ISensorData
     {
 
-        byte distance { get; }
+        byte[] Distance { get; }
 
     }
 }
