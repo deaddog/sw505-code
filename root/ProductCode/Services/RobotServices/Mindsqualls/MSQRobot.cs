@@ -8,7 +8,7 @@ namespace Services.RobotServices.Mindsqualls
 {
     public class MSQRobot : IRobot
     {
-        private const byte SERIAL_PORT_NUMBER = 3;
+        private const byte SERIAL_PORT_NUMBER = 5;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -32,8 +32,6 @@ namespace Services.RobotServices.Mindsqualls
 
             robot.Sensor1 = sensor1;
             robot.Sensor2 = sensor2;
-            
-            robot.Connect();
         }
         
         #endregion
@@ -57,9 +55,12 @@ namespace Services.RobotServices.Mindsqualls
         {
             byte[] data = new byte[NUMBER_OF_SENSORS];
 
+            robot.Connect();
+
             data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
             data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-            
+
+            robot.Disconnect();
             return new SensorDataDTO(data);
         }
     }
