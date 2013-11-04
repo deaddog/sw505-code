@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.RobotServices;
+using Services.RobotServices.Mindsqualls;
 
 namespace ServicesTest
 {
     [TestClass]
-    public class RobotFactoryTest
+    public class MSQRobotTest
     {
         private static TestContext context;
         private RobotFactory factory;
@@ -49,41 +50,18 @@ namespace ServicesTest
             Assert.Inconclusive();
         }
 
-
         [TestMethod]
-        public void getInstance_NoInputParams_ReturnInstanceOfRobotFactoryClass()
+        public void MeasureDistanceUsingSensor_RobotReadyAndAble_ValidSensorDataOfTypeISensorData()
         {
-           // Arrange
-            string a;
-            int x;
-
+            // Arrange
+            MSQRobot rob = (MSQRobot)factory.createRobot();
+            
             // Act
-            RobotFactory fac = RobotFactory.getInstance();
+            ISensorData data = rob.MeasureDistanceUsingSensor();
 
             // Assert
-            Assert.IsNotNull(fac);
-            Assert.IsInstanceOfType(fac, typeof(RobotFactory));
-            
-            
+            Assert.IsInstanceOfType(data, typeof(ISensorData));
         }
-
-
-        [TestMethod]
-        public void createRobot_NoInputParams_ReturnObjectImplementingIRobot()
-        {
-            //arrange
-
-
-            // act
-            IRobot rob = factory.createRobot();
-
-            // assert.
-            Assert.IsNotNull(rob);
-            Assert.IsInstanceOfType(rob, typeof(IRobot));
-        }
-
-
-
 
     }
 }

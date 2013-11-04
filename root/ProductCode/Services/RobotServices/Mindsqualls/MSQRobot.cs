@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NKH.MindSqualls;
+using NKH.MindSqualls.MotorControl;
 
 namespace Services.RobotServices.Mindsqualls
 {
     public class MSQRobot : IRobot
     {
-
+        private const byte SERIAL_PORT_NUMBER = 10;
+        private NxtBrick brick = new NxtBrick(NxtCommLinkType.Bluetooth, SERIAL_PORT_NUMBER);
 
         public MSQRobot()
         {
@@ -33,6 +36,9 @@ namespace Services.RobotServices.Mindsqualls
 
         public ISensorData MeasureDistanceUsingSensor()
         {
+            
+
+
             throw new NotImplementedException();
         }
     }
