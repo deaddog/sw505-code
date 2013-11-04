@@ -64,5 +64,22 @@ namespace ServicesTest
             Assert.IsInstanceOfType(data, typeof(ISensorData));
         }
 
+        [TestMethod]
+        public void MeasureDistanceUsingSensor_TargetAtDistance30To50CmFromSensor_SensorDataWithMeasurementBetween30And50Cm()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            ISensorData data;
+                
+            // Act
+            data = rob.MeasureDistanceUsingSensor();
+
+            // Assert
+            Assert.IsNotNull(data);
+            Assert.IsTrue((data.Distance[0] < 50 && data.Distance[0] > 30) || 
+                (data.Distance[1] < 50 && data.Distance[1] > 30));
+        }
+
+
     }
 }
