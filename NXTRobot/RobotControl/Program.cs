@@ -11,7 +11,7 @@ namespace NXTRobot
 {
     class Program
     {
-        static McNxtBrick brick = new McNxtBrick(NxtCommLinkType.Bluetooth, 8);
+        static McNxtBrick brick = new McNxtBrick(NxtCommLinkType.Bluetooth, 6);
         static McNxtMotor leftMotor = new McNxtMotor();
         static McNxtMotor rightMotor = new McNxtMotor();
         static McNxtMotor sensorMotor = new McNxtMotor();
@@ -20,16 +20,16 @@ namespace NXTRobot
 
         static void Main(string[] args)
         {
-            brick.MotorC = leftMotor;
+            brick.MotorA = leftMotor;
             brick.MotorB = rightMotor;
-            brick.MotorA = sensorMotor;
+            brick.MotorC = sensorMotor;
 
             brick.Connect();
 
-            //GearingMotor gm = new GearingMotor(leftMotor, rightMotor, brick);
+            GearingMotor gm = new GearingMotor(leftMotor, rightMotor, brick);
             GearingSensor gs = new GearingSensor(sensorMotor, brick);
-            //gm.ForwardDegrees(50, 1000);
-            gs.RotateSensor(100, 180, true);
+            gm.ForwardDegrees(50, 1000);
+            gs.RotateSensor(100, 360, false);
             
 
             brick.Disconnect();
