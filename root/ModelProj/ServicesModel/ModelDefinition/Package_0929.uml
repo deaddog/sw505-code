@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b2ec16b2-1746-4040-876e-2c0c814d91ea"
+  name="Services.dll" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="7d5088ef-d7f3-42d3-ae26-371e0776f728"
+        LastKnownName="OpenCV"
+        LastKnownLocation="Package1_0929.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="891d57a5-caba-4bbf-88e8-6abb99c888ac"
+        LastKnownName="RemoteServices"
+        LastKnownLocation="Package2_0929.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="00580445-915a-4d52-a571-ae7e56443ead"
+        LastKnownName="RobotServices"
+        LastKnownLocation="Package3_0929.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

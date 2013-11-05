@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLib;
 
-namespace Control
+namespace CommonLib.Interfaces
 {
-    public class Class1
+    public interface ISensorData
     {
+
+        byte[] Distance { get; }
+
     }
 }
