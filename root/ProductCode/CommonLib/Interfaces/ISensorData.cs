@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace CommonLib.Interfaces
 {
-    public class Class1
+    public interface ISensorData
     {
+
+        byte[] Distance { get; }
+
     }
 }

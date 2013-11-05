@@ -7,7 +7,7 @@ using NKH.MindSqualls.MotorControl;
 
 namespace NXTRobot
 {
-    public class GearingSensor : McNxtMotor
+    public class GearingSensor
     {
         public GearingSensor(McNxtMotor motor, McNxtBrick brick)
         {

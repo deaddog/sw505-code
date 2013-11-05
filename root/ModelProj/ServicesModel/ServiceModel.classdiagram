@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="86766507-6779-46f0-9697-71e06f5339cb" name="ServiceModel" linkedPackageId="53ed11ea-fbd0-499b-9917-b62744aa336e" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="abddc8db-53d5-4db9-b7bf-93859a93ddd0" name="Services.dll">
+        <elementDefinition Id="b2ec16b2-1746-4040-876e-2c0c814d91ea" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <package Id="b5cc6d12-8829-4f95-8910-4bf03a084489" name="OpenCV">
+              <elementDefinition Id="7d5088ef-d7f3-42d3-ae26-371e0776f728" />
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="371cb5df-42f6-4953-ad07-46d3bd69f356" name="RemoteServices">
+              <elementDefinition Id="891d57a5-caba-4bbf-88e8-6abb99c888ac" />
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="121ccd4b-ec76-4a3c-a22c-0fb70616fa33" name="RobotServices">
+              <elementDefinition Id="00580445-915a-4d52-a571-ae7e56443ead" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <package Id="1f37e5bf-55d0-42e6-b85e-90156158fbf8" name="Mindsqualls">
+                    <elementDefinition Id="fc7bda16-3216-466a-b306-9b6af0b1e377" />
+                    <packagedElements>
+                      <packageHasNamedElement>
+                        <class Id="25d45ec8-9daf-4261-83bc-4431095219e2" name="MSQRobot" isAbstract="false" isLeaf="false" isActiveClass="false">
+                          <elementDefinition Id="8d2da611-6b62-494f-94c2-61b177691791" />
+                          <suppliersInternal>
+                            <interfaceRealization Id="8fdede0b-cc92-45e2-a26d-0b6755667022">
+                              <interfaceMoniker Id="a40f60b2-d1b2-4dcd-9cf0-d412ec2149cd" LastKnownName="IRobot" />
+                              <elementDefinition Id="c40de11c-b148-467a-b861-b77753217dba" />
+                            </interfaceRealization>
+                          </suppliersInternal>
+                        </class>
+                      </packageHasNamedElement>
+                    </packagedElements>
+                  </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <Interface Id="a40f60b2-d1b2-4dcd-9cf0-d412ec2149cd" name="IRobot" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="7382a822-9aa9-4e69-b0d8-6ac5f81657b0" />
+                  </Interface>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="01200d9e-111a-49e9-af08-a728a431628a" name="RobotFactory" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="a2c07362-0a96-4782-980a-dd93ad91d6bf" />
+                    <targetEnds>
+                      <association Id="af999f6a-a318-4283-b384-633168631cc8" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+                        <interfaceMoniker Id="a40f60b2-d1b2-4dcd-9cf0-d412ec2149cd" LastKnownName="IRobot" />
+                        <relationshipOwnedElementsInternal>
+                          <associationHasOwnedEnds>
+                            <memberEnd Id="2cb21817-3f5d-4811-aa52-b00b66a59cb0" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                              <elementDefinition Id="61d3f2ba-4eaf-4ee0-813b-cd2708a7ca1f" />
+                            </memberEnd>
+                          </associationHasOwnedEnds>
+                          <associationHasOwnedEnds>
+                            <memberEnd Id="d787a62e-24ab-4f26-a96f-12d8a364c47f" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                              <elementDefinition Id="c0bc84e3-063a-4572-bac3-feefc5d91198" />
+                            </memberEnd>
+                          </associationHasOwnedEnds>
+                        </relationshipOwnedElementsInternal>
+                        <elementDefinition Id="83564f41-c5fd-4cce-9292-dd199dd2c816" />
+                      </association>
+                    </targetEnds>
+                    <ownedOperationsInternal>
+                      <operation Id="4dc68f61-d0ab-45d5-bb89-8e23cc349adc" name="RobotFactory getInstance" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                        <elementDefinition Id="86ee864a-5235-4c9f-a303-c7305abd41f8" />
+                      </operation>
+                      <operation Id="794a63fb-a044-4599-88ff-eb0a742a4a0f" name="IRobot createRobot" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+                        <elementDefinition Id="0dd4fc8a-eb0e-4d45-b68f-a2848b855f90" />
+                      </operation>
+                    </ownedOperationsInternal>
+                  </class>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="53ed11ea-fbd0-499b-9917-b62744aa336e" name="ServicesModel">
+    <elementDefinition Id="81040fe7-cc7f-4f5b-827c-0527ade2ba3d" />
+    <profileInstances>
+      <packageHasProfileInstances Id="6f9b860c-5628-4bbe-9be2-9141dfe9354c">
+        <profileInstance Id="3060de6f-3bd5-42e4-8978-7dc10ee77a8c" name="StandardProfileL2">
+          <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+        </profileInstance>
+        <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+      </packageHasProfileInstances>
+      <packageHasProfileInstances Id="a8972841-f96a-445d-a2f3-a610e993647d">
+        <profileInstance Id="199324ed-b910-44aa-be39-be6e86aa02d8" name="StandardProfileL3">
+          <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+        </profileInstance>
+        <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+      </packageHasProfileInstances>
+    </profileInstances>
+  </package>
+</logicalClassDesignerModel>
