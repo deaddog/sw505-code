@@ -1,0 +1,76 @@
+#define duration 200
+
+inline void E()
+{
+      PlayToneEx(330,duration,3, FALSE);
+       Wait(duration);
+}
+
+inline void DS()
+{
+ PlayToneEx(311,duration,3, FALSE);
+       Wait(duration);
+}
+
+inline void H()
+{
+ PlayToneEx(247,duration,3, FALSE);
+       Wait(duration);
+}
+
+inline void D()
+{
+ PlayToneEx(294,duration,3, FALSE);
+       Wait(duration);
+}
+inline void C()
+{
+ PlayToneEx(262,duration,3, FALSE);
+       Wait(duration);
+}
+
+inline void A()
+{
+ PlayToneEx(220,2*duration,3, FALSE);
+       Wait(duration);
+}
+
+task furelise()
+{
+
+  E();
+  DS();
+  E();
+  DS();
+  E();
+
+  H();
+  D();
+  C();
+  A();
+
+}
+
+task move()
+{
+ while(true)
+ {
+  if(SensorUS(IN_1) > 40)
+    OnFwd(OUT_A,  75);
+
+  if(SensorUS(IN_1)< 40)
+    {
+    Off(OUT_A);
+    }
+ }
+}
+
+task main()
+{
+
+ Precedes(move,furelise);
+ SetSensorLowspeed(IN_1);
+
+
+
+}

@@ -50,6 +50,7 @@
     <Compile Include="NxtBrick2.cs" />
     <Compile Include="NxtCommunicationProtocol.cs" />
     <Compile Include="NxtCommunicationProtocolStructures.cs" />
+    <Compile Include="NxtControl.cs" />
     <Compile Include="NxtDigitalSensor.cs" />
     <Compile Include="NxtExceptions.cs" />
     <Compile Include="NxtLightSensor.cs" />

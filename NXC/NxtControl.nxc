@@ -1,0 +1,42 @@
+#define INBOX 5
+#define OUTBOX 6
+
+task sendSensor()
+{
+while(true){
+ string msg = NumToStr(SENSOR_1);
+ SendMessage(OUTBOX, msg);
+ }
+}
+
+task sounds()
+{
+string in;
+string tmp;
+int packet;
+
+while(true){
+ReceiveRemoteString(INBOX,true,in)
+
+ if(StrLen(in) > 0)
+  {
+  tmp = SubStr(in,0,1);
+  packet = StrToNum(tmp);
+  PlayToneEx(100* packet, 200, 3,false);
+ }
+ in = "";
+ }
+}
+
+task main()
+{
+
+Precedes(sendSensor,sounds);
+SetSensor(IN_1, SENSOR_TOUCH);
+
+
+PlayToneEx(200, 200, 3,false);
+
+
+
+}

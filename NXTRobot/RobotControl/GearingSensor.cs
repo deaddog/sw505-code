@@ -7,7 +7,7 @@ using NKH.MindSqualls.MotorControl;
 
 namespace NXTRobot
 {
-    public class GearingSensor : McNxtMotor
+    public class GearingSensor
     {
         public GearingSensor(McNxtMotor motor, McNxtBrick brick)
         {
@@ -34,11 +34,11 @@ namespace NXTRobot
             get { return motor; }
         }
 
-        public static double SensorMotorGearRatio { get { return (1.0 / 40.0) * (24.0 / 56.0); } }
+        public static double SensorMotorGearRatio { get { return (40.0 / 1.0) * (40.0 / 24.0); } }
 
         public static uint ActualDegreesToMotorDegrees(uint degreesToTurn, double gearRatio)
         {
-            return (uint)(degreesToTurn / gearRatio);
+            return (uint)(degreesToTurn * gearRatio);
         }
 
         public void RotateSensor(sbyte power, uint degrees, bool clockwise)
