@@ -87,10 +87,11 @@ namespace ServicesTest
             // Arrange
             IRobot rob = factory.createRobot();
             DialogResult result;
+            bool clockwise = true;
 
-            // Act
-            rob.TurnSensor(90);
-            result = MessageBox.Show("Did the robot sensor turn 90 degrees ?", "Test Result", MessageBoxButtons.YesNo);
+            // Act           
+            rob.TurnSensor(90, clockwise);
+            result = MessageBox.Show("Did the robot sensor turn 90 degrees clockwise ?", "Test Result", MessageBoxButtons.YesNo);
 
             // Assert
             Assert.IsTrue(result == DialogResult.Yes);
