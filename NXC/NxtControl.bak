@@ -1,4 +1,4 @@
-#define INBOX
+#define INBOX 5
 #define OUTBOX 6
 
 task sendSensor()
