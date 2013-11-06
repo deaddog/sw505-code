@@ -42,6 +42,9 @@ namespace ServicesTest
 
         #endregion
 
+
+
+
         [TestMethod]
         public void Template_StateUnderTest_ExpectedResult()
         {
@@ -102,7 +105,7 @@ namespace ServicesTest
         }
 
         [TestMethod]
-        public void Drive_ReadyAndAble_RobotDrives()
+        public void Drive_ReadyAndAble_RobotDrives30cmForward()
         {
             // Arrange
             IRobot rob = factory.createRobot();
@@ -112,16 +115,89 @@ namespace ServicesTest
 
             // Act
             rob.Drive(FORWARD, DRIVE_DISTANCE);
-
+            
             // Assert
             result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
-
-
-
-            Assert.Inconclusive();
+            Assert.IsTrue(result == DialogResult.Yes);
         }
 
 
+        [TestMethod]
+        public void Drive_ReadyAndAble_RobotDrives30cmBackward()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint DRIVE_DISTANCE = 300;
+            const bool FORWARD = false;
+            DialogResult result;
+
+            // Act
+            rob.Drive(FORWARD, DRIVE_DISTANCE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Drive 30cm backward ?", "Test Result", MessageBoxButtons.YesNo);
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+
+        [TestMethod]
+        public void TurnRobot_ReadyAndAble_RobotTurnsRight90degrees()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint TURN_DEGREES = 90;
+            const bool TURN_CLOCKWISE = true;
+            DialogResult result;
+
+            // Act
+            rob.TurnRobot(TURN_DEGREES, TURN_CLOCKWISE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Turn 90 degrees to the right ?", "Test Result", MessageBoxButtons.YesNo);
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+
+        [TestMethod]
+        public void TurnRobot_ReadyAndAble_RobotTurnsLeft90degrees()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint TURN_DEGREES = 90;
+            const bool TURN_CLOCKWISE = false;
+            DialogResult result;
+
+            // Act
+            rob.TurnRobot(TURN_DEGREES, TURN_CLOCKWISE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Turn 90 degrees to the left ?", "Test Result", MessageBoxButtons.YesNo);
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+
+
+
+
+
+
+
+        //[TestMethod]
+        //public void DoStuff()
+        //{
+        //    // Arrange
+        //    IRobot rob = factory.createRobot();
+        //    const uint DRIVE_DISTANCE = 900;
+        //    const bool FORWARD = false;
+        //    DialogResult result;
+
+        //    // Act
+        //    rob.Drive(FORWARD, DRIVE_DISTANCE);
+        //    result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+        //    rob.TurnRobot(90, true);
+        //    result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+        //    rob.Drive(FORWARD, 500);
+        //    // Assert
+        //    result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+        //    Assert.IsTrue(result == DialogResult.Yes);
+        //}
 
     }
 }
