@@ -21,7 +21,7 @@ namespace Kinect_BS_CT
         private KinectSensor k;
 
         //used for selecting which tracking method is selected
-        private bool frameDiferencing = true; //if true = frame differencing else colortracking
+        private bool frameDiferencing = false; //if true = frame differencing else colortracking
 
         public Form1()
         {
@@ -82,9 +82,16 @@ namespace Kinect_BS_CT
             currentFrame = ImageToBitmap(e.OpenColorImageFrame());
             if (currentFrame != null)
             {
-                pictureBox1.Image = ColorTracking.TrackColor(currentFrame, 298, 320);
+                TimeSpan diff = DateTime.Now - last;
+                if (diff.TotalSeconds > 0.5)
+                {
+                    pictureBox1.Image = ColorTracking.TrackColor(currentFrame, 200, 320);
+                    last = DateTime.Now;
+                }
             }
         }
+
+        DateTime last;
 
         //Frame differencing method
         private void frameDifferencing(ColorImageFrameReadyEventArgs e)
