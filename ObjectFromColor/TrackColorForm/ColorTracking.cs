@@ -57,7 +57,7 @@ namespace TrackColorForm
         private static unsafe float RGBVectorEvaluator(byte* ptr)
         {
             // B,G,R
-            float r = 255,g=0,b=0;
+            float r = 255, g = 0, b = 0;
 
             float x = ptr[2] - r;
             float y = ptr[1] - g;
