@@ -81,9 +81,24 @@ namespace Services.RobotServices.Mindsqualls
         
         #endregion
         
-        public void TurnRobot(uint degrees)
+        public void TurnRobot(uint degrees, bool clockwise)
         {
-            throw new NotImplementedException();
+            sbyte forwardTurnPower = DRIVE_MOTOR_TURN_POWER;
+            sbyte reverseTurnPower = -DRIVE_MOTOR_TURN_POWER;
+
+            float lengthInMM = (float)((WHEEL_AXEL_LENGTH_IN_MM * Math.PI) / DEGREES_IN_CICLE) * degrees;
+            uint MotorDegrees = ConvertMMToMotorDegrees(lengthInMM);
+
+            if (clockwise)
+            {
+                this.leftDriveMotor.Run(reverseTurnPower, MotorDegrees);
+                this.rightDriveMotor.Run(forwardTurnPower, MotorDegrees);
+            }
+            else
+            {
+                this.leftDriveMotor.Run(forwardTurnPower, MotorDegrees);
+                this.rightDriveMotor.Run(reverseTurnPower, MotorDegrees);
+            }
         }
 
         public void TurnSensor(uint degrees, bool clockwise)

@@ -136,5 +136,40 @@ namespace ServicesTest
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
+        [TestMethod]
+        public void TurnRobot_ReadyAndAble_RobotTurnsRight90degrees()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint TURN_DEGREES = 90;
+            const bool TURN_CLOCKWISE = true;
+            DialogResult result;
+
+            // Act
+            rob.TurnRobot(TURN_DEGREES, TURN_CLOCKWISE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Turn 90 degrees to the right ?", "Test Result", MessageBoxButtons.YesNo);
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+
+        [TestMethod]
+        public void TurnRobot_ReadyAndAble_RobotTurnsLeft90degrees()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint TURN_DEGREES = 90;
+            const bool TURN_CLOCKWISE = false;
+            DialogResult result;
+
+            // Act
+            rob.TurnRobot(TURN_DEGREES, TURN_CLOCKWISE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Turn 90 degrees to the left ?", "Test Result", MessageBoxButtons.YesNo);
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+
+
     }
 }

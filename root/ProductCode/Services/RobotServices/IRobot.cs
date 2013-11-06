@@ -6,7 +6,7 @@ namespace Services.RobotServices
 {
     public interface IRobot
     {
-        void TurnRobot(uint degrees);
+        void TurnRobot(uint degrees, bool clockwise);
         void TurnSensor(uint degrees, bool clockwise);
         void Drive(bool forward, uint distanceInMM);
         ISensorData MeasureDistanceUsingSensor();
