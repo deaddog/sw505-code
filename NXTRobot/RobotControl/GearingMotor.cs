@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NKH.MindSqualls.MotorControl;
 
 namespace NXTRobot
@@ -13,20 +9,6 @@ namespace NXTRobot
         private McNxtMotor rightMotor;
         private McNxtMotorSync motors;
         private McNxtBrick brick;
-
-        public GearingMotor(McNxtMotor leftMotor, McNxtMotor rightMotor, McNxtBrick brick) : base() 
-        {
-            this.leftMotor = leftMotor;
-            this.rightMotor = rightMotor;
-            this.brick = brick;
-
-            if (!brick.IsMotorControlRunning())
-            {
-                brick.StartMotorControl();
-            }
-
-            motors = new McNxtMotorSync(leftMotor, rightMotor);
-        }
 
         public McNxtBrick Brick
         {
@@ -50,6 +32,21 @@ namespace NXTRobot
         public static double MotorsGearRatio { get { return 16.0 / 40.0; } }
         public static double WheelCircumferenceMM { get { return (WheelRadiusMM * 2.0 * Math.PI); } }
 
+        public GearingMotor(McNxtMotor leftMotor, McNxtMotor rightMotor, McNxtBrick brick) : base() 
+        {
+            this.leftMotor = leftMotor;
+            this.rightMotor = rightMotor;
+            this.brick = brick;
+
+            if (!brick.IsMotorControlRunning())
+            {
+                brick.StartMotorControl();
+            }
+
+            motors = new McNxtMotorSync(leftMotor, rightMotor);
+        }
+        
+
         public static uint ActualDegreesToMotorDegrees(uint degreesToTurn, double gearRatio)
         {
             return (uint)(degreesToTurn / gearRatio);
@@ -59,7 +56,7 @@ namespace NXTRobot
         {
             return (ActualDegreesToMotorDegrees(360, MotorsGearRatio) / (uint)WheelCircumferenceMM) * (uint)distanceMM;
         }
-
+            
         public void ReverseDegrees(sbyte power, ushort degrees)
         {
             sbyte reverse = power;
@@ -82,6 +79,7 @@ namespace NXTRobot
         {
             sbyte forward = (sbyte)(-1 * power);
             motors.Run(forward, (ushort)MMToMotorDegrees(distanceMM), 0);
+            
         }
 
         public void RotateRobot(sbyte power, uint degrees, bool clockwise)

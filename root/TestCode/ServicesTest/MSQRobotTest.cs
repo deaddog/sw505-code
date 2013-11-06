@@ -102,7 +102,7 @@ namespace ServicesTest
         }
 
         [TestMethod]
-        public void Drive_ReadyAndAble_RobotDrives30cm()
+        public void Drive_ReadyAndAble_RobotDrives30cmForward()
         {
             // Arrange
             IRobot rob = factory.createRobot();
@@ -119,6 +119,22 @@ namespace ServicesTest
         }
 
 
+        [TestMethod]
+        public void Drive_ReadyAndAble_RobotDrives30cmBackward()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint DRIVE_DISTANCE = 300;
+            const bool FORWARD = false;
+            DialogResult result;
+
+            // Act
+            rob.Drive(FORWARD, DRIVE_DISTANCE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Drive 30cm backward ?", "Test Result", MessageBoxButtons.YesNo);
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
 
     }
 }

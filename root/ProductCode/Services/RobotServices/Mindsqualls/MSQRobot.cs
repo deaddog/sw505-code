@@ -20,32 +20,63 @@ namespace Services.RobotServices.Mindsqualls
         private const float SENSOR_GEAR_RATIO = (NUMBER_OF_TEETH_ON_BOTTOM_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_BOTTOM_WORMGEAR)
             * (NUMBER_OF_TEETH_ON_TOPSIDE_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_TOPSIDE_DRIVERGEAR);
         private const sbyte SENSOR_MOTOR_TURN_POWER = 100;
+
+        private const sbyte DRIVE_MOTOR_TURN_POWER = 50;
+
+        private const float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16F;
+        private const float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40F;
+        private const float MOTOR_GEAR_RATIO = NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR / NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR;
+
+        private const float WHEEL_RADIUS_IN_MM = 28F;
+        private const float WHEEL_AXEL_LENGTH_IN_MM = 162F;
+        private const float WHEEL_CIRCUMFERENCE_IN_MM = WHEEL_RADIUS_IN_MM * 2.0F * (float)Math.PI;
+
+        private const uint DEGREES_IN_CICLE = 360;
+
+        private const sbyte DUMMY_VALUE = 0; // turn ratio not implemented in mindsqualls.
+
         private NxtBrick robot;
         private NxtUltrasonicSensor sensor1;
         private NxtUltrasonicSensor sensor2;
         private NxtMotor sensorMotor;
+        private McNxtMotor leftDriveMotor;
+        private McNxtMotor rightDriveMotor;
+        private McNxtMotorSync driveMotors;
 
         #region cTor Chain
 
         public MSQRobot() : this(SERIAL_PORT_NUMBER, SENSOR_POLL_INTERVAL) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInteval) : this(serialPort, sensorPollInteval, new NxtMotor()) { }
+        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new NxtMotor()) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInteval, NxtMotor sensormotor)
+        public MSQRobot(byte serialPort, int sensorPollInterval, NxtMotor sensormotor) : 
+            this(serialPort, sensorPollInterval, sensormotor, new McNxtMotor(), new McNxtMotor()) { }
+
+
+        public MSQRobot(byte serialPort, int sensorPollInterval, 
+            NxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
         {
             robot = new NxtBrick(NxtCommLinkType.Bluetooth, serialPort);
             
             sensor1 = new NxtUltrasonicSensor();
             sensor2 = new NxtUltrasonicSensor();
 
-            sensor1.PollInterval = sensorPollInteval;
-            sensor2.PollInterval = sensorPollInteval;
+            sensor1.PollInterval = sensorPollInterval;
+            sensor2.PollInterval = sensorPollInterval;
 
             robot.Sensor1 = sensor1;
             robot.Sensor2 = sensor2;
 
             this.sensorMotor = sensormotor;
             robot.MotorC = sensorMotor;
+
+            this.leftDriveMotor = leftmotor;
+            this.rightDriveMotor = rightmotor;
+
+            robot.MotorA = this.leftDriveMotor;
+            robot.MotorB = this.rightDriveMotor;
+
+            this.driveMotors = new McNxtMotorSync(leftDriveMotor, rightDriveMotor);
         }
         
         #endregion
@@ -57,7 +88,7 @@ namespace Services.RobotServices.Mindsqualls
 
         public void TurnSensor(uint degrees, bool clockwise)
         {
-            uint motordegrees = ActualDegreesToMotorDegrees(degrees, SENSOR_GEAR_RATIO);
+            uint motordegrees = ConvertActualDegreesToMotorDegrees(degrees, SENSOR_GEAR_RATIO);
 
             InitializeRobot(true);
 
@@ -75,7 +106,16 @@ namespace Services.RobotServices.Mindsqualls
 
         public void Drive(bool forward, uint distanceInMM)
         {
-            throw new NotImplementedException();
+            ushort distanceInMotorDegrees = (ushort)ConvertMMToMotorDegrees(distanceInMM);
+
+            if (forward)
+            {
+                driveMotors.Run(-DRIVE_MOTOR_TURN_POWER, distanceInMotorDegrees, DUMMY_VALUE);
+            }
+            else
+            {
+                driveMotors.Run(DRIVE_MOTOR_TURN_POWER, distanceInMotorDegrees, DUMMY_VALUE);
+            }
         }
 
         public ISensorData MeasureDistanceUsingSensor()
@@ -94,8 +134,14 @@ namespace Services.RobotServices.Mindsqualls
 
             return new SensorDataDTO(data);
         }
+        
+        private uint ConvertMMToMotorDegrees(float distance)
+        {
+            float motordegrees = (float)ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_GEAR_RATIO);
+            return (uint)(motordegrees / WHEEL_CIRCUMFERENCE_IN_MM * distance);
+        }
 
-        private uint ActualDegreesToMotorDegrees(uint degreesToTurn, float gearRatio)
+        private uint ConvertActualDegreesToMotorDegrees(uint degreesToTurn, float gearRatio)
         {
             return (uint)(degreesToTurn * gearRatio);
         }
