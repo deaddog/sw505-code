@@ -37,7 +37,7 @@ namespace TrackColorForm
 
         private void CalculateImage()
         {
-            output.Image = ColorTracking.TrackColor(input as Bitmap, min, max);
+            output.Image = ColorTracking.TrackColor(input as Bitmap, ColorTracking.Evaluators.Hue);
             contour.Image = FrameDifferencing.FindContour(output.Image as Bitmap, input as Bitmap, thresholdmin, thresholdmax);
         }
 

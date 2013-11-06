@@ -17,7 +17,7 @@ namespace Kinect_BS_CT
             if (ts.TotalMilliseconds > 200)
             {
                 Picture1 = bitmap;
-                Picture2 = ColorTracking.TrackColor(bitmap, 200, 320);
+                Picture2 = ColorTracking.TrackColor(bitmap, ColorTracking.Evaluators.RGBVector);
                 last = DateTime.Now;
             }
         }
