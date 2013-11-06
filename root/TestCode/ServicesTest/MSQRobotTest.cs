@@ -102,7 +102,7 @@ namespace ServicesTest
         }
 
         [TestMethod]
-        public void Drive_ReadyAndAble_RobotDrives()
+        public void Drive_ReadyAndAble_RobotDrives30cm()
         {
             // Arrange
             IRobot rob = factory.createRobot();
@@ -115,10 +115,7 @@ namespace ServicesTest
 
             // Assert
             result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
-
-
-
-            Assert.Inconclusive();
+            Assert.IsTrue(result == DialogResult.Yes);
         }
 
 
