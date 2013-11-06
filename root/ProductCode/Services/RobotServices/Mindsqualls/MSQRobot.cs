@@ -8,6 +8,8 @@ namespace Services.RobotServices.Mindsqualls
 {
     public class MSQRobot : IRobot
     {
+        #region Static Variables & Constants.
+
         private const byte SERIAL_PORT_NUMBER = 4;
         //private const byte SERIAL_PORT_NUMBER = 3;
         private const int SENSOR_POLL_INTERVAL = 20;
@@ -25,7 +27,8 @@ namespace Services.RobotServices.Mindsqualls
 
         private const float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16F;
         private const float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40F;
-        private const float MOTOR_GEAR_RATIO = NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR / NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR;
+        private const float MOTOR_GEAR_RATIO = NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR;
+
 
         private const float WHEEL_RADIUS_IN_MM = 28F;
         private const float WHEEL_AXEL_LENGTH_IN_MM = 162F;
@@ -35,7 +38,9 @@ namespace Services.RobotServices.Mindsqualls
 
         private const sbyte DUMMY_VALUE = 0; // turn ratio not implemented in mindsqualls.
 
-        private NxtBrick robot;
+        #endregion 
+
+        private McNxtBrick robot;
         private NxtUltrasonicSensor sensor1;
         private NxtUltrasonicSensor sensor2;
         private NxtMotor sensorMotor;
@@ -56,7 +61,7 @@ namespace Services.RobotServices.Mindsqualls
         public MSQRobot(byte serialPort, int sensorPollInterval, 
             NxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
         {
-            robot = new NxtBrick(NxtCommLinkType.Bluetooth, serialPort);
+            robot = new McNxtBrick(NxtCommLinkType.Bluetooth, serialPort);
             
             sensor1 = new NxtUltrasonicSensor();
             sensor2 = new NxtUltrasonicSensor();
@@ -89,6 +94,8 @@ namespace Services.RobotServices.Mindsqualls
             float lengthInMM = (float)((WHEEL_AXEL_LENGTH_IN_MM * Math.PI) / DEGREES_IN_CICLE) * degrees;
             uint MotorDegrees = ConvertMMToMotorDegrees(lengthInMM);
 
+            InitializeRobot(true);
+
             if (clockwise)
             {
                 this.leftDriveMotor.Run(reverseTurnPower, MotorDegrees);
@@ -116,12 +123,14 @@ namespace Services.RobotServices.Mindsqualls
                 sensorMotor.Run(-SENSOR_MOTOR_TURN_POWER, motordegrees);
             }
 
-            FreeRobot(true);
+            //FreeRobot(true);
         }
 
         public void Drive(bool forward, uint distanceInMM)
         {
             ushort distanceInMotorDegrees = (ushort)ConvertMMToMotorDegrees(distanceInMM);
+
+            InitializeRobot(true);
 
             if (forward)
             {
@@ -131,6 +140,8 @@ namespace Services.RobotServices.Mindsqualls
             {
                 driveMotors.Run(DRIVE_MOTOR_TURN_POWER, distanceInMotorDegrees, DUMMY_VALUE);
             }
+
+            //FreeRobot(true);
         }
 
         public ISensorData MeasureDistanceUsingSensor()
@@ -145,7 +156,7 @@ namespace Services.RobotServices.Mindsqualls
             data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
             data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
 
-            FreeRobot(false);
+            //FreeRobot(false);
 
             return new SensorDataDTO(data);
         }
@@ -153,7 +164,7 @@ namespace Services.RobotServices.Mindsqualls
         private uint ConvertMMToMotorDegrees(float distance)
         {
             float motordegrees = (float)ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_GEAR_RATIO);
-            return (uint)(motordegrees / WHEEL_CIRCUMFERENCE_IN_MM * distance);
+            return (uint)((motordegrees / WHEEL_CIRCUMFERENCE_IN_MM) * distance);
         }
 
         private uint ConvertActualDegreesToMotorDegrees(uint degreesToTurn, float gearRatio)
@@ -164,17 +175,18 @@ namespace Services.RobotServices.Mindsqualls
         private void InitializeRobot(bool usesMotorControl)
         {
             robot.Connect();
-            //if (usesMotorControl)
-            //{
-            //    robot.StartMotorControl();
-            //}
+            if (usesMotorControl && !robot.IsMotorControlRunning())
+            {
+                robot.StartMotorControl();
+            }
         }
 
         private void FreeRobot(bool usesMotorControl) {
-            
-            //if(usesMotorControl) {
-            //    //robot.StopMotorControl();
-            //}
+
+            if (usesMotorControl && robot.IsMotorControlRunning())
+            {
+                robot.StopMotorControl();
+            }
             robot.Disconnect();
         }
     }

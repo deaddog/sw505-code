@@ -42,6 +42,9 @@ namespace ServicesTest
 
         #endregion
 
+
+
+
         [TestMethod]
         public void Template_StateUnderTest_ExpectedResult()
         {
@@ -112,7 +115,7 @@ namespace ServicesTest
 
             // Act
             rob.Drive(FORWARD, DRIVE_DISTANCE);
-
+            
             // Assert
             result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
             Assert.IsTrue(result == DialogResult.Yes);
@@ -170,6 +173,31 @@ namespace ServicesTest
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
+
+
+
+
+
+
+        //[TestMethod]
+        //public void DoStuff()
+        //{
+        //    // Arrange
+        //    IRobot rob = factory.createRobot();
+        //    const uint DRIVE_DISTANCE = 900;
+        //    const bool FORWARD = false;
+        //    DialogResult result;
+
+        //    // Act
+        //    rob.Drive(FORWARD, DRIVE_DISTANCE);
+        //    result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+        //    rob.TurnRobot(90, true);
+        //    result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+        //    rob.Drive(FORWARD, 500);
+        //    // Assert
+        //    result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+        //    Assert.IsTrue(result == DialogResult.Yes);
+        //}
 
     }
 }
