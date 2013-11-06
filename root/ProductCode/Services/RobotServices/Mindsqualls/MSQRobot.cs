@@ -95,7 +95,7 @@ namespace Services.RobotServices.Mindsqualls
             return new SensorDataDTO(data);
         }
 
-        private uint ActualDegreesToMotorDegrees(uint degreesToTurn, double gearRatio)
+        private uint ActualDegreesToMotorDegrees(uint degreesToTurn, float gearRatio)
         {
             return (uint)(degreesToTurn * gearRatio);
         }
@@ -103,7 +103,8 @@ namespace Services.RobotServices.Mindsqualls
         private void InitializeRobot(bool usesMotorControl)
         {
             robot.Connect();
-            //if(usesMotorControl) {
+            //if (usesMotorControl)
+            //{
             //    robot.StartMotorControl();
             //}
         }

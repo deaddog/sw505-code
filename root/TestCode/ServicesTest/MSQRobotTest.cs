@@ -13,6 +13,8 @@ namespace ServicesTest
         private static TestContext context;
         private RobotFactory factory;
 
+        #region Initializers
+
         [ClassInitialize]
         public static void ClassInitializer(TestContext c)
         {
@@ -37,6 +39,8 @@ namespace ServicesTest
             // cleanup after test.
             factory = null;
         }
+
+        #endregion
 
         [TestMethod]
         public void Template_StateUnderTest_ExpectedResult()
@@ -96,6 +100,28 @@ namespace ServicesTest
             // Assert
             Assert.IsTrue(result == DialogResult.Yes);
         }
+
+        [TestMethod]
+        public void Drive_ReadyAndAble_RobotDrives()
+        {
+            // Arrange
+            IRobot rob = factory.createRobot();
+            const uint DRIVE_DISTANCE = 300;
+            const bool FORWARD = true;
+            DialogResult result;
+
+            // Act
+            rob.Drive(FORWARD, DRIVE_DISTANCE);
+
+            // Assert
+            result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
+
+
+
+            Assert.Inconclusive();
+        }
+
+
 
     }
 }
