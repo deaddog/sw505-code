@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Control;
+using CommonLib.DTOs;
 
 namespace SystemInterface.ConsoleUI
 {
@@ -10,10 +9,19 @@ namespace SystemInterface.ConsoleUI
     {
         static void Main(string[] args)
         {
+            AndersEksempelPaaBrugAfDesignOgLag();
+        }
 
+        private static void AndersEksempelPaaBrugAfDesignOgLag()
+        {
+            // create controller
+            ScanningControl scanner = new ScanningControl();
 
+            // get data from sensorsweep
+            SensorSweepDTO dto = scanner.FullSweep();
 
-
+            //display data in console
+            Console.WriteLine(dto.ToString());
         }
     }
 }

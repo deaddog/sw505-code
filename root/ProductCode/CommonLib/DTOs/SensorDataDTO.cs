@@ -5,17 +5,23 @@ namespace CommonLib.DTOs
 {
     public struct SensorDataDTO : ISensorData
     {
-        private byte[] distance;
+        private byte sensorADistance;
+        private byte sensorBDistance;
 
-        public byte[] Distance
+        public byte SensorADistance
         {
-            get { return distance; }
+            get { return sensorADistance; }
         }
 
-        public SensorDataDTO(byte[] distance)
+        public byte SensorBDistance
         {
-            this.distance = distance;
+            get { return sensorBDistance; }
         }
 
+        public SensorDataDTO(byte sensorADistance, byte sensorBDistance)
+        {
+            this.sensorADistance = sensorADistance;
+            this.sensorBDistance = sensorBDistance;
+        }
     }
 }

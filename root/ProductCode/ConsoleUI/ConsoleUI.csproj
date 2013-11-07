@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonLib\bin\Debug\CommonLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,16 +47,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stuff.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
-      <Project>{e868edd2-1c74-4350-990a-ecf411d44291}</Project>
-      <Name>CommonLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Control\Control.csproj">
       <Project>{9efec74d-694b-48a9-a26e-a9359b312016}</Project>
       <Name>Control</Name>

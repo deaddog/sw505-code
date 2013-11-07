@@ -84,8 +84,8 @@ namespace ServicesTest
 
             // Assert
             Assert.IsNotNull(data);
-            Assert.IsTrue((data.Distance[0] < 50 && data.Distance[0] > 30) || 
-                (data.Distance[1] < 50 && data.Distance[1] > 30));
+            Assert.IsTrue((data.SensorADistance < 50 && data.SensorADistance > 30) || 
+                (data.SensorBDistance < 50 && data.SensorBDistance > 30));
         }
 
         [TestMethod]
@@ -115,12 +115,11 @@ namespace ServicesTest
 
             // Act
             rob.Drive(FORWARD, DRIVE_DISTANCE);
+            result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
             
             // Assert
-            result = MessageBox.Show("Did the robot Drive 30cm forward ?", "Test Result", MessageBoxButtons.YesNo);
             Assert.IsTrue(result == DialogResult.Yes);
         }
-
 
         [TestMethod]
         public void Drive_ReadyAndAble_RobotDrives30cmBackward()
@@ -133,9 +132,9 @@ namespace ServicesTest
 
             // Act
             rob.Drive(FORWARD, DRIVE_DISTANCE);
-
-            // Assert
             result = MessageBox.Show("Did the robot Drive 30cm backward ?", "Test Result", MessageBoxButtons.YesNo);
+            
+            // Assert
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
@@ -150,9 +149,9 @@ namespace ServicesTest
 
             // Act
             rob.TurnRobot(TURN_DEGREES, TURN_CLOCKWISE);
-
-            // Assert
             result = MessageBox.Show("Did the robot Turn 90 degrees to the right ?", "Test Result", MessageBoxButtons.YesNo);
+            
+            // Assert
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
@@ -167,9 +166,9 @@ namespace ServicesTest
 
             // Act
             rob.TurnRobot(TURN_DEGREES, TURN_CLOCKWISE);
+            result = MessageBox.Show("Did the robot Turn 90 degrees to the left ?", "Test Result", MessageBoxButtons.YesNo);
 
             // Assert
-            result = MessageBox.Show("Did the robot Turn 90 degrees to the left ?", "Test Result", MessageBoxButtons.YesNo);
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
