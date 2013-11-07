@@ -146,19 +146,22 @@ namespace Services.RobotServices.Mindsqualls
 
         public ISensorData MeasureDistanceUsingSensor()
         {
-            byte[] data = new byte[NUMBER_OF_SENSORS];
+            //byte[] data = new byte[NUMBER_OF_SENSORS];
 
             InitializeRobot(false);
 
             sensor1.Poll();
             sensor2.Poll();
 
-            data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-            data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
+            //data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
+            //data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
+
+            byte dataA = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
+            byte dataB = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
 
             //FreeRobot(false);
 
-            return new SensorDataDTO(data);
+            return new SensorDataDTO(dataA, dataB);
         }
         
         private uint ConvertMMToMotorDegrees(float distance)

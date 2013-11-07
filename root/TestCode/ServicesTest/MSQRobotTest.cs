@@ -84,8 +84,8 @@ namespace ServicesTest
 
             // Assert
             Assert.IsNotNull(data);
-            Assert.IsTrue((data.Distance[0] < 50 && data.Distance[0] > 30) || 
-                (data.Distance[1] < 50 && data.Distance[1] > 30));
+            Assert.IsTrue((data.SensorADistance < 50 && data.SensorADistance > 30) || 
+                (data.SensorBDistance < 50 && data.SensorBDistance > 30));
         }
 
         [TestMethod]

@@ -8,8 +8,9 @@ namespace CommonLib.Interfaces
 {
     public interface ISensorData
     {
-
-        byte[] Distance { get; }
+        byte SensorADistance { get; }
+        byte SensorBDistance { get; }
+        //byte[] Distance { get; }
 
     }
 }
