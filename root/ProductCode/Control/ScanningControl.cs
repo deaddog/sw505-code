@@ -7,6 +7,15 @@ namespace Control
     {
 
 
+        // Default cTor.
+        public ScanningControl()
+        {
+
+        }
+
+
+
+
 
     }
 }
