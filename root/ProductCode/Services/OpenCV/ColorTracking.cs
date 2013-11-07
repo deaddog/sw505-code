@@ -10,99 +10,184 @@ namespace TrackColorForm
 {
     public static class ColorTracking
     {
-        private static unsafe float GetHue(byte* p)
+        private static unsafe float RGBVectorEvaluator(byte* ptr, Color track, float threshold = 70)
         {
-            byte min = Math.Min(p[0], Math.Min(p[1], p[2]));
-            byte max = Math.Max(p[0], Math.Max(p[1], p[2]));
+            float r = ptr[2] - track.R;
+            float g = ptr[1] - track.G;
+            float b = ptr[0] - track.B;
 
-            if (max == min)
-                return 0;
-            else if (max == p[2])
-                return (60f * (p[1] - p[0]) / (max - min) + 360f) % 360f;
-            else if (max == p[1])
-                return (60f * (p[0] - p[2]) / (max - min) + 120f + 360f) % 360f;
-            else if (max == p[0])
-                return (60f * (p[2] - p[1]) / (max - min) + 240f + 360f) % 360f;
-
-            throw new Exception("Calculation error in GetHue.");
-        }
-
-        public enum Evaluators
-        {
-            Hue,
-            RGBVector
-        }
-        private static unsafe PixelEvaluator GetEvaluator(Evaluators e)
-        {
-            switch (e)
-            {
-                case Evaluators.Hue:
-                    return HueEvaluator;
-                case Evaluators.RGBVector:
-                    return RGBVectorEvaluator;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
-
-        private unsafe delegate float PixelEvaluator(byte* ptr);
-
-        private static unsafe float HueEvaluator(byte* ptr)
-        {
-            float hue = GetHue(ptr);
-
-            return hue > 220 || hue < 260 ? 0f : 1f;
-        }
-
-        private static unsafe float RGBVectorEvaluator(byte* ptr)
-        {
-            // B,G,R
-            float r = 255, g = 0, b = 0;
-
-            float x = ptr[2] - r;
-            float y = ptr[1] - g;
-            float z = ptr[1] - b;
-
-            float v = (float)Math.Sqrt(x * x + y * y + z * z);
+            float v = (float)Math.Sqrt(r * r + g * g + b * b);
 
             float upperMax = 16581375f;
-            upperMax = 255;
+            upperMax = threshold;
 
             if (v > upperMax)
                 v = upperMax;
             v /= upperMax;
 
-            return v;
+            return 1 - v;
         }
-
-        public unsafe static Image TrackColor(Bitmap src, Evaluators evaluator)
+        static unsafe Bitmap ConvertToMonochrome(Bitmap bmColor)
         {
-            Bitmap output = new Bitmap(src.Width, src.Height);
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            int cx = bmColor.Width;
+            int cy = bmColor.Height;
+
+            Bitmap bmMono = new Bitmap(cx, cy, PixelFormat.Format8bppIndexed);
+            bmMono.SetResolution(bmColor.HorizontalResolution,
+                                 bmColor.VerticalResolution);
+
+            ColorPalette pal = bmMono.Palette;
+
+            for (int i = 0; i < pal.Entries.Length; i++)
+                pal.Entries[i] = Color.FromArgb(i, i, i);
+
+            bmMono.Palette = pal;
+
+            BitmapData bmd = bmMono.LockBits(
+                new Rectangle(Point.Empty, bmMono.Size),
+                ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+
+            Byte* pPixel = (Byte*)bmd.Scan0;
+
+            for (int y = 0; y < cy; y++)
+            {
+                for (int x = 0; x < cx; x++)
+                {
+                    Color clr = bmColor.GetPixel(x, y);
+                    Byte byPixel = (byte)((30 * clr.R + 59 * clr.G + 11 * clr.B) / 100);
+                    pPixel[x] = byPixel;
+                }
+                pPixel += bmd.Stride;
+            }
+
+            bmMono.UnlockBits(bmd);
+
+            return bmMono;
+        }
+        public static Image TrackColor(Bitmap src, Color track, float threshold)
+        {
+            Bitmap output = new Bitmap(src.Width, src.Height, PixelFormat.Format8bppIndexed);
+
+            ColorPalette pal = output.Palette;
+
+            for (int i = 0; i < pal.Entries.Length; i++)
+                pal.Entries[i] = Color.FromArgb(i, i, i);
+
+            output.Palette = pal;
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 
             int PixelSize = 3;
-            for (int i = 0; i < bdSrc.Height; i++)
+            int outPixelSize = 4;
+            unsafe
             {
-                byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
-                byte* rowOutput = (byte*)bdOutput.Scan0 + i * bdOutput.Stride;
-
-                for (int j = 0; j < bdSrc.Width; j++)
+                for (int i = 0; i < bdSrc.Height; i++)
                 {
-                    float weight = GetEvaluator(evaluator)(row + j * PixelSize);
-                    if (weight > 1) weight = 1;
-                    if (weight < 0) weight = 0;
-                    byte c = (byte)(weight * 255);
+                    byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
+                    byte* rowOutput = (byte*)bdOutput.Scan0 + i * bdOutput.Stride;
 
-                    rowOutput[j * PixelSize + 2] = c;
-                    rowOutput[j * PixelSize + 1] = c;
-                    rowOutput[j * PixelSize] = c;
+                    for (int j = 0; j < bdSrc.Width; j++)
+                    {
+                        float weight = RGBVectorEvaluator(row + j * PixelSize, track, threshold);
+                        if (weight > 1) weight = 1;
+                        if (weight < 0) weight = 0;
+                        byte c = (byte)(weight * 255);
+
+                        rowOutput[j] = c;
+                    }
                 }
             }
             src.UnlockBits(bdSrc);
             output.UnlockBits(bdOutput);
 
             return output;
+        }
+
+        public static void Filter(Bitmap src)
+        {
+            int run = 0;
+            List<Point> clearPoints = new List<Point>();
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int stride = bdSrc.Stride;
+            unsafe
+            {
+            start:
+                for (int y = 0; y < bdSrc.Height; y++)
+                {
+                    byte* row = (byte*)bdSrc.Scan0 + y * stride;
+                    for (int x = 0; x < bdSrc.Width; x++)
+                    {
+                        byte* ptr = row + x;
+                        if (ptr[0] > 0)
+                        {
+                            int set = 0;
+                            if (x > 0)
+                            {
+                                if (y > 0 && ptr[-1 - stride] > 0) set++;
+                                if (ptr[-1] > 0) set++;
+                                if (y < bdSrc.Height - 1 && ptr[-1 + stride] > 0) set++;
+                            }
+
+                            if (y > 0 && ptr[-stride] > 0) set++;
+                            //Don't test the center itself
+                            if (y < bdSrc.Height - 1 && ptr[+stride] > 0) set++;
+
+                            if (x < bdSrc.Width - 1)
+                            {
+                                if (y > 0 && ptr[1 - stride] > 0) set++;
+                                if (ptr[1] > 0) set++;
+                                if (y < bdSrc.Height - 1 && ptr[1 + stride] > 0) set++;
+                            }
+
+                            if (set < 5) clearPoints.Add(new Point(x, y));
+                        }
+                    }
+                }
+                if (clearPoints.Count > 0)
+                {
+                    while (clearPoints.Count > 0)
+                    {
+                        ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[3] = 255;
+                        clearPoints.RemoveAt(0);
+                    }
+                    run++;
+                    if (run < 2)
+                        goto start;
+                }
+            }
+            src.UnlockBits(bdSrc);
+        }
+
+        public static Rectangle FindBounds(Bitmap src)
+        {
+            int x = int.MaxValue, y = int.MaxValue, x2 = int.MinValue, y2 = int.MinValue;
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            int PixelSize = 4;
+            unsafe
+            {
+                for (int i = 0; i < bdSrc.Height; i++)
+                {
+                    byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
+
+                    for (int j = 0; j < bdSrc.Width; j++)
+                        if (row[j * PixelSize + 3] > 0)
+                        {
+                            if (j < x) x = j;
+                            if (i < y) y = i;
+                            if (j > x2) x2 = j;
+                            if (i > y2) y2 = i;
+                        }
+                }
+            }
+            src.UnlockBits(bdSrc);
+
+            if (x == int.MaxValue || y == int.MaxValue || x2 == int.MinValue || y2 == int.MinValue)
+                return Rectangle.Empty;
+            else
+                return Rectangle.FromLTRB(x, y, x2, y2);
         }
     }
 }
