@@ -67,7 +67,7 @@ namespace ControlTest
             bool containsData = false;
 
             // Act
-            SensorSweepDTO data = ScanningControl.FullSweep();
+            SensorSweepDTO data = sc.FullSweep();
             result = MessageBox.Show("Did the sensor turn 360 degrees ?", "Test Result", MessageBoxButtons.YesNo);
             
             // Assert
