@@ -10,7 +10,8 @@ namespace Control
     {
         private IRobot rob;
         private const ushort DEGREES_IN_CIRCLE = 360;
-        private const ushort FULLSWEEP_DEGREE_INTERVAL = 1;
+        private const ushort DEGREES_TO_SCAN = DEGREES_IN_CIRCLE / 2;
+        private const ushort FULLSWEEP_DEGREE_INTERVAL = 5;
         private const bool CLOCKWISE = true;
 
         #region cTor Chain
@@ -29,9 +30,9 @@ namespace Control
 
         public SensorSweepDTO FullSweep()
         {
-            ISensorData[] data = new ISensorData[DEGREES_IN_CIRCLE];
+            ISensorData[] data = new ISensorData[DEGREES_TO_SCAN];
 
-            for (ushort i = 0; i < DEGREES_IN_CIRCLE; i=(ushort)(i+FULLSWEEP_DEGREE_INTERVAL))
+            for (ushort i = 0; i < DEGREES_TO_SCAN; i = (ushort)(i + FULLSWEEP_DEGREE_INTERVAL))
             {
                 rob.TurnSensor(FULLSWEEP_DEGREE_INTERVAL, CLOCKWISE);
                 data[i] = rob.MeasureDistanceUsingSensor();

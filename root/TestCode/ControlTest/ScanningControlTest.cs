@@ -63,12 +63,13 @@ namespace ControlTest
         {
             // Arrange
             const ushort DEFAULT_SENSOR_VALUE = 255;
+             const ushort FULLSWEEP_DEGREE_INTERVAL = 5;
             DialogResult result;
             bool containsData = false;
 
             // Act
             SensorSweepDTO data = sc.FullSweep();
-            result = MessageBox.Show("Did the sensor turn 360 degrees ?", "Test Result", MessageBoxButtons.YesNo);
+            result = MessageBox.Show("Did the sensor turn 180 degrees ?", "Test Result", MessageBoxButtons.YesNo);
             
             // Assert
             
@@ -76,13 +77,13 @@ namespace ControlTest
 
             foreach (ISensorData d in data)
             {
-                if (d.SensorADistance != DEFAULT_SENSOR_VALUE || d.SensorBDistance != DEFAULT_SENSOR_VALUE)
+                if (d != null && (d.SensorADistance != DEFAULT_SENSOR_VALUE 
+                    || d.SensorBDistance != DEFAULT_SENSOR_VALUE))
                 {
                     containsData = true;
                 }
             }
             Assert.IsTrue(containsData);
-
             Assert.IsTrue(result == DialogResult.Yes);
         }
     }
