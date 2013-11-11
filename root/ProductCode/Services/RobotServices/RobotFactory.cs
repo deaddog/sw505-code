@@ -28,7 +28,7 @@ namespace Services.RobotServices
         /// <summary>
         /// Default cTor.
         /// </summary>
-        public RobotFactory()
+        private RobotFactory()
         {
 
         }
