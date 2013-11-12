@@ -1,0 +1,21 @@
+float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16;
+float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40;
+
+float WHEEL_RADIUS_IN_MM = 28;
+float WHEEL_AXEL_LENGTH_IN_MM =162;
+
+int DEGREES_IN_CICLE =360;
+
+//fix at disse ikke er konstanter
+
+inline float ConvertActualDegreesToMotorDegrees(int degreesToTurn, float gearRatio)
+{
+ return (degreesToTurn * gearRatio);
+}
+
+inline int ConvertMMToMotorDegrees(float distance)
+{
+ float motordegrees = ConvertActualDegreesToMotorDegrees(360, NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR);
+
+ return ((motordegrees / 28 * 2.0 * 3.14) * distance);
+}
