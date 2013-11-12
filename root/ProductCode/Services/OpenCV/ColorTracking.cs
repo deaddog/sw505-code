@@ -10,7 +10,7 @@ namespace TrackColorForm
 {
     public static class ColorTracking
     {
-        private static unsafe float RGBVectorEvaluator(byte* ptr, Color track, float threshold = 70)
+        private static unsafe float RGBVectorEvaluator(byte* ptr, Color track, float threshold)
         {
             float r = ptr[2] - track.R;
             float g = ptr[1] - track.G;
@@ -129,8 +129,7 @@ namespace TrackColorForm
         {
             int x = int.MaxValue, y = int.MaxValue, x2 = int.MinValue, y2 = int.MinValue;
 
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
-            int PixelSize = 4;
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
             unsafe
             {
                 for (int i = 0; i < bdSrc.Height; i++)
