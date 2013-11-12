@@ -44,10 +44,6 @@
     <Reference Include="Emgu.Util">
       <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.Util.dll</HintPath>
     </Reference>
-    <Reference Include="NKH.MindSqualls, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\NKH.MindSqualls.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -66,7 +62,12 @@
     <Compile Include="RobotServices\Mindsqualls\MSQRobot.cs" />
     <Compile Include="RobotServices\RobotFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
+      <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
+      <Name>NKH.MindSqualls</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
