@@ -74,9 +74,6 @@ namespace Services.RobotServices.Mindsqualls
             sensor1 = new NxtUltrasonicSensor();
             sensor2 = new NxtUltrasonicSensor();
 
-            sensor1.PollInterval = sensorPollInterval;
-            sensor2.PollInterval = sensorPollInterval;
-
             robot.Sensor1 = sensor1;
             robot.Sensor2 = sensor2;
 
