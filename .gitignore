@@ -108,3 +108,6 @@ Backup*/
 UpgradeLog*.XML
 
 /root/Solutions/SystemArchitecture/UpgradeLog.htm
+/root/NXT/MotorControl22.sym
+
+/root/NXT/MotorControl22.bak

@@ -66,9 +66,8 @@
 #define PROTO_CLASSIC_MOTORCMD          4
 #define PROTO_JUMBOPACKET               5
 
-
-
-
+// Mapper protocol constants
+#define MAPPER_MOVE_TO_POS 6
 
 // *************** INCLUDES
 #include "Controller.nxc"
@@ -688,6 +687,9 @@ task main(){
 
 
                 break;
+                case MAPPER_MOVE_TO_POS: // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+                     //Plays sound to verify method is called from MSq
+                     PlaySound(SOUND_FAST_UP);
             }//end switch - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
