@@ -10,7 +10,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 4;
+        private const byte SERIAL_PORT_NUMBER = 6;
         //private const byte SERIAL_PORT_NUMBER = 3;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
@@ -37,6 +37,15 @@ namespace Services.RobotServices.Mindsqualls
         private const uint DEGREES_IN_CICLE = 360;
 
         private const sbyte DUMMY_VALUE = 0; // turn ratio not implemented in mindsqualls.
+
+        // Represents the corresponding command on the NXT
+        private enum CommandType 
+        {
+            MAPPER_MOVE_TO_POS = 6
+        }
+        // Used for sending/receiving commands to/from NXT
+        private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
+        private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
 
         #endregion 
 
@@ -163,6 +172,17 @@ namespace Services.RobotServices.Mindsqualls
 
             return new SensorDataDTO(dataA, dataB);
         }
+
+        public void MoveToPosition()
+        {
+            string messageData = string.Format("{0}", (byte)CommandType.MAPPER_MOVE_TO_POS);
+            
+            InitializeRobot(true);
+
+            robot.CommLink.MessageWrite(PC_OUTBOX, messageData);
+
+            //FreeRobot(true);
+        }
         
         private uint ConvertMMToMotorDegrees(float distance)
         {
@@ -178,6 +198,7 @@ namespace Services.RobotServices.Mindsqualls
         private void InitializeRobot(bool usesMotorControl)
         {
             robot.Connect();
+
             if (usesMotorControl && !robot.IsMotorControlRunning())
             {
                 robot.StartMotorControl();
