@@ -11,7 +11,6 @@ namespace Services.RobotServices.Mindsqualls
         #region Static Variables & Constants.
 
         private const byte SERIAL_PORT_NUMBER = 6;
-        //private const byte SERIAL_PORT_NUMBER = 3;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -52,7 +51,7 @@ namespace Services.RobotServices.Mindsqualls
         private McNxtBrick robot;
         private NxtUltrasonicSensor sensor1;
         private NxtUltrasonicSensor sensor2;
-        private NxtMotor sensorMotor;
+        private McNxtMotor sensorMotor;
         private McNxtMotor leftDriveMotor;
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
@@ -61,14 +60,14 @@ namespace Services.RobotServices.Mindsqualls
 
         public MSQRobot() : this(SERIAL_PORT_NUMBER, SENSOR_POLL_INTERVAL) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new NxtMotor()) { }
+        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new McNxtMotor()) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInterval, NxtMotor sensormotor) : 
+        public MSQRobot(byte serialPort, int sensorPollInterval, McNxtMotor sensormotor) : 
             this(serialPort, sensorPollInterval, sensormotor, new McNxtMotor(), new McNxtMotor()) { }
 
 
-        public MSQRobot(byte serialPort, int sensorPollInterval, 
-            NxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
+        public MSQRobot(byte serialPort, int sensorPollInterval,
+            McNxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
         {
             robot = new McNxtBrick(NxtCommLinkType.Bluetooth, serialPort);
             
