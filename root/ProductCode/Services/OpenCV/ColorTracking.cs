@@ -79,7 +79,6 @@ namespace TrackColorForm
             BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 
             int PixelSize = 3;
-            int outPixelSize = 4;
             unsafe
             {
                 for (int i = 0; i < bdSrc.Height; i++)
@@ -141,7 +140,7 @@ namespace TrackColorForm
                                 if (y < bdSrc.Height - 1 && ptr[1 + stride] > 0) set++;
                             }
 
-                            if (set < 5) clearPoints.Add(new Point(x, y));
+                            if (set < 4) clearPoints.Add(new Point(x, y));
                         }
                     }
                 }
@@ -149,11 +148,11 @@ namespace TrackColorForm
                 {
                     while (clearPoints.Count > 0)
                     {
-                        ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[3] = 255;
+                        ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
                         clearPoints.RemoveAt(0);
                     }
                     run++;
-                    if (run < 2)
+                    //if (run < 2)
                         goto start;
                 }
             }
@@ -164,7 +163,7 @@ namespace TrackColorForm
         {
             int x = int.MaxValue, y = int.MaxValue, x2 = int.MinValue, y2 = int.MinValue;
 
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
             int PixelSize = 4;
             unsafe
             {
@@ -173,7 +172,7 @@ namespace TrackColorForm
                     byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
 
                     for (int j = 0; j < bdSrc.Width; j++)
-                        if (row[j * PixelSize + 3] > 0)
+                        if (row[j] > 0)
                         {
                             if (j < x) x = j;
                             if (i < y) y = i;
