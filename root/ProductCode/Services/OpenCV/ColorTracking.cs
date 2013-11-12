@@ -27,43 +27,6 @@ namespace TrackColorForm
 
             return 1 - v;
         }
-        static unsafe Bitmap ConvertToMonochrome(Bitmap bmColor)
-        {
-            int cx = bmColor.Width;
-            int cy = bmColor.Height;
-
-            Bitmap bmMono = new Bitmap(cx, cy, PixelFormat.Format8bppIndexed);
-            bmMono.SetResolution(bmColor.HorizontalResolution,
-                                 bmColor.VerticalResolution);
-
-            ColorPalette pal = bmMono.Palette;
-
-            for (int i = 0; i < pal.Entries.Length; i++)
-                pal.Entries[i] = Color.FromArgb(i, i, i);
-
-            bmMono.Palette = pal;
-
-            BitmapData bmd = bmMono.LockBits(
-                new Rectangle(Point.Empty, bmMono.Size),
-                ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
-
-            Byte* pPixel = (Byte*)bmd.Scan0;
-
-            for (int y = 0; y < cy; y++)
-            {
-                for (int x = 0; x < cx; x++)
-                {
-                    Color clr = bmColor.GetPixel(x, y);
-                    Byte byPixel = (byte)((30 * clr.R + 59 * clr.G + 11 * clr.B) / 100);
-                    pPixel[x] = byPixel;
-                }
-                pPixel += bmd.Stride;
-            }
-
-            bmMono.UnlockBits(bmd);
-
-            return bmMono;
-        }
         public static Image TrackColor(Bitmap src, Color track, float threshold)
         {
             Bitmap output = new Bitmap(src.Width, src.Height, PixelFormat.Format8bppIndexed);
