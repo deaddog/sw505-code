@@ -29,6 +29,9 @@ namespace TrackColorForm
         }
         public static Image TrackColor(Bitmap src, Color track, float threshold)
         {
+            if (src.PixelFormat != PixelFormat.Format24bppRgb && src.PixelFormat != PixelFormat.Format32bppRgb && src.PixelFormat != PixelFormat.Format32bppArgb)
+                throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
+
             Bitmap output = new Bitmap(src.Width, src.Height, PixelFormat.Format8bppIndexed);
 
             ColorPalette pal = output.Palette;
@@ -38,10 +41,10 @@ namespace TrackColorForm
 
             output.Palette = pal;
 
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly, src.PixelFormat);
             BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 
-            int PixelSize = 3;
+            int PixelSize = src.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 4;
             unsafe
             {
                 for (int i = 0; i < bdSrc.Height; i++)
@@ -68,7 +71,9 @@ namespace TrackColorForm
 
         public static void Filter(Bitmap src)
         {
-            int run = 0;
+            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
+
             List<Point> clearPoints = new List<Point>();
 
             BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
@@ -114,9 +119,7 @@ namespace TrackColorForm
                         ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
                         clearPoints.RemoveAt(0);
                     }
-                    run++;
-                    //if (run < 2)
-                        goto start;
+                    goto start;
                 }
             }
             src.UnlockBits(bdSrc);
