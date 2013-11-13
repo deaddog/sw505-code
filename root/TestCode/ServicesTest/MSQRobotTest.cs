@@ -30,7 +30,7 @@ namespace ServicesTest
         [TestInitialize]
         public void Initializer()
         {
-            factory = RobotFactory.getInstance();
+            factory = RobotFactory.GetInstance();
         }
 
         [TestCleanup]
@@ -63,7 +63,7 @@ namespace ServicesTest
         public void MeasureDistanceUsingSensor_RobotReadyAndAble_ValidSensorDataOfTypeISensorData()
         {
             // Arrange
-            MSQRobot rob = (MSQRobot)factory.createRobot();
+            MSQRobot rob = (MSQRobot)factory.CreateRobot();
             
             // Act
             ISensorData data = rob.MeasureDistanceUsingSensor();
@@ -76,7 +76,7 @@ namespace ServicesTest
         public void MeasureDistanceUsingSensor_TargetAtDistance30To50CmFromSensor_SensorDataWithMeasurementBetween30And50Cm()
         {
             // Arrange
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
             ISensorData data;
                 
             // Act
@@ -92,7 +92,7 @@ namespace ServicesTest
         public void TurnSensor_RobotReadyAndAble_SensorTurns90Degrees()
         {
             // Arrange
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
             DialogResult result;
             bool clockwise = true;
 
@@ -108,7 +108,7 @@ namespace ServicesTest
         public void Drive_ReadyAndAble_RobotDrives30cmForward()
         {
             // Arrange
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
             const uint DRIVE_DISTANCE = 300;
             const bool FORWARD = true;
             DialogResult result;
@@ -125,7 +125,7 @@ namespace ServicesTest
         public void Drive_ReadyAndAble_RobotDrives30cmBackward()
         {
             // Arrange
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
             const uint DRIVE_DISTANCE = 300;
             const bool FORWARD = false;
             DialogResult result;
@@ -142,7 +142,7 @@ namespace ServicesTest
         public void TurnRobot_ReadyAndAble_RobotTurnsRight90degrees()
         {
             // Arrange
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
             const uint TURN_DEGREES = 90;
             const bool TURN_CLOCKWISE = true;
             DialogResult result;
@@ -159,7 +159,7 @@ namespace ServicesTest
         public void TurnRobot_ReadyAndAble_RobotTurnsLeft90degrees()
         {
             // Arrange
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
             const uint TURN_DEGREES = 90;
             const bool TURN_CLOCKWISE = false;
             DialogResult result;

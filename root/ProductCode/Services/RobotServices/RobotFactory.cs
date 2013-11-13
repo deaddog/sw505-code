@@ -15,7 +15,7 @@ namespace Services.RobotServices
         /// Singleton Instance Handler.
         /// </summary>
         /// <returns>Singleton Instance of object.</returns>
-        public static RobotFactory getInstance()
+        public static RobotFactory GetInstance()
         {
 
             if (instance == null)
@@ -34,7 +34,7 @@ namespace Services.RobotServices
         }
 
 
-        public IRobot createRobot()
+        public IRobot CreateRobot()
         {
             return new MSQRobot();
         }

@@ -12,11 +12,11 @@ namespace Control
     {
         private IRobot robot;
 
-        public NavigationControl() : this(RobotFactory.getInstance()) { }
+        public NavigationControl() : this(RobotFactory.GetInstance()) { }
 
         public NavigationControl(RobotFactory factory)
         {
-            robot = factory.createRobot();
+            robot = factory.CreateRobot();
         }
 
         public void TellRobotNavigateTo()
