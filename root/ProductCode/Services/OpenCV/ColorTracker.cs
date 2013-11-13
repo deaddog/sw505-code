@@ -13,7 +13,9 @@ namespace TrackColorForm
         private const float DEFAULT_THRESHOLD = 50;
 
         private float threshold;
+        private Color originalColor;
         private Color targetColor;
+
         private PointF center;
 
         private DateTime lastUpdate;
@@ -21,7 +23,7 @@ namespace TrackColorForm
         public ColorTracker(Color color)
         {
             this.threshold = DEFAULT_THRESHOLD;
-            this.targetColor = color;
+            this.originalColor = this.targetColor = color;
         }
 
         public float Threshold
@@ -33,7 +35,7 @@ namespace TrackColorForm
             get { return targetColor; }
             set
             {
-                this.targetColor = value;
+                this.originalColor = this.targetColor = value;
                 threshold = DEFAULT_THRESHOLD;
             }
         }
@@ -52,6 +54,12 @@ namespace TrackColorForm
             Bitmap bmp = ColorTracking.TrackColor(bitmap, targetColor, threshold);
             ColorTracking.Filter(bmp);
             Point p = ColorTracking.FindStrongestPoint(bmp);
+
+            Color newTarget = bitmap.GetPixel(p.X, p.Y);
+
+            double dist = distance(originalColor, newTarget);
+            if (dist < 50)
+                targetColor = newTarget;
 
             PointF newPoint;
             Rectangle bounds = ColorTracking.FindBounds(bmp);
