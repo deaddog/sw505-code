@@ -27,7 +27,7 @@ namespace TrackColorForm
 
             return 1 - v;
         }
-        public static Image TrackColor(Bitmap src, Color track, float threshold)
+        public static Bitmap TrackColor(Bitmap src, Color track, float threshold)
         {
             if (src.PixelFormat != PixelFormat.Format24bppRgb && src.PixelFormat != PixelFormat.Format32bppRgb && src.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
