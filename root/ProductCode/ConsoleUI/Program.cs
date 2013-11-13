@@ -11,7 +11,6 @@ namespace SystemInterface.ConsoleUI
         {
             NavigationControl nav = new NavigationControl();
             nav.TellRobotNavigateTo();
-
             //AndersEksempelPaaBrugAfDesignOgLag();
         }
 
