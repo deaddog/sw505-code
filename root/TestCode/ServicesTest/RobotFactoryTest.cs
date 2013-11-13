@@ -26,7 +26,7 @@ namespace ServicesTest
         [TestInitialize]
         public void Initializer()
         {
-            factory = RobotFactory.getInstance();
+            factory = RobotFactory.GetInstance();
         }
 
         [TestCleanup]
@@ -59,7 +59,7 @@ namespace ServicesTest
             int x;
 
             // Act
-            RobotFactory fac = RobotFactory.getInstance();
+            RobotFactory fac = RobotFactory.GetInstance();
 
             // Assert
             Assert.IsNotNull(fac);
@@ -76,7 +76,7 @@ namespace ServicesTest
 
 
             // act
-            IRobot rob = factory.createRobot();
+            IRobot rob = factory.CreateRobot();
 
             // assert.
             Assert.IsNotNull(rob);

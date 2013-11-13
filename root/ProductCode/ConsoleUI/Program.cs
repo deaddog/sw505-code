@@ -9,9 +9,9 @@ namespace SystemInterface.ConsoleUI
     {
         static void Main(string[] args)
         {
-            NavigationControl nav = new NavigationControl();
-            nav.TellRobotNavigateTo();
-
+            TestControl tester = new TestControl();
+            Console.WriteLine(tester.TestMailChecker());
+            Console.ReadKey();
             //AndersEksempelPaaBrugAfDesignOgLag();
         }
 

@@ -3,6 +3,7 @@ using NKH.MindSqualls;
 using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
+using RobotCommunicationInterface;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -10,8 +11,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 6;
-        //private const byte SERIAL_PORT_NUMBER = 3;
+        private const byte SERIAL_PORT_NUMBER = 8;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -39,7 +39,7 @@ namespace Services.RobotServices.Mindsqualls
         private const sbyte DUMMY_VALUE = 0; // turn ratio not implemented in mindsqualls.
 
         // Represents the corresponding command on the NXT
-        private enum CommandType 
+        private enum CommandType
         {
             MAPPER_MOVE_TO_POS = 6
         }
@@ -47,12 +47,12 @@ namespace Services.RobotServices.Mindsqualls
         private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
         private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
 
-        #endregion 
+        #endregion
 
         private McNxtBrick robot;
         private NxtUltrasonicSensor sensor1;
         private NxtUltrasonicSensor sensor2;
-        private NxtMotor sensorMotor;
+        private McNxtMotor sensorMotor;
         private McNxtMotor leftDriveMotor;
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
@@ -61,22 +61,19 @@ namespace Services.RobotServices.Mindsqualls
 
         public MSQRobot() : this(SERIAL_PORT_NUMBER, SENSOR_POLL_INTERVAL) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new NxtMotor()) { }
+        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new McNxtMotor()) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInterval, NxtMotor sensormotor) : 
+        public MSQRobot(byte serialPort, int sensorPollInterval, McNxtMotor sensormotor) :
             this(serialPort, sensorPollInterval, sensormotor, new McNxtMotor(), new McNxtMotor()) { }
 
 
-        public MSQRobot(byte serialPort, int sensorPollInterval, 
-            NxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
+        public MSQRobot(byte serialPort, int sensorPollInterval,
+            McNxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
         {
             robot = new McNxtBrick(NxtCommLinkType.Bluetooth, serialPort);
-            
+
             sensor1 = new NxtUltrasonicSensor();
             sensor2 = new NxtUltrasonicSensor();
-
-            sensor1.PollInterval = sensorPollInterval;
-            sensor2.PollInterval = sensorPollInterval;
 
             robot.Sensor1 = sensor1;
             robot.Sensor2 = sensor2;
@@ -92,9 +89,9 @@ namespace Services.RobotServices.Mindsqualls
 
             this.driveMotors = new McNxtMotorSync(leftDriveMotor, rightDriveMotor);
         }
-        
+
         #endregion
-        
+
         public void TurnRobot(uint degrees, bool clockwise)
         {
             sbyte forwardTurnPower = DRIVE_MOTOR_TURN_POWER;
@@ -175,15 +172,23 @@ namespace Services.RobotServices.Mindsqualls
 
         public void MoveToPosition()
         {
-            string messageData = string.Format("{0}", (byte)CommandType.MAPPER_MOVE_TO_POS);
-            
             InitializeRobot(true);
 
-            robot.CommLink.MessageWrite(PC_OUTBOX, messageData);
+            CommandSender sender = new CommandSender(robot.CommLink);
+            sender.SendCommand(MapperCommand.MoveToPos, "");
 
             //FreeRobot(true);
         }
-        
+
+        public string CheckIncoming()
+        {
+            InitializeRobot(true);
+
+            MailboxChecker mailbox = new MailboxChecker(robot.CommLink, 'h');
+
+            return mailbox.Checker();
+        }
+
         private uint ConvertMMToMotorDegrees(float distance)
         {
             float motordegrees = (float)ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_GEAR_RATIO);
@@ -205,7 +210,8 @@ namespace Services.RobotServices.Mindsqualls
             }
         }
 
-        private void FreeRobot(bool usesMotorControl) {
+        private void FreeRobot(bool usesMotorControl)
+        {
 
             if (usesMotorControl && robot.IsMotorControlRunning())
             {

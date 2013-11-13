@@ -56,6 +56,8 @@ namespace NKH.MindSqualls
         /// </summary>
         internal NxtErrorMessage errorMessage;
 
+        public NxtErrorMessage ErrorMessage { get { return errorMessage; } }
+
         /// <summary>
         /// <para>ToString() override.</para>
         /// </summary>
