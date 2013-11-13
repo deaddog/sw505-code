@@ -181,3 +181,14 @@ inline bool IsMotorReady(const byte &port) {
 
 }//end function
 
+inline void WaitForMotors()
+{
+int count = 0;
+ while(!IsMotorReady(0) || !IsMotorReady(1) || !IsMotorReady(3))
+ {
+  count++;
+ }
+ PlaySound(SOUND_UP);
+}
+
+

@@ -22,7 +22,7 @@ typRunMotorParams motorParamsSync;
 #include "Convert.nxc"
 
 
-sub Run(int port, int power, int angle){
+sub Run(int port, int power, float angle){
 // process...
 
 bool speedreg = true;
@@ -58,11 +58,6 @@ if (port == 0) { // OUT_A
 	motorParamsB.smoothstart = smoothstart;
 
 	if (taskBrunning == false) {
-
-		#ifdef ENABLEDEBUGGING_OLDLCDTIMING
-			parsedTime = CurrentTick() - receivedMsgTime; // NEW DEBUG
-		#endif
-
 		start MoveB;
 	} else {
 		TaskBusySignal();
@@ -107,16 +102,49 @@ if (port == 0) { // OUT_A
 
 
         
-sub RunForward(int port, int power, int distance)
+sub RunForward( int power, float distance)
 {
- Run()
+ float degrees = ConvertMMToMotorDegrees(distance);
+ Run(3, -power, degrees);
 }
 
+sub RunBackward( int power, float distance)
+{
+ float degrees = ConvertMMToMotorDegrees(distance);
+ Run(3, power, degrees);
+}
+
+sub TurnLeft(int power, float angle)
+{
+ float distance = AngleToDistance(angle);
+ float degrees =ConvertMMToMotorDegrees(distance);
+ Run(0, power, degrees);
+ Run(1,-power,degrees);
+}
+
+sub TurnRight(int power, float angle)
+{
+ float distance = AngleToDistance(angle);
+ float degrees =ConvertMMToMotorDegrees(distance);
+ Run(1, power, degrees);
+ Run(0,-power,degrees);
+}
 
 task main()
 {
  // Don't forget this!
  InitSpeedFromPosLUT();
- Run(2,100,200);
+
+ RunForward(100,200);
+ WaitForMotors();
+ RunBackward(100,200);
+ WaitForMotors();
+ TurnLeft(100,180);
+ TextOut(0,LCD_LINE2, NumToStr("F"));
+ WaitForMotors();
+ TextOut(0,LCD_LINE2, NumToStr("E"));
+ RunForward(100,200);
+Wait(1000);
+ //Run(2,100,150);
 }
 
