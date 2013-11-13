@@ -11,17 +11,21 @@ namespace TrackColorForm
     public class ColorTracker
     {
         private const float DEFAULT_THRESHOLD = 50;
+        public const int BOUNDS_INFLATE = 5;
 
         private float threshold;
         private Color originalColor;
         private Color targetColor;
 
+        private bool first = true;
+        private Rectangle bounds;
         private PointF center;
 
         private DateTime lastUpdate;
 
         public ColorTracker(Color color)
         {
+            this.bounds = new Rectangle(0, 0, 1000, 1000);
             this.threshold = DEFAULT_THRESHOLD;
             this.originalColor = this.targetColor = color;
         }
@@ -37,11 +41,16 @@ namespace TrackColorForm
             {
                 this.originalColor = this.targetColor = value;
                 threshold = DEFAULT_THRESHOLD;
+                first = true;
             }
         }
         public PointF Center
         {
             get { return center; }
+        }
+        public Rectangle Bounds
+        {
+            get { return bounds; }
         }
 
         public void Track(Bitmap bitmap)
@@ -51,20 +60,31 @@ namespace TrackColorForm
                 return;
             lastUpdate = DateTime.Now;
 
-            Bitmap bmp = ColorTracking.TrackColor(bitmap, targetColor, threshold);
+            Rectangle oldBounds = bounds;
+            oldBounds.Inflate(BOUNDS_INFLATE, BOUNDS_INFLATE);
+            oldBounds.Intersect(new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+
+            Bitmap bmp = ColorTracking.TrackColor(bitmap, oldBounds, targetColor, threshold);
             ColorTracking.Filter(bmp);
             Point p = ColorTracking.FindStrongestPoint(bmp);
 
-            Color newTarget = bitmap.GetPixel(p.X, p.Y);
+            Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
 
             double dist = distance(originalColor, newTarget);
             if (dist < 50)
                 targetColor = newTarget;
 
+            Rectangle newBounds = ColorTracking.FindBounds(bmp);
+            bounds = new Rectangle(oldBounds.X + newBounds.X, oldBounds.Y + newBounds.Y, newBounds.Width, newBounds.Height);
+
             PointF newPoint;
-            Rectangle bounds = ColorTracking.FindBounds(bmp);
             if (FindCenter(bounds, out newPoint))
                 center = newPoint;
+            else
+            {
+                bounds = new Rectangle(0, 0, 1000, 1000);
+                targetColor = originalColor;
+            }
 
             bmp.Dispose();
         }

@@ -27,12 +27,12 @@ namespace TrackColorForm
 
             return 1 - v;
         }
-        public static Bitmap TrackColor(Bitmap src, Color track, float threshold)
+        public static Bitmap TrackColor(Bitmap src, Rectangle clippingRectangle, Color track, float threshold)
         {
             if (src.PixelFormat != PixelFormat.Format24bppRgb && src.PixelFormat != PixelFormat.Format32bppRgb && src.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
 
-            Bitmap output = new Bitmap(src.Width, src.Height, PixelFormat.Format8bppIndexed);
+            Bitmap output = new Bitmap(clippingRectangle.Width, clippingRectangle.Height, PixelFormat.Format8bppIndexed);
 
             ColorPalette pal = output.Palette;
 
@@ -41,8 +41,8 @@ namespace TrackColorForm
 
             output.Palette = pal;
 
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadOnly, src.PixelFormat);
-            BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+            BitmapData bdSrc = src.LockBits(clippingRectangle, ImageLockMode.ReadOnly, src.PixelFormat);
+            BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, clippingRectangle.Width, clippingRectangle.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 
             int PixelSize = src.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 4;
             unsafe
