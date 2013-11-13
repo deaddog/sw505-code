@@ -1,0 +1,183 @@
+#include "Controller.nxc"
+
+safecall void TaskBusySignal() {
+    PlayTone(2000, 50);
+    Wait(50);
+    PlayTone(1500, 50);
+}//end TaskBusySignal
+
+
+// tasks
+task MoveA() {
+    //TextOut(0,LCD_LINE6, "Task A started");
+    //Acquire(movingA);
+
+    taskArunning = true;
+
+    bool stoppedByDirectCmd;
+    stoppedByDirectCmd = RunMotorA(OUT_A, motorParamsA.power, motorParamsA.tacholimit, motorParamsA.speedreg, motorParamsA.holdbrake, motorParamsA.smoothstart);
+
+    // if we exited from external NXTMotor.Stop command, we might've overwritten
+    // the power value before exiting the main controller loop, so restore defined
+    // end state here again:
+    if (stoppedByDirectCmd) {
+        if (MotorRegulation(OUT_A) == OUT_REGMODE_SPEED) {
+            MotorBrake(OUT_A);
+        } else {
+            MotorOff(OUT_A);
+        }//end if
+    }//end if
+
+    taskArunning = false;
+
+    //Release(movingA);
+    //TextOut(0,LCD_LINE6, "Task A stopped");
+}//MoveA
+
+
+task MoveB() {
+    //TextOut(0,LCD_LINE7, "Task B started");
+    //Acquire(movingB);
+
+    taskBrunning = true;
+
+    #ifdef ENABLEDEBUGGING_OLDLCDTIMING
+		taskStartedTime = CurrentTick() - receivedMsgTime;    // NEW DEBUG
+    #endif
+
+    bool stoppedByDirectCmd;
+    stoppedByDirectCmd = RunMotorB(OUT_B, motorParamsB.power, motorParamsB.tacholimit, motorParamsB.speedreg, motorParamsB.holdbrake, motorParamsB.smoothstart);
+
+
+    // if we exited from external NXTMotor.Stop command, we might've overwritten
+    // the power value before exiting the main controller loop, so restore defined
+    // end state here again:
+    if (stoppedByDirectCmd) {
+        if (MotorRegulation(OUT_B) == OUT_REGMODE_SPEED) {
+            MotorBrake(OUT_B);
+        } else {
+            MotorOff(OUT_B);
+        }//end if
+    }
+}
+
+
+task MoveC() {
+    TextOut(0,LCD_LINE8, "Task C started");
+    //Acquire(movingC);
+
+    taskCrunning = true;
+
+    bool stoppedByDirectCmd;
+    stoppedByDirectCmd = RunMotorC(OUT_C, motorParamsC.power, motorParamsC.tacholimit, motorParamsC.speedreg, motorParamsC.holdbrake, motorParamsC.smoothstart);
+
+    // if we exited from external NXTMotor.Stop command, we might've overwritten
+    // the power value before exiting the main controller loop, so restore defined
+    // end state here again:
+    if (stoppedByDirectCmd) {
+        if (MotorRegulation(OUT_C) == OUT_REGMODE_SPEED) {
+            MotorBrake(OUT_C);
+        } else {
+            MotorOff(OUT_C);
+        }//end if
+    }//end if
+
+    taskCrunning = false;
+
+    //Release(movingC);
+    TextOut(0,LCD_LINE8, "Task C stopped");
+    Wait(100);
+}//MoveC
+
+
+task MoveSync() {
+
+    #ifdef ENABLEDEBUGGING_SHOWTASKS
+        taskSyncRunning = true;
+    #endif
+
+    bool stoppedByDirectCmd;
+
+    if (SyncPorts == 3) { // OUT_AB
+        //Acquire(movingA);
+        //Acquire(movingB);
+            taskArunning = true;
+            taskBrunning = true;
+            stoppedByDirectCmd = RunMotor2(OUT_A, motorParamsSync.power, motorParamsSync.tacholimit, false, motorParamsSync.holdbrake, motorParamsSync.smoothstart, OUT_B);
+            if (stoppedByDirectCmd) {
+                if (MotorRegulation(OUT_A) == OUT_REGMODE_SPEED) {
+                    MotorBrake2(OUT_A, OUT_B);
+                } else {
+                    MotorOff2(OUT_A, OUT_B);
+                }//end if
+            }//end if
+            taskArunning = false;
+            taskBrunning = false;
+        //Release(movingA);
+        //Release(movingB);
+    } else if (SyncPorts == 4) { // OUT_AC
+        //Acquire(movingA);
+        //Acquire(movingC);
+            taskArunning = true;
+            taskCrunning = true;
+            stoppedByDirectCmd = RunMotor2(OUT_A, motorParamsSync.power, motorParamsSync.tacholimit, false, motorParamsSync.holdbrake, motorParamsSync.smoothstart, OUT_C);
+            if (stoppedByDirectCmd) {
+                if (MotorRegulation(OUT_A) == OUT_REGMODE_SPEED) {
+                    MotorBrake2(OUT_A, OUT_C);
+                } else {
+                    MotorOff2(OUT_A, OUT_C);
+                }//end if
+            }//end if
+            taskArunning = false;
+            taskCrunning = false;
+        //Release(movingA);
+        //Release(movingC);
+    } else if (SyncPorts == 5) { // OUT_BC
+        //Acquire(movingB);
+        //Acquire(movingC);
+            taskBrunning = true;
+            taskCrunning = true;
+            stoppedByDirectCmd = RunMotor2(OUT_B, motorParamsSync.power, motorParamsSync.tacholimit, false, motorParamsSync.holdbrake, motorParamsSync.smoothstart, OUT_C);
+            if (stoppedByDirectCmd) {
+                if (MotorRegulation(OUT_B) == OUT_REGMODE_SPEED) {
+                    MotorBrake2(OUT_B, OUT_C);
+                } else {
+                    MotorOff2(OUT_B, OUT_C);
+                }//end if
+            }//end if
+            taskBrunning = false;
+            taskCrunning = false;
+        //Release(movingB);
+        //Release(movingC);
+    }//end if
+
+    #ifdef ENABLEDEBUGGING_SHOWTASKS
+        taskSyncRunning = false;
+    #endif
+}//MoveSync
+
+
+
+
+inline bool IsMotorReady(const byte &port) {
+
+    // check output state info, this is simple
+    if (MotorIsRunning(port)) {
+        return false;
+    } else { // maybe braking or coasting or whatever:
+        switch(port) {
+        case OUT_A:
+            return !(taskArunning);
+            break;
+        case OUT_B:
+            return !(taskBrunning);
+            break;
+        case OUT_C:
+            return !(taskCrunning);
+            break;
+        }//end switch
+
+   }//end if
+
+}//end function
+

@@ -1,0 +1,122 @@
+bool taskArunning;
+bool taskBrunning;
+bool taskCrunning;
+
+struct typRunMotorParams {
+    int  power;
+    long tacholimit;
+    bool speedreg;
+    bool holdbrake;
+    bool smoothstart;
+    int turnratio;
+};
+
+byte SyncPorts;
+
+typRunMotorParams motorParamsA;
+typRunMotorParams motorParamsB;
+typRunMotorParams motorParamsC;
+typRunMotorParams motorParamsSync;
+
+#include "MCTasks.nxc"
+#include "Convert.nxc"
+
+
+sub Run(int port, int power, int angle){
+// process...
+
+bool speedreg = true;
+bool holdbrake = false;
+bool smoothstart = true;
+				
+				
+
+if(power > 100) {
+	power = -(power - 100);
+}//end if
+
+if (port == 0) { // OUT_A
+
+	motorParamsA.power = power;
+	motorParamsA.tacholimit = angle;
+	motorParamsA.speedreg = speedreg;
+	motorParamsA.holdbrake = holdbrake;
+	motorParamsA.smoothstart = smoothstart;
+
+	if (taskArunning == false) {
+		start MoveA;
+	} else {
+		TaskBusySignal();
+	} // end if
+
+} else if (port == 1) { // OUT_B
+
+	motorParamsB.power = power;
+	motorParamsB.tacholimit = angle;
+	motorParamsB.speedreg = speedreg;
+	motorParamsB.holdbrake = holdbrake;
+	motorParamsB.smoothstart = smoothstart;
+
+	if (taskBrunning == false) {
+
+		#ifdef ENABLEDEBUGGING_OLDLCDTIMING
+			parsedTime = CurrentTick() - receivedMsgTime; // NEW DEBUG
+		#endif
+
+		start MoveB;
+	} else {
+		TaskBusySignal();
+	} // end if
+
+} else if (port == 2) { // OUT_C
+
+	motorParamsC.power = power;
+	motorParamsC.tacholimit = angle;
+	motorParamsC.speedreg = speedreg;
+	motorParamsC.holdbrake = holdbrake;
+	motorParamsC.smoothstart = smoothstart;
+
+	if (taskCrunning == false) {
+		start MoveC;
+	} else {
+	   TaskBusySignal();
+	}// end if
+
+} else { // Otherwise (OUT_AB, OUT_AC, OUT_BC, OUT_ABC?)
+
+	SyncPorts = port;
+
+	motorParamsSync.power = power;
+	motorParamsSync.tacholimit = angle;
+	motorParamsSync.turnratio = 0; //turnratio;
+	motorParamsSync.speedreg = false; //always for sync!
+	motorParamsSync.holdbrake = holdbrake;
+	motorParamsSync.smoothstart = smoothstart;
+
+	// this doesn't look elegant at all, but it works.
+	if (  ((port == 3) && (taskArunning == false) && (taskBrunning == false))
+	   || ((port == 4) && (taskArunning == false) && (taskCrunning == false))
+	   || ((port == 5) && (taskBrunning == false) && (taskCrunning == false)) )  {
+		start MoveSync;
+	} else {
+	   TaskBusySignal();
+	}//end if
+
+ }//end if
+}
+
+
+        
+sub RunForward(int port, int power, int distance)
+{
+ Run()
+}
+
+
+task main()
+{
+ // Don't forget this!
+ InitSpeedFromPosLUT();
+ Run(2,100,200);
+}
+
