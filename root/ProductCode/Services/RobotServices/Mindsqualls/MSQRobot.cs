@@ -180,6 +180,15 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
+        public string CheckIncoming()
+        {
+            InitializeRobot(true);
+
+            MailboxChecker mailbox = new MailboxChecker(robot.CommLink, 'h');
+
+            return mailbox.Checker();
+        }
+
         private uint ConvertMMToMotorDegrees(float distance)
         {
             float motordegrees = (float)ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_GEAR_RATIO);
