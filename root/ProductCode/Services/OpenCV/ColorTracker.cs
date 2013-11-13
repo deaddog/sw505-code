@@ -22,8 +22,6 @@ namespace TrackColorForm
         private Rectangle bounds;
         private PointF center;
 
-        private DateTime lastUpdate;
-
         public ColorTracker(Color color)
         {
             this.bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
@@ -56,11 +54,6 @@ namespace TrackColorForm
 
         public void Track(Bitmap bitmap)
         {
-            TimeSpan ts = DateTime.Now - lastUpdate;
-            if (ts.TotalMilliseconds < 600)
-                return;
-            lastUpdate = DateTime.Now;
-
             Rectangle oldBounds = bounds;
             oldBounds.Inflate(BOUNDS_INFLATE, BOUNDS_INFLATE);
             oldBounds.Intersect(new Rectangle(0, 0, bitmap.Width, bitmap.Height));
