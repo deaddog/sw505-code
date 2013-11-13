@@ -18,7 +18,6 @@ namespace TrackColorForm
         private Color originalColor;
         private Color targetColor;
 
-        private bool first = true;
         private Rectangle bounds;
         private PointF center;
 
@@ -40,7 +39,6 @@ namespace TrackColorForm
             {
                 this.originalColor = this.targetColor = value;
                 threshold = DEFAULT_THRESHOLD;
-                first = true;
             }
         }
         public PointF Center
