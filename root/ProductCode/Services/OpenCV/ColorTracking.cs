@@ -124,6 +124,36 @@ namespace TrackColorForm
             }
             src.UnlockBits(bdSrc);
         }
+        public static Point FindStrongestPoint(Bitmap src)
+        {
+            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
+
+            int max = -1;
+            Point p = new Point(-1, -1);
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int stride = bdSrc.Stride;
+            unsafe
+            {
+                for (int y = 0; y < bdSrc.Height; y++)
+                {
+                    byte* row = (byte*)bdSrc.Scan0 + y * stride;
+                    for (int x = 0; x < bdSrc.Width; x++)
+                    {
+                        byte val = (row + x)[0];
+                        if (val > max)
+                        {
+                            max = val;
+                            p = new Point(x, y);
+                        }
+                    }
+                }
+            }
+            src.UnlockBits(bdSrc);
+
+            return p;
+        }
 
         public static Rectangle FindBounds(Bitmap src)
         {
