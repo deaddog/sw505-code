@@ -12,6 +12,7 @@ namespace TrackColorForm
     {
         private const float DEFAULT_THRESHOLD = 50;
         public const int BOUNDS_INFLATE = 5;
+        public const int BOUNDS_MAX = 100000;
 
         private float threshold;
         private Color originalColor;
@@ -25,7 +26,7 @@ namespace TrackColorForm
 
         public ColorTracker(Color color)
         {
-            this.bounds = new Rectangle(0, 0, 1000, 1000);
+            this.bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
             this.threshold = DEFAULT_THRESHOLD;
             this.originalColor = this.targetColor = color;
         }
@@ -82,7 +83,7 @@ namespace TrackColorForm
                 center = newPoint;
             else
             {
-                bounds = new Rectangle(0, 0, 1000, 1000);
+                bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
                 targetColor = originalColor;
             }
 
