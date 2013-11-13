@@ -492,9 +492,15 @@ task TESTmain() {
 */
 
 
-
+void Test() {
+     PlaySound(SOUND_DOUBLE_BEEP);
+     
+     string msg = "hx";
+     SendMessage(OUTBOX, msg);
+}
 
 task main(){
+     
 
     // parameter initialization
     string in = "";
@@ -557,6 +563,8 @@ task main(){
     #ifdef ENABLEDEBUGGING_REMOTELOGGING
         SendDebugMessage(99, "Remote logging enabled!");
     #endif
+    
+    Test();
 
     while(true){
 
@@ -831,6 +839,7 @@ task main(){
                 case MAPPER_MOVE_TO_POS: // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                      //Plays sound to verify method is called from MSq
                      PlaySound(SOUND_FAST_UP);
+                     break;
             }//end switch - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
