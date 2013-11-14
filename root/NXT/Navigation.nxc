@@ -1,6 +1,7 @@
 #include "MCTasks.nxc"
 #include "Convert.nxc"
 
+#define MOVE_INCREMENT 100
 // Waits for the motors to be ready
 inline void WaitForMotors()
 {
@@ -41,6 +42,54 @@ sub TurnRight(int power, float angle)
  Run(0,-power,degrees);
 }
 
+inline PolarCoordinate NavigateToPoint(Position robot, Point target)
+{
+ PolarCoordinate c = ConvertCarthesianToPolar(robot.p,target);
+ 
+ float angle = FindAngleToPoint(robot.angle, c.angle);
+
+ PolarCoordinate nav;
+ nav.length = c.length;
+ nav.angle = angle;
+ 
+ return nav;
+}
+
+void TurnAngle(float angle)
+{
+ if(angle > 0)
+  TurnRight(100,angle);
+ else
+  TurnLeft(100, -angle);
+}
+
+bool GotoPointIncrement(Point target)
+{
+ //Where am i
+ Position p;
+ PolarCoordinate c = NavigateToPoint(p, target);
+ TurnAngle(c.angle);
+ 
+ if(c.length > MOVE_INCREMENT)
+ {
+  RunForward(100,MOVE_INCREMENT);
+  return false;
+ }
+ else
+ {
+  RunForward(100,c.length);
+  return true;
+ }
+}
+
+void GotoPoint(Point target)
+{
+ bool isThere = false;
+ while(!isThere)
+ {
+  isThere = GotoPointIncrement(target);
+ }
+}
 
 //Main function that tests all functions in this file
 #ifdef debug

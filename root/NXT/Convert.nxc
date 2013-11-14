@@ -1,4 +1,23 @@
-//These functions are used for converting a distance in MM to a number of degrees to turn the motor
+//These functions are used for converting  numbers for use when navigating
+//Including:
+//  converting a distance in MM to a number of degrees to turn the motor
+//  converting coordinates to polar coordinates for navigating the robot
+
+typedef struct {
+float x;
+float y;
+} Point;
+
+typedef struct{
+ Point p;
+ float angle;
+} Position;
+
+typedef struct{
+float length;
+float angle;
+} PolarCoordinate;
+
 
 float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16;
 float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40;
@@ -29,4 +48,33 @@ inline float ConvertMMToMotorDegrees(float distance)
 inline float AngleToDistance(float angle)
 {
  return ((WHEEL_AXEL_LENGTH_IN_MM * PI) / DEGREES_IN_CICLE) * angle;
+}
+
+inline Point MoveRobotToZero(Point robot, Point target)
+{
+ Point p;
+ p.x = target.x - robot.x;
+ p.y = target.y - robot.y;
+ return p;
+}
+
+inline PolarCoordinate ConvertCarthesianToPolar(Point robot, Point target)
+{
+ Point p = MoveRobotToZero(robot,target);
+
+ float length = sqrt(p.x * p.x + p.y * p.y);
+ //float angle = atand(p.y / p.x);
+float angle= 0;
+
+ PolarCoordinate c;
+ c.length = length;
+ c.angle = angle;
+ 
+ return c;
+}
+
+//Calculates the angle for the the robot to to when the robot is at angle robotangle
+inline float FindAngleToPoint(float robotangle, float targetangle)
+{
+ return robotangle - targetangle;
 }
