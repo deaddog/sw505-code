@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define TRACKINGTEST
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,10 +30,12 @@ namespace Services.TrackingServices
             this.originalColor = this.targetColor = color;
         }
 
+#if TRACKINGTEST
         public float Threshold
         {
             get { return threshold; }
         }
+#endif
         public Color Color
         {
             get { return targetColor; }
@@ -45,10 +49,12 @@ namespace Services.TrackingServices
         {
             get { return center; }
         }
+#if TRACKINGTEST
         public Rectangle Bounds
         {
             get { return bounds; }
         }
+#endif
 
         public void Track(Bitmap bitmap)
         {
