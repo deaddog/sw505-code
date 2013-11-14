@@ -167,13 +167,20 @@ namespace Services.RobotServices.Mindsqualls
             return new SensorDataDTO(dataA, dataB);
         }
 
+        /// <summary>
+        /// Sends command to robot, telling it to go to <paramref name="position"/>
+        /// Also starts thread, checking for replies
+        /// </summary>
+        /// <param name="position"></param>
         public void MoveToPosition(string position)
         {
             InitializeRobot(true);
 
+            //Sends command to robot with the position param
             string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
+            //Thread being run, checking inbox every 10 ms
             Thread mailChecker = new Thread(CheckIncoming);
             mailChecker.Start();
 
@@ -182,15 +189,20 @@ namespace Services.RobotServices.Mindsqualls
 
         private void CheckIncoming()
         {
-            InitializeRobot(true);
-
+            //Keeps checking until stopMailcheckerThread is deemed false
+            //   which only happens when robot sends back command RobotHasArrivedAtDestination
             while (!stopMailcheckerThread)
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
 
+                    //Checking the mailbox, if empty, exception is ignored and loop is reset
                     string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+
+                    //Attempt to parse the incoming command as the IncomingCommand enum
+                    //  if failed, simple reset the loop via ArgumentException
+                    //  if all is well, do switch on the command and do the corresponding action
                     IncomingCommand cmd = (IncomingCommand)Enum.Parse(typeof(IncomingCommand), reply[0].ToString());
                     switch (cmd)
                     {
