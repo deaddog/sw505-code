@@ -10,6 +10,7 @@ namespace Services.RobotServices
     public class RobotFactory
     {
         private static RobotFactory instance;
+        private static MSQRobot robot;
 
         /// <summary>
         /// Singleton Instance Handler.
@@ -36,9 +37,9 @@ namespace Services.RobotServices
 
         public IRobot CreateRobot()
         {
-            return new MSQRobot();
+            if (robot == null)
+                return new MSQRobot();
+            else return robot;
         }
-
-
     }
 }
