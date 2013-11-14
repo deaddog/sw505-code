@@ -101,6 +101,16 @@ namespace CommonLib.DTOs
         {
             return new Vector2D(v1.x / scale, v1.y / scale);
         }
+        /// <summary>
+        /// Calculates the dot product of two vectors.
+        /// </summary>
+        /// <param name="v1">The first vector in the calculation.</param>
+        /// <param name="v2">The second vector in the calculation.</param>
+        /// <returns>The dot product of the two vectors (x_1 * x_2 + y_1 * y_2)</returns>
+        public static float operator *(Vector2D v1, Vector2D v2)
+        {
+            return v1.x * v2.x + v1.y + v2.y;
+        }
 
         /// <summary>
         /// Converts a <see cref="Vector2D"/> to a <see cref="System.Drawing.PointF"/>.
