@@ -185,8 +185,6 @@ namespace Services.RobotServices.Mindsqualls
                     System.Threading.Thread.Sleep(10);
 
                     string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
-                    char cmd2 = (char)cmd;
-                    char cmd3 = reply[0];
                     if (reply[0] != (char)cmd) continue;
                     return reply.Substring(1);
                 }
