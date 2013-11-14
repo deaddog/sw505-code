@@ -24,6 +24,15 @@ namespace Services.TrackingServices
             get { return rear.Center; }
         }
 
+        public Vector2D Center
+        {
+            get { return front.Center + (rear.Center - front.Center) / 2f; }
+        }
+        public Vector2D Orientation
+        {
+            get { return front.Center - rear.Center; }
+        }
+
         public void Track(Bitmap bmp)
         {
             front.Track(bmp);
