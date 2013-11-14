@@ -37,7 +37,6 @@ string WhereAmI() {
 task main(){
      // Don't forget this!
      InitSpeedFromPosLUT();
-     PlaySound(SOUND_FAST_UP);
 
      string in = "";
      string cmd = "";
