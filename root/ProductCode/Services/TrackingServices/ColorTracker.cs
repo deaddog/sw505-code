@@ -2,11 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
+using CommonLib.DTOs;
 
 namespace Services.TrackingServices
 {
@@ -21,7 +19,7 @@ namespace Services.TrackingServices
         private Color targetColor;
 
         private Rectangle bounds;
-        private PointF center;
+        private Vector2D center;
 
         public ColorTracker(Color color)
         {
@@ -45,7 +43,7 @@ namespace Services.TrackingServices
                 threshold = DEFAULT_THRESHOLD;
             }
         }
-        public PointF Center
+        public Vector2D Center
         {
             get { return center; }
         }
@@ -77,7 +75,7 @@ namespace Services.TrackingServices
 
             PointF newPoint;
             if (FindCenter(bounds, out newPoint))
-                center = newPoint;
+                center = (Vector2D)newPoint;
             else
             {
                 bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
