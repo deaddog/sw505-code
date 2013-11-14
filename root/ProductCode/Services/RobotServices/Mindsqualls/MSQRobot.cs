@@ -3,6 +3,7 @@ using NKH.MindSqualls;
 using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
+using System.Threading;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -171,10 +172,13 @@ namespace Services.RobotServices.Mindsqualls
             string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
+            Thread mailChecker = new Thread(CheckIncoming);
+            mailChecker.Start();
+
             //FreeRobot(true);
         }
 
-        public string CheckIncoming(IncomingCommand cmd)
+        private void CheckIncoming()
         {
             InitializeRobot(true);
 
@@ -185,14 +189,36 @@ namespace Services.RobotServices.Mindsqualls
                     System.Threading.Thread.Sleep(10);
 
                     string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
-                    if (reply[0] != (char)cmd) continue;
-                    return reply.Substring(1);
+                    IncomingCommand cmd = (IncomingCommand)Enum.Parse(typeof(IncomingCommand), reply[0].ToString());
+                    switch (cmd)
+                    {
+                        case IncomingCommand.RobotRequestsLocation:
+                            SendRobotItsLocation();
+                            break;
+                        case IncomingCommand.RobotHasArrivedAtDestination:
+                            DoSomethingWhenRobotHasArrived();
+                            break;
+                        default:
+                            continue;
+                    }
                 }
                 catch (NxtCommunicationProtocolException ex)
                 {
                     if (ex.ErrorMessage != NxtErrorMessage.SpecifiedMailboxQueueIsEmpty) throw;
                 }
             }
+        }
+
+        private void SendRobotItsLocation()
+        {
+            string location = "";
+            string message = String.Format("{0}{1}", IncomingCommand.RobotRequestsLocation, location);
+            robot.CommLink.MessageWrite(PC_OUTBOX, message);
+        }
+
+        private void DoSomethingWhenRobotHasArrived()
+        {
+            throw new NotImplementedException();
         }
 
         private uint ConvertMMToMotorDegrees(float distance)

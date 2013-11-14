@@ -10,7 +10,6 @@ namespace Services.RobotServices
         void TurnSensor(uint degrees, bool clockwise);
         void Drive(bool forward, uint distanceInMM);
         void MoveToPosition(string position);
-        string CheckIncoming(IncomingCommand cmd);
         ISensorData MeasureDistanceUsingSensor();
     }
 }
