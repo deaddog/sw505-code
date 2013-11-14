@@ -109,12 +109,5 @@ namespace Services.TrackingServices
 
             return Math.Sqrt(r * r + g * g + b * b);
         }
-        private double distance(PointF p1, PointF p2)
-        {
-            double x = p1.X - p2.X;
-            double y = p1.Y - p2.Y;
-
-            return Math.Sqrt(x * x + y * y);
-        }
     }
 }
