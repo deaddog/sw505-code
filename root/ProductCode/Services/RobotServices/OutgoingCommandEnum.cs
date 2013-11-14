@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RobotCommunicationInterface
+namespace Services.RobotServices
 {
-    public enum MapperCommand
+    public enum OutgoingCommand
     {
         MoveToPos = 6
     }

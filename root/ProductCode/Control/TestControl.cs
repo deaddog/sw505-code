@@ -20,7 +20,7 @@ namespace Control
 
         public string TestMailChecker()
         {
-            return robot.CheckIncoming();
+            return robot.CheckIncoming(IncomingCommand.RobotRequestsLocation);
         }
     }
 }
