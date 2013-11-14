@@ -10,5 +10,18 @@ namespace Services.TrackingServices
 {
     public class OrientationTracker
     {
+        private ColorTracker front, rear;
+
+        public OrientationTracker(Color front, Color rear)
+        {
+            this.front = new ColorTracker(front);
+            this.rear = new ColorTracker(rear);
+        }
+
+        public void Track(Bitmap bmp)
+        {
+            front.Track(bmp);
+            rear.Track(bmp);
+        }
     }
 }
