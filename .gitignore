@@ -111,3 +111,7 @@ UpgradeLog*.XML
 /root/NXT/MotorControl22.sym
 
 /root/NXT/MotorControl22.bak
+
+# NXC temp files
+*.bak
+*.sym
