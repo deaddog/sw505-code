@@ -35,6 +35,9 @@ string WhereAmI() {
 }
 
 task main(){
+     // Don't forget this!
+     InitSpeedFromPosLUT();
+
      string in = "";
      string cmd = "";
      byte cmdType;
