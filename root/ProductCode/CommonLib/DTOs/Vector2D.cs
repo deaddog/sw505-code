@@ -9,6 +9,18 @@ namespace CommonLib.DTOs
     {
         private float x, y;
 
+        private static Vector2D zero = new Vector2D(0, 0);
+        private static Vector2D one = new Vector2D(1, 1);
+
+        public static Vector2D Zero
+        {
+            get { return zero; }
+        }
+        public static Vector2D One
+        {
+            get { return one; }
+        }
+
         public Vector2D(float x, float y)
         {
             this.x = x;
