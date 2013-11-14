@@ -355,8 +355,9 @@ inline bool IsMotorReady(const byte &port) {
 
 void Test() {
      PlaySound(SOUND_DOUBLE_BEEP);
-     
-     string msg = "hx";
+     string controlChar = "a";
+     string msg = controlChar;
+     msg = StrCat(msg, "Hej Stuffe!");
      SendMessage(OUTBOX, msg);
 }
 

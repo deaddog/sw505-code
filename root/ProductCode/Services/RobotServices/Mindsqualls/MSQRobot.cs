@@ -3,7 +3,6 @@ using NKH.MindSqualls;
 using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
-using RobotCommunicationInterface;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -38,11 +37,6 @@ namespace Services.RobotServices.Mindsqualls
 
         private const sbyte DUMMY_VALUE = 0; // turn ratio not implemented in mindsqualls.
 
-        // Represents the corresponding command on the NXT
-        private enum CommandType
-        {
-            MAPPER_MOVE_TO_POS = 6
-        }
         // Used for sending/receiving commands to/from NXT
         private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
         private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
@@ -170,23 +164,37 @@ namespace Services.RobotServices.Mindsqualls
             return new SensorDataDTO(dataA, dataB);
         }
 
-        public void MoveToPosition()
+        public void MoveToPosition(string position)
         {
             InitializeRobot(true);
 
-            CommandSender sender = new CommandSender(robot.CommLink);
-            sender.SendCommand(MapperCommand.MoveToPos, "");
+            string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
+            robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
             //FreeRobot(true);
         }
 
-        public string CheckIncoming()
+        public string CheckIncoming(IncomingCommand cmd)
         {
             InitializeRobot(true);
 
-            MailboxChecker mailbox = new MailboxChecker(robot.CommLink, 'h');
+            while (true)
+            {
+                try
+                {
+                    System.Threading.Thread.Sleep(10);
 
-            return mailbox.Checker();
+                    string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+                    char cmd2 = (char)cmd;
+                    char cmd3 = reply[0];
+                    if (reply[0] != (char)cmd) continue;
+                    return reply.Substring(1);
+                }
+                catch (NxtCommunicationProtocolException ex)
+                {
+                    if (ex.ErrorMessage != NxtErrorMessage.SpecifiedMailboxQueueIsEmpty) throw;
+                }
+            }
         }
 
         private uint ConvertMMToMotorDegrees(float distance)

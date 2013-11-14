@@ -21,7 +21,7 @@ namespace Control
 
         public void TellRobotNavigateTo()
         {
-            robot.MoveToPosition();
+            robot.MoveToPosition("");
         }
     }
 }
