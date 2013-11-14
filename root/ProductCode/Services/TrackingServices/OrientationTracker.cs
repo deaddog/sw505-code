@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Drawing.Imaging;
+
+using CommonLib.DTOs;
 
 namespace Services.TrackingServices
 {
@@ -16,6 +13,15 @@ namespace Services.TrackingServices
         {
             this.front = new ColorTracker(front);
             this.rear = new ColorTracker(rear);
+        }
+
+        public Vector2D Front
+        {
+            get { return front.Center; }
+        }
+        public Vector2D Rear
+        {
+            get { return rear.Center; }
         }
 
         public void Track(Bitmap bmp)
