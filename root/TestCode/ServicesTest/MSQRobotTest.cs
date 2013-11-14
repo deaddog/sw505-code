@@ -172,12 +172,23 @@ namespace ServicesTest
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
+        [TestMethod]
+        public void MoveToPosition_BogusPosition()
+        {
+            //Arrange
+            IRobot rob = factory.CreateRobot();
+            const string bogusPosition = "BogusPosition";
 
+            DialogResult result;
 
+            //Act
+            rob.MoveToPosition(bogusPosition);
+            result = MessageBox.Show("Did the display show the message \"BogusPosition\"", "Test Result", MessageBoxButtons.YesNo);
 
-
-
-
+            //Assert
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+        
         //[TestMethod]
         //public void DoStuff()
         //{

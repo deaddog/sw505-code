@@ -37,9 +37,11 @@ string WhereAmI() {
 task main(){
      // Don't forget this!
      InitSpeedFromPosLUT();
+     PlaySound(SOUND_FAST_UP);
 
      string in = "";
      string cmd = "";
+     string args = "";
      byte cmdType;
      
      while(true){
@@ -47,15 +49,17 @@ task main(){
           if (StrLen(in) > 0){
              cmd = SubStr(in, 0, 1);
              cmdType = StrToNum(cmd);
+             args = SubStr(in, 1, StrLen(in)-1);
              
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
-                 PlaySound(SOUND_FAST_UP);
+                 TextOut(0, LCD_LINE1, args);
                  break;
              }
              
              in = "";
+             args = "";
           }
           
           if (ButtonPressed(BTNCENTER, false)) {
