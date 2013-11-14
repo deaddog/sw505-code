@@ -11,7 +11,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 8;
+        private const byte SERIAL_PORT_NUMBER = 6;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -218,7 +218,7 @@ namespace Services.RobotServices.Mindsqualls
         private void SendRobotItsLocation()
         {
             string location = "";
-            string message = String.Format("{0}{1}", IncomingCommand.RobotRequestsLocation, location);
+            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, location);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
         }
 

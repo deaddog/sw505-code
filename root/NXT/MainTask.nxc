@@ -4,35 +4,44 @@
 #define INCOMING_MOVE_TO_POS 0
 
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
-#define OUTGOING_WHERE_AM_I "a"
-#define OUTGOING_I_AM_THERE "b"
+#define OUTGOING_WHERE_AM_I 0
+#define OUTGOING_I_AM_THERE 1
 
 //MAILBOXES TO BE USED FOR INCOMING AND OUTGOING COMMANDS
 #define INBOX           1
 #define OUTBOX          0
 
 void IAmThere() {
-     string msg = OUTGOING_I_AM_THERE;
-     SendMessage(OUTBOX, msg);
-}
-
-string WhereAmI() {
-     string msg = OUTGOING_WHERE_AM_I;
+     string msg = NumToStr(OUTGOING_I_AM_THERE);
      SendMessage(OUTBOX, msg);
      
+     ClearScreen();
+     TextOut(0, LCD_LINE1, "Destination");
+     TextOut(2, LCD_LINE2, "reached");
+}//end function IAmThere
+
+string WhereAmI() {
+     string msg = NumToStr(OUTGOING_WHERE_AM_I);
+     SendMessage(OUTBOX, msg);
+
      string in = "";
-     string cmd = "";
+     int cmd;
+     string pos = "";
      
      while(true) {
          ReceiveRemoteString(INBOX, true, in);
          if (StrLen(in) > 0) {
-            cmd = SubStr(in, 0, 1);
+            cmd = StrToNum(SubStr(in, 0, 1));
             if (cmd == OUTGOING_WHERE_AM_I) {
-               return SubStr(in, 1, StrLen(in)-1);
+               pos = SubStr(in, 1, StrLen(in)-1);
+               ClearScreen();
+               TextOut(0, LCD_LINE1, "I am at:");
+               TextOut(2, LCD_LINE2, pos);
+               return pos;
             }
          }
-     }
-}
+     }//end while true
+}//end function WhereAmI
 
 task main(){
      // Don't forget this!
@@ -42,6 +51,19 @@ task main(){
      string cmd = "";
      string args = "";
      byte cmdType;
+
+     // purge mailboxes to make sure, in case something is left over,
+     // I don't know...
+     in = "...";
+     while(StrLen(in) > 0) {
+         ReceiveRemoteString(INBOX, true, in);
+     }//end while
+     in = "...";
+     while(StrLen(in) > 0) {
+         ReceiveRemoteString(OUTBOX, true, in);
+     }//end while
+
+     in = "";
      
      while(true){
           ReceiveRemoteString(INBOX, true, in);
@@ -53,13 +75,15 @@ task main(){
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
-                 TextOut(0, LCD_LINE1, args);
+                 ClearScreen();
+                 TextOut(0, LCD_LINE1, "Going to:");
+                 TextOut(2, LCD_LINE2, args);
                  break;
-             }
+             }//end switch cmdtype
              
              in = "";
              args = "";
-          }
+          }//end if strlen in
           
           if (ButtonPressed(BTNCENTER, false)) {
             // release all motors
@@ -78,6 +102,6 @@ task main(){
             TextOut(2,LCD_LINE8, "Restart program!  ", false);
             Wait(2500);
             StopAllTasks();
-        }
-     }
-}
+          }//end if buttenpressed
+     }//end while true
+}//end task main

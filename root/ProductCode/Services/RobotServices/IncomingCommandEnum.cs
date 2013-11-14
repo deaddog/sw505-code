@@ -8,7 +8,7 @@ namespace Services.RobotServices
 {
     public enum IncomingCommand
     {
-        RobotRequestsLocation = 'a',
-        RobotHasArrivedAtDestination = 'b'
+        RobotRequestsLocation = 0,
+        RobotHasArrivedAtDestination = 1
     }
 }

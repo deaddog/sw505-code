@@ -10,7 +10,7 @@ namespace SystemInterface.ConsoleUI
         static void Main(string[] args)
         {
             NavigationControl nav = new NavigationControl();
-            nav.TellRobotNavigateTo("");
+            nav.TellRobotNavigateTo("LOLHAPS");
             Console.ReadKey();
             //AndersEksempelPaaBrugAfDesignOgLag();
         }

@@ -183,7 +183,7 @@ namespace ServicesTest
 
             //Act
             rob.MoveToPosition(bogusPosition);
-            result = MessageBox.Show("Did the display show the message \"BogusPosition\"", "Test Result", MessageBoxButtons.YesNo);
+            result = MessageBox.Show("Did the display show the message \"BogusPosition\" ?", "Test Result", MessageBoxButtons.YesNo);
 
             //Assert
             Assert.IsTrue(result == DialogResult.Yes);
