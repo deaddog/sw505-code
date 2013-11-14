@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace TrackColorForm
+namespace Services.TrackingServices
 {
     public class ColorTracker
     {

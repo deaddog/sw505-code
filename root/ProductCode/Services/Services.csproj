@@ -58,9 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpenCV\ColorTracking.cs" />
-    <Compile Include="OpenCV\FindCountour.cs" />
-    <Compile Include="OpenCV\FrameDifferencing.cs" />
+    <Compile Include="TrackingServices\ColorTracker.cs" />
+    <Compile Include="TrackingServices\ColorTracking.cs" />
+    <Compile Include="TrackingServices\FrameDifferencing.cs" />
+    <Compile Include="TrackingServices\OrientationTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RobotServices\IRobot.cs" />
     <Compile Include="RobotServices\Mindsqualls\MSQRobot.cs" />
