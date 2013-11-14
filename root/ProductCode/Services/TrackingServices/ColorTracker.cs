@@ -50,7 +50,7 @@ namespace Services.TrackingServices
             oldBounds.Inflate(BOUNDS_INFLATE, BOUNDS_INFLATE);
             oldBounds.Intersect(new Rectangle(0, 0, bitmap.Width, bitmap.Height));
 
-            Bitmap bmp = ColorTracking.TrackColor(bitmap, oldBounds, targetColor, threshold);
+            Bitmap bmp = trackColor(bitmap, oldBounds, targetColor, threshold);
             filterNoise(bmp);
             Point p = findBrightestPixel(bmp);
 
@@ -60,11 +60,11 @@ namespace Services.TrackingServices
             if (dist < 50)
                 targetColor = newTarget;
 
-            Rectangle newBounds = ColorTracking.FindBounds(bmp);
+            Rectangle newBounds = findBounds(bmp);
             bounds = new Rectangle(oldBounds.X + newBounds.X, oldBounds.Y + newBounds.Y, newBounds.Width, newBounds.Height);
 
             PointF newPoint;
-            if (FindCenter(bounds, out newPoint))
+            if (findCenter(bounds, out newPoint))
                 center = (Vector2D)newPoint;
             else
             {
@@ -73,6 +73,62 @@ namespace Services.TrackingServices
             }
 
             bmp.Dispose();
+        }
+
+        unsafe private static Bitmap trackColor(Bitmap src, Rectangle clippingRectangle, Color track, float threshold)
+        {
+            if (src.PixelFormat != PixelFormat.Format24bppRgb && src.PixelFormat != PixelFormat.Format32bppRgb && src.PixelFormat != PixelFormat.Format32bppArgb)
+                throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
+
+            Bitmap output = new Bitmap(clippingRectangle.Width, clippingRectangle.Height, PixelFormat.Format8bppIndexed);
+
+            ColorPalette pal = output.Palette;
+
+            for (int i = 0; i < pal.Entries.Length; i++)
+                pal.Entries[i] = Color.FromArgb(i, i, i);
+
+            output.Palette = pal;
+
+            BitmapData bdSrc = src.LockBits(clippingRectangle, ImageLockMode.ReadOnly, src.PixelFormat);
+            BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, clippingRectangle.Width, clippingRectangle.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+
+            int PixelSize = src.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 4;
+            for (int i = 0; i < bdSrc.Height; i++)
+            {
+                byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
+                byte* rowOutput = (byte*)bdOutput.Scan0 + i * bdOutput.Stride;
+
+                for (int j = 0; j < bdSrc.Width; j++)
+                {
+                    float weight = getPixelWeight(row + j * PixelSize, track, threshold);
+                    if (weight > 1) weight = 1;
+                    if (weight < 0) weight = 0;
+                    byte c = (byte)(weight * 255);
+
+                    rowOutput[j] = c;
+                }
+            }
+            src.UnlockBits(bdSrc);
+            output.UnlockBits(bdOutput);
+
+            return output;
+        }
+        unsafe private static float getPixelWeight(byte* ptr, Color track, float threshold)
+        {
+            float r = ptr[2] - track.R;
+            float g = ptr[1] - track.G;
+            float b = ptr[0] - track.B;
+
+            float v = (float)Math.Sqrt(r * r + g * g + b * b);
+
+            float upperMax = 16581375f;
+            upperMax = threshold;
+
+            if (v > upperMax)
+                v = upperMax;
+            v /= upperMax;
+
+            return 1 - v;
         }
 
         unsafe private static void filterNoise(Bitmap src)
@@ -131,13 +187,49 @@ namespace Services.TrackingServices
             return set;
         }
 
+        unsafe private static Rectangle findBounds(Bitmap src)
+        {
+            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
 
-        /// <summary>
-        /// Finds the brightest pixel in a bitmap.
-        /// </summary>
-        /// <param name="src">The source bitmap.</param>
-        /// <returns>The point that had the brightest value in the bitmap.</returns>
-        unsafe static Point findBrightestPixel(Bitmap src)
+            int x = int.MaxValue, y = int.MaxValue, x2 = int.MinValue, y2 = int.MinValue;
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            for (int i = 0; i < bdSrc.Height; i++)
+            {
+                byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
+
+                for (int j = 0; j < bdSrc.Width; j++)
+                    if (row[j] > 0)
+                    {
+                        if (j < x) x = j;
+                        if (i < y) y = i;
+                        if (j > x2) x2 = j;
+                        if (i > y2) y2 = i;
+                    }
+            }
+            src.UnlockBits(bdSrc);
+
+            if (x == int.MaxValue || y == int.MaxValue || x2 == int.MinValue || y2 == int.MinValue)
+                return Rectangle.Empty;
+            else
+                return Rectangle.FromLTRB(x, y, x2, y2);
+        }
+        private static bool findCenter(Rectangle bounds, out PointF center)
+        {
+            if (bounds.Width == 0 || bounds.Height == 0)
+            {
+                center = PointF.Empty;
+                return false;
+            }
+            else
+            {
+                center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
+                return true;
+            }
+        }
+
+        unsafe private static Point findBrightestPixel(Bitmap src)
         {
             if (src.PixelFormat != PixelFormat.Format8bppIndexed)
                 throw new ArgumentException("Bitmap must be 8bpp greyscale.");
@@ -164,22 +256,7 @@ namespace Services.TrackingServices
 
             return p;
         }
-
-        private static bool FindCenter(Rectangle bounds, out PointF center)
-        {
-            if (bounds.Width == 0 || bounds.Height == 0)
-            {
-                center = PointF.Empty;
-                return false;
-            }
-            else
-            {
-                center = new PointF(bounds.X + bounds.Width / 2f, bounds.Y + bounds.Height / 2f);
-                return true;
-            }
-        }
-
-        private double distance(Color c1, Color c2)
+        private static double distance(Color c1, Color c2)
         {
             double r = c1.R - c2.R;
             double g = c1.G - c2.G;
