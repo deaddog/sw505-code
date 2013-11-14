@@ -52,7 +52,7 @@ namespace Services.TrackingServices
 
             Bitmap bmp = ColorTracking.TrackColor(bitmap, oldBounds, targetColor, threshold);
             filterNoise(bmp);
-            Point p = ColorTracking.FindStrongestPoint(bmp);
+            Point p = findBrightestPixel(bmp);
 
             Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
 
@@ -75,7 +75,7 @@ namespace Services.TrackingServices
             bmp.Dispose();
         }
 
-        private unsafe static void filterNoise(Bitmap src)
+        unsafe private static void filterNoise(Bitmap src)
         {
             if (src.PixelFormat != PixelFormat.Format8bppIndexed)
                 throw new ArgumentException("Bitmap must be 8bpp greyscale.");
@@ -106,7 +106,6 @@ namespace Services.TrackingServices
             }
             src.UnlockBits(bdSrc);
         }
-
         unsafe private static int countSet(int height, int width, int stride, int y, int x, byte* ptr)
         {
             int set = 0;
@@ -132,6 +131,39 @@ namespace Services.TrackingServices
             return set;
         }
 
+
+        /// <summary>
+        /// Finds the brightest pixel in a bitmap.
+        /// </summary>
+        /// <param name="src">The source bitmap.</param>
+        /// <returns>The point that had the brightest value in the bitmap.</returns>
+        unsafe static Point findBrightestPixel(Bitmap src)
+        {
+            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
+
+            int max = -1;
+            Point p = new Point(-1, -1);
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int stride = bdSrc.Stride;
+            for (int y = 0; y < bdSrc.Height; y++)
+            {
+                byte* row = (byte*)bdSrc.Scan0 + y * stride;
+                for (int x = 0; x < bdSrc.Width; x++)
+                {
+                    byte val = (row + x)[0];
+                    if (val > max)
+                    {
+                        max = val;
+                        p = new Point(x, y);
+                    }
+                }
+            }
+            src.UnlockBits(bdSrc);
+
+            return p;
+        }
 
         private static bool FindCenter(Rectangle bounds, out PointF center)
         {
