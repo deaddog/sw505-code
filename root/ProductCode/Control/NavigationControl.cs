@@ -19,9 +19,9 @@ namespace Control
             robot = factory.CreateRobot();
         }
 
-        public void TellRobotNavigateTo()
+        public void TellRobotNavigateTo(string location)
         {
-            robot.MoveToPosition("");
+            robot.MoveToPosition(location);
         }
     }
 }

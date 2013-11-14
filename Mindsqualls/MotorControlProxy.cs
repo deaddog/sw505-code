@@ -189,7 +189,7 @@
 
         #region Helper utilities for MotorControl
 
-        private static string MotorControlFile = "MotorControl22.rxe";
+        private static string MotorControlFile = "MainTask.rxe";
 
         /// <summary>
         /// <para>Queries if the MotorControl-program is on the NXT</para>

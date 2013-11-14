@@ -8,6 +8,6 @@ namespace Services.RobotServices
 {
     public enum OutgoingCommand
     {
-        MoveToPos = 6
+        MoveToPos = 0
     }
 }
