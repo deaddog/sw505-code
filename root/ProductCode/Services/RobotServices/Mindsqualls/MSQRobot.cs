@@ -11,7 +11,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 8;
+        private const byte SERIAL_PORT_NUMBER = 6;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -51,6 +51,8 @@ namespace Services.RobotServices.Mindsqualls
         private McNxtMotor leftDriveMotor;
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
+
+        private bool stopMailcheckerThread = false;
 
         #region cTor Chain
 
@@ -165,13 +167,20 @@ namespace Services.RobotServices.Mindsqualls
             return new SensorDataDTO(dataA, dataB);
         }
 
+        /// <summary>
+        /// Sends command to robot, telling it to go to <paramref name="position"/>
+        /// Also starts thread, checking for replies
+        /// </summary>
+        /// <param name="position"></param>
         public void MoveToPosition(string position)
         {
             InitializeRobot(true);
 
+            //Sends command to robot with the position param
             string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
+            //Thread being run, checking inbox every 10 ms
             Thread mailChecker = new Thread(CheckIncoming);
             mailChecker.Start();
 
@@ -180,15 +189,20 @@ namespace Services.RobotServices.Mindsqualls
 
         private void CheckIncoming()
         {
-            InitializeRobot(true);
-
-            while (true)
+            //Keeps checking until stopMailcheckerThread is deemed false
+            //   which only happens when robot sends back command RobotHasArrivedAtDestination
+            while (!stopMailcheckerThread)
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(10);
+                    Thread.Sleep(10);
 
+                    //Checking the mailbox, if empty, exception is ignored and loop is reset
                     string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+
+                    //Attempt to parse the incoming command as the IncomingCommand enum
+                    //  if failed, simple reset the loop via ArgumentException
+                    //  if all is well, do switch on the command and do the corresponding action
                     IncomingCommand cmd = (IncomingCommand)Enum.Parse(typeof(IncomingCommand), reply[0].ToString());
                     switch (cmd)
                     {
@@ -196,11 +210,15 @@ namespace Services.RobotServices.Mindsqualls
                             SendRobotItsLocation();
                             break;
                         case IncomingCommand.RobotHasArrivedAtDestination:
-                            DoSomethingWhenRobotHasArrived();
+                            stopMailcheckerThread = true;
                             break;
                         default:
                             continue;
                     }
+                }
+                catch (ArgumentException ex)
+                {
+                    continue;
                 }
                 catch (NxtCommunicationProtocolException ex)
                 {
@@ -212,13 +230,8 @@ namespace Services.RobotServices.Mindsqualls
         private void SendRobotItsLocation()
         {
             string location = "";
-            string message = String.Format("{0}{1}", IncomingCommand.RobotRequestsLocation, location);
+            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, location);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
-        }
-
-        private void DoSomethingWhenRobotHasArrived()
-        {
-            throw new NotImplementedException();
         }
 
         private uint ConvertMMToMotorDegrees(float distance)
