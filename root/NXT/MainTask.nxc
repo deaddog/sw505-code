@@ -35,6 +35,14 @@ string WhereAmI() {
 }
 
 task main(){
+
+InitSpeedFromPosLUT();
+
+ RunBackward(100,200);
+ TurnLeft(100,180);
+ RunForward(100,200);
+ TurnRight(100,180);
+ 
      string in = "";
      string cmd = "";
      byte cmdType;
