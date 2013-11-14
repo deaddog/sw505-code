@@ -70,6 +70,23 @@ namespace CommonLib.DTOs
             return new Vector2D(v1.x / scale, v1.y / scale);
         }
 
+        public static explicit operator System.Drawing.PointF(Vector2D vector)
+        {
+            return new System.Drawing.PointF(vector.x, vector.y);
+        }
+        public static explicit operator System.Drawing.SizeF(Vector2D vector)
+        {
+            return new System.Drawing.SizeF(vector.x, vector.y);
+        }
+        public static explicit operator Vector2D(System.Drawing.PointF point)
+        {
+            return new Vector2D(point.X, point.Y);
+        }
+        public static explicit operator Vector2D(System.Drawing.SizeF size)
+        {
+            return new Vector2D(size.Width, size.Height);
+        }
+
         /// <summary>
         /// Normalizes this <see cref="Vector2D"/>.
         /// </summary>
