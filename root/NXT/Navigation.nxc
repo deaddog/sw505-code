@@ -1,119 +1,31 @@
-bool taskArunning;
-bool taskBrunning;
-bool taskCrunning;
-
-struct typRunMotorParams {
-    int  power;
-    long tacholimit;
-    bool speedreg;
-    bool holdbrake;
-    bool smoothstart;
-    int turnratio;
-};
-
-byte SyncPorts;
-
-typRunMotorParams motorParamsA;
-typRunMotorParams motorParamsB;
-typRunMotorParams motorParamsC;
-typRunMotorParams motorParamsSync;
-
 #include "MCTasks.nxc"
 #include "Convert.nxc"
 
+#define debug
 
-sub Run(int port, int power, float angle){
-// process...
-
-bool speedreg = true;
-bool holdbrake = false;
-bool smoothstart = true;
-				
-				
-
-if(power > 100) {
-	power = -(power - 100);
-}//end if
-
-if (port == 0) { // OUT_A
-
-	motorParamsA.power = power;
-	motorParamsA.tacholimit = angle;
-	motorParamsA.speedreg = speedreg;
-	motorParamsA.holdbrake = holdbrake;
-	motorParamsA.smoothstart = smoothstart;
-
-	if (taskArunning == false) {
-		start MoveA;
-	} else {
-		TaskBusySignal();
-	} // end if
-
-} else if (port == 1) { // OUT_B
-
-	motorParamsB.power = power;
-	motorParamsB.tacholimit = angle;
-	motorParamsB.speedreg = speedreg;
-	motorParamsB.holdbrake = holdbrake;
-	motorParamsB.smoothstart = smoothstart;
-
-	if (taskBrunning == false) {
-		start MoveB;
-	} else {
-		TaskBusySignal();
-	} // end if
-
-} else if (port == 2) { // OUT_C
-
-	motorParamsC.power = power;
-	motorParamsC.tacholimit = angle;
-	motorParamsC.speedreg = speedreg;
-	motorParamsC.holdbrake = holdbrake;
-	motorParamsC.smoothstart = smoothstart;
-
-	if (taskCrunning == false) {
-		start MoveC;
-	} else {
-	   TaskBusySignal();
-	}// end if
-
-} else { // Otherwise (OUT_AB, OUT_AC, OUT_BC, OUT_ABC?)
-
-	SyncPorts = port;
-
-	motorParamsSync.power = power;
-	motorParamsSync.tacholimit = angle;
-	motorParamsSync.turnratio = 0; //turnratio;
-	motorParamsSync.speedreg = false; //always for sync!
-	motorParamsSync.holdbrake = holdbrake;
-	motorParamsSync.smoothstart = smoothstart;
-
-	// this doesn't look elegant at all, but it works.
-	if (  ((port == 3) && (taskArunning == false) && (taskBrunning == false))
-	   || ((port == 4) && (taskArunning == false) && (taskCrunning == false))
-	   || ((port == 5) && (taskBrunning == false) && (taskCrunning == false)) )  {
-		start MoveSync;
-	} else {
-	   TaskBusySignal();
-	}//end if
-
- }//end if
+// Waits for the motors to be ready
+inline void WaitForMotors()
+{
+ while(!IsMotorReady(0) || !IsMotorReady(1) || !IsMotorReady(3))
+ {
+ }
 }
 
-
-        
+// Drives the robot forward the specified distance in MM with the specified power (-100 to 100)
 sub RunForward( int power, float distance)
 {
  float degrees = ConvertMMToMotorDegrees(distance);
  Run(3, -power, degrees);
 }
 
+// Drives the robot backward the specified distance in MM with the specified power (-100 to 100)
 sub RunBackward( int power, float distance)
 {
  float degrees = ConvertMMToMotorDegrees(distance);
  Run(3, power, degrees);
 }
 
+// Turns the robot the specified number of degrees counterclockwise with the specified power
 sub TurnLeft(int power, float angle)
 {
  float distance = AngleToDistance(angle);
@@ -122,6 +34,7 @@ sub TurnLeft(int power, float angle)
  Run(1,-power,degrees);
 }
 
+// Turns the robot the specified number of degrees clockwise with the specified power
 sub TurnRight(int power, float angle)
 {
  float distance = AngleToDistance(angle);
@@ -130,21 +43,21 @@ sub TurnRight(int power, float angle)
  Run(0,-power,degrees);
 }
 
+
+//Main function that tests all functions in this file
+//#ifdef debug
 task main()
 {
  // Don't forget this!
  InitSpeedFromPosLUT();
 
- RunForward(100,200);
- WaitForMotors();
  RunBackward(100,200);
  WaitForMotors();
  TurnLeft(100,180);
- TextOut(0,LCD_LINE2, NumToStr("F"));
  WaitForMotors();
- TextOut(0,LCD_LINE2, NumToStr("E"));
  RunForward(100,200);
-Wait(1000);
+ WaitForMotors();
+ TurnRight(100,180);
  //Run(2,100,150);
 }
-
+//#endif

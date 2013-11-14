@@ -1,21 +1,20 @@
+//These functions are used for converting a distance in MM to a number of degrees to turn the motor
+
 float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16;
 float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40;
-
-#define MOTOR_RATIO NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR
-
-
 float WHEEL_RADIUS_IN_MM = 28;
 float WHEEL_AXEL_LENGTH_IN_MM =162;
-
 int DEGREES_IN_CICLE =360;
+#define MOTOR_RATIO NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR
 
-//fix at disse ikke er konstanter
-
+//Converts a number of degrees to the corresponding number of degrees on the motor
+//with the gearing taken into account
 inline float ConvertActualDegreesToMotorDegrees(int degreesToTurn, float gearRatio)
 {
  return (degreesToTurn * gearRatio);
 }
 
+//Converts the specified number of MM to a number of degrees to turn the motor
 inline float ConvertMMToMotorDegrees(float distance)
 {
  float motordegrees = ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_RATIO);
@@ -26,6 +25,7 @@ inline float ConvertMMToMotorDegrees(float distance)
  return degrees;
 }
 
+//Converts the specified angle to a distance drive the motor
 inline float AngleToDistance(float angle)
 {
  return ((WHEEL_AXEL_LENGTH_IN_MM * PI) / DEGREES_IN_CICLE) * angle;

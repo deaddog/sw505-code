@@ -1,4 +1,28 @@
+//These tasks and functions are taken from the MotorControl22.nxe program.
+//The Run function is extracted from the switch in the main method of MotorControl22.nxe
+//and encapsulated for use in our program
+
 #include "Controller.nxc"
+
+bool taskArunning;
+bool taskBrunning;
+bool taskCrunning;
+
+struct typRunMotorParams {
+    int  power;
+    long tacholimit;
+    bool speedreg;
+    bool holdbrake;
+    bool smoothstart;
+    int turnratio;
+};
+
+byte SyncPorts;
+
+typRunMotorParams motorParamsA;
+typRunMotorParams motorParamsB;
+typRunMotorParams motorParamsC;
+typRunMotorParams motorParamsSync;
 
 safecall void TaskBusySignal() {
     PlayTone(2000, 50);
@@ -59,6 +83,7 @@ task MoveB() {
             MotorOff(OUT_B);
         }//end if
     }
+    taskBrunning = false;
 }
 
 
@@ -156,9 +181,6 @@ task MoveSync() {
     #endif
 }//MoveSync
 
-
-
-
 inline bool IsMotorReady(const byte &port) {
 
     // check output state info, this is simple
@@ -181,14 +203,78 @@ inline bool IsMotorReady(const byte &port) {
 
 }//end function
 
-inline void WaitForMotors()
-{
-int count = 0;
- while(!IsMotorReady(0) || !IsMotorReady(1) || !IsMotorReady(3))
- {
-  count++;
- }
- PlaySound(SOUND_UP);
+sub Run(int port, int power, float angle){
+// process...
+
+bool speedreg = true;
+bool holdbrake = false;
+bool smoothstart = true;
+
+if(power > 100) {
+	power = -(power - 100);
+}//end if
+
+if (port == 0) { // OUT_A
+
+	motorParamsA.power = power;
+	motorParamsA.tacholimit = angle;
+	motorParamsA.speedreg = speedreg;
+	motorParamsA.holdbrake = holdbrake;
+	motorParamsA.smoothstart = smoothstart;
+
+	if (taskArunning == false) {
+		start MoveA;
+	} else {
+		TaskBusySignal();
+	} // end if
+
+} else if (port == 1) { // OUT_B
+
+	motorParamsB.power = power;
+	motorParamsB.tacholimit = angle;
+	motorParamsB.speedreg = speedreg;
+	motorParamsB.holdbrake = holdbrake;
+	motorParamsB.smoothstart = smoothstart;
+
+	if (taskBrunning == false) {
+		start MoveB;
+	} else {
+		TaskBusySignal();
+	} // end if
+
+} else if (port == 2) { // OUT_C
+
+	motorParamsC.power = power;
+	motorParamsC.tacholimit = angle;
+	motorParamsC.speedreg = speedreg;
+	motorParamsC.holdbrake = holdbrake;
+	motorParamsC.smoothstart = smoothstart;
+
+	if (taskCrunning == false) {
+		start MoveC;
+	} else {
+	   TaskBusySignal();
+	}// end if
+
+} else { // Otherwise (OUT_AB, OUT_AC, OUT_BC, OUT_ABC?)
+
+	SyncPorts = port;
+
+	motorParamsSync.power = power;
+	motorParamsSync.tacholimit = angle;
+	motorParamsSync.turnratio = 0; //turnratio;
+	motorParamsSync.speedreg = false; //always for sync!
+	motorParamsSync.holdbrake = holdbrake;
+	motorParamsSync.smoothstart = smoothstart;
+
+	// this doesn't look elegant at all, but it works.
+	if (  ((port == 3) && (taskArunning == false) && (taskBrunning == false))
+	   || ((port == 4) && (taskArunning == false) && (taskCrunning == false))
+	   || ((port == 5) && (taskBrunning == false) && (taskCrunning == false)) )  {
+		start MoveSync;
+	} else {
+	   TaskBusySignal();
+	}//end if
+
+ }//end if
 }
-
-
