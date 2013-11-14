@@ -52,6 +52,8 @@ namespace Services.RobotServices.Mindsqualls
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
 
+        private bool stopMailcheckerThread = false;
+
         #region cTor Chain
 
         public MSQRobot() : this(SERIAL_PORT_NUMBER, SENSOR_POLL_INTERVAL) { }
@@ -182,7 +184,7 @@ namespace Services.RobotServices.Mindsqualls
         {
             InitializeRobot(true);
 
-            while (true)
+            while (!stopMailcheckerThread)
             {
                 try
                 {
@@ -196,11 +198,15 @@ namespace Services.RobotServices.Mindsqualls
                             SendRobotItsLocation();
                             break;
                         case IncomingCommand.RobotHasArrivedAtDestination:
-                            DoSomethingWhenRobotHasArrived();
+                            stopMailcheckerThread = true;
                             break;
                         default:
                             continue;
                     }
+                }
+                catch (ArgumentException ex)
+                {
+                    continue;
                 }
                 catch (NxtCommunicationProtocolException ex)
                 {
@@ -214,11 +220,6 @@ namespace Services.RobotServices.Mindsqualls
             string location = "";
             string message = String.Format("{0}{1}", IncomingCommand.RobotRequestsLocation, location);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
-        }
-
-        private void DoSomethingWhenRobotHasArrived()
-        {
-            throw new NotImplementedException();
         }
 
         private uint ConvertMMToMotorDegrees(float distance)
