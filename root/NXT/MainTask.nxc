@@ -39,8 +39,6 @@ task main(){
      string cmd = "";
      byte cmdType;
      
-     IAmThere();
-     
      while(true){
           ReceiveRemoteString(INBOX, true, in);
           if (StrLen(in) > 0){
