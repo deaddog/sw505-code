@@ -1,8 +1,6 @@
 #include "MCTasks.nxc"
 #include "Convert.nxc"
 
-#define debug
-
 // Waits for the motors to be ready
 inline void WaitForMotors()
 {
@@ -45,7 +43,7 @@ sub TurnRight(int power, float angle)
 
 
 //Main function that tests all functions in this file
-//#ifdef debug
+#ifdef debug
 task main()
 {
  // Don't forget this!
@@ -60,4 +58,4 @@ task main()
  TurnRight(100,180);
  //Run(2,100,150);
 }
-//#endif
+#endif

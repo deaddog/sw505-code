@@ -18,9 +18,9 @@ namespace Control
             robot = factory.CreateRobot();
         }
 
-        public string TestMailChecker()
+        public string TestRobotHasArrived()
         {
-            return robot.CheckIncoming(IncomingCommand.RobotRequestsLocation);
+            return robot.CheckIncoming(IncomingCommand.RobotHasArrivedAtDestination);
         }
     }
 }
