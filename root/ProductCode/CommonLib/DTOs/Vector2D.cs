@@ -27,11 +27,15 @@ namespace CommonLib.DTOs
         {
             return new Vector2D(v1.x * scale, v1.y * scale);
         }
+        public static Vector2D operator /(Vector2D v1, float scale)
+        {
+            return new Vector2D(v1.x / scale, v1.y / scale);
+        }
 
         public Vector2D Normalize()
         {
             double len = Math.Sqrt(x * x + y * y);
-            return new Vector2D((float)(x / len), (float)(y / len));
+            return this / (float)len;
         }
     }
 }
