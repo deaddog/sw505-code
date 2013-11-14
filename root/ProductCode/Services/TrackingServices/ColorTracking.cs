@@ -69,61 +69,6 @@ namespace Services.TrackingServices
             return output;
         }
 
-        public static void Filter(Bitmap src)
-        {
-            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
-                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
-
-            List<Point> clearPoints = new List<Point>();
-
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
-            int stride = bdSrc.Stride;
-            unsafe
-            {
-            start:
-                for (int y = 0; y < bdSrc.Height; y++)
-                {
-                    byte* row = (byte*)bdSrc.Scan0 + y * stride;
-                    for (int x = 0; x < bdSrc.Width; x++)
-                    {
-                        byte* ptr = row + x;
-                        if (ptr[0] > 0)
-                        {
-                            int set = 0;
-                            if (x > 0)
-                            {
-                                if (y > 0 && ptr[-1 - stride] > 0) set++;
-                                if (ptr[-1] > 0) set++;
-                                if (y < bdSrc.Height - 1 && ptr[-1 + stride] > 0) set++;
-                            }
-
-                            if (y > 0 && ptr[-stride] > 0) set++;
-                            //Don't test the center itself
-                            if (y < bdSrc.Height - 1 && ptr[+stride] > 0) set++;
-
-                            if (x < bdSrc.Width - 1)
-                            {
-                                if (y > 0 && ptr[1 - stride] > 0) set++;
-                                if (ptr[1] > 0) set++;
-                                if (y < bdSrc.Height - 1 && ptr[1 + stride] > 0) set++;
-                            }
-
-                            if (set < 4) clearPoints.Add(new Point(x, y));
-                        }
-                    }
-                }
-                if (clearPoints.Count > 0)
-                {
-                    while (clearPoints.Count > 0)
-                    {
-                        ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
-                        clearPoints.RemoveAt(0);
-                    }
-                    goto start;
-                }
-            }
-            src.UnlockBits(bdSrc);
-        }
         public static Point FindStrongestPoint(Bitmap src)
         {
             if (src.PixelFormat != PixelFormat.Format8bppIndexed)

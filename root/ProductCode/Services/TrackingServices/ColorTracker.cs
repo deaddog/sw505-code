@@ -51,7 +51,7 @@ namespace Services.TrackingServices
             oldBounds.Intersect(new Rectangle(0, 0, bitmap.Width, bitmap.Height));
 
             Bitmap bmp = ColorTracking.TrackColor(bitmap, oldBounds, targetColor, threshold);
-            ColorTracking.Filter(bmp);
+            filterNoise(bmp);
             Point p = ColorTracking.FindStrongestPoint(bmp);
 
             Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
@@ -74,6 +74,64 @@ namespace Services.TrackingServices
 
             bmp.Dispose();
         }
+
+        private unsafe static void filterNoise(Bitmap src)
+        {
+            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
+
+            List<Point> clearPoints = new List<Point>();
+
+            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            int stride = bdSrc.Stride;
+        start:
+            for (int y = 0; y < bdSrc.Height; y++)
+            {
+                byte* row = (byte*)bdSrc.Scan0 + y * stride;
+                for (int x = 0; x < bdSrc.Width; x++)
+                {
+                    byte* ptr = row + x;
+                    if (ptr[0] > 0 && countSet(bdSrc.Height, bdSrc.Width, stride, y, x, ptr) < 4)
+                        clearPoints.Add(new Point(x, y));
+                }
+            }
+            if (clearPoints.Count > 0)
+            {
+                while (clearPoints.Count > 0)
+                {
+                    ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
+                    clearPoints.RemoveAt(0);
+                }
+                goto start;
+            }
+            src.UnlockBits(bdSrc);
+        }
+
+        unsafe private static int countSet(int height, int width, int stride, int y, int x, byte* ptr)
+        {
+            int set = 0;
+
+            if (x > 0)
+            {
+                if (y > 0 && ptr[-1 - stride] > 0) set++;
+                if (ptr[-1] > 0) set++;
+                if (y < height - 1 && ptr[-1 + stride] > 0) set++;
+            }
+
+            if (y > 0 && ptr[-stride] > 0) set++;
+            //Don't test the center itself
+            if (y < height - 1 && ptr[+stride] > 0) set++;
+
+            if (x < width - 1)
+            {
+                if (y > 0 && ptr[1 - stride] > 0) set++;
+                if (ptr[1] > 0) set++;
+                if (y < height - 1 && ptr[1 + stride] > 0) set++;
+            }
+
+            return set;
+        }
+
 
         private static bool FindCenter(Rectangle bounds, out PointF center)
         {
