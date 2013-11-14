@@ -43,6 +43,14 @@ namespace CommonLib.DTOs
         }
 
         /// <summary>
+        /// Gets the length of the vector.
+        /// </summary>
+        public float Length
+        {
+            get { return (float)Math.Sqrt(x * x + y * y); }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Vector2D"/> struct.
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
