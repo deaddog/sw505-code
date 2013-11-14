@@ -1,6 +1,4 @@
-﻿//#define TRACKINGTEST
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -12,7 +10,7 @@ namespace Services.TrackingServices
     {
         private const float DEFAULT_THRESHOLD = 50;
         public const int BOUNDS_INFLATE = 5;
-        public const int BOUNDS_MAX = 100000;
+        private const int BOUNDS_MAX = 100000;
 
         private float threshold;
         private Color originalColor;
@@ -28,12 +26,6 @@ namespace Services.TrackingServices
             this.originalColor = this.targetColor = color;
         }
 
-#if TRACKINGTEST
-        public float Threshold
-        {
-            get { return threshold; }
-        }
-#endif
         public Color Color
         {
             get { return targetColor; }
@@ -47,12 +39,10 @@ namespace Services.TrackingServices
         {
             get { return center; }
         }
-#if TRACKINGTEST
         public Rectangle Bounds
         {
             get { return bounds; }
         }
-#endif
 
         public void Track(Bitmap bitmap)
         {
