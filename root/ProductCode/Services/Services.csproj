@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonLib\bin\Debug\CommonLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NKH.MindSqualls">
+      <HintPath>..\..\..\Mindsqualls\bin\Debug\NKH.MindSqualls.dll</HintPath>
     <Reference Include="Emgu.CV">
       <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.CV.dll</HintPath>
     </Reference>
@@ -50,9 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpenCV\ColorTracking.cs" />
-    <Compile Include="OpenCV\FindCountour.cs" />
-    <Compile Include="OpenCV\FrameDifferencing.cs" />
+    <Compile Include="TrackingServices\ColorTracker.cs" />
+    <Compile Include="TrackingServices\OrientationTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RobotServices\IRobot.cs" />
     <Compile Include="RobotServices\IncomingCommandEnum.cs" />
