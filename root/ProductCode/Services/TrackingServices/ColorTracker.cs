@@ -6,6 +6,9 @@ using CommonLib.DTOs;
 
 namespace Services.TrackingServices
 {
+    /// <summary>
+    /// Handles tracking of colors in images
+    /// </summary>
     public class ColorTracker
     {
         private const float DEFAULT_THRESHOLD = 50;
@@ -19,6 +22,10 @@ namespace Services.TrackingServices
         private Rectangle bounds;
         private Vector2D center;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorTracker"/> class.
+        /// </summary>
+        /// <param name="color">The color that should be tracked.</param>
         public ColorTracker(Color color)
         {
             this.bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
@@ -26,6 +33,9 @@ namespace Services.TrackingServices
             this.originalColor = this.targetColor = color;
         }
 
+        /// <summary>
+        /// Gets or sets the color tracked by this <see cref="ColorTracker"/>.
+        /// </summary>
         public Color Color
         {
             get { return targetColor; }
@@ -35,16 +45,26 @@ namespace Services.TrackingServices
                 threshold = DEFAULT_THRESHOLD;
             }
         }
+        /// <summary>
+        /// Gets the last location tracked by this <see cref="ColorTracker"/>.
+        /// </summary>
         public Vector2D Center
         {
             get { return center; }
         }
+        /// <summary>
+        /// Gets the bounding box in which the last point was found when tracking.
+        /// </summary>
         public Rectangle Bounds
         {
             get { return bounds; }
         }
 
-        public void Track(Bitmap bitmap)
+        /// <summary>
+        /// Updates the state of the <see cref="ColorTracker"/> from a bitmap.
+        /// </summary>
+        /// <param name="bitmap">The bitmap from which this <see cref="ColorTracker"/> should update its state.</param>
+        public void Update(Bitmap bitmap)
         {
             Rectangle oldBounds = bounds;
             oldBounds.Inflate(BOUNDS_INFLATE, BOUNDS_INFLATE);
