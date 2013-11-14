@@ -158,5 +158,24 @@ namespace CommonLib.DTOs
             double len = Math.Sqrt(x * x + y * y);
             return this / (float)len;
         }
+
+        /// <summary>
+        /// Gets the angle of the vector (the angle from (0, 1) to this vector).
+        /// </summary>
+        public double Angle
+        {
+            get { return CalculateAngleBetween(new Vector2D(1, 0), this); }
+        }
+
+        /// <summary>
+        /// Calculates the angle between two vectors.
+        /// </summary>
+        /// <param name="v1">The first vector in the calculation.</param>
+        /// <param name="v2">The second vector in the calculation.</param>
+        /// <returns>The angle (in radians) between the two angles.</returns>
+        public static double CalculateAngleBetween(Vector2D v1, Vector2D v2)
+        {
+            return Math.Acos((v1 * v2) / (v1.Length * v2.Length));
+        }
     }
 }
