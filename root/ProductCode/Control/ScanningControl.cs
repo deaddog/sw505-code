@@ -17,12 +17,12 @@ namespace Control
         #region cTor Chain
 
         // Default cTor.
-        public ScanningControl() : this(RobotFactory.getInstance()) { }
+        public ScanningControl() : this(RobotFactory.GetInstance()) { }
 
         // Master cTor.
         public ScanningControl(RobotFactory factory)
         {
-            rob = factory.createRobot();
+            rob = factory.CreateRobot();
             
         }
 

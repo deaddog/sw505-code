@@ -37,6 +37,14 @@
     </Reference>
     <Reference Include="NKH.MindSqualls">
       <HintPath>..\..\..\Mindsqualls\bin\Debug\NKH.MindSqualls.dll</HintPath>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.Util.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,10 +60,21 @@
     <Compile Include="TrackingServices\OrientationTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RobotServices\IRobot.cs" />
+    <Compile Include="RobotServices\IncomingCommandEnum.cs" />
+    <Compile Include="RobotServices\OutgoingCommandEnum.cs" />
     <Compile Include="RobotServices\Mindsqualls\MSQRobot.cs" />
     <Compile Include="RobotServices\RobotFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
+      <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
+      <Name>NKH.MindSqualls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
+      <Project>{e868edd2-1c74-4350-990a-ecf411d44291}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

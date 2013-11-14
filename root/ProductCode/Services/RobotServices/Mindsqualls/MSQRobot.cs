@@ -3,6 +3,7 @@ using NKH.MindSqualls;
 using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
+using System.Threading;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -10,8 +11,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 4;
-        //private const byte SERIAL_PORT_NUMBER = 3;
+        private const byte SERIAL_PORT_NUMBER = 6;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -38,36 +38,39 @@ namespace Services.RobotServices.Mindsqualls
 
         private const sbyte DUMMY_VALUE = 0; // turn ratio not implemented in mindsqualls.
 
-        #endregion 
+        // Used for sending/receiving commands to/from NXT
+        private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
+        private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
+
+        #endregion
 
         private McNxtBrick robot;
         private NxtUltrasonicSensor sensor1;
         private NxtUltrasonicSensor sensor2;
-        private NxtMotor sensorMotor;
+        private McNxtMotor sensorMotor;
         private McNxtMotor leftDriveMotor;
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
+
+        private bool stopMailcheckerThread = false;
 
         #region cTor Chain
 
         public MSQRobot() : this(SERIAL_PORT_NUMBER, SENSOR_POLL_INTERVAL) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new NxtMotor()) { }
+        public MSQRobot(byte serialPort, int sensorPollInterval) : this(serialPort, sensorPollInterval, new McNxtMotor()) { }
 
-        public MSQRobot(byte serialPort, int sensorPollInterval, NxtMotor sensormotor) : 
+        public MSQRobot(byte serialPort, int sensorPollInterval, McNxtMotor sensormotor) :
             this(serialPort, sensorPollInterval, sensormotor, new McNxtMotor(), new McNxtMotor()) { }
 
 
-        public MSQRobot(byte serialPort, int sensorPollInterval, 
-            NxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
+        public MSQRobot(byte serialPort, int sensorPollInterval,
+            McNxtMotor sensormotor, McNxtMotor leftmotor, McNxtMotor rightmotor)
         {
             robot = new McNxtBrick(NxtCommLinkType.Bluetooth, serialPort);
-            
+
             sensor1 = new NxtUltrasonicSensor();
             sensor2 = new NxtUltrasonicSensor();
-
-            sensor1.PollInterval = sensorPollInterval;
-            sensor2.PollInterval = sensorPollInterval;
 
             robot.Sensor1 = sensor1;
             robot.Sensor2 = sensor2;
@@ -83,9 +86,9 @@ namespace Services.RobotServices.Mindsqualls
 
             this.driveMotors = new McNxtMotorSync(leftDriveMotor, rightDriveMotor);
         }
-        
+
         #endregion
-        
+
         public void TurnRobot(uint degrees, bool clockwise)
         {
             sbyte forwardTurnPower = DRIVE_MOTOR_TURN_POWER;
@@ -163,7 +166,74 @@ namespace Services.RobotServices.Mindsqualls
 
             return new SensorDataDTO(dataA, dataB);
         }
-        
+
+        /// <summary>
+        /// Sends command to robot, telling it to go to <paramref name="position"/>
+        /// Also starts thread, checking for replies
+        /// </summary>
+        /// <param name="position"></param>
+        public void MoveToPosition(string position)
+        {
+            InitializeRobot(true);
+
+            //Sends command to robot with the position param
+            string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
+            robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
+
+            //Thread being run, checking inbox every 10 ms
+            Thread mailChecker = new Thread(CheckIncoming);
+            mailChecker.Start();
+
+            //FreeRobot(true);
+        }
+
+        private void CheckIncoming()
+        {
+            //Keeps checking until stopMailcheckerThread is deemed false
+            //   which only happens when robot sends back command RobotHasArrivedAtDestination
+            while (!stopMailcheckerThread)
+            {
+                try
+                {
+                    Thread.Sleep(10);
+
+                    //Checking the mailbox, if empty, exception is ignored and loop is reset
+                    string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+
+                    //Attempt to parse the incoming command as the IncomingCommand enum
+                    //  if failed, simple reset the loop via ArgumentException
+                    //  if all is well, do switch on the command and do the corresponding action
+                    IncomingCommand cmd = (IncomingCommand)Enum.Parse(typeof(IncomingCommand), reply[0].ToString());
+                    switch (cmd)
+                    {
+                        case IncomingCommand.RobotRequestsLocation:
+                            SendRobotItsLocation();
+                            break;
+                        case IncomingCommand.RobotHasArrivedAtDestination:
+                            stopMailcheckerThread = true;
+                            break;
+                        default:
+                            continue;
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    continue;
+                }
+                catch (NxtCommunicationProtocolException ex)
+                {
+                    if (ex.ErrorMessage != NxtErrorMessage.SpecifiedMailboxQueueIsEmpty) throw;
+                }
+            }
+        }
+
+        private void SendRobotItsLocation()
+        {
+            string location = "";
+            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, location);
+            robot.CommLink.MessageWrite(PC_OUTBOX, message);
+        }
+
         private uint ConvertMMToMotorDegrees(float distance)
         {
             float motordegrees = (float)ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_GEAR_RATIO);
@@ -178,13 +248,15 @@ namespace Services.RobotServices.Mindsqualls
         private void InitializeRobot(bool usesMotorControl)
         {
             robot.Connect();
+
             if (usesMotorControl && !robot.IsMotorControlRunning())
             {
                 robot.StartMotorControl();
             }
         }
 
-        private void FreeRobot(bool usesMotorControl) {
+        private void FreeRobot(bool usesMotorControl)
+        {
 
             if (usesMotorControl && robot.IsMotorControlRunning())
             {

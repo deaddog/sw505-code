@@ -10,12 +10,13 @@ namespace Services.RobotServices
     public class RobotFactory
     {
         private static RobotFactory instance;
+        private static MSQRobot robot;
 
         /// <summary>
         /// Singleton Instance Handler.
         /// </summary>
         /// <returns>Singleton Instance of object.</returns>
-        public static RobotFactory getInstance()
+        public static RobotFactory GetInstance()
         {
 
             if (instance == null)
@@ -28,17 +29,17 @@ namespace Services.RobotServices
         /// <summary>
         /// Default cTor.
         /// </summary>
-        public RobotFactory()
+        private RobotFactory()
         {
 
         }
 
 
-        public IRobot createRobot()
+        public IRobot CreateRobot()
         {
-            return new MSQRobot();
+            if (robot == null)
+                return new MSQRobot();
+            else return robot;
         }
-
-
     }
 }

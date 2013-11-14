@@ -9,7 +9,10 @@ namespace SystemInterface.ConsoleUI
     {
         static void Main(string[] args)
         {
-            AndersEksempelPaaBrugAfDesignOgLag();
+            NavigationControl nav = new NavigationControl();
+            nav.TellRobotNavigateTo("LOLHAPS");
+            Console.ReadKey();
+            //AndersEksempelPaaBrugAfDesignOgLag();
         }
 
         private static void AndersEksempelPaaBrugAfDesignOgLag()

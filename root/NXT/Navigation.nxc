@@ -1,0 +1,61 @@
+#include "MCTasks.nxc"
+#include "Convert.nxc"
+
+// Waits for the motors to be ready
+inline void WaitForMotors()
+{
+ while(!IsMotorReady(0) || !IsMotorReady(1) || !IsMotorReady(3))
+ {
+ }
+}
+
+// Drives the robot forward the specified distance in MM with the specified power (-100 to 100)
+sub RunForward( int power, float distance)
+{
+ float degrees = ConvertMMToMotorDegrees(distance);
+ Run(3, -power, degrees);
+}
+
+// Drives the robot backward the specified distance in MM with the specified power (-100 to 100)
+sub RunBackward( int power, float distance)
+{
+ float degrees = ConvertMMToMotorDegrees(distance);
+ Run(3, power, degrees);
+}
+
+// Turns the robot the specified number of degrees counterclockwise with the specified power
+sub TurnLeft(int power, float angle)
+{
+ float distance = AngleToDistance(angle);
+ float degrees =ConvertMMToMotorDegrees(distance);
+ Run(0, power, degrees);
+ Run(1,-power,degrees);
+}
+
+// Turns the robot the specified number of degrees clockwise with the specified power
+sub TurnRight(int power, float angle)
+{
+ float distance = AngleToDistance(angle);
+ float degrees =ConvertMMToMotorDegrees(distance);
+ Run(1, power, degrees);
+ Run(0,-power,degrees);
+}
+
+
+//Main function that tests all functions in this file
+#ifdef debug
+task main()
+{
+ // Don't forget this!
+ InitSpeedFromPosLUT();
+
+ RunBackward(100,200);
+ WaitForMotors();
+ TurnLeft(100,180);
+ WaitForMotors();
+ RunForward(100,200);
+ WaitForMotors();
+ TurnRight(100,180);
+ //Run(2,100,150);
+}
+#endif

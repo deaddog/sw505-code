@@ -9,6 +9,7 @@ namespace Services.RobotServices
         void TurnRobot(uint degrees, bool clockwise);
         void TurnSensor(uint degrees, bool clockwise);
         void Drive(bool forward, uint distanceInMM);
+        void MoveToPosition(string position);
         ISensorData MeasureDistanceUsingSensor();
     }
 }
