@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using CommonLib.DTOs;
 
-namespace Services
+namespace Services.TrackingServices
 {
     public class PointConverter
     {
