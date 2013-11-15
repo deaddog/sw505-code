@@ -65,6 +65,7 @@
     <Compile Include="RobotServices\OutgoingCommandEnum.cs" />
     <Compile Include="RobotServices\Mindsqualls\MSQRobot.cs" />
     <Compile Include="RobotServices\RobotFactory.cs" />
+    <Compile Include="PointConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
