@@ -31,8 +31,8 @@ namespace Services.TrackingServices
             float cameraToActualDist = calcDist(actualSizeX, wideAngleX);
             float cameraToImageDist = calcDist(imageSizeX, wideAngleX);
 
-            float angleX = calcAngle(cameraToImageDist, oldx);
-            float angleY = calcAngle(cameraToImageDist, oldy);
+            float angleX = calcAngle(cameraToImageDist, oldx - (imageSizeX / 2));
+            float angleY = calcAngle(cameraToImageDist, oldy - (imageSizeY / 2));
 
             float x = calcActual(angleX, cameraToActualDist);
             float y = calcActual(angleY, cameraToActualDist);
@@ -46,17 +46,17 @@ namespace Services.TrackingServices
 
         private float calcDist(float sizeX, float wideAngleX)
         {
-            return (sizeX / (float)Math.Sin(degToRad(this.cameraAngleX / 2))) * (float)Math.Sin(degToRad(wideAngleX));
+            return ((sizeX / 2) / (float)Math.Sin(degToRad(this.cameraAngleX / 2))) * (float)Math.Sin(degToRad(wideAngleX));
         }
 
         private float calcAngle(float cameraToImageDist, float pointDim)
         {
-            return (float)Math.Tanh(degToRad(pointDim / cameraToImageDist));
+            return (float)Math.Tanh(pointDim / cameraToImageDist);
         }
 
         private float calcActual(float angle, float cameraToActualDist)
         {
-            return (float)Math.Tanh(degToRad(angle)) * cameraToActualDist;
+            return (float)Math.Tanh(angle) * cameraToActualDist;
         }
 
         private float degToRad(float degrees)
