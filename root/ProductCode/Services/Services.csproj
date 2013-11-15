@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="NKH.MindSqualls">
       <HintPath>..\..\..\Mindsqualls\bin\Debug\NKH.MindSqualls.dll</HintPath>
+    </Reference>
     <Reference Include="Emgu.CV">
       <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.CV.dll</HintPath>
     </Reference>
