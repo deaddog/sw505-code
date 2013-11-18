@@ -178,8 +178,10 @@ namespace Services.RobotServices.Mindsqualls
         {
             InitializeRobot(true);
 
+            string encodedPosition = NXTEncoder.Encode(position);
+
             //Sends command to robot with the position param
-            string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
+            string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, encodedPosition);
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
             //Thread being run, checking inbox every 10 ms

@@ -11,12 +11,20 @@ namespace Services.RobotServices
     {
         public static string Encode(ICoordinate coordinate)
         {
-            return String.Format("{0}{1}", coordinate.X, coordinate.Y);
+            return String.Format("{0}{1}",
+                BitConverter.ToString(BitConverter.GetBytes(coordinate.X)),
+                BitConverter.ToString(BitConverter.GetBytes(coordinate.Y))
+                ).Replace("-", "");
         }
 
         public static string Encode(IPose pose)
         {
-            return String.Format("{0}{1}{2}", pose.X, pose.Y, (float)pose.Angle);
+
+            return String.Format("{0}{1}{2}",
+                BitConverter.ToString(BitConverter.GetBytes(pose.X)),
+                BitConverter.ToString(BitConverter.GetBytes(pose.Y)),
+                BitConverter.ToString(BitConverter.GetBytes((float)pose.Angle))
+                ).Replace("-", ""); ;
         }
     }
 }
