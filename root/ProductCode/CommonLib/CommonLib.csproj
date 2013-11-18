@@ -40,10 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\Coordinate.cs" />
     <Compile Include="DTOs\SensorDataDTO.cs" />
     <Compile Include="DTOs\SensorSweepDTO.cs" />
     <Compile Include="DTOs\Vector2D.cs" />
+    <Compile Include="Interfaces\ICoordinate.cs" />
+    <Compile Include="Interfaces\IPose.cs" />
     <Compile Include="Interfaces\ISensorData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

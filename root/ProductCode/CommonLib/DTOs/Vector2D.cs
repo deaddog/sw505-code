@@ -1,11 +1,12 @@
 ﻿using System;
+using CommonLib.Interfaces;
 
 namespace CommonLib.DTOs
 {
     /// <summary>
     /// Describes a two-dimensional vector
     /// </summary>
-    public struct Vector2D
+    public struct Vector2D : IPose
     {
         private static Vector2D zero = new Vector2D(0, 0);
         private static Vector2D one = new Vector2D(1, 1);

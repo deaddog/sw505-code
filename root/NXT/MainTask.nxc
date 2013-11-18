@@ -11,6 +11,16 @@
 #define INBOX           1
 #define OUTBOX          0
 
+typedef unsigned char uchar;
+
+// memcpy DOES NOT work...
+float stringToFloat(string str)
+{
+    float output;
+    memcpy(output, str, 4);
+    return output;
+}
+
 //Sends command to MSq when current destination has been reached
 void IAmThere() {
      string msg = NumToStr(OUTGOING_I_AM_THERE);
@@ -29,7 +39,6 @@ string WhereAmI() {
      string in = "";
      string cmd = "";
      byte cmdType;
-     string pos = "";
      
      //Checks for reply, when received, it is returned
      while(true) {
@@ -38,11 +47,16 @@ string WhereAmI() {
             cmd = SubStr(in, 0, 1);
             cmdType = StrToNum(cmd);
             if (cmdType == OUTGOING_WHERE_AM_I) {
-               pos = SubStr(in, 1, StrLen(in)-1);
+               string x = SubStr(in, 1, 8);
+               string y = SubStr(in, 9, 16);
+               string angle = SubStr(in, 17, 24);
+               
                ClearScreen();
                TextOut(0, LCD_LINE1, "I am at:");
-               TextOut(2, LCD_LINE2, pos);
-               return pos;
+               TextOut(2, LCD_LINE2, "x: " + x);
+               TextOut(2, LCD_LINE3, "y: " + y);
+               TextOut(2, LCD_LINE4, "angle: " + angle);
+               return SubStr(in, 1, 24);
             }//end if cmdtype
          }//end if strlen in
      }//end while true
@@ -84,9 +98,13 @@ task main(){
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
+                 string x = SubStr(in, 1, 8);
+                 string y = SubStr(in, 9, 16);
+                 
                  ClearScreen();
                  TextOut(0, LCD_LINE1, "Going to:");
-                 TextOut(2, LCD_LINE2, args);
+                 TextOut(2, LCD_LINE2, "x:" + x);
+                 TextOut(2, LCD_LINE3, "y:" + y);
                  break;
              }//end switch cmdtype
              

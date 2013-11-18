@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Services;
 using Services.RobotServices;
+using CommonLib.Interfaces;
 
 namespace Control
 {
@@ -19,7 +20,7 @@ namespace Control
             robot = factory.CreateRobot();
         }
 
-        public void TellRobotNavigateTo(string location)
+        public void TellRobotNavigateTo(ICoordinate location)
         {
             robot.MoveToPosition(location);
         }
