@@ -48,8 +48,8 @@ string WhereAmI() {
             cmdType = StrToNum(cmd);
             if (cmdType == OUTGOING_WHERE_AM_I) {
                string x = SubStr(in, 1, 8);
-               string y = SubStr(in, 9, 16);
-               string angle = SubStr(in, 17, 24);
+               string y = SubStr(in, 9, 8);
+               string angle = SubStr(in, 17, 8);
                
                ClearScreen();
                TextOut(0, LCD_LINE1, "I am at:");
@@ -99,7 +99,7 @@ task main(){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
                  string x = SubStr(in, 1, 8);
-                 string y = SubStr(in, 9, 16);
+                 string y = SubStr(in, 9, 8);
                  
                  ClearScreen();
                  TextOut(0, LCD_LINE1, "Going to:");
