@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RobotServices\NXTEncoder.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
     <Compile Include="TrackingServices\OrientationTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

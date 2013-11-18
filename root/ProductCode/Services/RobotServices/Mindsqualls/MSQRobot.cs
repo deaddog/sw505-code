@@ -52,6 +52,8 @@ namespace Services.RobotServices.Mindsqualls
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
 
+        private IPose currentPose;
+
         private bool stopMailcheckerThread = false;
 
         #region cTor Chain
@@ -172,7 +174,7 @@ namespace Services.RobotServices.Mindsqualls
         /// Also starts thread, checking for replies
         /// </summary>
         /// <param name="position"></param>
-        public void MoveToPosition(string position)
+        public void MoveToPosition(ICoordinate position)
         {
             InitializeRobot(true);
 
@@ -185,6 +187,11 @@ namespace Services.RobotServices.Mindsqualls
             mailChecker.Start();
 
             //FreeRobot(true);
+        }
+
+        public void UpdatePose(IPose pose)
+        {
+            this.currentPose = pose;
         }
 
         private void CheckIncoming()
@@ -207,7 +214,7 @@ namespace Services.RobotServices.Mindsqualls
                     switch (cmd)
                     {
                         case IncomingCommand.RobotRequestsLocation:
-                            SendRobotItsLocation();
+                            SendRobotItsPose(currentPose);
                             break;
                         case IncomingCommand.RobotHasArrivedAtDestination:
                             stopMailcheckerThread = true;
@@ -227,10 +234,12 @@ namespace Services.RobotServices.Mindsqualls
             }
         }
 
-        private void SendRobotItsLocation()
+        private void SendRobotItsPose(IPose pose)
         {
-            string location = "";
-            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, location);
+            if (pose == null)
+                throw new ArgumentNullException("pose", "No pose was ever given to the robot");
+            string encodedPose = NXTEncoder.Encode(pose);
+            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, encodedPose);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
         }
 
