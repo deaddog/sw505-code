@@ -13,6 +13,7 @@ inline void WaitForMotors()
 // Drives the robot forward the specified distance in MM with the specified power (-100 to 100)
 sub RunForward( int power, float distance)
 {
+ WaitForMotors();
  float degrees = ConvertMMToMotorDegrees(distance);
  Run(3, -power, degrees);
 }
@@ -20,6 +21,7 @@ sub RunForward( int power, float distance)
 // Drives the robot backward the specified distance in MM with the specified power (-100 to 100)
 sub RunBackward( int power, float distance)
 {
+ WaitForMotors();
  float degrees = ConvertMMToMotorDegrees(distance);
  Run(3, power, degrees);
 }
@@ -27,6 +29,7 @@ sub RunBackward( int power, float distance)
 // Turns the robot the specified number of degrees counterclockwise with the specified power
 sub TurnLeft(int power, float angle)
 {
+ WaitForMotors();
  float distance = AngleToDistance(angle);
  float degrees =ConvertMMToMotorDegrees(distance);
  Run(0, power, degrees);
@@ -36,18 +39,19 @@ sub TurnLeft(int power, float angle)
 // Turns the robot the specified number of degrees clockwise with the specified power
 sub TurnRight(int power, float angle)
 {
+ WaitForMotors();
  float distance = AngleToDistance(angle);
  float degrees =ConvertMMToMotorDegrees(distance);
  Run(1, power, degrees);
  Run(0,-power,degrees);
 }
 
-inline PolarCoordinate NavigateToPoint(Position robot, Point target)
+inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
 {
  PolarCoordinate c = ConvertCarthesianToPolar(robot.p,target);
  
  float angle = FindAngleToPoint(robot.angle, c.angle);
-
+ TextOut(0,LCD_LINE1,StrCat(NumToStr(c.angle), " ", NumToStr(angle)));
  PolarCoordinate nav;
  nav.length = c.length;
  nav.angle = angle;
@@ -57,16 +61,29 @@ inline PolarCoordinate NavigateToPoint(Position robot, Point target)
 
 void TurnAngle(float angle)
 {
+ TextOut(0,LCD_LINE2,NumToStr(angle));
  if(angle > 0)
   TurnRight(100,angle);
  else
   TurnLeft(100, -angle);
 }
 
+
+Pose WhereDummy()
+{
+  Pose pos;
+  
+  pos.p.x = 0;
+  pos.p.y = 0;
+  pos.angle = 90;
+  
+  return pos;
+}
+
 bool GotoPointIncrement(Point target)
 {
  //Where am i
- Position p;
+ Pose p = WhereDummy();
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);
  
@@ -99,12 +116,30 @@ task main()
  InitSpeedFromPosLUT();
 
  RunBackward(100,200);
- WaitForMotors();
  TurnLeft(100,180);
- WaitForMotors();
  RunForward(100,200);
- WaitForMotors();
  TurnRight(100,180);
  //Run(2,100,150);
 }
 #endif
+
+task main()
+{
+ InitSpeedFromPosLUT();
+ Point p;
+ p.x = -200;
+ p.y = 200;
+ 
+  Point s;
+ s.x = 200;
+ s.y = 200;
+ 
+ Point t;
+ t.x = 0;
+ t.y = 200;
+ 
+ 
+ GotoPoint(p);
+ GotoPoint(s);
+ GotoPoint(t);
+}
