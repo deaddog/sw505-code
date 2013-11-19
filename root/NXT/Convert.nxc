@@ -48,6 +48,7 @@ inline float AngleToDistance(float angle)
  return ((WHEEL_AXEL_LENGTH_IN_MM * PI) / DEGREES_IN_CICLE) * angle;
 }
 
+//Changes the coordinate system to a system with the robot in (0,0)
 inline Point MoveRobotToZero(Point robot, Point target)
 {
  Point p;
@@ -56,6 +57,8 @@ inline Point MoveRobotToZero(Point robot, Point target)
  return p;
 }
 
+//Converts a two points in a carthesian coordinate system to a polar coordinate system
+//with the robot point as the pole
 inline PolarCoordinate ConvertCarthesianToPolar(Point robot, Point target)
 {
  Point p = MoveRobotToZero(robot,target);

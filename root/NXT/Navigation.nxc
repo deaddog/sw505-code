@@ -2,6 +2,8 @@
 #include "Convert.nxc"
 
 #define MOVE_INCREMENT 100
+#define POWER 100
+
 // Waits for the motors to be ready
 inline void WaitForMotors()
 {
@@ -46,12 +48,13 @@ sub TurnRight(int power, float angle)
  Run(0,-power,degrees);
 }
 
+//Calculates the polar coordinate from the robot to the target in a coordinate system
+//with the robot direction as the polar axis.
 inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
 {
  PolarCoordinate c = ConvertCarthesianToPolar(robot.p,target);
  
  float angle = FindAngleToPoint(robot.angle, c.angle);
- TextOut(0,LCD_LINE1,StrCat(NumToStr(c.angle), " ", NumToStr(angle)));
  PolarCoordinate nav;
  nav.length = c.length;
  nav.angle = angle;
@@ -59,13 +62,14 @@ inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
  return nav;
 }
 
+//Turns the robot the specified angle
 void TurnAngle(float angle)
 {
  TextOut(0,LCD_LINE2,NumToStr(angle));
  if(angle > 0)
-  TurnRight(100,angle);
+  TurnRight(POWER,angle);
  else
-  TurnLeft(100, -angle);
+  TurnLeft(POWER, -angle);
 }
 
 
@@ -80,6 +84,8 @@ Pose WhereDummy()
   return pos;
 }
 
+//The robot queries its position and drives a small increment in that direction
+// MOVE_INCEREMENT determines the size of the increment (in mm)
 bool GotoPointIncrement(Point target)
 {
  //Where am i
@@ -89,22 +95,21 @@ bool GotoPointIncrement(Point target)
  
  if(c.length > MOVE_INCREMENT)
  {
-  RunForward(100,MOVE_INCREMENT);
+  RunForward(POWER,MOVE_INCREMENT);
   return false;
  }
  else
  {
-  RunForward(100,c.length);
+  RunForward(POWER,c.length);
   return true;
  }
 }
 
+//Instructs the robot to move to the specified point
 void GotoPoint(Point target)
 {
- bool isThere = false;
- while(!isThere)
+ while(!GotoPointIncrement(target))
  {
-  isThere = GotoPointIncrement(target);
  }
 }
 
@@ -115,14 +120,14 @@ task main()
  // Don't forget this!
  InitSpeedFromPosLUT();
 
- RunBackward(100,200);
- TurnLeft(100,180);
- RunForward(100,200);
- TurnRight(100,180);
- //Run(2,100,150);
+ RunBackward(POWER,200);
+ TurnLeft(POWER,180);
+ RunForward(POWER,200);
+ TurnRight(POWER,180);
 }
 #endif
 
+#ifdef debug2
 task main()
 {
  InitSpeedFromPosLUT();
@@ -143,3 +148,4 @@ task main()
  GotoPoint(s);
  GotoPoint(t);
 }
+#endif
