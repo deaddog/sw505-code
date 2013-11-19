@@ -33,7 +33,7 @@ safecall void TaskBusySignal() {
 
 // tasks
 task MoveA() {
-    //TextOut(0,LCD_LINE6, "Task A started");
+    TextOut(0,LCD_LINE6, "Task A started");
     //Acquire(movingA);
 
     taskArunning = true;
@@ -55,12 +55,12 @@ task MoveA() {
     taskArunning = false;
 
     //Release(movingA);
-    //TextOut(0,LCD_LINE6, "Task A stopped");
+    TextOut(0,LCD_LINE6, "Task A stopped");
 }//MoveA
 
 
 task MoveB() {
-    //TextOut(0,LCD_LINE7, "Task B started");
+    TextOut(0,LCD_LINE7, "Task B started");
     //Acquire(movingB);
 
     taskBrunning = true;
@@ -84,6 +84,7 @@ task MoveB() {
         }//end if
     }
     taskBrunning = false;
+        TextOut(0,LCD_LINE7, "Task B stopped");
 }
 
 
