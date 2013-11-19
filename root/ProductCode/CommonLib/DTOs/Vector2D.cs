@@ -110,7 +110,7 @@ namespace CommonLib.DTOs
         /// <returns>The dot product of the two vectors (x_1 * x_2 + y_1 * y_2)</returns>
         public static float operator *(Vector2D v1, Vector2D v2)
         {
-            return v1.x * v2.x + v1.y + v2.y;
+            return v1.x * v2.x + v1.y * v2.y;
         }
 
         /// <summary>

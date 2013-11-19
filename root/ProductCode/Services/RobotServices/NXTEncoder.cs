@@ -13,23 +13,23 @@ namespace Services.RobotServices
         public static string Encode(ICoordinate coordinate)
         {
             return String.Format("{0}{1}",
-                floatToPaddedString(coordinate.X),
-                floatToPaddedString(coordinate.Y));
+                floatToPaddedString(coordinate.X * 10),
+                floatToPaddedString(coordinate.Y * 10));
         }
 
         public static string Encode(IPose pose)
         {
 
             return String.Format("{0}{1}{2}", 
-                floatToPaddedString(pose.X),
-                floatToPaddedString(pose.Y),
+                floatToPaddedString(pose.X * 10),
+                floatToPaddedString(pose.Y * 10),
                 floatToPaddedString((float)pose.Angle)
                 );
         }
 
         private static string floatToPaddedString(float f)
         {
-            string str = f.ToString("F2", CultureInfo.InvariantCulture);
+            string str = f.ToString("F1", CultureInfo.InvariantCulture);
             bool isNeg = str[0] == '-';
 
             if (isNeg)

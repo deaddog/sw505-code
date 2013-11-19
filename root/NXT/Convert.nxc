@@ -3,20 +3,7 @@
 //  converting a distance in MM to a number of degrees to turn the motor
 //  converting coordinates to polar coordinates for navigating the robot
 
-typedef struct {
-float x;
-float y;
-} Point;
 
-typedef struct{
- Point p;
- float angle;
-} Pose;
-
-typedef struct{
-float length;
-float angle;
-} PolarCoordinate;
 
 
 float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16;
@@ -77,6 +64,5 @@ inline PolarCoordinate ConvertCarthesianToPolar(Point robot, Point target)
 //Calculates the angle for the the robot to to when the robot is at angle robotangle
 inline float FindAngleToPoint(float robotangle, float targetangle)
 {
- TextOut(0,LCD_LINE3,StrCat(NumToStr(robotangle), " ", NumToStr(targetangle)));
  return robotangle - targetangle;
 }

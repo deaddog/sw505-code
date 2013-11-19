@@ -10,7 +10,7 @@ namespace SystemInterface.ConsoleUI
         static void Main(string[] args)
         {
             NavigationControl nav = new NavigationControl();
-            nav.TellRobotNavigateTo(new Vector2D(-3.23f, 210.53f));
+            nav.TellRobotNavigateTo(new Vector2D(50f, 50f));
             //AndersEksempelPaaBrugAfDesignOgLag();
         }
 
