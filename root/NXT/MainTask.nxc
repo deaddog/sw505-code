@@ -47,15 +47,19 @@ string WhereAmI() {
             cmd = SubStr(in, 0, 1);
             cmdType = StrToNum(cmd);
             if (cmdType == OUTGOING_WHERE_AM_I) {
-               string x = SubStr(in, 1, 8);
-               string y = SubStr(in, 9, 8);
-               string angle = SubStr(in, 17, 8);
+               string x = SubStr(in, 1, 7);
+               string y = SubStr(in, 8, 7);
+               string angle = SubStr(in, 15, 7);
+               
+               float fy = StrToNum(x);
+               float fx = StrToNum(y);
+               float fangle = StrToNum(angle);
                
                ClearScreen();
                TextOut(0, LCD_LINE1, "I am at:");
-               TextOut(2, LCD_LINE2, "x: " + x);
-               TextOut(2, LCD_LINE3, "y: " + y);
-               TextOut(2, LCD_LINE4, "angle: " + angle);
+               TextOut(2, LCD_LINE2, "x: " + NumToStr(x));
+               TextOut(2, LCD_LINE3, "y: " + NumToStr(y));
+               TextOut(2, LCD_LINE4, "angle: " + NumToStr(angle));
                return SubStr(in, 1, 24);
             }//end if cmdtype
          }//end if strlen in
@@ -98,13 +102,16 @@ task main(){
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
-                 string x = SubStr(in, 1, 8);
-                 string y = SubStr(in, 9, 8);
+                 string x = SubStr(in, 1, 7);
+                 string y = SubStr(in, 8, 7);
+                 
+                 float fx = StrToNum(x);
+                 float fy = StrToNum(y);
                  
                  ClearScreen();
                  TextOut(0, LCD_LINE1, "Going to:");
-                 TextOut(2, LCD_LINE2, "x:" + x);
-                 TextOut(2, LCD_LINE3, "y:" + y);
+                 TextOut(2, LCD_LINE2, "x:" + NumToStr(fx));
+                 TextOut(2, LCD_LINE3, "y:" + NumToStr(fy));
                  break;
              }//end switch cmdtype
              
