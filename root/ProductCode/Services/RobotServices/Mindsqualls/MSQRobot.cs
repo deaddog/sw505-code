@@ -173,7 +173,7 @@ namespace Services.RobotServices.Mindsqualls
         /// Sends command to robot, telling it to go to <paramref name="position"/>
         /// Also starts thread, checking for replies
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">The position to go to</param>
         public void MoveToPosition(ICoordinate position)
         {
             InitializeRobot(true);
@@ -191,6 +191,11 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
+
+        /// <summary>
+        /// Updates the pose.
+        /// </summary>
+        /// <param name="pose">The pose.</param>
         public void UpdatePose(IPose pose)
         {
             this.currentPose = pose;
