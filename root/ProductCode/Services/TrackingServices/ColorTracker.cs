@@ -77,7 +77,7 @@ namespace Services.TrackingServices
             Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
 
             double dist = distance(originalColor, newTarget);
-            if (dist < 50)
+            if (dist < threshold)
                 targetColor = newTarget;
 
             Rectangle newBounds = findBounds(bmp);
