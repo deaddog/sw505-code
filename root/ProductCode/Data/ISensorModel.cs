@@ -9,6 +9,6 @@ namespace Data
 {
     public interface ISensorModel
     {
-        double GetProbability(ICoordinate robot, ICoordinate cell, ISensorData sensor);
+        double GetProbabilityUltrasonicSensorX(ICoordinate robot, ICoordinate cell, byte sensorX);
     }
 }
