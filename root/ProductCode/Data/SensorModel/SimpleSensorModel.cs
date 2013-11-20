@@ -60,5 +60,10 @@ namespace Data.SensorModel
             else
                 return FREE_CELL_VALUE;
         }
+
+        public double GetProbability(ICoordinate robot, ICoordinate cell, ISensorData sensor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

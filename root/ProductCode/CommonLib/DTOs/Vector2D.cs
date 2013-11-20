@@ -178,7 +178,7 @@ namespace CommonLib.DTOs
         {
             double temp = Math.Acos((v1 * v2) / (v1.Length * v2.Length)) * (180/Math.PI);
             if (v2.Y < 0)
-                return Math.Abs(temp - 360);
+                return -temp;
             else
                 return temp;
         }
