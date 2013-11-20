@@ -225,6 +225,8 @@ namespace Services.RobotServices.Mindsqualls
                             break;
                         case IncomingCommand.RobotHasArrivedAtDestination:
                             stopMailcheckerThread = true;
+                            Console.WriteLine("Destination reached!");
+                            Console.ReadKey();
                             break;
                         default:
                             continue;

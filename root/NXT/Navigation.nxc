@@ -101,6 +101,7 @@ void GotoPoint(Point target)
  {
  isThere = GotoPointIncrement(target);
  }
+ IAmThere();
 }
 
 //Main function that tests all functions in this file

@@ -173,10 +173,14 @@ namespace CommonLib.DTOs
         /// </summary>
         /// <param name="v1">The first vector in the calculation.</param>
         /// <param name="v2">The second vector in the calculation.</param>
-        /// <returns>The angle (in radians) between the two angles.</returns>
+        /// <returns>The angle (in degrees) between the two angles.</returns>
         public static double CalculateAngleBetween(Vector2D v1, Vector2D v2)
         {
-            return Math.Acos((v1 * v2) / (v1.Length * v2.Length));
+            double temp = Math.Acos((v1 * v2) / (v1.Length * v2.Length)) * (180/Math.PI);
+            if (v2.Y < 0)
+                return Math.Abs(temp - 360);
+            else
+                return temp;
         }
     }
 }
