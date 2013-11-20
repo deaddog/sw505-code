@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Services.RobotServices
 {
+    /// <summary>
+    /// Code for outgoing commands
+    /// </summary>
     public enum OutgoingCommand
     {
+        /// <summary>
+        /// Move to position
+        /// </summary>
         MoveToPos = 0
     }
 }
