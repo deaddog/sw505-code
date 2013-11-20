@@ -6,7 +6,7 @@ namespace CommonLib.DTOs
     /// <summary>
     /// Describes a two-dimensional vector
     /// </summary>
-    public struct Vector2D : IPose
+    public struct Vector2D : IPose, IEquatable<Vector2D>
     {
         private static Vector2D zero = new Vector2D(0, 0);
         private static Vector2D one = new Vector2D(1, 1);
@@ -60,6 +60,63 @@ namespace CommonLib.DTOs
         {
             this.x = x;
             this.y = y;
+        }
+
+        /// <summary>
+        /// Compares two vectors using value equality.
+        /// </summary>
+        /// <param name="v1">The first vector.</param>
+        /// <param name="v2">The second vector.</param>
+        /// <returns>true, if the coordinates of the two vectors are equal; otherwise, false.</returns>
+        public static bool operator ==(Vector2D v1, Vector2D v2)
+        {
+            return v1.Equals(v2);
+        }
+        /// <summary>
+        /// Compares two vectors using value inequality.
+        /// </summary>
+        /// <param name="v1">The first vector.</param>
+        /// <param name="v2">The second vector.</param>
+        /// <returns>true, if the coordinates of the two vectors are not equal; otherwise, false.</returns>
+        public static bool operator !=(Vector2D v1, Vector2D v2)
+        {
+            return !v1.Equals(v2);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this vector.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() ^ y.GetHashCode();
+        }
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this vector.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Vector2D))
+                return false;
+            else
+                return Equals((Vector2D)obj);
+        }
+        /// <summary>
+        /// Indicates whether the current vector is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">A vector to compare with this vector.</param>
+        /// <returns>
+        /// true, if the current vector is equal to the <paramref name="other" /> parameter; otherwise, false.
+        /// </returns>
+        public bool Equals(Vector2D other)
+        {
+            return this.x == other.x && this.y == other.y;
         }
 
         /// <summary>
@@ -176,11 +233,22 @@ namespace CommonLib.DTOs
         /// <returns>The angle (in degrees) between the two angles.</returns>
         public static double CalculateAngleBetween(Vector2D v1, Vector2D v2)
         {
-            double temp = Math.Acos((v1 * v2) / (v1.Length * v2.Length)) * (180/Math.PI);
+            double temp = Math.Acos((v1 * v2) / (v1.Length * v2.Length)) * (180 / Math.PI);
             if (v2.Y < 0)
                 return -temp;
             else
                 return temp;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this vector.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this vector.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.Format("{{{0}; {1}}}", x, y);
         }
     }
 }
