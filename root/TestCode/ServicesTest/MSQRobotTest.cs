@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Services.RobotServices;
 using Services.RobotServices.Mindsqualls;
+using CommonLib.DTOs;
 using CommonLib.Interfaces;
 using System.Windows.Forms;
 
@@ -177,7 +178,7 @@ namespace ServicesTest
         {
             //Arrange
             IRobot rob = factory.CreateRobot();
-            const string bogusPosition = "BogusPosition";
+            Vector2D bogusPosition = new Vector2D(5.1f, 7.5f);
 
             DialogResult result;
 

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.RobotServices
+namespace CommonLib.Interfaces
 {
     /// <summary>
-    /// Code for outgoing commands
+    /// A simple pose, consisting of a coordinate
     /// </summary>
-    public enum OutgoingCommand
+    public interface IPose : ICoordinate
     {
         /// <summary>
-        /// Move to position
+        /// The angle of the coordinate
         /// </summary>
-        MoveToPos = 0
+        double Angle { get; }
     }
 }

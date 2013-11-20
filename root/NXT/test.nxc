@@ -1,0 +1,12 @@
+task main() {
+     string test = "Hej";
+     char k = StrIndex(test, 0);
+     
+     float f;
+     
+     memcpy(f, k, 1);
+     
+     TextOut(0, LCD_LINE1, NumToStr(f));
+
+     while(true){}
+}

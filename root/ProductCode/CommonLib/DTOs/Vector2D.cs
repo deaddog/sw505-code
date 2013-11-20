@@ -1,11 +1,12 @@
 ﻿using System;
+using CommonLib.Interfaces;
 
 namespace CommonLib.DTOs
 {
     /// <summary>
     /// Describes a two-dimensional vector
     /// </summary>
-    public struct Vector2D
+    public struct Vector2D : IPose
     {
         private static Vector2D zero = new Vector2D(0, 0);
         private static Vector2D one = new Vector2D(1, 1);
@@ -109,7 +110,7 @@ namespace CommonLib.DTOs
         /// <returns>The dot product of the two vectors (x_1 * x_2 + y_1 * y_2)</returns>
         public static float operator *(Vector2D v1, Vector2D v2)
         {
-            return v1.x * v2.x + v1.y + v2.y;
+            return v1.x * v2.x + v1.y * v2.y;
         }
 
         /// <summary>
@@ -172,10 +173,14 @@ namespace CommonLib.DTOs
         /// </summary>
         /// <param name="v1">The first vector in the calculation.</param>
         /// <param name="v2">The second vector in the calculation.</param>
-        /// <returns>The angle (in radians) between the two angles.</returns>
+        /// <returns>The angle (in degrees) between the two angles.</returns>
         public static double CalculateAngleBetween(Vector2D v1, Vector2D v2)
         {
-            return Math.Acos((v1 * v2) / (v1.Length * v2.Length));
+            double temp = Math.Acos((v1 * v2) / (v1.Length * v2.Length)) * (180/Math.PI);
+            if (v2.Y < 0)
+                return -temp;
+            else
+                return temp;
         }
     }
 }

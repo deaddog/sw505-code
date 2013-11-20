@@ -3,22 +3,6 @@
 //  converting a distance in MM to a number of degrees to turn the motor
 //  converting coordinates to polar coordinates for navigating the robot
 
-typedef struct {
-float x;
-float y;
-} Point;
-
-typedef struct{
- Point p;
- float angle;
-} Position;
-
-typedef struct{
-float length;
-float angle;
-} PolarCoordinate;
-
-
 float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16;
 float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40;
 float WHEEL_RADIUS_IN_MM = 28;
@@ -37,9 +21,7 @@ inline float ConvertActualDegreesToMotorDegrees(int degreesToTurn, float gearRat
 inline float ConvertMMToMotorDegrees(float distance)
 {
  float motordegrees = ConvertActualDegreesToMotorDegrees(DEGREES_IN_CICLE, MOTOR_RATIO);
- TextOut(0,LCD_LINE1, NumToStr(motordegrees));
  float degrees = ((motordegrees / (WHEEL_RADIUS_IN_MM * 2.0 * PI)) * distance);
- TextOut(0,LCD_LINE2, NumToStr(degrees));
 
  return degrees;
 }
@@ -50,6 +32,7 @@ inline float AngleToDistance(float angle)
  return ((WHEEL_AXEL_LENGTH_IN_MM * PI) / DEGREES_IN_CICLE) * angle;
 }
 
+//Changes the coordinate system to a system with the robot in (0,0)
 inline Point MoveRobotToZero(Point robot, Point target)
 {
  Point p;
@@ -58,13 +41,15 @@ inline Point MoveRobotToZero(Point robot, Point target)
  return p;
 }
 
+//Converts a two points in a carthesian coordinate system to a polar coordinate system
+//with the robot point as the pole
 inline PolarCoordinate ConvertCarthesianToPolar(Point robot, Point target)
 {
  Point p = MoveRobotToZero(robot,target);
 
  float length = sqrt(p.x * p.x + p.y * p.y);
- //float angle = atand(p.y / p.x);
-float angle= 0;
+ float angle = atan2d(p.y, p.x);
+ //float angle= 0;
 
  PolarCoordinate c;
  c.length = length;

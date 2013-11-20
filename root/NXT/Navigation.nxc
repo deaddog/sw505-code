@@ -2,6 +2,8 @@
 #include "Convert.nxc"
 
 #define MOVE_INCREMENT 100
+#define POWER 100
+
 // Waits for the motors to be ready
 inline void WaitForMotors()
 {
@@ -13,6 +15,7 @@ inline void WaitForMotors()
 // Drives the robot forward the specified distance in MM with the specified power (-100 to 100)
 sub RunForward( int power, float distance)
 {
+ WaitForMotors();
  float degrees = ConvertMMToMotorDegrees(distance);
  Run(3, -power, degrees);
 }
@@ -20,6 +23,7 @@ sub RunForward( int power, float distance)
 // Drives the robot backward the specified distance in MM with the specified power (-100 to 100)
 sub RunBackward( int power, float distance)
 {
+ WaitForMotors();
  float degrees = ConvertMMToMotorDegrees(distance);
  Run(3, power, degrees);
 }
@@ -27,6 +31,7 @@ sub RunBackward( int power, float distance)
 // Turns the robot the specified number of degrees counterclockwise with the specified power
 sub TurnLeft(int power, float angle)
 {
+ WaitForMotors();
  float distance = AngleToDistance(angle);
  float degrees =ConvertMMToMotorDegrees(distance);
  Run(0, power, degrees);
@@ -36,18 +41,20 @@ sub TurnLeft(int power, float angle)
 // Turns the robot the specified number of degrees clockwise with the specified power
 sub TurnRight(int power, float angle)
 {
+ WaitForMotors();
  float distance = AngleToDistance(angle);
  float degrees =ConvertMMToMotorDegrees(distance);
  Run(1, power, degrees);
  Run(0,-power,degrees);
 }
 
-inline PolarCoordinate NavigateToPoint(Position robot, Point target)
+//Calculates the polar coordinate from the robot to the target in a coordinate system
+//with the robot direction as the polar axis.
+inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
 {
  PolarCoordinate c = ConvertCarthesianToPolar(robot.p,target);
  
  float angle = FindAngleToPoint(robot.angle, c.angle);
-
  PolarCoordinate nav;
  nav.length = c.length;
  nav.angle = angle;
@@ -55,40 +62,46 @@ inline PolarCoordinate NavigateToPoint(Position robot, Point target)
  return nav;
 }
 
+//Turns the robot the specified angle
 void TurnAngle(float angle)
 {
+ TextOut(0, LCD_LINE5, NumToStr(angle));
  if(angle > 0)
-  TurnRight(100,angle);
+  TurnRight(POWER,angle);
  else
-  TurnLeft(100, -angle);
+  TurnLeft(POWER, -angle);
 }
 
+//The robot queries its position and drives a small increment in that direction
+// MOVE_INCEREMENT determines the size of the increment (in mm)
 bool GotoPointIncrement(Point target)
 {
  //Where am i
- Position p;
+ Pose p = WhereAmI();
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);
  
  if(c.length > MOVE_INCREMENT)
  {
-  RunForward(100,MOVE_INCREMENT);
+  RunForward(POWER,MOVE_INCREMENT);
   return false;
  }
  else
  {
-  RunForward(100,c.length);
+  RunForward(POWER,c.length);
   return true;
  }
 }
 
+//Instructs the robot to move to the specified point
 void GotoPoint(Point target)
 {
  bool isThere = false;
  while(!isThere)
  {
-  isThere = GotoPointIncrement(target);
+ isThere = GotoPointIncrement(target);
  }
+ IAmThere();
 }
 
 //Main function that tests all functions in this file
@@ -98,13 +111,32 @@ task main()
  // Don't forget this!
  InitSpeedFromPosLUT();
 
- RunBackward(100,200);
- WaitForMotors();
- TurnLeft(100,180);
- WaitForMotors();
- RunForward(100,200);
- WaitForMotors();
- TurnRight(100,180);
- //Run(2,100,150);
+ RunBackward(POWER,200);
+ TurnLeft(POWER,180);
+ RunForward(POWER,200);
+ TurnRight(POWER,180);
+}
+#endif
+
+#ifdef debug2
+task main()
+{
+ InitSpeedFromPosLUT();
+ Point p;
+ p.x = -200;
+ p.y = 200;
+ 
+  Point s;
+ s.x = 200;
+ s.y = 200;
+ 
+ Point t;
+ t.x = 0;
+ t.y = 200;
+ 
+ 
+ GotoPoint(p);
+ GotoPoint(s);
+ GotoPoint(t);
 }
 #endif

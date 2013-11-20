@@ -1,6 +1,4 @@
-#include "Navigation.nxc"
-
-//INCOMING COMMANDS FROM MINDSQUALLS
+  //INCOMING COMMANDS FROM MINDSQUALLS
 #define INCOMING_MOVE_TO_POS 0
 
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
@@ -11,42 +9,9 @@
 #define INBOX           1
 #define OUTBOX          0
 
-//Sends command to MSq when current destination has been reached
-void IAmThere() {
-     string msg = NumToStr(OUTGOING_I_AM_THERE);
-     SendMessage(OUTBOX, msg);
-     
-     ClearScreen();
-     TextOut(0, LCD_LINE1, "Destination");
-     TextOut(2, LCD_LINE2, "reached");
-}//end function IAmThere
-
-//Requests current location from MSq
-string WhereAmI() {
-     string msg = NumToStr(OUTGOING_WHERE_AM_I);
-     SendMessage(OUTBOX, msg);
-
-     string in = "";
-     string cmd = "";
-     byte cmdType;
-     string pos = "";
-     
-     //Checks for reply, when received, it is returned
-     while(true) {
-         ReceiveRemoteString(INBOX, true, in);
-         if (StrLen(in) > 0) {
-            cmd = SubStr(in, 0, 1);
-            cmdType = StrToNum(cmd);
-            if (cmdType == OUTGOING_WHERE_AM_I) {
-               pos = SubStr(in, 1, StrLen(in)-1);
-               ClearScreen();
-               TextOut(0, LCD_LINE1, "I am at:");
-               TextOut(2, LCD_LINE2, pos);
-               return pos;
-            }//end if cmdtype
-         }//end if strlen in
-     }//end while true
-}//end function WhereAmI
+#include "Structs.nxc"
+#include "Communication.nxc"
+#include "Navigation.nxc"
 
 task main(){
      // Don't forget this!
@@ -84,9 +49,20 @@ task main(){
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
+                 string x = SubStr(in, 1, 7);
+                 string y = SubStr(in, 8, 7);
+                 
+                 Point p;
+                 p.x = StrToNum(x);
+                 p.y = StrToNum(y);
+                 
                  ClearScreen();
                  TextOut(0, LCD_LINE1, "Going to:");
-                 TextOut(2, LCD_LINE2, args);
+                 TextOut(2, LCD_LINE2, "x:" + NumToStr(p.x));
+                 TextOut(2, LCD_LINE3, "y:" + NumToStr(p.y));
+                 
+                 GotoPoint(p);
+                 
                  break;
              }//end switch cmdtype
              

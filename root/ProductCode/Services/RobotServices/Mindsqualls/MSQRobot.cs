@@ -52,6 +52,8 @@ namespace Services.RobotServices.Mindsqualls
         private McNxtMotor rightDriveMotor;
         private McNxtMotorSync driveMotors;
 
+        private IPose currentPose;
+
         private bool stopMailcheckerThread = false;
 
         #region cTor Chain
@@ -171,13 +173,15 @@ namespace Services.RobotServices.Mindsqualls
         /// Sends command to robot, telling it to go to <paramref name="position"/>
         /// Also starts thread, checking for replies
         /// </summary>
-        /// <param name="position"></param>
-        public void MoveToPosition(string position)
+        /// <param name="position">The position to go to</param>
+        public void MoveToPosition(ICoordinate position)
         {
             InitializeRobot(true);
 
+            string encodedPosition = NXTEncoder.Encode(position);
+
             //Sends command to robot with the position param
-            string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, position);
+            string toSendMessage = String.Format("{0}{1}", (byte)OutgoingCommand.MoveToPos, encodedPosition);
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
             //Thread being run, checking inbox every 10 ms
@@ -185,6 +189,16 @@ namespace Services.RobotServices.Mindsqualls
             mailChecker.Start();
 
             //FreeRobot(true);
+        }
+
+
+        /// <summary>
+        /// Updates the pose.
+        /// </summary>
+        /// <param name="pose">The pose.</param>
+        public void UpdatePose(IPose pose)
+        {
+            this.currentPose = pose;
         }
 
         private void CheckIncoming()
@@ -207,10 +221,12 @@ namespace Services.RobotServices.Mindsqualls
                     switch (cmd)
                     {
                         case IncomingCommand.RobotRequestsLocation:
-                            SendRobotItsLocation();
+                            SendRobotItsPose(currentPose);
                             break;
                         case IncomingCommand.RobotHasArrivedAtDestination:
                             stopMailcheckerThread = true;
+                            Console.WriteLine("Destination reached!");
+                            Console.ReadKey();
                             break;
                         default:
                             continue;
@@ -227,10 +243,12 @@ namespace Services.RobotServices.Mindsqualls
             }
         }
 
-        private void SendRobotItsLocation()
+        private void SendRobotItsPose(IPose pose)
         {
-            string location = "";
-            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, location);
+            Vector2D v = new Vector2D(float.Parse(Console.ReadLine()), float.Parse(Console.ReadLine()));
+
+            string encodedPose = NXTEncoder.Encode(v);
+            string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, encodedPose);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
         }
 

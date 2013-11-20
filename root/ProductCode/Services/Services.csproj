@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\Services.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RobotServices\NXTEncoder.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
     <Compile Include="TrackingServices\OrientationTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,7 +67,7 @@
     <Compile Include="RobotServices\OutgoingCommandEnum.cs" />
     <Compile Include="RobotServices\Mindsqualls\MSQRobot.cs" />
     <Compile Include="RobotServices\RobotFactory.cs" />
-    <Compile Include="TrackingServices\PointConverter.cs" />
+    <Compile Include="TrackingServices\CoordinateConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
