@@ -243,9 +243,9 @@ namespace Services.RobotServices.Mindsqualls
             }
         }
 
-        private void SendRobotItsPose()
+        private void SendRobotItsPose(IPose pose)
         {
-            string encodedPose = NXTEncoder.Encode(currentPose);
+            string encodedPose = NXTEncoder.Encode(pose);
             string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, encodedPose);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
         }
