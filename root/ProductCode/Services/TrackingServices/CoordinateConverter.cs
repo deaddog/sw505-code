@@ -25,8 +25,8 @@ namespace Services.TrackingServices
         {
             this.actualSizeX = actualSizeX / 2f;
             this.actualSizeY = actualSizeY / 2f;
-            this.scaleX = actualSizeX / ((float)imageSizeX / 2f);
-            this.scaleY = actualSizeY / ((float)imageSizeY / 2f);
+            this.scaleX = this.actualSizeX / ((float)imageSizeX / 2f);
+            this.scaleY = this.actualSizeY / ((float)imageSizeY / 2f);
         }
 
         /// <summary>
