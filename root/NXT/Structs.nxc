@@ -1,0 +1,14 @@
+typedef struct {
+float x;
+float y;
+} Point;
+
+typedef struct{
+ Point p;
+ float angle;
+} Pose;
+
+typedef struct{
+float length;
+float angle;
+} PolarCoordinate;
