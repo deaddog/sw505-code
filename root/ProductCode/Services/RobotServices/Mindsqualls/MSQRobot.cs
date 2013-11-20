@@ -238,9 +238,9 @@ namespace Services.RobotServices.Mindsqualls
 
         private void SendRobotItsPose(IPose pose)
         {
-            if (pose == null)
-                throw new ArgumentNullException("pose", "No pose was ever given to the robot");
-            string encodedPose = NXTEncoder.Encode(pose);
+            Vector2D v = new Vector2D(float.Parse(Console.ReadLine()), float.Parse(Console.ReadLine()));
+
+            string encodedPose = NXTEncoder.Encode(v);
             string message = String.Format("{0}{1}", (byte)IncomingCommand.RobotRequestsLocation, encodedPose);
             robot.CommLink.MessageWrite(PC_OUTBOX, message);
         }

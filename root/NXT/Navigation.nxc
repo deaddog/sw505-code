@@ -65,23 +65,11 @@ inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
 //Turns the robot the specified angle
 void TurnAngle(float angle)
 {
- TextOut(0,LCD_LINE2,NumToStr(angle));
+ TextOut(0, LCD_LINE5, NumToStr(angle));
  if(angle > 0)
   TurnRight(POWER,angle);
  else
   TurnLeft(POWER, -angle);
-}
-
-
-Pose WhereDummy()
-{
-  Pose pos;
-  
-  pos.p.x = 0;
-  pos.p.y = 0;
-  pos.angle = 90;
-  
-  return pos;
 }
 
 //The robot queries its position and drives a small increment in that direction
@@ -89,7 +77,7 @@ Pose WhereDummy()
 bool GotoPointIncrement(Point target)
 {
  //Where am i
- Pose p = WhereDummy();
+ Pose p = WhereAmI();
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);
  
@@ -108,8 +96,10 @@ bool GotoPointIncrement(Point target)
 //Instructs the robot to move to the specified point
 void GotoPoint(Point target)
 {
- while(!GotoPointIncrement(target))
+ bool isThere = false;
+ while(!isThere)
  {
+ isThere = GotoPointIncrement(target);
  }
 }
 
