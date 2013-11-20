@@ -23,7 +23,7 @@ float NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR = 16;
 float NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR = 40;
 float WHEEL_RADIUS_IN_MM = 28;
 float WHEEL_AXEL_LENGTH_IN_MM =162;
-int DEGREES_IN_CICLE =360;
+int DEGREES_IN_CICLE =2*PI;
 #define MOTOR_RATIO NUMBER_OF_TEETH_ON_MOTOR_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_MOTOR_DRIVEGEAR
 
 //Converts a number of degrees to the corresponding number of degrees on the motor
@@ -64,7 +64,7 @@ inline PolarCoordinate ConvertCarthesianToPolar(Point robot, Point target)
  Point p = MoveRobotToZero(robot,target);
 
  float length = sqrt(p.x * p.x + p.y * p.y);
- float angle = atan2d(p.y, p.x);
+ float angle = atan2(p.y, p.x);
  //float angle= 0;
 
  PolarCoordinate c;
