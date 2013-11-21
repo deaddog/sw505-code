@@ -70,9 +70,9 @@ namespace Services.TrackingServices
             oldBounds.Inflate(BOUNDS_INFLATE, BOUNDS_INFLATE);
             oldBounds.Intersect(new Rectangle(0, 0, bitmap.Width, bitmap.Height));
 
-            Bitmap bmp = trackColor(bitmap, oldBounds, targetColor, threshold);
-            filterNoise(bmp);
-            Point p = findBrightestPixel(bmp);
+            WeightGrid grid = trackColor(bitmap, oldBounds, targetColor, threshold);
+            grid = WeightGrid.RemoveNoise(grid);
+            Point p = grid.HeaviestPoint;
 
             Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
 
@@ -80,7 +80,7 @@ namespace Services.TrackingServices
             if (dist < threshold)
                 targetColor = newTarget;
 
-            Rectangle newBounds = findBounds(bmp);
+            Rectangle newBounds = grid.Bounds;
             bounds = new Rectangle(oldBounds.X + newBounds.X, oldBounds.Y + newBounds.Y, newBounds.Width, newBounds.Height);
 
             PointF newPoint;
@@ -91,47 +91,34 @@ namespace Services.TrackingServices
                 bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
                 targetColor = originalColor;
             }
-
-            bmp.Dispose();
         }
 
-        unsafe private static Bitmap trackColor(Bitmap src, Rectangle clippingRectangle, Color track, float threshold)
+        unsafe private static WeightGrid trackColor(Bitmap src, Rectangle clippingRectangle, Color track, float threshold)
         {
             if (src.PixelFormat != PixelFormat.Format24bppRgb && src.PixelFormat != PixelFormat.Format32bppRgb && src.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
 
-            Bitmap output = new Bitmap(clippingRectangle.Width, clippingRectangle.Height, PixelFormat.Format8bppIndexed);
-
-            ColorPalette pal = output.Palette;
-
-            for (int i = 0; i < pal.Entries.Length; i++)
-                pal.Entries[i] = Color.FromArgb(i, i, i);
-
-            output.Palette = pal;
+            float[,] wGrid = new float[clippingRectangle.Width, clippingRectangle.Height];
 
             BitmapData bdSrc = src.LockBits(clippingRectangle, ImageLockMode.ReadOnly, src.PixelFormat);
-            BitmapData bdOutput = output.LockBits(new Rectangle(0, 0, clippingRectangle.Width, clippingRectangle.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 
             int PixelSize = src.PixelFormat == PixelFormat.Format24bppRgb ? 3 : 4;
             for (int i = 0; i < bdSrc.Height; i++)
             {
                 byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
-                byte* rowOutput = (byte*)bdOutput.Scan0 + i * bdOutput.Stride;
 
                 for (int j = 0; j < bdSrc.Width; j++)
                 {
                     float weight = getPixelWeight(row + j * PixelSize, track, threshold);
                     if (weight > 1) weight = 1;
                     if (weight < 0) weight = 0;
-                    byte c = (byte)(weight * 255);
 
-                    rowOutput[j] = c;
+                    wGrid[j, i] = weight;
                 }
             }
             src.UnlockBits(bdSrc);
-            output.UnlockBits(bdOutput);
 
-            return output;
+            return new WeightGrid(clippingRectangle.X, clippingRectangle.Y, wGrid);
         }
         unsafe private static float getPixelWeight(byte* ptr, Color track, float threshold)
         {
@@ -151,92 +138,6 @@ namespace Services.TrackingServices
             return 1 - v;
         }
 
-        unsafe private static void filterNoise(Bitmap src)
-        {
-            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
-                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
-
-            List<Point> clearPoints = new List<Point>();
-
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
-            int stride = bdSrc.Stride;
-
-            do
-            {
-                for (int y = 0; y < bdSrc.Height; y++)
-                {
-                    byte* row = (byte*)bdSrc.Scan0 + y * stride;
-                    for (int x = 0; x < bdSrc.Width; x++)
-                    {
-                        byte* ptr = row + x;
-                        if (ptr[0] > 0 && countSet(bdSrc.Height, bdSrc.Width, stride, y, x, ptr) < 4)
-                            clearPoints.Add(new Point(x, y));
-                    }
-                }
-                if (clearPoints.Count > 0)
-                {
-                    while (clearPoints.Count > 0)
-                    {
-                        ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
-                        clearPoints.RemoveAt(0);
-                    }
-                }
-            } while (clearPoints.Count > 0);
-            src.UnlockBits(bdSrc);
-        }
-        unsafe private static int countSet(int height, int width, int stride, int y, int x, byte* ptr)
-        {
-            int set = 0;
-
-            if (x > 0)
-            {
-                if (y > 0 && ptr[-1 - stride] > 0) set++;
-                if (ptr[-1] > 0) set++;
-                if (y < height - 1 && ptr[-1 + stride] > 0) set++;
-            }
-
-            if (y > 0 && ptr[-stride] > 0) set++;
-            //Don't test the center itself
-            if (y < height - 1 && ptr[+stride] > 0) set++;
-
-            if (x < width - 1)
-            {
-                if (y > 0 && ptr[1 - stride] > 0) set++;
-                if (ptr[1] > 0) set++;
-                if (y < height - 1 && ptr[1 + stride] > 0) set++;
-            }
-
-            return set;
-        }
-
-        unsafe private static Rectangle findBounds(Bitmap src)
-        {
-            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
-                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
-
-            int x = int.MaxValue, y = int.MaxValue, x2 = int.MinValue, y2 = int.MinValue;
-
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
-            for (int i = 0; i < bdSrc.Height; i++)
-            {
-                byte* row = (byte*)bdSrc.Scan0 + i * bdSrc.Stride;
-
-                for (int j = 0; j < bdSrc.Width; j++)
-                    if (row[j] > 0)
-                    {
-                        if (j < x) x = j;
-                        if (i < y) y = i;
-                        if (j > x2) x2 = j;
-                        if (i > y2) y2 = i;
-                    }
-            }
-            src.UnlockBits(bdSrc);
-
-            if (x == int.MaxValue || y == int.MaxValue || x2 == int.MinValue || y2 == int.MinValue)
-                return Rectangle.Empty;
-            else
-                return Rectangle.FromLTRB(x, y, x2, y2);
-        }
         private static bool findCenter(Rectangle bounds, out PointF center)
         {
             if (bounds.Width == 0 || bounds.Height == 0)
@@ -251,33 +152,6 @@ namespace Services.TrackingServices
             }
         }
 
-        unsafe private static Point findBrightestPixel(Bitmap src)
-        {
-            if (src.PixelFormat != PixelFormat.Format8bppIndexed)
-                throw new ArgumentException("Bitmap must be 8bpp greyscale.");
-
-            int max = -1;
-            Point p = new Point(-1, -1);
-
-            BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
-            int stride = bdSrc.Stride;
-            for (int y = 0; y < bdSrc.Height; y++)
-            {
-                byte* row = (byte*)bdSrc.Scan0 + y * stride;
-                for (int x = 0; x < bdSrc.Width; x++)
-                {
-                    byte val = (row + x)[0];
-                    if (val > max)
-                    {
-                        max = val;
-                        p = new Point(x, y);
-                    }
-                }
-            }
-            src.UnlockBits(bdSrc);
-
-            return p;
-        }
         private static double distance(Color c1, Color c2)
         {
             double r = c1.R - c2.R;
@@ -285,6 +159,129 @@ namespace Services.TrackingServices
             double b = c1.B - c2.B;
 
             return Math.Sqrt(r * r + g * g + b * b);
+        }
+
+        private struct WeightGrid
+        {
+            private int xOffset, yOffset;
+            private int height, width;
+            private float[,] grid;
+
+            public int X
+            {
+                get { return xOffset; }
+            }
+            public int Y
+            {
+                get { return yOffset; }
+            }
+            public int Height
+            {
+                get { return height; }
+            }
+            public int Width
+            {
+                get { return width; }
+            }
+
+            public float this[int x, int y]
+            {
+                get { return grid[x, y]; }
+            }
+
+            public WeightGrid(int xoffset, int yoffset, float[,] grid)
+            {
+                this.xOffset = xoffset;
+                this.yOffset = yoffset;
+                this.grid = (float[,])grid.Clone();
+                this.width = grid.GetLength(0);
+                this.height = grid.GetLength(1);
+            }
+
+            public int CountNeighbours(int x, int y)
+            {
+                int set = 0;
+
+                if (x > 0)
+                {
+                    if (y > 0 && grid[x - 1, y - 1] > 0) set++;
+                    if (grid[x - 1, y] > 0) set++;
+                    if (y < height - 1 && grid[x - 1, y + 1] > 0) set++;
+                }
+
+                if (y > 0 && grid[x, y - 1] > 0) set++;
+                //Don't test the center itself
+                if (y < height - 1 && grid[x, y + 1] > 0) set++;
+
+                if (x < width - 1)
+                {
+                    if (y > 0 && grid[x + 1, y - 1] > 0) set++;
+                    if (grid[x + 1, y] > 0) set++;
+                    if (y < height - 1 && grid[x + 1, y + 1] > 0) set++;
+                }
+
+                return set;
+            }
+
+            public static WeightGrid RemoveNoise(WeightGrid grid)
+            {
+                WeightGrid newGrid = new WeightGrid(grid.xOffset, grid.yOffset, grid.grid);
+                bool changed = false;
+
+                for (int x = 0; x < grid.Width; x++)
+                    for (int y = 0; y < grid.Height; y++)
+                        if (grid[x, y] > 0 && grid.CountNeighbours(x, y) < 4)
+                        {
+                            newGrid.grid[x, y] = 0;
+                            changed = true;
+                        }
+
+                return changed ? RemoveNoise(newGrid) : newGrid;
+            }
+
+            public Point HeaviestPoint
+            {
+                get
+                {
+                    float max = -1;
+                    Point p = new Point(-1, -1);
+
+                    for (int x = 0; x < this.Width; x++)
+                        for (int y = 0; y < this.Height; y++)
+                        {
+                            float val = grid[x, y];
+                            if (val > max)
+                            {
+                                max = val;
+                                p = new Point(x, y);
+                            }
+                        }
+
+                    return p;
+                }
+            }
+            public Rectangle Bounds
+            {
+                get
+                {
+                    int x1 = int.MaxValue, y1 = int.MaxValue, x2 = int.MinValue, y2 = int.MinValue;
+
+                    for (int x = 0; x < this.width; x++)
+                        for (int y = 0; y < this.height; y++)
+                            if (grid[x, y] > 0)
+                            {
+                                if (x < x1) x1 = x;
+                                if (y < y1) y1 = y;
+                                if (x > x2) x2 = x;
+                                if (y > y2) y2 = y;
+                            }
+
+                    if (x1 == int.MaxValue || y1 == int.MaxValue || x2 == int.MinValue || y2 == int.MinValue)
+                        return Rectangle.Empty;
+                    else
+                        return Rectangle.FromLTRB(x1, y1, x2, y2);
+                }
+            }
         }
     }
 }
