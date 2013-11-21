@@ -7,7 +7,7 @@
 // Waits for the motors to be ready
 inline void WaitForMotors()
 {
- while(!(IsMotorReady(0) && !IsMotorReady(1)))
+ while(!(IsMotorReady(0) && IsMotorReady(1)))
  {
  }
 }
@@ -33,7 +33,7 @@ sub TurnLeft(int power, float angle)
 {
  WaitForMotors();
  float distance = AngleToDistance(angle);
- float degrees =ConvertMMToMotorDegrees(distance);
+ float degrees = ConvertMMToMotorDegrees(distance);
  Run(0, power, degrees);
  Run(1,-power,degrees);
 }
@@ -65,11 +65,23 @@ inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
 //Turns the robot the specified angle
 void TurnAngle(float angle)
 {
- TextOut(0, LCD_LINE5, NumToStr(angle));
+ TextOut(0,LCD_LINE2,NumToStr(angle));
  if(angle > 0)
   TurnRight(POWER,angle);
  else
   TurnLeft(POWER, -angle);
+}
+
+
+Pose WhereDummy()
+{
+  Pose pos;
+  
+  pos.p.x = 0;
+  pos.p.y = 0;
+  pos.angle = 90;
+  
+  return pos;
 }
 
 //The robot queries its position and drives a small increment in that direction
@@ -77,7 +89,7 @@ void TurnAngle(float angle)
 bool GotoPointIncrement(Point target)
 {
  //Where am i
- Pose p = WhereAmI();
+ Pose p = WhereDummy();
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);
  
@@ -96,12 +108,9 @@ bool GotoPointIncrement(Point target)
 //Instructs the robot to move to the specified point
 void GotoPoint(Point target)
 {
- bool isThere = false;
- while(!isThere)
+ while(!GotoPointIncrement(target))
  {
- isThere = GotoPointIncrement(target);
  }
- IAmThere();
 }
 
 //Main function that tests all functions in this file
