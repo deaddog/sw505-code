@@ -77,7 +77,7 @@ namespace Services.TrackingServices
             Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
 
             double dist = distance(originalColor, newTarget);
-            if (dist < 50)
+            if (dist < threshold)
                 targetColor = newTarget;
 
             Rectangle newBounds = findBounds(bmp);
@@ -160,26 +160,28 @@ namespace Services.TrackingServices
 
             BitmapData bdSrc = src.LockBits(new Rectangle(0, 0, src.Width, src.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
             int stride = bdSrc.Stride;
-        start:
-            for (int y = 0; y < bdSrc.Height; y++)
+
+            do
             {
-                byte* row = (byte*)bdSrc.Scan0 + y * stride;
-                for (int x = 0; x < bdSrc.Width; x++)
+                for (int y = 0; y < bdSrc.Height; y++)
                 {
-                    byte* ptr = row + x;
-                    if (ptr[0] > 0 && countSet(bdSrc.Height, bdSrc.Width, stride, y, x, ptr) < 4)
-                        clearPoints.Add(new Point(x, y));
+                    byte* row = (byte*)bdSrc.Scan0 + y * stride;
+                    for (int x = 0; x < bdSrc.Width; x++)
+                    {
+                        byte* ptr = row + x;
+                        if (ptr[0] > 0 && countSet(bdSrc.Height, bdSrc.Width, stride, y, x, ptr) < 4)
+                            clearPoints.Add(new Point(x, y));
+                    }
                 }
-            }
-            if (clearPoints.Count > 0)
-            {
-                while (clearPoints.Count > 0)
+                if (clearPoints.Count > 0)
                 {
-                    ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
-                    clearPoints.RemoveAt(0);
+                    while (clearPoints.Count > 0)
+                    {
+                        ((byte*)bdSrc.Scan0 + clearPoints[0].Y * stride + clearPoints[0].X)[0] = 0;
+                        clearPoints.RemoveAt(0);
+                    }
                 }
-                goto start;
-            }
+            } while (clearPoints.Count > 0);
             src.UnlockBits(bdSrc);
         }
         unsafe private static int countSet(int height, int width, int stride, int y, int x, byte* ptr)
