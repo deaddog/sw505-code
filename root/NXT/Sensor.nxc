@@ -1,0 +1,21 @@
+#define SENSOR_GEAR_RATIO 66.66 //Fra: SENSOR_GEAR_RATIO = (NUMBER_OF_TEETH_ON_BOTTOM_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_BOTTOM_WORMGEAR) * (NUMBER_OF_TEETH_ON_TOPSIDE_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_TOPSIDE_DRIVERGEAR); Så: 40/1 * 40/24
+
+sub rotate_and_measure()
+{
+}
+
+sub rotate_left()
+{
+
+}
+
+sub rotate_right()
+{
+}
+
+inline byte measure()
+{
+ return SensorUS(IN_1);
+}
+
+

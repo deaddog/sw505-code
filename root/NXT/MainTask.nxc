@@ -1,5 +1,6 @@
-  //INCOMING COMMANDS FROM MINDSQUALLS
+//INCOMING COMMANDS FROM MINDSQUALLS
 #define INCOMING_MOVE_TO_POS 0
+#define INCOMING_GET_SENSOR_MEASUREMENT 1
 
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
 #define OUTGOING_WHERE_AM_I 0
@@ -12,6 +13,7 @@
 #include "Structs.nxc"
 #include "Communication.nxc"
 #include "Navigation.nxc"
+#include "Sensor.nxc"
 
 task main(){
      // Don't forget this!
@@ -51,19 +53,23 @@ task main(){
                  //Placeholder for command "goto"
                  string x = SubStr(in, 1, 7);
                  string y = SubStr(in, 8, 7);
-                 
+
                  Point p;
                  p.x = StrToNum(x);
                  p.y = StrToNum(y);
-                 
+
                  ClearScreen();
                  TextOut(0, LCD_LINE1, "Going to:");
                  TextOut(2, LCD_LINE2, "x:" + NumToStr(p.x));
                  TextOut(2, LCD_LINE3, "y:" + NumToStr(p.y));
-                 
+
                  GotoPoint(p);
                  
                  break;
+                 
+                 case INCOMING_GET_SENSOR_MEASUREMENT :
+                 break;
+
              }//end switch cmdtype
              
              in = "";
