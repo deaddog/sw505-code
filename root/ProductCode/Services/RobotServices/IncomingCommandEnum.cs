@@ -18,6 +18,10 @@ namespace Services.RobotServices
         /// <summary>
         /// The robot has arrived at destination
         /// </summary>
-        RobotHasArrivedAtDestination = 1
+        RobotHasArrivedAtDestination = 1,
+        /// <summary>
+        /// The robot sends sensor data
+        /// </summary>
+        GetSensorData = 2
     }
 }
