@@ -47,6 +47,7 @@
     <Compile Include="Interfaces\ICoordinate.cs" />
     <Compile Include="Interfaces\IPose.cs" />
     <Compile Include="Interfaces\ISensorData.cs" />
+    <Compile Include="NXTPostMan\INXTPostMan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
