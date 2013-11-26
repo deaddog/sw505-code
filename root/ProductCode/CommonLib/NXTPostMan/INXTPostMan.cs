@@ -4,16 +4,14 @@ namespace CommonLib.NXTPostMan
 {
     public interface INXTPostMan
     {
+        void SendMessage(NXTMessage msg);
 
-        void SendMessage(INXTMessage msg);
-
-        bool HasMessageArrived(IMessageType type);
+        bool HasMessageArrived(NXTMessageType type);
 
         bool HasMessageArrived(string msg);
 
+        NXTMessage RetrieveMessage(NXTMessageType type);
 
+        NXTMessage RetrieveMessage();
     }
-
-    public interface IMessageType { }
-    public interface INXTMessage { }
 }

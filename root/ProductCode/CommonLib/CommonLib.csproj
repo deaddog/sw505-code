@@ -48,6 +48,9 @@
     <Compile Include="Interfaces\IPose.cs" />
     <Compile Include="Interfaces\ISensorData.cs" />
     <Compile Include="NXTPostMan\INXTPostMan.cs" />
+    <Compile Include="NXTPostMan\NXTEncoder.cs" />
+    <Compile Include="NXTPostMan\NXTMessage.cs" />
+    <Compile Include="NXTPostMan\NXTMessageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
