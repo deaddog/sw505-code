@@ -1,21 +1,47 @@
-#define SENSOR_GEAR_RATIO 66.66 //Fra: SENSOR_GEAR_RATIO = (NUMBER_OF_TEETH_ON_BOTTOM_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_BOTTOM_WORMGEAR) * (NUMBER_OF_TEETH_ON_TOPSIDE_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_TOPSIDE_DRIVERGEAR); Så: 40/1 * 40/24
+#define GEAR_RATIO 66.66 //Fra: SENSOR_GEAR_RATIO = (NUMBER_OF_TEETH_ON_BOTTOM_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_BOTTOM_WORMGEAR) * (NUMBER_OF_TEETH_ON_TOPSIDE_FOLLOWERGEAR / NUMBER_OF_TEETH_ON_TOPSIDE_DRIVERGEAR); Så: 40/1 * 40/24
+#define MOTOR_POWER 100
+#define MOTOR_PORT 2
+#define ANGLE 90
 
-sub rotate_and_measure()
+inline byte measure_sensor1()
 {
+ return SensorUS(IN_1);
 }
 
 sub rotate_left()
 {
-
+ Run(MOTOR_PORT, -MOTOR_POWER, GEAR_RATIO*ANGLE);
 }
 
 sub rotate_right()
 {
+ Run(MOTOR_PORT, MOTOR_POWER, GEAR_RATIO*ANGLE);
 }
 
-inline byte measure()
+inline string rotate_and_measure(bool clockwise)
 {
- return SensorUS(IN_1);
+ string r = "";
+ byte data[2];
+ if(clockwise)
+ {
+  data[0] = measure_sensor1();
+  rotate_right();
+  data[1] = measure_sensor1();
+  r = ByteArrayToStr(data);
+  return r;
+ }
+ else
+ {
+  data[0] = measure_sensor1();
+  rotate_left();
+  data[1] = measure_sensor1();
+  r = ByteArrayToStr(data);
+  return r;
+ }
 }
+
+
+
+
 
 
