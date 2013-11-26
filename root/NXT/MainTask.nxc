@@ -89,6 +89,7 @@ task main(){
                   s = rotate_and_measure(clockwise);
                   SendResponseString(OUTBOX,s);
                   clockwise = true;
+                  s="";
                   }
                  }
                  break;
