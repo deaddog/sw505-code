@@ -185,6 +185,7 @@ namespace Services.RobotServices.Mindsqualls
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
             //Thread being run, checking inbox every 10 ms
+            stopMailcheckerThread = false;
             Thread mailChecker = new Thread(CheckIncoming);
             mailChecker.Start();
 
