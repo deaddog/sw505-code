@@ -50,7 +50,7 @@ task main(){
              args = SubStr(in, 1, StrLen(in)-1);
              
              //For the rotating of the sensor
-             bool clockwise = true;
+             bool clockwise = false;
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"

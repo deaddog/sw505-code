@@ -11,7 +11,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 6;
+        private const byte SERIAL_PORT_NUMBER = 16;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -192,6 +192,20 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
+        public void GetSensorData()
+        {
+            InitializeRobot(true);
+
+            string toSendMessage = String.Format("{0}", (byte)OutgoingCommand.GetSensorData);
+            robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
+
+            stopMailcheckerThread = false;
+            Thread mailChecker = new Thread(CheckIncoming);
+            mailChecker.Start();
+            //byte[] data = new byte[2];
+
+        }
+
 
         /// <summary>
         /// Updates the pose.
@@ -229,6 +243,10 @@ namespace Services.RobotServices.Mindsqualls
                             Console.WriteLine("Destination reached!");
                             Console.ReadKey();
                             break;
+                        case IncomingCommand.GetSensorData:
+                            Console.WriteLine(reply);
+                            Console.ReadKey();
+                            break;
                         default:
                             continue;
                     }
@@ -262,7 +280,7 @@ namespace Services.RobotServices.Mindsqualls
             return (uint)(degreesToTurn * gearRatio);
         }
 
-        private void InitializeRobot(bool usesMotorControl)
+        private void InitializeRobot(bool usesMotorControl=true)
         {
             robot.Connect();
 

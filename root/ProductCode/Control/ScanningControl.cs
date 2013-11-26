@@ -40,5 +40,10 @@ namespace Control
 
             return new SensorSweepDTO(data);
         }
+
+        public void GetSensorData()
+        {
+            rob.GetSensorData();
+        }
     }
 }

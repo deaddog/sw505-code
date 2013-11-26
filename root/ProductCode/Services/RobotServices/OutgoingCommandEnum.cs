@@ -14,6 +14,10 @@ namespace Services.RobotServices
         /// <summary>
         /// Move to position
         /// </summary>
-        MoveToPos = 0
+        MoveToPos = 0,
+        /// <summary>
+        /// Get sensor data
+        /// </summary>
+        GetSensorData
     }
 }
