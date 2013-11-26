@@ -5,6 +5,7 @@
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
 #define OUTGOING_WHERE_AM_I 0
 #define OUTGOING_I_AM_THERE 1
+#define OUTGOING_SEND_SENSOR_DATA 2
 
 //MAILBOXES TO BE USED FOR INCOMING AND OUTGOING COMMANDS
 #define INBOX           1
@@ -79,14 +80,16 @@ task main(){
                  {
                   if(clockwise)
                   {
-                  s = rotate_and_measure(clockwise);
+                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
+                  s = StrCat(s,rotate_and_measure(clockwise));
                   clockwise = false;
                   SendResponseString(OUTBOX,s);
                   s="";
                   }
                   else
                   {
-                  s = rotate_and_measure(clockwise);
+                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
+                  s = StrCat(s,rotate_and_measure(clockwise));
                   SendResponseString(OUTBOX,s);
                   clockwise = true;
                   s="";
