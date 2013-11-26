@@ -51,6 +51,7 @@
     <Compile Include="NXTPostMan\NXTEncoder.cs" />
     <Compile Include="NXTPostMan\NXTMessage.cs" />
     <Compile Include="NXTPostMan\NXTMessageType.cs" />
+    <Compile Include="NXTPostMan\PostMan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
