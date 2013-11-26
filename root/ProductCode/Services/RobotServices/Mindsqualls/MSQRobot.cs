@@ -244,6 +244,7 @@ namespace Services.RobotServices.Mindsqualls
                             Console.ReadKey();
                             break;
                         case IncomingCommand.GetSensorData:
+                            stopMailcheckerThread = true;
                             Console.WriteLine(reply);
                             Console.ReadKey();
                             break;

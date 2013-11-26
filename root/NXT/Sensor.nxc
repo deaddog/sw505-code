@@ -8,6 +8,11 @@ inline byte measure_sensor1()
  return SensorUS(IN_1);
 }
 
+inline byte measure_sensor2()
+{
+ return SensorUS(IN_2);
+}
+
 sub rotate_left()
 {
  Run(MOTOR_PORT, -MOTOR_POWER, GEAR_RATIO*ANGLE);
@@ -21,20 +26,26 @@ sub rotate_right()
 inline string rotate_and_measure(bool clockwise)
 {
  string r = "";
- byte data[2];
+ byte data[4];
  if(clockwise)
  {
   data[0] = measure_sensor1();
+  data[1] = measure_sensor2();
   rotate_right();
-  data[1] = measure_sensor1();
+  WaitForMotors();
+  data[2] = measure_sensor1();
+  data[3] = measure_sensor2();
   r = ByteArrayToStr(data);
   return r;
  }
  else
  {
   data[0] = measure_sensor1();
+  data[1] = measure_sensor2();
   rotate_left();
-  data[1] = measure_sensor1();
+  WaitForMotors();
+  data[2] = measure_sensor1();
+  data[3] = measure_sensor2();
   r = ByteArrayToStr(data);
   return r;
  }
