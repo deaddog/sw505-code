@@ -4,6 +4,7 @@ using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
 using System.Threading;
+using System.Text;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -245,7 +246,13 @@ namespace Services.RobotServices.Mindsqualls
                             break;
                         case IncomingCommand.GetSensorData:
                             //stopMailcheckerThread = true;
-                            Console.WriteLine(GetBytes(reply)[1]);
+                            byte[] a = Encoding.ASCII.GetBytes(reply);
+                            int i = 0;
+                            foreach (var item in a)//GetBytes(reply))
+                            {
+                                Console.WriteLine(i + ": " + item);
+                                i++;
+                            }
                             Thread checkAgain = new Thread(CheckIncoming);
                             checkAgain.Start();
                             Console.ReadKey();
@@ -263,13 +270,6 @@ namespace Services.RobotServices.Mindsqualls
                     if (ex.ErrorMessage != NxtErrorMessage.SpecifiedMailboxQueueIsEmpty) throw;
                 }
             }
-        }
-
-        static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
         }
 
         private void SendRobotItsPose(IPose pose)
