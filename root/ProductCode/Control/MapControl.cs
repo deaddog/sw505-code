@@ -12,6 +12,8 @@ namespace Control
 {
     public class MapControl
     {
+        private const int LOG_ODDS_BASE = 10;
+
         IRobot robot;
         IPose robotPose;
 
@@ -31,7 +33,7 @@ namespace Control
                 for (int j = 0; j < map.Columns - 1; j++)
                 {
                     if (cellIsInPerceptualField(i, j, sensorReading))
-                        break;
+                        break; //TODO implement algorithm from report (OccupancyGridMapping)
                 }
             }
 
@@ -45,12 +47,12 @@ namespace Control
 
         private double logOdds(double cellPropability)
         {
-            return Math.Log(cellPropability / (1 - cellPropability), 10);
+            return Math.Log(cellPropability / (1 - cellPropability), LOG_ODDS_BASE);
         }
 
         private double logOddsInverse(double cellLogOdds)
         {
-            return 1 - (1 / (1 + Math.Pow(10, cellLogOdds)));
+            return 1 - (1 / (1 + Math.Pow(LOG_ODDS_BASE, cellLogOdds)));
         }
     }
 }
