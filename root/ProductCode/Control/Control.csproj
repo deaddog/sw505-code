@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapControl.cs" />
     <Compile Include="NavigationControl.cs" />
     <Compile Include="ScanningControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
