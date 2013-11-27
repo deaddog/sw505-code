@@ -49,8 +49,6 @@ task main(){
              cmdType = StrToNum(cmd);
              args = SubStr(in, 1, StrLen(in)-1);
              
-             //For the rotating of the sensor
-             bool clockwise = true;
              switch(cmdType){
                  case INCOMING_MOVE_TO_POS:
                  //Placeholder for command "goto"
@@ -73,31 +71,22 @@ task main(){
                  case INCOMING_GET_SENSOR_MEASUREMENT :
                  
                  string s = "";
+                 bool clockwise = false;
+                 s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
+                 TextOut(0, LCD_LINE1, s);
+                 string a = rotate_and_measure(clockwise);
+                 TextOut(0, LCD_LINE2, a);
+                 s = StrCat(s,a);
+                 TextOut(0, LCD_LINE3, s);
+                 SendMessage(OUTBOX,s);
+                 clockwise = true;
 
-                 int i;
-                 for(i=0;i<2;i++)
-                 {
-                  if(clockwise)
-                  {
-                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
-                  TextOut(0, LCD_LINE1, s);
-                  string a = rotate_and_measure(clockwise);
-                  TextOut(0, LCD_LINE2, a);
-                  s = StrCat(s,a);
-                  TextOut(0, LCD_LINE3, s);
-                  clockwise = false;
-                  SendResponseString(OUTBOX,s);
-                  s="";
-                  }
-                  else
-                  {
-                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
-                  s = StrCat(s,rotate_and_measure(clockwise));
-                  SendResponseString(OUTBOX,s);
-                  clockwise = true;
-                  s="";
-                  }
-                 }
+
+
+                 s="";
+                 s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
+                 s = StrCat(s,rotate_and_measure(clockwise));
+                 SendMessage(OUTBOX,s);
                  break;
 
              }//end switch cmdtype

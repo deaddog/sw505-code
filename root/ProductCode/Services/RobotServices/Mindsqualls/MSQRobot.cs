@@ -244,8 +244,10 @@ namespace Services.RobotServices.Mindsqualls
                             Console.ReadKey();
                             break;
                         case IncomingCommand.GetSensorData:
-                            stopMailcheckerThread = true;
-                            Console.WriteLine(reply);
+                            //stopMailcheckerThread = true;
+                            Console.WriteLine(GetBytes(reply)[1]);
+                            Thread checkAgain = new Thread(CheckIncoming);
+                            checkAgain.Start();
                             Console.ReadKey();
                             break;
                         default:
@@ -261,6 +263,13 @@ namespace Services.RobotServices.Mindsqualls
                     if (ex.ErrorMessage != NxtErrorMessage.SpecifiedMailboxQueueIsEmpty) throw;
                 }
             }
+        }
+
+        static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
         }
 
         private void SendRobotItsPose(IPose pose)

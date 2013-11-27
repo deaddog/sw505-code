@@ -18,6 +18,6 @@ namespace Services.RobotServices
         /// <summary>
         /// Get sensor data
         /// </summary>
-        GetSensorData
+        GetSensorData = 1
     }
 }
