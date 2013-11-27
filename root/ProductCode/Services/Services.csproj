@@ -39,6 +39,7 @@
     <Reference Include="NKH.MindSqualls, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\NKH.MindSqualls.dll</HintPath>
+    </Reference>
     <Reference Include="Emgu.CV">
       <HintPath>..\..\..\BackgroundSubtraction\BackgroundSubtraction\bin\Debug\Emgu.CV.dll</HintPath>
     </Reference>
