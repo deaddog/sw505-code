@@ -24,9 +24,9 @@ namespace Control
 
         public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, SensorSweepDTO sensorReading)
         {
-            for (int i = 0; i < map.GridRows - 1; i++)
+            for (int i = 0; i < map.Rows - 1; i++)
             {
-                for (int j = 0; j < map.GridColumns - 1; j++)
+                for (int j = 0; j < map.Columns - 1; j++)
                 {
                     if (cellIsInPerceptualField(i, j, sensorReading))
                         break;
