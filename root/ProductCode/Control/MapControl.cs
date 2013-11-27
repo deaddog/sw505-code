@@ -24,6 +24,8 @@ namespace Control
 
         public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, SensorSweepDTO sensorReading)
         {
+            double[,] newMap = new double[map.Columns, map.Rows];
+
             for (int i = 0; i < map.Rows - 1; i++)
             {
                 for (int j = 0; j < map.Columns - 1; j++)
@@ -33,7 +35,7 @@ namespace Control
                 }
             }
 
-            throw new NotImplementedException();
+            return new OccupancyGrid(newMap, map.CellSize, map.X, map.Y);
         }
 
         private bool cellIsInPerceptualField(int cellX, int cellY, SensorSweepDTO sensorReading)
