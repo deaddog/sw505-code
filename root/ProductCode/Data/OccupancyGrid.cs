@@ -6,189 +6,129 @@ using System.Threading.Tasks;
 
 namespace Data
 {
+    /// <summary>
+    /// Struct representing an occupancy grid
+    /// </summary>
     public struct OccupancyGrid
     {
+        // Initialize each cell in grid with 0,5 probability
+        private const double INITIAL_PROBABILITY = 0.5;
         // Cell size in centimeters
-        private const int cellSizeCentimeters = 20;
-        private int gridRows;
-        private int gridColumns;
+        public const int CELL_SIZE_CM = 30;
 
+        // Rows in grid
+        public int Rows;
+        // Columns in grid
+        public int Columns;
+
+        // Array to represent the grid
         private double[,] gridCells;
 
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="OccupancyGrid"/> struct.
+        /// Constructor taking the number of rows and columns
         /// </summary>
-        /// <param name="row">The number of rows.</param>
-        /// <param name="column">The number of columns.</param>
-        public OccupancyGrid(int row, int column, double initialProbability = 0.5)
+        /// <param name="row">Number of rows in grid (the height)</param>
+        /// <param name="column">Number of columns in grid (the width)</param>
+        public OccupancyGrid(int row, int column)
         {
-            gridRows = row;
-            gridColumns = column;
+            Rows = row;
+            Columns = column;
 
-            gridCells = new double[row, column];
-            InitializeGrid(initialProbability);
+            // Array of grid cells
+            gridCells = new double[column, row];
+            // Initializes grid with default probability
+            InitializeGrid(column, row);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OccupancyGrid"/> struct with the content of the specified array
+        /// Initializes the grid with an initial probability
         /// </summary>
-        /// <param name="grid">The array containing values to fill the occupancy grid with</param>
-        /// <exception cref="System.ArgumentException">Content of occupancy must be a probability (value between 0 and 1)</exception>
-        public OccupancyGrid(double[,] grid)
+        /// <param name="row">Number of rows in grid to initialize</param>
+        /// <param name="column">Number of columns in grid to initialize</param>
+        private void InitializeGrid(int row, int column)
         {
-            gridRows = grid.GetLength(0);
-            gridColumns = grid.GetLength(1);
-
-            foreach (double item in grid)
+            for (int i = 0; i < column; i++)
             {
-                if (item > 1 || item < 0)
-                    throw new ArgumentException("Content of occupancy must be a probability (value between 0 and 1)");
-            }
-
-            gridCells = grid;
-        }
-
-
-        /// <summary>
-        /// Initializes the grid with the specified initial probabilty
-        /// </summary>
-        /// <param name="initialProbability">The initial probability.</param>
-        private void InitializeGrid(double initialProbability)
-        {
-            for (int i = 0; i < gridRows; i++)
-            {
-                for (int j = 0; j < gridColumns; j++)
+                for (int j = 0; j < row; j++)
                 {
-                    gridCells[i, j] = initialProbability;
+                    gridCells[i, j] = INITIAL_PROBABILITY;
                 }
             }
         }
 
         /// <summary>
-        /// Sets the probability of the specified cell with the specified probability
+        /// Sets the probability of a given cell in grid
         /// </summary>
-        /// <param name="row">The row.</param>
-        /// <param name="column">The column.</param>
-        /// <param name="probability">The probability.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">row;Index not between the bounds of the grid cells
-        /// or
-        /// column;Index not between the bounds of the grid cells</exception>
+        /// <param name="row">Row in the occupancy grid</param>
+        /// <param name="column">Column in the occupancy grid</param>
+        /// <param name="probability">The new probability of the cell in grid</param>
+        /// <returns>True if probability is successfully updated, false otherwise</returns>
         public bool SetProbability(int row, int column, double probability)
         {
-            if (row > gridRows || row < 0)
-                throw new ArgumentOutOfRangeException("row", "Index not between the bounds of the grid cells");
-
-            if (column > gridColumns || column < 0)
-                throw new ArgumentOutOfRangeException("column", "Index not between the bounds of the grid cells");
+            checkBounds(row, column);
 
             if (probability < 0 || probability > 1)
                 return false;
 
-            gridCells[row, column] = probability;
+            gridCells[column, row] = probability;
             return true;
         }
 
-        /// <summary>
-        /// Gets or sets the <see cref="System.Double"/> with the specified row.
-        /// </summary>
-        /// <value>
-        /// The <see cref="System.Double"/>.
-        /// </value>
-        /// <param name="row">The row.</param>
-        /// <param name="column">The column.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// row;Index not between the bounds of the grid cells
-        /// or
-        /// column;Index not between the bounds of the grid cells
-        /// or
-        /// row;Index not between the bounds of the grid cells
-        /// or
-        /// column;Index not between the bounds of the grid cells
-        /// </exception>
-        public double this[int row, int column]
+        public double this[int column, int row]
         {
             get
             {
-                if (row > gridRows || row < 0)
-                    throw new ArgumentOutOfRangeException("row", "Index not between the bounds of the grid cells");
+                checkBounds(row, column);
 
-                if (column > gridColumns || column < 0)
-                    throw new ArgumentOutOfRangeException("column", "Index not between the bounds of the grid cells");
-
-                return gridCells[row, column];
+                return gridCells[column, row];
             }
             set
             {
-                if (row > gridRows || row < 0)
-                    throw new ArgumentOutOfRangeException("row", "Index not between the bounds of the grid cells");
-
-                if (column > gridColumns || column < 0)
-                    throw new ArgumentOutOfRangeException("column", "Index not between the bounds of the grid cells");
+                checkBounds(row, column);
 
                 if (value < 0)
                     value = 0;
                 if (value > 1)
                     value = 1;
 
-                gridCells[row, column] = value;
+                gridCells[column, row] = value;
             }
         }
 
         /// <summary>
-        /// Determines whether the specified cell is occupied.
+        /// Checks if a cell in grid is occupied
         /// </summary>
-        /// <param name="row">The row.</param>
-        /// <param name="column">The column.</param>
-        /// <returns></returns>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <returns>True if the probability of the given cell is above 0,5, false otherwise</returns>
         public bool IsOccupied(int row, int column)
         {
-            return IsOpThreshold(row, column, (x, y) => x > y, 0.5d);
-        }
+            checkBounds(row, column);
 
-        /// <summary>
-        /// Determines whether the specified cell is empty.
-        /// </summary>
-        /// <param name="row">The row.</param>
-        /// <param name="column">The column.</param>
-        /// <returns></returns>
-        public bool IsEmpty(int row, int column)
-        {
-            return IsOpThreshold(row, column, (x, y) => x < y, 0.5d);
-        }
-        /// <summary>
-        /// Determines whether the specified cell has a value that satisfies the <paramref name="op"/> in respect to the specified threshold
-        /// </summary>
-        /// <param name="row">The row.</param>
-        /// <param name="column">The column.</param>
-        /// <param name="op">The operation to compare the cell value and the threshold value</param>
-        /// <param name="threshold">The threshold.</param>
-        /// <returns>If the cell value satisfies the <paramref name="op"/> in respect to the specified threshold</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// row;Index not between the bounds of the grid cells
-        /// or
-        /// column;Index not between the bounds of the grid cells
-        /// </exception>
-        private bool IsOpThreshold(int row, int column, Func<double, double, bool> op, double threshold)
-        {
-            if (row > gridRows || row < 0)
-            {
-                throw new ArgumentOutOfRangeException("row", "Index not between the bounds of the grid cells");
-            }
-            if (column > gridColumns || column < 0)
-            {
-                throw new ArgumentOutOfRangeException("column", "Index not between the bounds of the grid cells");
-            }
-
-            if (op( gridCells[row, column], threshold))
+            if (gridCells[column, row] > .5d)
             {
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks the bounds of the occupancy grid
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        private void checkBounds(int row, int column)
+        {
+            if (row > Rows || row < 0)
+            {
+                throw new ArgumentOutOfRangeException("row", "Index not between the bounds of the grid cells");
+            }
+            if (column > Columns || column < 0)
+            {
+                throw new ArgumentOutOfRangeException("column", "Index not between the bounds of the grid cells");
             }
         }
     }
