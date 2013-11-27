@@ -66,7 +66,7 @@ namespace Data
                     gridCells[x, y] = INITIAL_PROBABILITY;
         }
 
-        public OccupancyGrid(float[,] grid, float cellsize, float xOffset, float yOffset)
+        public OccupancyGrid(double[,] grid, float cellsize, float xOffset, float yOffset)
         {
             this.rows = grid.GetLength(0);
             this.columns = grid.GetLength(1);
