@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NKH.MindSqualls">
+      <HintPath>..\Services\bin\Debug\NKH.MindSqualls.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -41,12 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\Coordinate.cs" />
     <Compile Include="DTOs\SensorDataDTO.cs" />
     <Compile Include="DTOs\SensorSweepDTO.cs" />
     <Compile Include="DTOs\Vector2D.cs" />
     <Compile Include="Interfaces\ICoordinate.cs" />
+    <Compile Include="Interfaces\IIndex.cs" />
     <Compile Include="Interfaces\IPose.cs" />
     <Compile Include="Interfaces\ISensorData.cs" />
+    <Compile Include="NXTPostMan\INXTPostMan.cs" />
+    <Compile Include="NXTPostMan\NXTEncoder.cs" />
+    <Compile Include="NXTPostMan\NXTMessage.cs" />
+    <Compile Include="NXTPostMan\NXTMessageType.cs" />
+    <Compile Include="NXTPostMan\PostMan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

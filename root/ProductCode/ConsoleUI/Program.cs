@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Control;
 using CommonLib.DTOs;
+using Services.RobotServices;
 
 namespace SystemInterface.ConsoleUI
 {
@@ -9,9 +10,12 @@ namespace SystemInterface.ConsoleUI
     {
         static void Main(string[] args)
         {
-            NavigationControl nav = new NavigationControl();
-            nav.TellRobotNavigateTo(new Vector2D(50f, 50f));
+            ScanningControl s = new ScanningControl();
+            s.GetSensorData();
+            //NavigationControl nav = new NavigationControl();
+            //nav.TellRobotNavigateTo(new Vector2D(50f, 50f));
             //AndersEksempelPaaBrugAfDesignOgLag();
+            
         }
 
         private static void AndersEksempelPaaBrugAfDesignOgLag()

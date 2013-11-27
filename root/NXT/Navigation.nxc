@@ -12,6 +12,14 @@ inline void WaitForMotors()
  }
 }
 
+// Waits for the sensor motor to be ready
+inline void WaitForSensorMotor()
+{
+ while(!(IsMotorReady(2)))
+ {
+ }
+}
+
 // Drives the robot forward the specified distance in MM with the specified power (-100 to 100)
 sub RunForward( int power, float distance)
 {
