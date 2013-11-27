@@ -19,44 +19,31 @@ namespace SystemInterface.GUI.Controls
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        // Array of rectangles representing the occupancy grid
-        private Rectangle[,] gridRectangles;
-        // default values (overridden when grid is set)
-        private int gridColumns = 10;
-        // default values (overridden when grid is set)
-        private int gridRows = 10;
+        private Vector2D startPoint = new Vector2D(-150, -110);
+        private Vector2D cellSize = new Vector2D(10, 10);
+        private Services.TrackingServices.CoordinateConverter conv = new CoordinateConverter(640, 480, 308, 231);
 
-        #region Grid properties
         private OccupancyGrid grid;
-        private bool gridHideUnexplored = false;
-        private bool gridShowBorders = true;
-        private bool gridShowProbilities = false;
-        private bool gridShowRuler = false;
-
-        /// <summary>
-        /// The location of the grid in the picturebox in pixels
-        /// </summary>
-        public Point GridActualLocation = new Point(0, 0);
-
-        /// <summary>
-        /// The size of the grid in pixels
-        /// </summary>
-        public Size GridActualSize = new Size(1, 1); // Default value to prevent designer exception
-
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
         /// </summary>
+        [Browsable(false)]
         public OccupancyGrid Grid
         {
             get { return grid; }
             set
             {
                 grid = value;
-                gridRows = grid.Rows;
-                gridColumns = grid.Columns;
                 this.Invalidate();
             }
         }
+
+        #region Grid properties
+
+        private bool gridHideUnexplored = false;
+        private bool gridShowBorders = true;
+        private bool gridShowProbilities = false;
+        private bool gridShowRuler = false;
 
         /// <summary>
         /// When probabilities are shown, hide or show unexplored areas of the grid (probability = 0.5)
@@ -116,21 +103,10 @@ namespace SystemInterface.GUI.Controls
         #endregion
 
         /// <summary>
-        /// Default constructor for OccupancyGridControl
+        /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
-        /// <param name="point">The location on the image where the grid shall be drawn</param>
         public OccupancyGridControl()
         {
-            this.GridActualLocation = new Point(0, 0);
-        }
-
-        /// <summary>
-        /// Constructor for OccupancyGridControl
-        /// </summary>
-        /// <param name="point">The location on the image where the grid shall be drawn</param>
-        public OccupancyGridControl(Point point)
-        {
-            this.GridActualLocation = point;
         }
 
         /// <summary>
@@ -148,9 +124,8 @@ namespace SystemInterface.GUI.Controls
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
-
-            if (gridRectangles == null)
-                initializeRectangles();
+            if (DesignMode)
+                return;
 
             drawGrid(pe.Graphics);
 
@@ -200,13 +175,26 @@ namespace SystemInterface.GUI.Controls
             }
         }
 
+        private void drawCell(Graphics graphics, int x, int y)
+        {
+            Vector2D point = startPoint + new Vector2D(cellSize.X * x, cellSize.Y * y);
+
+            Vector2D v = conv.ConvertActualToPixel(point);
+            Vector2D v2 = conv.ConvertActualToPixel(point + cellSize);
+
+            RectangleF r = RectangleF.FromLTRB(v.X, v.Y, v2.X, v2.Y);
+            graphics.DrawRectangle(Pens.Red, v.X, v.Y, v2.X - v.X, v2.Y - v.Y);
+
+            drawProbabilities(grid[x,y], graphics, r);
+        }
+
         /// <summary>
         /// Draws a probability on the grid
         /// </summary>
         /// <param name="probability"></param>
         /// <param name="g">Graphics to draw on</param>
         /// <param name="r">Rectangle to contain the probability</param>
-        private void drawProbabilities(double probability, Graphics g, Rectangle r)
+        private void drawProbabilities(double probability, Graphics g, RectangleF r)
         {
             SolidBrush textBrush = new SolidBrush(Color.FromArgb(255, Color.Black));
             Font drawFont = new System.Drawing.Font("Arial", 9);
@@ -245,7 +233,7 @@ namespace SystemInterface.GUI.Controls
                 r.Location = new Point(i * rectangleWidth + GridActualLocation.X + Padding.Left, GridActualLocation.Y - RULER_HEIGHT_WIDTH + Padding.Top);
                 r.Size = new Size(rectangleWidth, RULER_HEIGHT_WIDTH);
 
-                g.FillRectangle(rulerBackgroundBrush, r); 
+                g.FillRectangle(rulerBackgroundBrush, r);
                 g.DrawRectangle(rulerLinesPen, r);
                 g.DrawString((i + 1).ToString(), drawFont, textBrush, r.Location);
             }
@@ -263,24 +251,6 @@ namespace SystemInterface.GUI.Controls
             }
             rulerBackgroundBrush.Dispose();
             textBrush.Dispose();
-        }
-        
-        /// <summary>
-        /// Initializes the array of rectangles, each to represent a cell in the occupancy grid
-        /// </summary>
-        private void initializeRectangles()
-        {
-            gridRectangles = new Rectangle[grid.Rows, grid.Columns];
-
-            for (int i = 0; i < grid.Columns; i++)
-            {
-                for (int j = 0; j < grid.Rows; j++)
-                {
-                    Rectangle r = new Rectangle();
-
-                    gridRectangles[i, j] = r;
-                }
-            }
         }
 
         /// <summary>

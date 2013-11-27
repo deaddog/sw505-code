@@ -11,67 +11,71 @@ namespace Data
     /// </summary>
     public struct OccupancyGrid
     {
-        // Initialize each cell in grid with 0,5 probability
         private const double INITIAL_PROBABILITY = 0.5;
-        // Cell size in centimeters
-        public const int CELL_SIZE_CM = 30;
 
-        // Rows in grid
-        public int Rows;
-        // Columns in grid
-        public int Columns;
+        private int rows;
+        public int Rows
+        {
+            get { return rows; }
+        }
 
-        // Array to represent the grid
+        private int columns;
+        public int Columns
+        {
+            get { return columns; }
+        }
+
+        private float cellsize;
+        public float CellSize
+        {
+            get { return cellsize; }
+        }
+
+        private float xOffset;
+        public float X
+        {
+            get { return xOffset; }
+        }
+
+        private float yOffset;
+        public float Y
+        {
+            get { return yOffset; }
+        }
+
         private double[,] gridCells;
 
         /// <summary>
         /// Constructor taking the number of rows and columns
         /// </summary>
-        /// <param name="row">Number of rows in grid (the height)</param>
-        /// <param name="column">Number of columns in grid (the width)</param>
-        public OccupancyGrid(int row, int column)
+        /// <param name="columns">Number of columns in grid (the width)</param>
+        /// <param name="rows">Number of rows in grid (the height)</param>
+        public OccupancyGrid(int columns, int rows, float cellsize, float xOffset, float yOffset)
         {
-            Rows = row;
-            Columns = column;
+            this.rows = rows;
+            this.columns = columns;
 
-            // Array of grid cells
-            gridCells = new double[column, row];
-            // Initializes grid with default probability
-            InitializeGrid(column, row);
+            this.cellsize = cellsize;
+            this.xOffset = xOffset;
+            this.yOffset = yOffset;
+
+            gridCells = new double[columns, rows];
+
+            for (int x = 0; x < columns; x++)
+                for (int y = 0; y < rows; y++)
+                    gridCells[x, y] = INITIAL_PROBABILITY;
         }
 
-        /// <summary>
-        /// Initializes the grid with an initial probability
-        /// </summary>
-        /// <param name="row">Number of rows in grid to initialize</param>
-        /// <param name="column">Number of columns in grid to initialize</param>
-        private void InitializeGrid(int row, int column)
+        public OccupancyGrid(double[,] grid, float cellsize, float xOffset, float yOffset)
         {
-            for (int i = 0; i < column; i++)
-            {
-                for (int j = 0; j < row; j++)
-                {
-                    gridCells[i, j] = INITIAL_PROBABILITY;
-                }
-            }
-        }
+            this.rows = grid.GetLength(0);
+            this.columns = grid.GetLength(1);
 
-        /// <summary>
-        /// Sets the probability of a given cell in grid
-        /// </summary>
-        /// <param name="row">Row in the occupancy grid</param>
-        /// <param name="column">Column in the occupancy grid</param>
-        /// <param name="probability">The new probability of the cell in grid</param>
-        /// <returns>True if probability is successfully updated, false otherwise</returns>
-        public bool SetProbability(int row, int column, double probability)
-        {
-            checkBounds(row, column);
+            this.cellsize = cellsize;
+            this.xOffset = xOffset;
+            this.yOffset = yOffset;
 
-            if (probability < 0 || probability > 1)
-                return false;
-
-            gridCells[column, row] = probability;
-            return true;
+            gridCells = (double[,])grid.Clone();
         }
 
         public double this[int column, int row]

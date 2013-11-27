@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using CommonLib.DTOs;
-//using CommonLib.Interfaces;
+using CommonLib.DTOs;
+using CommonLib.Interfaces;
 
 namespace Data.SensorModel
 {
@@ -39,22 +39,18 @@ namespace Data.SensorModel
             get { return cellDepthCM; }
         }
 
-        public float CellRadius
-       {
-           get { return OccupancyGrid.CELL_SIZE_CM / 2; }
+        private double l_0(OccupancyGrid grid, IIndex index)
+        {
+            double prior = grid[index.X,index.Y];
+            return Math.Log10(prior / (1 - prior));
         }
 
-        private float l_0()
+        private CellCoordinate getCoordinateFromCellIndex(OccupancyGrid grid, IIndex index)
         {
-            return 0;
+            float cellRadius = grid.CellSize / 2;
+            return new CellCoordinate(grid.CellSize * index.X + cellRadius, grid.CellSize * index.Y + cellRadius);
         }
-        /*
-        private CellCoordinate getCoordinateFromCellIndex(IIndex index)
-        {
-            
-            return new CellCoordinate(OccupancyGrid.CELL_SIZE_CM * index.X + CellRadius, OccupancyGrid.CELL_SIZE_CM * index.Y + CellRadius);
-        }
-        
+
         /// <summary>
         /// Gets the probability from ultrasonic sensor X.
         /// </summary>
@@ -62,21 +58,23 @@ namespace Data.SensorModel
         /// <param name="cell">The cells coordinates.</param>
         /// <param name="sensorX">The sensor X's length measured.</param>
         /// <returns></returns>
-        public double GetProbabilityUltrasonicSensorX(ICoordinate robot, IIndex cell, byte sensorX)
+        public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, ICoordinate robot, IIndex cell, byte sensorX)
         {
-            
-            double r = Math.Abs((cell.X - robot.X) + (cell.Y - robot.Y));
+            float cellRadius = grid.CellSize / 2;
 
-            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + CellRadius))
+            CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
+            double r = Math.Abs((c.X - robot.X) + (c.Y - robot.Y));
+
+            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + cellRadius))
             {
-                return l_0();
+                return l_0(grid,cell);
             }
-            else if (sensorX - CellRadius <= r && r <= sensorX + CellRadius)
+            else if (sensorX - cellRadius <= r && r <= sensorX + cellRadius)
             {
                 return OCCUPIED_CELL_VALUE;
             }
             else
                 return FREE_CELL_VALUE;
-        }*/
+        }
     }
 }
