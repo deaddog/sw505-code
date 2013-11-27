@@ -19,13 +19,6 @@ namespace SystemInterface.GUI.Controls
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        // Array of rectangles representing the occupancy grid
-        private Rectangle[,] gridRectangles;
-        // default values (overridden when grid is set)
-        private int gridColumns = 10;
-        // default values (overridden when grid is set)
-        private int gridRows = 10;
-
         private OccupancyGrid grid;
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
@@ -37,8 +30,6 @@ namespace SystemInterface.GUI.Controls
             set
             {
                 grid = value;
-                gridRows = grid.Rows;
-                gridColumns = grid.Columns;
                 this.Invalidate();
             }
         }
@@ -151,9 +142,6 @@ namespace SystemInterface.GUI.Controls
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
-
-            if (gridRectangles == null)
-                initializeRectangles();
 
             drawGrid(pe.Graphics);
 
@@ -268,24 +256,6 @@ namespace SystemInterface.GUI.Controls
             textBrush.Dispose();
         }
         
-        /// <summary>
-        /// Initializes the array of rectangles, each to represent a cell in the occupancy grid
-        /// </summary>
-        private void initializeRectangles()
-        {
-            gridRectangles = new Rectangle[grid.Rows, grid.Columns];
-
-            for (int i = 0; i < grid.Columns; i++)
-            {
-                for (int j = 0; j < grid.Rows; j++)
-                {
-                    Rectangle r = new Rectangle();
-
-                    gridRectangles[i, j] = r;
-                }
-            }
-        }
-
         /// <summary>
         /// Normalizes the probability in the range from 0-255 to fit a char value (for either a R,G or B value of a color)
         /// </summary>
