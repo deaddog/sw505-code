@@ -15,6 +15,9 @@ namespace Data
 
         private double[,] gridCells;
 
+        public int GridRows { get { return gridRows; } }
+
+        public int GridColumns { get { return gridColumns; } }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGrid"/> struct.
