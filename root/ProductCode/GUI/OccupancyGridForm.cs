@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
+using CommonLib.DTOs;
 
 namespace SystemInterface.GUI
 {
@@ -80,7 +81,7 @@ namespace SystemInterface.GUI
         {
             OccupancyGrid grid = new OccupancyGrid(10, 10);
             occupancyGridControl1.Grid = grid;
-            occupancyGridControl1.GridActualLocation = occupancyGridControl1.ConvertActualToPixel(new Point(-250, -250));
+            occupancyGridControl1.GridActualLocation = new Point(30, 30);
             occupancyGridControl1.GridActualSize = new Size(280, 280);
             //occupancyGridControl1.GridLocation = occupancyGridControl1.ConvertActualToPixel(new Point(-250, -250));
 
