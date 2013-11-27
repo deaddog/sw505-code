@@ -42,5 +42,15 @@ namespace Control
         {
             throw new NotImplementedException();
         }
+
+        private double logOdds(double cellPropability)
+        {
+            return Math.Log(cellPropability / (1 - cellPropability), 10);
+        }
+
+        private double logOddsInverse(double cellLogOdds)
+        {
+            return 1 - (1 / (1 + Math.Pow(10, cellLogOdds)));
+        }
     }
 }
