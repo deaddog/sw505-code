@@ -32,7 +32,7 @@ namespace CommonLibTest
         [TestInitialize]
         public void Initializer()
         {
-            postman = new PostMan();
+            postman = PostMan.getInstance();
         }
 
         [TestCleanup]
@@ -60,7 +60,7 @@ namespace CommonLibTest
 
 
         [TestMethod]
-        public void SendMessage_RobotReadyAndAbleMessageWellFormed_MessageRecievedByRobot()
+        public void SendMessage_RobotReadyAndAbleMessageWellFormedAndEncoded_MessageRecievedByRobot()
         {
             // Arrange
             ICoordinate cord = new Vector2D(5.0f, 5.0f);
