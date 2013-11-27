@@ -19,6 +19,10 @@ namespace SystemInterface.GUI.Controls
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
+        private Vector2D startPoint = new Vector2D(-150, -110);
+        private Vector2D cellSize = new Vector2D(10, 10);
+        private Services.TrackingServices.CoordinateConverter conv = new CoordinateConverter(640, 480, 308, 231);
+
         private OccupancyGrid grid;
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
@@ -120,6 +124,8 @@ namespace SystemInterface.GUI.Controls
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
+            if (DesignMode)
+                return;
 
             drawGrid(pe.Graphics);
 
@@ -169,13 +175,26 @@ namespace SystemInterface.GUI.Controls
             }
         }
 
+        private void drawCell(Graphics graphics, int x, int y)
+        {
+            Vector2D point = startPoint + new Vector2D(cellSize.X * x, cellSize.Y * y);
+
+            Vector2D v = conv.ConvertActualToPixel(point);
+            Vector2D v2 = conv.ConvertActualToPixel(point + cellSize);
+
+            RectangleF r = RectangleF.FromLTRB(v.X, v.Y, v2.X, v2.Y);
+            graphics.DrawRectangle(Pens.Red, v.X, v.Y, v2.X - v.X, v2.Y - v.Y);
+
+            drawProbabilities(grid[x,y], graphics, r);
+        }
+
         /// <summary>
         /// Draws a probability on the grid
         /// </summary>
         /// <param name="probability"></param>
         /// <param name="g">Graphics to draw on</param>
         /// <param name="r">Rectangle to contain the probability</param>
-        private void drawProbabilities(double probability, Graphics g, Rectangle r)
+        private void drawProbabilities(double probability, Graphics g, RectangleF r)
         {
             SolidBrush textBrush = new SolidBrush(Color.FromArgb(255, Color.Black));
             Font drawFont = new System.Drawing.Font("Arial", 9);
@@ -214,7 +233,7 @@ namespace SystemInterface.GUI.Controls
                 r.Location = new Point(i * rectangleWidth + GridActualLocation.X + Padding.Left, GridActualLocation.Y - RULER_HEIGHT_WIDTH + Padding.Top);
                 r.Size = new Size(rectangleWidth, RULER_HEIGHT_WIDTH);
 
-                g.FillRectangle(rulerBackgroundBrush, r); 
+                g.FillRectangle(rulerBackgroundBrush, r);
                 g.DrawRectangle(rulerLinesPen, r);
                 g.DrawString((i + 1).ToString(), drawFont, textBrush, r.Location);
             }
@@ -233,7 +252,7 @@ namespace SystemInterface.GUI.Controls
             rulerBackgroundBrush.Dispose();
             textBrush.Dispose();
         }
-        
+
         /// <summary>
         /// Normalizes the probability in the range from 0-255 to fit a char value (for either a R,G or B value of a color)
         /// </summary>
