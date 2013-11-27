@@ -76,5 +76,21 @@ namespace CommonLibTest
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
+
+        [TestMethod]
+        public void SendMessage_RobotReadyAndAbleCoordinateAsMessage_MessageRecievedByRobot()
+        {
+            // Arrange
+            ICoordinate cord = new Vector2D(5.0f, 5.0f);
+            DialogResult result;
+
+            // Act
+            ((PostMan)postman).SendMessage(cord);
+            result = MessageBox.Show("Did the robot recieve move to command ?", "Test Result", MessageBoxButtons.YesNo);
+
+            // Assert
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
+
     }
 }
