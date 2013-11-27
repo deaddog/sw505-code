@@ -7,7 +7,7 @@ namespace CommonLib.NXTPostMan
     public class PostMan : INXTPostMan
     {
         private static PostMan instance;
-        private const byte SERIAL_PORT_NUMBER = 6;
+        private const byte SERIAL_PORT_NUMBER = 4;
         
         // Used for sending/receiving commands to/from NXT
         private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
@@ -41,12 +41,16 @@ namespace CommonLib.NXTPostMan
         public void SendMessage(NXTMessage msg)
         {
             // send the preformed message to the robot.
-            CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, msg.EncodedMsg);
+            string toSendMessage = String.Format("{0}{1}", (byte)msg.MessageType, msg.EncodedMsg);
+            CommunicationBrick.Connect();
+            CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
         }
 
         public void SendMessage(ICoordinate cord)
         {
             string encodedString = NXTEncoder.Encode(cord);
+            string toSendMessage = String.Format("{0}{1}", (byte)NXTMessageType.MoveToPos, encodedString);
+            CommunicationBrick.Connect();
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
         }
 

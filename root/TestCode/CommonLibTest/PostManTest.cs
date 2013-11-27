@@ -70,7 +70,7 @@ namespace CommonLibTest
 
             // Act
             postman.SendMessage(msg);
-            result = MessageBox.Show("Did the robot recieve move to command ?", "Test Result", MessageBoxButtons.YesNo);
+            result  = MessageBox.Show("Did the robot recieve move to command ?", "Test Result", MessageBoxButtons.YesNo);
 
             // Assert
             Assert.IsTrue(result == DialogResult.Yes);
