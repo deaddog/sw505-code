@@ -19,8 +19,6 @@ namespace SystemInterface.GUI.Controls
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        private Vector2D startPoint = new Vector2D(-150, -110);
-        private Vector2D cellSize = new Vector2D(10, 10);
         private Services.TrackingServices.CoordinateConverter conv = new CoordinateConverter(640, 480, 308, 231);
 
         private OccupancyGrid grid;
@@ -139,53 +137,27 @@ namespace SystemInterface.GUI.Controls
         /// <param name="g">The graphics on which to draw on</param>
         private void drawGrid(Graphics g)
         {
-            Pen pen = new Pen(Color.Black, 1);
-            pen.Alignment = PenAlignment.Center;
-
-            int actualRectangleHeight = GridActualSize.Height / gridRows;
-            int actualRectangleWidth = GridActualSize.Width / gridColumns;
-
             for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
-            {
                 for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
-                {
-                    SolidBrush rectangleBrush = new SolidBrush(setColor(grid[columnIndex, rowIndex]));
-                    Rectangle r = gridRectangles[columnIndex, rowIndex];
-
-                    Point rectanglePoint1 = new Point(GridActualLocation.X, GridActualLocation.Y);
-                    Point rectanglePoint2 = new Point(GridActualLocation.X, GridActualLocation.Y);
-
-                    int pointX = columnIndex * actualRectangleWidth + GridActualLocation.X + this.Padding.Left;
-                    int pointY = rowIndex * actualRectangleHeight + GridActualLocation.Y + this.Padding.Top;
-                    r.Location = new Point(pointX, pointY);
-                    r.Size = new Size(actualRectangleWidth, actualRectangleHeight);
-
-                    #region Draw the grid
-                    g.FillRectangle(rectangleBrush, r);
-
-                    if (GridShowBorders)
-                        g.DrawRectangle(pen, r);
-
-                    if (GridShowProbabilities)
-                        drawProbabilities(grid[columnIndex, rowIndex], g, r);
-
-                    #endregion
-                    rectangleBrush.Dispose();
-                }
-            }
+                    drawCell(g, columnIndex, rowIndex);
         }
 
         private void drawCell(Graphics graphics, int x, int y)
         {
-            Vector2D point = startPoint + new Vector2D(cellSize.X * x, cellSize.Y * y);
+            Vector2D point = new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y);
 
             Vector2D v = conv.ConvertActualToPixel(point);
-            Vector2D v2 = conv.ConvertActualToPixel(point + cellSize);
+            Vector2D v2 = conv.ConvertActualToPixel(point + new Vector2D(grid.CellSize, grid.CellSize));
 
             RectangleF r = RectangleF.FromLTRB(v.X, v.Y, v2.X, v2.Y);
-            graphics.DrawRectangle(Pens.Red, v.X, v.Y, v2.X - v.X, v2.Y - v.Y);
 
-            drawProbabilities(grid[x,y], graphics, r);
+            using (SolidBrush brush = new SolidBrush(setColor(grid[x, y])))
+                graphics.FillRectangle(brush, r);
+
+            if (gridShowBorders)
+                graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
+            if (gridShowProbilities)
+                drawProbabilities(grid[x, y], graphics, r);
         }
 
         /// <summary>
