@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLib.Interfaces;
+//using CommonLib.DTOs;
+//using CommonLib.Interfaces;
 
 namespace Data.SensorModel
 {
@@ -37,6 +38,22 @@ namespace Data.SensorModel
         {
             get { return cellDepthCM; }
         }
+
+        public float CellRadius
+       {
+           get { return OccupancyGrid.CELL_SIZE_CM / 2; }
+        }
+
+        private float l_0()
+        {
+            return 0;
+        }
+        /*
+        private CellCoordinate getCoordinateFromCellIndex(IIndex index)
+        {
+            
+            return new CellCoordinate(OccupancyGrid.CELL_SIZE_CM * index.X + CellRadius, OccupancyGrid.CELL_SIZE_CM * index.Y + CellRadius);
+        }
         
         /// <summary>
         /// Gets the probability from ultrasonic sensor X.
@@ -45,20 +62,21 @@ namespace Data.SensorModel
         /// <param name="cell">The cells coordinates.</param>
         /// <param name="sensorX">The sensor X's length measured.</param>
         /// <returns></returns>
-        public double GetProbabilityUltrasonicSensorX(ICoordinate robot, ICoordinate cell, byte sensorX)
+        public double GetProbabilityUltrasonicSensorX(ICoordinate robot, IIndex cell, byte sensorX)
         {
-            double cellRadius = cellDepthCM / 2;
+            
             double r = Math.Abs((cell.X - robot.X) + (cell.Y - robot.Y));
-            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + cellRadius))
+
+            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + CellRadius))
             {
-                return DEFAULT_VALUE;
+                return l_0();
             }
-            else if (sensorX - cellRadius <= r && r <= sensorX + cellRadius)
+            else if (sensorX - CellRadius <= r && r <= sensorX + CellRadius)
             {
                 return OCCUPIED_CELL_VALUE;
             }
             else
                 return FREE_CELL_VALUE;
-        }
+        }*/
     }
 }
