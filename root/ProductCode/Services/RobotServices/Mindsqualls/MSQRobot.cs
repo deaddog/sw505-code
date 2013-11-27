@@ -195,7 +195,8 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
-        public void GetSensorData()
+        private ISensorData[] sensorData;
+        public ISensorData[] GetSensorData()
         {
             InitializeRobot(true);
 
@@ -205,6 +206,8 @@ namespace Services.RobotServices.Mindsqualls
             stopMailcheckerThread = false;
             Thread mailChecker = new Thread(CheckIncoming);
             mailChecker.Start();
+
+            return sensorData;
         }
 
 
@@ -228,7 +231,7 @@ namespace Services.RobotServices.Mindsqualls
                     Thread.Sleep(10);
 
                     //Checking the mailbox, if empty, exception is ignored and loop is reset
-                    byte[] reply = robot.CommLink.MessageRead3(PC_INBOX, NxtMailbox.Box0, true);
+                    byte[] reply = robot.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, true);
 
                     //Attempt to parse the incoming command as the IncomingCommand enum
                     //  if failed, simple reset the loop via ArgumentException
@@ -245,15 +248,17 @@ namespace Services.RobotServices.Mindsqualls
                             Console.ReadKey();
                             break;
                         case IncomingCommand.GetSensorData:
-                            int i = 0;
+                            sensorData = new ISensorData[2];
+                            sensorData[0] = new SensorDataDTO(reply[1], reply[2]);
+                            sensorData[1] = new SensorDataDTO(reply[3], reply[4]);
 
-                            foreach (var item in reply)
-                            {
-                                Console.WriteLine(i + ": " + item);
-                                i++;
-                            }
-                            Thread checkAgain = new Thread(CheckIncoming);
-                            checkAgain.Start();
+                            //For testing of distance:
+                            //foreach (var item in sensorData)
+                            //{
+                            //    Console.WriteLine("s1: " + item.SensorADistance + " s2: " + item.SensorBDistance);
+                            //}
+
+                            Console.WriteLine("Measured!");
                             Console.ReadKey();
                             break;
                         default:
