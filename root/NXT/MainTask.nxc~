@@ -1,11 +1,9 @@
-//INCOMING COMMANDS FROM MINDSQUALLS
+  //INCOMING COMMANDS FROM MINDSQUALLS
 #define INCOMING_MOVE_TO_POS 0
-#define INCOMING_GET_SENSOR_MEASUREMENT 1
 
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
 #define OUTGOING_WHERE_AM_I 1
 #define OUTGOING_I_AM_THERE 2
-#define OUTGOING_SEND_SENSOR_DATA 2
 
 //MAILBOXES TO BE USED FOR INCOMING AND OUTGOING COMMANDS
 #define INBOX           1
@@ -14,7 +12,6 @@
 #include "Structs.nxc"
 #include "Communication.nxc"
 #include "Navigation.nxc"
-#include "Sensor.nxc"
 
 task main(){
      // Don't forget this!
@@ -25,7 +22,6 @@ task main(){
      string cmd = "";
      string args = "";
      byte cmdType;
-     bool clockwise = true;
 
      // clear mailboxes
      in = "...";
@@ -55,38 +51,19 @@ task main(){
                  //Placeholder for command "goto"
                  string x = SubStr(in, 1, 7);
                  string y = SubStr(in, 8, 7);
-
+                 
                  Point p;
                  p.x = StrToNum(x);
                  p.y = StrToNum(y);
-
+                 
                  ClearScreen();
                  TextOut(0, LCD_LINE1, "Going to:");
                  TextOut(2, LCD_LINE2, "x:" + NumToStr(p.x));
                  TextOut(2, LCD_LINE3, "y:" + NumToStr(p.y));
-
+                 
                  GotoPoint(p);
                  IAmThere();  
                  break;
-                 
-                 case INCOMING_GET_SENSOR_MEASUREMENT :
-                 
-                 string s = "";
-                 s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
-                 s = StrCat(s,rotate_and_measure(clockwise));
-                 SendMessage(OUTBOX,s);
-                 
-                 if(clockwise)
-                 {
-                  clockwise = false;
-                 }
-                 else
-                 {
-                  clockwise = true;
-                 }
-                 
-                 break;
-
              }//end switch cmdtype
              
              in = "";

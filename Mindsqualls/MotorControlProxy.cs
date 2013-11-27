@@ -132,7 +132,7 @@
 
                 try
                 {
-                    string reply = commLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);  // The "local inbox" has no function.
+                    string reply = commLink.MessageReadToStringASCII(PC_INBOX, NxtMailbox.Box0, true);  // The "local inbox" has no function.
 
                     if (reply[0] != messageData[1]) continue;
 
