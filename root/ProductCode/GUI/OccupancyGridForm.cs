@@ -81,9 +81,6 @@ namespace SystemInterface.GUI
         {
             OccupancyGrid grid = new OccupancyGrid(10, 10);
             occupancyGridControl1.Grid = grid;
-            occupancyGridControl1.GridActualLocation = new Point(30, 30);
-            occupancyGridControl1.GridActualSize = new Size(280, 280);
-            //occupancyGridControl1.GridLocation = occupancyGridControl1.ConvertActualToPixel(new Point(-250, -250));
 
             #region Initialize comboboxes
             foreach (int item in PopulateCombobox(1, grid.Rows))
@@ -122,11 +119,7 @@ namespace SystemInterface.GUI
         {
             if (validateForm())
             {
-                // Wrapper function for the grid
-                occupancyGridControl1.SetProbability(
-                    int.Parse(comboBoxRows.SelectedItem.ToString()) - 1,
-                    int.Parse(comboBoxColumns.SelectedItem.ToString()) - 1,
-                    double.Parse(comboBoxProbability.SelectedItem.ToString()));
+                //Update probability for [comboBoxRows, comboBoxColumns] to comboBoxProbability
             }
         }
 
