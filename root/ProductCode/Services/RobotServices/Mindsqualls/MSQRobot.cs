@@ -5,6 +5,8 @@ using CommonLib.Interfaces;
 using CommonLib.DTOs;
 using System.Threading;
 using System.Text;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -203,8 +205,6 @@ namespace Services.RobotServices.Mindsqualls
             stopMailcheckerThread = false;
             Thread mailChecker = new Thread(CheckIncoming);
             mailChecker.Start();
-            //byte[] data = new byte[2];
-
         }
 
 
@@ -228,7 +228,7 @@ namespace Services.RobotServices.Mindsqualls
                     Thread.Sleep(10);
 
                     //Checking the mailbox, if empty, exception is ignored and loop is reset
-                    string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+                    byte[] reply = robot.CommLink.MessageRead3(PC_INBOX, NxtMailbox.Box0, true);
 
                     //Attempt to parse the incoming command as the IncomingCommand enum
                     //  if failed, simple reset the loop via ArgumentException
@@ -245,10 +245,9 @@ namespace Services.RobotServices.Mindsqualls
                             Console.ReadKey();
                             break;
                         case IncomingCommand.GetSensorData:
-                            //stopMailcheckerThread = true;
-                            byte[] a = Encoding.ASCII.GetBytes(reply);
                             int i = 0;
-                            foreach (var item in a)//GetBytes(reply))
+
+                            foreach (var item in reply)
                             {
                                 Console.WriteLine(i + ": " + item);
                                 i++;

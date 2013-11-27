@@ -14,14 +14,14 @@ namespace Services.RobotServices
         /// <summary>
         /// The robot requests location
         /// </summary>
-        RobotRequestsLocation = 0,
+        RobotRequestsLocation = 48,
         /// <summary>
         /// The robot has arrived at destination
         /// </summary>
-        RobotHasArrivedAtDestination = 1,
+        RobotHasArrivedAtDestination = 49,
         /// <summary>
         /// The robot sends sensor data
         /// </summary>
-        GetSensorData = 2
+        GetSensorData = 50
     }
 }
