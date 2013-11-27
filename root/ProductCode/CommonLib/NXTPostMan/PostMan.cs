@@ -4,9 +4,20 @@ namespace CommonLib.NXTPostMan
 {
     public class PostMan : INXTPostMan
     {
+        // Used for sending/receiving commands to/from NXT
+        private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
+        private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
 
-        public void SendMessage(NXTMessage msg)
+
+
+
+
+        public void SendMessage(NXTMessage encodedMsg)
         {
+
+
+
+
             throw new NotImplementedException();
         }
 

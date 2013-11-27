@@ -4,6 +4,7 @@ using CommonLib;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
 using CommonLib.NXTPostMan;
+using System.Windows.Forms;
 
 namespace CommonLibTest
 {
@@ -12,7 +13,8 @@ namespace CommonLibTest
     {
 
         private static TestContext context;
-        
+        private INXTPostMan postman;
+
         #region Initializers
 
         [ClassInitialize]
@@ -30,14 +32,14 @@ namespace CommonLibTest
         [TestInitialize]
         public void Initializer()
         {
- 
+            postman = new PostMan();
         }
 
         [TestCleanup]
         public void Cleaner()
         {
             // cleanup after test.
-  
+            postman = null;
         }
 
         #endregion
@@ -57,6 +59,22 @@ namespace CommonLibTest
         }
 
 
+        [TestMethod]
+        public void SendMessage_RobotReadyAndAbleMessageWellFormed_MessageRecievedByRobot()
+        {
+            // Arrange
+            ICoordinate cord = new Vector2D(5.0f, 5.0f);
+            string encodedCord = NXTEncoder.Encode(cord);
+            NXTMessage msg = new NXTMessage(NXTMessageType.MoveToPos, encodedCord);
+            DialogResult result;
+
+            // Act
+            postman.SendMessage(msg);
+            result = MessageBox.Show("Did the robot recieve move to command ?", "Test Result", MessageBoxButtons.YesNo);
+
+            // Assert
+            Assert.IsTrue(result == DialogResult.Yes);
+        }
 
     }
 }

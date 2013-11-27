@@ -4,7 +4,7 @@ namespace CommonLib.NXTPostMan
 {
     public interface INXTPostMan
     {
-        void SendMessage(NXTMessage msg);
+        void SendMessage(NXTMessage encodedMsg);
 
         bool HasMessageArrived(NXTMessageType type);
 
