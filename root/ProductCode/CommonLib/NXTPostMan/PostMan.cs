@@ -56,7 +56,10 @@ namespace CommonLib.NXTPostMan
 
         public bool HasMessageArrived(NXTMessageType type)
         {
-            throw new NotImplementedException();
+            string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
+            NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());
+
+            return type == recievedType;
         }
 
         public bool HasMessageArrived(string msg)

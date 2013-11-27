@@ -92,5 +92,22 @@ namespace CommonLibTest
             Assert.IsTrue(result == DialogResult.Yes);
         }
 
+        [TestMethod]
+        public void HasMessageArrived_MessageHasArrived_ReturnTrue()
+        {
+            // Arrange
+            ICoordinate cord = new Vector2D(50.0f, 50.0f);
+            ((PostMan)postman).SendMessage(cord);
+
+            // Act
+            MessageBox.Show("Press OK when message from robot has arrived?", "User Input", MessageBoxButtons.OK);
+            bool result = postman.HasMessageArrived(NXTMessageType.RobotRequestsLocation);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+
+
     }
 }
