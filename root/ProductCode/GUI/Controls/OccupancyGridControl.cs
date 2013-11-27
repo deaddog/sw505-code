@@ -156,19 +156,8 @@ namespace SystemInterface.GUI.Controls
         /// <param name="r">Rectangle to contain the probability</param>
         private void drawProbabilities(double probability, Graphics g, RectangleF r)
         {
-            SolidBrush textBrush = new SolidBrush(Color.FromArgb(255, Color.Black));
-            Font drawFont = new System.Drawing.Font("Arial", 9);
-            StringFormat drawFormat = new System.Drawing.StringFormat();
-
-            if (GridShowProbabilities && !GridHideUnexplored)
-            {
-                g.DrawString(probability.ToString(), drawFont, textBrush, r.Location);
-            }
-            else if (GridShowProbabilities && GridHideUnexplored && probability != 0.5)
-            {
-                g.DrawString(probability.ToString(), drawFont, textBrush, r.Location);
-            }
-            textBrush.Dispose();
+            if (GridShowProbabilities && (!GridHideUnexplored || probability !=0.5))
+                g.DrawString(probability.ToString(), this.Font, Brushes.Black, r.Location);
         }
 
         /// <summary>
