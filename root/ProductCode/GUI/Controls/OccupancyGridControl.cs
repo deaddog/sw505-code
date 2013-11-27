@@ -42,17 +42,6 @@ namespace SystemInterface.GUI.Controls
         private bool gridShowRuler = false;
 
         /// <summary>
-        /// The location of the grid in the picturebox in pixels
-        /// </summary>
-        public Point GridActualLocation = new Point(0, 0);
-
-        /// <summary>
-        /// The size of the grid in pixels
-        /// </summary>
-        public Size GridActualSize = new Size(1, 1); // Default value to prevent designer exception
-
-
-        /// <summary>
         /// When probabilities are shown, hide or show unexplored areas of the grid (probability = 0.5)
         /// </summary>
         [DefaultValue(typeof(bool), "false")]
@@ -110,21 +99,10 @@ namespace SystemInterface.GUI.Controls
         #endregion
 
         /// <summary>
-        /// Default constructor for OccupancyGridControl
+        /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
-        /// <param name="point">The location on the image where the grid shall be drawn</param>
         public OccupancyGridControl()
         {
-            this.GridActualLocation = new Point(0, 0);
-        }
-
-        /// <summary>
-        /// Constructor for OccupancyGridControl
-        /// </summary>
-        /// <param name="point">The location on the image where the grid shall be drawn</param>
-        public OccupancyGridControl(Point point)
-        {
-            this.GridActualLocation = point;
         }
 
         /// <summary>
