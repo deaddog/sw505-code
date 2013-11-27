@@ -26,8 +26,25 @@ namespace SystemInterface.GUI.Controls
         // default values (overridden when grid is set)
         private int gridRows = 10;
 
-        #region Grid properties
         private OccupancyGrid grid;
+        /// <summary>
+        /// The grid containing the data. Redrawn each time given a new grid.
+        /// </summary>
+        [Browsable(false)]
+        public OccupancyGrid Grid
+        {
+            get { return grid; }
+            set
+            {
+                grid = value;
+                gridRows = grid.Rows;
+                gridColumns = grid.Columns;
+                this.Invalidate();
+            }
+        }
+
+        #region Grid properties
+
         private bool gridHideUnexplored = false;
         private bool gridShowBorders = true;
         private bool gridShowProbilities = false;
@@ -43,20 +60,6 @@ namespace SystemInterface.GUI.Controls
         /// </summary>
         public Size GridActualSize = new Size(1, 1); // Default value to prevent designer exception
 
-        /// <summary>
-        /// The grid containing the data. Redrawn each time given a new grid.
-        /// </summary>
-        public OccupancyGrid Grid
-        {
-            get { return grid; }
-            set
-            {
-                grid = value;
-                gridRows = grid.Rows;
-                gridColumns = grid.Columns;
-                this.Invalidate();
-            }
-        }
 
         /// <summary>
         /// When probabilities are shown, hide or show unexplored areas of the grid (probability = 0.5)
