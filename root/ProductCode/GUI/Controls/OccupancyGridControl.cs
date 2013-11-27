@@ -107,18 +107,6 @@ namespace SystemInterface.GUI.Controls
         {
         }
 
-        /// <summary>
-        /// Wraps the SetProbability() method on the grid to decrease number of re-drawns of grid
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
-        /// <param name="probability"></param>
-        public void SetProbability(int row, int column, double probability)
-        {
-            grid.SetProbability(row, column, probability);
-            this.Invalidate();
-        }
-
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
