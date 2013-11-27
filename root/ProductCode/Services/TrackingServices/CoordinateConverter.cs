@@ -38,5 +38,15 @@ namespace Services.TrackingServices
         {
             return new Vector2D(scaleX * point.X - actualSizeX, scaleY * point.Y - actualSizeY);
         }
+
+        /// <summary>
+        /// Converts the given <typeparamref name="Vector2D"/> to a new one, scaled according to given dimensions
+        /// </summary>
+        /// <param name="point">The point to convert from an actual size coordinate to an image size coordinate</param>
+        /// <returns></returns>
+        public Vector2D ConvertActualToPixel(Vector2D point)
+        {
+            return new Vector2D((point.X + actualSizeX) / scaleX, (point.Y + actualSizeY) / scaleY);
+        }
     }
 }

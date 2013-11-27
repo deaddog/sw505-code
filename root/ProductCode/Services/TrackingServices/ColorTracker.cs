@@ -128,7 +128,7 @@ namespace Services.TrackingServices
 
             float v = (float)Math.Sqrt(r * r + g * g + b * b);
 
-            float upperMax = 16581375f;
+            float upperMax = 441.672955930063709849498817084f; //Maximum distance between colors (for ref) sqrt(3 • 255 • 255)
             upperMax = threshold;
 
             if (v > upperMax)
