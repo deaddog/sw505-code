@@ -115,7 +115,7 @@ namespace SystemInterface.GUI.Controls
 
             drawGrid(pe.Graphics);
 
-            if (GridShowRuler)
+            if (gridShowRuler)
                 drawRulers(pe.Graphics);
         }
 
@@ -148,7 +148,10 @@ namespace SystemInterface.GUI.Controls
 
         private Vector2D getPixelCoordinates(int x, int y)
         {
-            return conv.ConvertActualToPixel(new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y));
+            Vector2D vector = conv.ConvertActualToPixel(new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y));
+            if (gridShowRuler)
+                vector += new Vector2D(RULER_HEIGHT_WIDTH, RULER_HEIGHT_WIDTH);
+            return vector + new Vector2D(Padding.Left, Padding.Top);
         }
 
         /// <summary>
