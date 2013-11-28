@@ -166,40 +166,32 @@ namespace SystemInterface.GUI.Controls
         /// <param name="g">The graphics on which to draw on</param>
         private void drawRulers(Graphics g)
         {
-            Pen rulerLinesPen = new Pen(Color.Gray);
-            SolidBrush rulerBackgroundBrush = new SolidBrush(Color.FromArgb(225, Color.White));
-
-            SolidBrush textBrush = new SolidBrush(Color.Black);
-            Font drawFont = new System.Drawing.Font("Arial", 8);
-
-            int rectangleWidth = GridActualSize.Width / gridColumns;
-            int rectangleHeight = GridActualSize.Height / gridRows;
-
-            // Column ruler
-            for (int i = 0; i < grid.Columns; i++)
+            using (SolidBrush rulerBackgroundBrush = new SolidBrush(Color.FromArgb(225, Color.White)))
             {
-                Rectangle r = new Rectangle();
-                r.Location = new Point(i * rectangleWidth + GridActualLocation.X + Padding.Left, GridActualLocation.Y - RULER_HEIGHT_WIDTH + Padding.Top);
-                r.Size = new Size(rectangleWidth, RULER_HEIGHT_WIDTH);
+                // Columns ruler 
+                for (int i = 0; i < grid.Columns; i++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Location = new Point(i * rectangleWidth + GridActualLocation.X + Padding.Left, GridActualLocation.Y - RULER_HEIGHT_WIDTH + Padding.Top);
+                    r.Size = new Size(rectangleWidth, RULER_HEIGHT_WIDTH);
 
-                g.FillRectangle(rulerBackgroundBrush, r);
-                g.DrawRectangle(rulerLinesPen, r);
-                g.DrawString((i + 1).ToString(), drawFont, textBrush, r.Location);
+                    g.FillRectangle(rulerBackgroundBrush, r);
+                    g.DrawRectangle(Pens.Gray, r);
+                    g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
+                }
+
+                // Rows ruler
+                for (int i = 0; i < grid.Rows; i++)
+                {
+                    Rectangle r = new Rectangle();
+                    r.Location = new Point(GridActualLocation.X - RULER_HEIGHT_WIDTH + Padding.Left, i * rectangleHeight + GridActualLocation.Y + Padding.Top);
+                    r.Size = new Size(RULER_HEIGHT_WIDTH, rectangleHeight);
+
+                    g.FillRectangle(rulerBackgroundBrush, r);
+                    g.DrawRectangle(Pens.Gray, r);
+                    g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
+                }
             }
-
-            // Height ruler
-            for (int i = 0; i < grid.Rows; i++)
-            {
-                Rectangle r = new Rectangle();
-                r.Location = new Point(GridActualLocation.X - RULER_HEIGHT_WIDTH + Padding.Left, i * rectangleHeight + GridActualLocation.Y + Padding.Top);
-                r.Size = new Size(RULER_HEIGHT_WIDTH, rectangleHeight);
-
-                g.FillRectangle(rulerBackgroundBrush, r);
-                g.DrawRectangle(rulerLinesPen, r);
-                g.DrawString((i + 1).ToString(), drawFont, textBrush, r.Location);
-            }
-            rulerBackgroundBrush.Dispose();
-            textBrush.Dispose();
         }
 
         /// <summary>
