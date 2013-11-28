@@ -212,7 +212,7 @@ namespace Services.RobotServices.Mindsqualls
 
                     //Checking the mailbox, if empty, exception is ignored and loop is reset
                     byte[] reply = robot.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, true);
-
+                    
                     //Attempt to parse the incoming command as the IncomingCommand enum
                     //  if failed, simple reset the loop via ArgumentException
                     //  if all is well, do switch on the command and do the corresponding action
