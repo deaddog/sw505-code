@@ -132,12 +132,10 @@ namespace SystemInterface.GUI.Controls
 
         private void drawCell(Graphics graphics, int x, int y)
         {
-            Vector2D point = new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y);
+            Vector2D topleft = getPixelCoordinates(x, y);
+            Vector2D bottomright = getPixelCoordinates(x + 1, y + 1);
 
-            Vector2D v = conv.ConvertActualToPixel(point);
-            Vector2D v2 = conv.ConvertActualToPixel(point + new Vector2D(grid.CellSize, grid.CellSize));
-
-            RectangleF r = RectangleF.FromLTRB(v.X, v.Y, v2.X, v2.Y);
+            RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
 
             using (SolidBrush brush = new SolidBrush(setColor(grid[x, y])))
                 graphics.FillRectangle(brush, r);
@@ -146,6 +144,11 @@ namespace SystemInterface.GUI.Controls
                 graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
             if (gridShowProbilities)
                 drawProbabilities(grid[x, y], graphics, r);
+        }
+
+        private Vector2D getPixelCoordinates(int x, int y)
+        {
+            return conv.ConvertActualToPixel(new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y));
         }
 
         /// <summary>
