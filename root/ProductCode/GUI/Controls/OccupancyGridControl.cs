@@ -14,7 +14,6 @@ namespace SystemInterface.GUI.Controls
     /// </summary>
     public class OccupancyGridControl : PictureBox
     {
-        private const int RULER_HEIGHT_WIDTH = 15;
         private const int GRID_TRANSPARANCY = 150;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
@@ -140,8 +139,6 @@ namespace SystemInterface.GUI.Controls
         private Vector2D getPixelCoordinates(int x, int y)
         {
             Vector2D vector = conv.ConvertActualToPixel(new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y));
-            if (gridShowRuler)
-                vector += new Vector2D(RULER_HEIGHT_WIDTH, RULER_HEIGHT_WIDTH);
             return vector + new Vector2D(Padding.Left, Padding.Top);
         }
 
@@ -156,7 +153,7 @@ namespace SystemInterface.GUI.Controls
                 // Columns ruler 
                 for (int i = 0; i < grid.Columns; i++)
                 {
-                    Vector2D topleft = getPixelCoordinates(i, 0) - new Vector2D(0, RULER_HEIGHT_WIDTH);
+                    Vector2D topleft = getPixelCoordinates(i, 0) - new Vector2D(0, Padding.Top);
                     Vector2D bottomright = getPixelCoordinates(i + 1, 0);
 
                     RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
@@ -169,7 +166,7 @@ namespace SystemInterface.GUI.Controls
                 // Rows ruler
                 for (int i = 0; i < grid.Rows; i++)
                 {
-                    Vector2D topleft = getPixelCoordinates(0, i) - new Vector2D(RULER_HEIGHT_WIDTH, 0);
+                    Vector2D topleft = getPixelCoordinates(0, i) - new Vector2D(Padding.Left, 0);
                     Vector2D bottomright = getPixelCoordinates(0, i + 1);
 
                     RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
