@@ -57,7 +57,8 @@ namespace CommonLib.NXTPostMan
         /// </summary>
         /// <param name="type">the type to check against.</param>
         /// <returns>true if types match.</returns>
-        public bool HasMessageArrived(NXTMessageType type)
+
+	public bool HasMessageArrived(NXTMessageType type)
         {
             string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
             NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());

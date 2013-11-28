@@ -14,49 +14,33 @@ namespace SystemInterface.GUI.Controls
     /// </summary>
     public class OccupancyGridControl : PictureBox
     {
-        private const int RULER_HEIGHT_WIDTH = 15;
         private const int GRID_TRANSPARANCY = 150;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        // Array of rectangles representing the occupancy grid
-        private Rectangle[,] gridRectangles;
-        // default values (overridden when grid is set)
-        private int gridColumns = 10;
-        // default values (overridden when grid is set)
-        private int gridRows = 10;
+        private Services.TrackingServices.CoordinateConverter conv = new CoordinateConverter(640, 480, 308, 231);
 
-        #region Grid properties
         private OccupancyGrid grid;
-        private bool gridHideUnexplored = false;
-        private bool gridShowBorders = true;
-        private bool gridShowProbilities = false;
-        private bool gridShowRuler = false;
-
-        /// <summary>
-        /// The location of the grid in the picturebox in pixels
-        /// </summary>
-        public Point GridActualLocation = new Point(0, 0);
-
-        /// <summary>
-        /// The size of the grid in pixels
-        /// </summary>
-        public Size GridActualSize = new Size(1, 1); // Default value to prevent designer exception
-
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
         /// </summary>
+        [Browsable(false)]
         public OccupancyGrid Grid
         {
             get { return grid; }
             set
             {
                 grid = value;
-                gridRows = grid.Rows;
-                gridColumns = grid.Columns;
                 this.Invalidate();
             }
         }
+
+        #region Grid properties
+
+        private bool gridHideUnexplored = false;
+        private bool gridShowBorders = true;
+        private bool gridShowProbilities = false;
+        private bool gridShowRuler = false;
 
         /// <summary>
         /// When probabilities are shown, hide or show unexplored areas of the grid (probability = 0.5)
@@ -116,111 +100,46 @@ namespace SystemInterface.GUI.Controls
         #endregion
 
         /// <summary>
-        /// Default constructor for OccupancyGridControl
+        /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
-        /// <param name="point">The location on the image where the grid shall be drawn</param>
         public OccupancyGridControl()
         {
-            this.GridActualLocation = new Point(0, 0);
-        }
-
-        /// <summary>
-        /// Constructor for OccupancyGridControl
-        /// </summary>
-        /// <param name="point">The location on the image where the grid shall be drawn</param>
-        public OccupancyGridControl(Point point)
-        {
-            this.GridActualLocation = point;
-        }
-
-        /// <summary>
-        /// Wraps the SetProbability() method on the grid to decrease number of re-drawns of grid
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
-        /// <param name="probability"></param>
-        public void SetProbability(int row, int column, double probability)
-        {
-            grid.SetProbability(row, column, probability);
-            this.Invalidate();
         }
 
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
+            if (DesignMode)
+                return;
 
-            if (gridRectangles == null)
-                initializeRectangles();
+            for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
+                for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
+                    drawCell(pe.Graphics, columnIndex, rowIndex);
 
-            drawGrid(pe.Graphics);
-
-            if (GridShowRuler)
+            if (gridShowRuler)
                 drawRulers(pe.Graphics);
         }
 
-        /// <summary>
-        /// Method to draw the occupancy grid on top of the picturebox
-        /// </summary>
-        /// <param name="g">The graphics on which to draw on</param>
-        private void drawGrid(Graphics g)
+        private void drawCell(Graphics graphics, int x, int y)
         {
-            Pen pen = new Pen(Color.Black, 1);
-            pen.Alignment = PenAlignment.Center;
+            Vector2D topleft = getPixelCoordinates(x, y);
+            Vector2D bottomright = getPixelCoordinates(x + 1, y + 1);
 
-            int actualRectangleHeight = GridActualSize.Height / gridRows;
-            int actualRectangleWidth = GridActualSize.Width / gridColumns;
+            RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
 
-            for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
-            {
-                for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
-                {
-                    SolidBrush rectangleBrush = new SolidBrush(setColor(grid[columnIndex, rowIndex]));
-                    Rectangle r = gridRectangles[columnIndex, rowIndex];
+            using (SolidBrush brush = new SolidBrush(getColor(grid[x, y])))
+                graphics.FillRectangle(brush, r);
 
-                    Point rectanglePoint1 = new Point(GridActualLocation.X, GridActualLocation.Y);
-                    Point rectanglePoint2 = new Point(GridActualLocation.X, GridActualLocation.Y);
-
-                    int pointX = columnIndex * actualRectangleWidth + GridActualLocation.X + this.Padding.Left;
-                    int pointY = rowIndex * actualRectangleHeight + GridActualLocation.Y + this.Padding.Top;
-                    r.Location = new Point(pointX, pointY);
-                    r.Size = new Size(actualRectangleWidth, actualRectangleHeight);
-
-                    #region Draw the grid
-                    g.FillRectangle(rectangleBrush, r);
-
-                    if (GridShowBorders)
-                        g.DrawRectangle(pen, r);
-
-                    if (GridShowProbabilities)
-                        drawProbabilities(grid[columnIndex, rowIndex], g, r);
-
-                    #endregion
-                    rectangleBrush.Dispose();
-                }
-            }
+            if (gridShowBorders)
+                graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
+            if (gridShowProbilities && (!gridHideUnexplored || grid[x, y] != 0.5))
+                graphics.DrawString(grid[x, y].ToString(), this.Font, Brushes.Black, r.Location);
         }
 
-        /// <summary>
-        /// Draws a probability on the grid
-        /// </summary>
-        /// <param name="probability"></param>
-        /// <param name="g">Graphics to draw on</param>
-        /// <param name="r">Rectangle to contain the probability</param>
-        private void drawProbabilities(double probability, Graphics g, Rectangle r)
+        private Vector2D getPixelCoordinates(int x, int y)
         {
-            SolidBrush textBrush = new SolidBrush(Color.FromArgb(255, Color.Black));
-            Font drawFont = new System.Drawing.Font("Arial", 9);
-            StringFormat drawFormat = new System.Drawing.StringFormat();
-
-            if (GridShowProbabilities && !GridHideUnexplored)
-            {
-                g.DrawString(probability.ToString(), drawFont, textBrush, r.Location);
-            }
-            else if (GridShowProbabilities && GridHideUnexplored && probability != 0.5)
-            {
-                g.DrawString(probability.ToString(), drawFont, textBrush, r.Location);
-            }
-            textBrush.Dispose();
+            Vector2D vector = conv.ConvertActualToPixel(new Vector2D(grid.X, grid.Y) + new Vector2D(grid.CellSize * x, grid.CellSize * y));
+            return vector + new Vector2D(Padding.Left, Padding.Top);
         }
 
         /// <summary>
@@ -229,56 +148,32 @@ namespace SystemInterface.GUI.Controls
         /// <param name="g">The graphics on which to draw on</param>
         private void drawRulers(Graphics g)
         {
-            Pen rulerLinesPen = new Pen(Color.Gray);
-            SolidBrush rulerBackgroundBrush = new SolidBrush(Color.FromArgb(225, Color.White));
-
-            SolidBrush textBrush = new SolidBrush(Color.Black);
-            Font drawFont = new System.Drawing.Font("Arial", 8);
-
-            int rectangleWidth = GridActualSize.Width / gridColumns;
-            int rectangleHeight = GridActualSize.Height / gridRows;
-
-            // Column ruler
-            for (int i = 0; i < grid.Columns; i++)
+            using (SolidBrush rulerBackgroundBrush = new SolidBrush(Color.FromArgb(225, Color.White)))
             {
-                Rectangle r = new Rectangle();
-                r.Location = new Point(i * rectangleWidth + GridActualLocation.X + Padding.Left, GridActualLocation.Y - RULER_HEIGHT_WIDTH + Padding.Top);
-                r.Size = new Size(rectangleWidth, RULER_HEIGHT_WIDTH);
-
-                g.FillRectangle(rulerBackgroundBrush, r); 
-                g.DrawRectangle(rulerLinesPen, r);
-                g.DrawString((i + 1).ToString(), drawFont, textBrush, r.Location);
-            }
-
-            // Height ruler
-            for (int i = 0; i < grid.Rows; i++)
-            {
-                Rectangle r = new Rectangle();
-                r.Location = new Point(GridActualLocation.X - RULER_HEIGHT_WIDTH + Padding.Left, i * rectangleHeight + GridActualLocation.Y + Padding.Top);
-                r.Size = new Size(RULER_HEIGHT_WIDTH, rectangleHeight);
-
-                g.FillRectangle(rulerBackgroundBrush, r);
-                g.DrawRectangle(rulerLinesPen, r);
-                g.DrawString((i + 1).ToString(), drawFont, textBrush, r.Location);
-            }
-            rulerBackgroundBrush.Dispose();
-            textBrush.Dispose();
-        }
-        
-        /// <summary>
-        /// Initializes the array of rectangles, each to represent a cell in the occupancy grid
-        /// </summary>
-        private void initializeRectangles()
-        {
-            gridRectangles = new Rectangle[grid.Rows, grid.Columns];
-
-            for (int i = 0; i < grid.Columns; i++)
-            {
-                for (int j = 0; j < grid.Rows; j++)
+                // Columns ruler 
+                for (int i = 0; i < grid.Columns; i++)
                 {
-                    Rectangle r = new Rectangle();
+                    Vector2D topleft = getPixelCoordinates(i, 0) - new Vector2D(0, Padding.Top);
+                    Vector2D bottomright = getPixelCoordinates(i + 1, 0);
 
-                    gridRectangles[i, j] = r;
+                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
+
+                    g.FillRectangle(rulerBackgroundBrush, r);
+                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
+                    g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
+                }
+
+                // Rows ruler
+                for (int i = 0; i < grid.Rows; i++)
+                {
+                    Vector2D topleft = getPixelCoordinates(0, i) - new Vector2D(Padding.Left, 0);
+                    Vector2D bottomright = getPixelCoordinates(0, i + 1);
+
+                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
+
+                    g.FillRectangle(rulerBackgroundBrush, r);
+                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
+                    g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
                 }
             }
         }
@@ -304,7 +199,7 @@ namespace SystemInterface.GUI.Controls
         /// </summary>
         /// <param name="probability">The probability to generate a color for</param>
         /// <returns>A color representing a probability</returns>
-        private Color setColor(double probability)
+        private Color getColor(double probability)
         {
             if (probability < 0.5) // greens (turn up the reds to make color more yellow)
             {

@@ -56,35 +56,5 @@ namespace ControlTest
 
             Assert.Inconclusive();
         }
-
-
-        [TestMethod]
-        public void FullSweep_AnObjectIsWithinSensorRangeAndRobotReadyWithSensorAtBearing000_RobotPerformsFull360SensorSweepAndReturnsData()
-        {
-            // Arrange
-            const ushort DEFAULT_SENSOR_VALUE = 255;
-             const ushort FULLSWEEP_DEGREE_INTERVAL = 5;
-            DialogResult result;
-            bool containsData = false;
-
-            // Act
-            SensorSweepDTO data = sc.FullSweep();
-            result = MessageBox.Show("Did the sensor turn 180 degrees ?", "Test Result", MessageBoxButtons.YesNo);
-            
-            // Assert
-            
-            Assert.IsInstanceOfType(data, typeof(SensorSweepDTO));
-
-            foreach (ISensorData d in data)
-            {
-                if (d != null && (d.SensorADistance != DEFAULT_SENSOR_VALUE 
-                    || d.SensorBDistance != DEFAULT_SENSOR_VALUE))
-                {
-                    containsData = true;
-                }
-            }
-            Assert.IsTrue(containsData);
-            Assert.IsTrue(result == DialogResult.Yes);
-        }
     }
 }

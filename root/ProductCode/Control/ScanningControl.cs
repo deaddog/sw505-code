@@ -28,17 +28,9 @@ namespace Control
 
         #endregion
 
-        public SensorSweepDTO FullSweep()
+        public void GetSensorData()
         {
-            ISensorData[] data = new ISensorData[DEGREES_TO_SCAN];
-
-            for (ushort i = 0; i < DEGREES_TO_SCAN; i = (ushort)(i + FULLSWEEP_DEGREE_INTERVAL))
-            {
-                rob.TurnSensor(FULLSWEEP_DEGREE_INTERVAL, CLOCKWISE);
-                data[i] = rob.MeasureDistanceUsingSensor();
-            }
-
-            return new SensorSweepDTO(data);
+            rob.GetSensorData();
         }
     }
 }

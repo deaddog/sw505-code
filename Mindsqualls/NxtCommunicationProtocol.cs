@@ -561,7 +561,7 @@ namespace NKH.MindSqualls
         /// <param name="localInboxNo">Local Inbox number</param>
         /// <param name="remove">Remove? True: clears message from Remote Inbox</param>
         /// <returns>Message data</returns>
-        public string MessageRead(NxtMailbox2 remoteInboxNo, NxtMailbox localInboxNo, bool remove)
+        public string MessageReadToStringASCII(NxtMailbox2 remoteInboxNo, NxtMailbox localInboxNo, bool remove)
         {
             byte[] request = new byte[] {
                 0x00,
@@ -581,6 +581,56 @@ namespace NKH.MindSqualls
 
             string message = Encoding.ASCII.GetString(reply, 5, messageSize).TrimEnd('\0');
             return message;
+        }
+
+        public string MessageReadToStringISO(NxtMailbox2 remoteInboxNo, NxtMailbox localInboxNo, bool remove)
+        {
+            byte[] request = new byte[] {
+                0x00,
+                (byte) NxtCommand.MessageRead,
+                (byte) remoteInboxNo,
+                (byte) localInboxNo,
+                (byte) (remove ? 0xFF : 0x00)
+            };
+
+            byte[] reply = Send(request);
+
+            if (reply == null) return null;
+
+            byte localInboxNoOut = reply[3];  // TODO: Validate on this?
+
+            byte messageSize = reply[4];
+
+            var e = Encoding.GetEncoding("iso-8859-1");
+
+            string s = e.GetString(reply, 5, messageSize).TrimEnd('\0');
+            return s;
+        }
+
+        public byte[] MessageReadToBytes(NxtMailbox2 remoteInboxNo, NxtMailbox localInboxNo, bool remove)
+        {
+            byte[] request = new byte[] {
+                0x00,
+                (byte) NxtCommand.MessageRead,
+                (byte) remoteInboxNo,
+                (byte) localInboxNo,
+                (byte) (remove ? 0xFF : 0x00)
+            };
+
+            byte[] reply = Send(request);
+
+            if (reply == null) return null;
+
+            byte localInboxNoOut = reply[3];  // TODO: Validate on this?
+
+            byte messageSize = reply[4];
+
+            byte[] r = new byte[messageSize];
+            for (int i = 0; i < messageSize; i++)
+            {
+                r[i] = reply[5 + i];
+            }
+            return r;
         }
 
         /// <summary>

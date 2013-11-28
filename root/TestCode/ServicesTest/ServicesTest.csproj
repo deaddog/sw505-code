@@ -35,8 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonLib">
-      <HintPath>..\..\ProductCode\CommonLib\bin\Debug\CommonLib.dll</HintPath>
+    <Reference Include="CommonLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\CommonLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Services">
+      <HintPath>..\..\bin\Services.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
@@ -57,12 +61,6 @@
     <Compile Include="RobotFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MSQRobotTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ProductCode\Services\Services.csproj">
-      <Project>{f2c6d342-4aca-4b7a-b207-8515677bdbbc}</Project>
-      <Name>Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

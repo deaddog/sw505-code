@@ -21,7 +21,7 @@ namespace RobotCommand
 
         public static string NxtSensorReading(NxtCommunicationProtocol commLink)
         {
-            return commLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+            return commLink.MessageReadToStringASCII(PC_INBOX, NxtMailbox.Box0, true);
         }
     }
 }

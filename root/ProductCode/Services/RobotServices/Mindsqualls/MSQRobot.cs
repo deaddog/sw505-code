@@ -4,6 +4,9 @@ using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 using CommonLib.DTOs;
 using System.Threading;
+using System.Text;
+using System.IO;
+using System.Collections.Generic;
 
 namespace Services.RobotServices.Mindsqualls
 {
@@ -11,7 +14,7 @@ namespace Services.RobotServices.Mindsqualls
     {
         #region Static Variables & Constants.
 
-        private const byte SERIAL_PORT_NUMBER = 6;
+        private const byte SERIAL_PORT_NUMBER = 16;
         private const int SENSOR_POLL_INTERVAL = 20;
         private const ushort NUMBER_OF_SENSORS = 2;
         private const byte DEFAULT_SENSOR_VALUE = 255;
@@ -149,26 +152,6 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
-        public ISensorData MeasureDistanceUsingSensor()
-        {
-            //byte[] data = new byte[NUMBER_OF_SENSORS];
-
-            InitializeRobot(false);
-
-            sensor1.Poll();
-            sensor2.Poll();
-
-            //data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-            //data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-
-            byte dataA = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-            byte dataB = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-
-            //FreeRobot(false);
-
-            return new SensorDataDTO(dataA, dataB);
-        }
-
         /// <summary>
         /// Sends command to robot, telling it to go to <paramref name="position"/>
         /// Also starts thread, checking for replies
@@ -185,10 +168,26 @@ namespace Services.RobotServices.Mindsqualls
             robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
 
             //Thread being run, checking inbox every 10 ms
+            stopMailcheckerThread = false;
             Thread mailChecker = new Thread(CheckIncoming);
             mailChecker.Start();
 
             //FreeRobot(true);
+        }
+
+        private ISensorData sensorData;
+        public ISensorData GetSensorData()
+        {
+            InitializeRobot(true);
+
+            string toSendMessage = String.Format("{0}", (byte)OutgoingCommand.GetSensorData);
+            robot.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
+
+            stopMailcheckerThread = false;
+            Thread mailChecker = new Thread(CheckIncoming);
+            mailChecker.Start();
+
+            return sensorData;
         }
 
 
@@ -212,7 +211,7 @@ namespace Services.RobotServices.Mindsqualls
                     Thread.Sleep(10);
 
                     //Checking the mailbox, if empty, exception is ignored and loop is reset
-                    string reply = robot.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+                    byte[] reply = robot.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, true);
 
                     //Attempt to parse the incoming command as the IncomingCommand enum
                     //  if failed, simple reset the loop via ArgumentException
@@ -226,6 +225,22 @@ namespace Services.RobotServices.Mindsqualls
                         case IncomingCommand.RobotHasArrivedAtDestination:
                             stopMailcheckerThread = true;
                             Console.WriteLine("Destination reached!");
+                            Console.ReadKey();
+                            break;
+                        case IncomingCommand.GetSensorData:
+                            sensorData = new SensorDataDTO();
+                            sensorData.SensorFront = reply[0];
+                            sensorData.SensorBack = reply[1];
+                            sensorData.SensorRight = reply[2];
+                            sensorData.SensorLeft = reply[3];
+
+                            //For testing of distance:
+                            //foreach (var item in sensorData)
+                            //{
+                            //    Console.WriteLine("s1: " + item.SensorADistance + " s2: " + item.SensorBDistance);
+                            //}
+
+                            Console.WriteLine("Measured!");
                             Console.ReadKey();
                             break;
                         default:
@@ -261,7 +276,7 @@ namespace Services.RobotServices.Mindsqualls
             return (uint)(degreesToTurn * gearRatio);
         }
 
-        private void InitializeRobot(bool usesMotorControl)
+        private void InitializeRobot(bool usesMotorControl=true)
         {
             robot.Connect();
 
