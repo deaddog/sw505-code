@@ -40,12 +40,12 @@ inline string rotate_and_measure(bool clockwise)
  }
  else
  {
-  data[0] = measure_sensor1();
-  data[1] = measure_sensor2();
-  rotate_left();
-  WaitForSensorMotor();
   data[2] = measure_sensor1();
   data[3] = measure_sensor2();
+  rotate_left();
+  WaitForSensorMotor();
+  data[0] = measure_sensor1();
+  data[1] = measure_sensor2();
   r = ByteArrayToStr(data);
   return r;
  }

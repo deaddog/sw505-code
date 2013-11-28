@@ -58,7 +58,7 @@ namespace Data.SensorModel
         /// <param name="cell">The cells coordinates.</param>
         /// <param name="sensorX">The sensor X's length measured.</param>
         /// <returns></returns>
-        public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, ICoordinate robot, IIndex cell, byte sensorX)
+        public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, IPose robot, IIndex cell, byte sensorX)
         {
             float cellRadius = grid.CellSize / 2;
 
