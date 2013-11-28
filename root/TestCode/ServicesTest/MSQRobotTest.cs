@@ -60,34 +60,6 @@ namespace ServicesTest
             Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void MeasureDistanceUsingSensor_RobotReadyAndAble_ValidSensorDataOfTypeISensorData()
-        {
-            // Arrange
-            MSQRobot rob = (MSQRobot)factory.CreateRobot();
-            
-            // Act
-            ISensorData data = rob.MeasureDistanceUsingSensor();
-
-            // Assert
-            Assert.IsInstanceOfType(data, typeof(ISensorData));
-        }
-
-        [TestMethod]
-        public void MeasureDistanceUsingSensor_TargetAtDistance30To50CmFromSensor_SensorDataWithMeasurementBetween30And50Cm()
-        {
-            // Arrange
-            IRobot rob = factory.CreateRobot();
-            ISensorData data;
-                
-            // Act
-            data = rob.MeasureDistanceUsingSensor();
-
-            // Assert
-            Assert.IsNotNull(data);
-            Assert.IsTrue((data.SensorADistance < 50 && data.SensorADistance > 30) || 
-                (data.SensorBDistance < 50 && data.SensorBDistance > 30));
-        }
 
         [TestMethod]
         public void TurnSensor_RobotReadyAndAble_SensorTurns90Degrees()
