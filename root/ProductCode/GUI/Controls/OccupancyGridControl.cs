@@ -113,21 +113,12 @@ namespace SystemInterface.GUI.Controls
             if (DesignMode)
                 return;
 
-            drawGrid(pe.Graphics);
+            for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
+                for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
+                    drawCell(pe.Graphics, columnIndex, rowIndex);
 
             if (gridShowRuler)
                 drawRulers(pe.Graphics);
-        }
-
-        /// <summary>
-        /// Method to draw the occupancy grid on top of the picturebox
-        /// </summary>
-        /// <param name="g">The graphics on which to draw on</param>
-        private void drawGrid(Graphics g)
-        {
-            for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
-                for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
-                    drawCell(g, columnIndex, rowIndex);
         }
 
         private void drawCell(Graphics graphics, int x, int y)
