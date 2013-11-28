@@ -33,7 +33,7 @@ namespace Control
                 for (int j = 0; j < map.Columns - 1; j++)
                 {
                     if (cellIsInPerceptualField(i, j, sensorReading))
-                        break; //TODO implement algorithm from report (OccupancyGridMapping)
+                        break;//newMap[i,j] = logOddsInverse(model.GetProbabilityUltrasonicSensorX(map, robotPose, 
                 }
             }
 
