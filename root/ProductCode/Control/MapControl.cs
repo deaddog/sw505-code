@@ -49,10 +49,15 @@ namespace Control
                     newMap[i, j] = map[i, j];
                     if (cellIsInPerceptualRange(new CellIndex(i, j), map.CellSize))
                     {
-                        double newProbability = logOddsInverse(model.GetProbabilityUltrasonicSensorX(
-                            map, robotPose, new CellIndex(i, j),
-                            getCorrectSensorReading(new CellIndex(i, j), map.CellSize, sensorReadings)));
-                        newMap[i, j] = logOdds(map[i, j]) + newProbability - logOdds(map.InitialProbability);
+                        byte sensorReading = getCorrectSensorReading(
+                            new CellIndex(i, j), map.CellSize, sensorReadings
+                            );
+                        double newProbability = model.GetProbabilityUltrasonicSensorX(
+                            map, robotPose, new CellIndex(i, j), sensorReading
+                            );
+                        newMap[i, j] = logOddsInverse(
+                            logOdds(map[i, j]) + logOdds(newProbability) - logOdds(map.InitialProbability)
+                            );
                     }
                 }
             }
@@ -60,7 +65,7 @@ namespace Control
             return new OccupancyGrid(newMap, map.CellSize, map.X, map.Y);
         }
 
-        private bool cellIsInPerceptualRange(IIndex mapCell, double cellSize)
+        private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
         {
             //Calculate in which the robot is located
             int robotCellX = (int)Math.Floor(robotPose.X / cellSize);
@@ -70,7 +75,7 @@ namespace Control
             return mapCell.X == robotCellX || mapCell.Y == robotCellY;
         }
 
-        private byte getCorrectSensorReading(IIndex mapCell, double cellSize, ISensorData sensorReadings)
+        private byte getCorrectSensorReading(CellIndex mapCell, double cellSize, ISensorData sensorReadings)
         {
             //Calculate in which the robot is located
             int robotCellX = (int)Math.Floor(robotPose.X / cellSize);

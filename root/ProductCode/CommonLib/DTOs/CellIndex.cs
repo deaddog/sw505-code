@@ -7,7 +7,7 @@ using CommonLib.Interfaces;
 
 namespace CommonLib.DTOs
 {
-    public class CellIndex : IIndex
+    public struct CellIndex
     {
         private int x;
         private int y;
