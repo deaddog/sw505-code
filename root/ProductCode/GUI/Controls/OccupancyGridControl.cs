@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -12,13 +13,15 @@ namespace SystemInterface.GUI.Controls
     /// <summary>
     /// Represents an occupancy grid drawn on top of a picturebox
     /// </summary>
-    public class OccupancyGridControl : PictureBox
+    public class OccupancyGridControl : Control
     {
+        private const float DEFAULT_AREASIZE = 1;
         private const int GRID_TRANSPARANCY = 150;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        private Services.TrackingServices.CoordinateConverter conv = new CoordinateConverter(640, 480, 308, 231);
+        // The image size below (640x480) is updated to match any image set using the Image property
+        private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
 
         private OccupancyGrid grid;
         /// <summary>
@@ -32,6 +35,60 @@ namespace SystemInterface.GUI.Controls
             set
             {
                 grid = value;
+                this.Invalidate();
+            }
+        }
+
+        private Image image;
+        [DefaultValue(null)]
+        public Image Image
+        {
+            get { return image; }
+            set
+            {
+                Size size = image != null ? image.Size : Size.Empty;
+
+                if (value != null && value.Size != size)
+                    conv.SetPixelSize(image.Width, image.Height);
+
+                image = value;
+                this.Invalidate();
+            }
+        }
+
+        private float areaWidth = DEFAULT_AREASIZE, areaHeight = DEFAULT_AREASIZE;
+        [DefaultValue(DEFAULT_AREASIZE)]
+        public float AreaWidth
+        {
+            get { return areaWidth; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
+
+                float old = areaWidth;
+
+                if (old != value)
+                    conv.SetActualSize(value, areaHeight);
+
+                areaWidth = value;
+                this.Invalidate();
+            }
+        }
+        public float AreaHeight
+        {
+            get { return areaHeight; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
+
+                float old = areaHeight;
+
+                if (old != value)
+                    conv.SetActualSize(areaWidth, value);
+
+                areaHeight = value;
                 this.Invalidate();
             }
         }
@@ -105,6 +162,11 @@ namespace SystemInterface.GUI.Controls
         /// </summary>
         public OccupancyGridControl()
         {
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.UserPaint,
+                true);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -112,6 +174,9 @@ namespace SystemInterface.GUI.Controls
             base.OnPaint(pe);
             if (DesignMode)
                 return;
+
+            if (image != null)
+                pe.Graphics.DrawImage(image, Padding.Left, Padding.Top);
 
             for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
                 for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
