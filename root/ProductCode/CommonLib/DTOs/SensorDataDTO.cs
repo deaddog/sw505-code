@@ -5,23 +5,41 @@ namespace CommonLib.DTOs
 {
     public struct SensorDataDTO : ISensorData
     {
-        private byte sensorADistance;
-        private byte sensorBDistance;
+        private byte sensorFront;
+        private byte sensorBack;
+        private byte sensorLeft;
+        private byte sensorRight;
 
-        public byte SensorADistance
+        public byte SensorFront
         {
-            get { return sensorADistance; }
+            get { return sensorFront; }
+            set { sensorFront = value; }
         }
 
-        public byte SensorBDistance
+        public byte SensorBack
         {
-            get { return sensorBDistance; }
+            get { return sensorBack; }
+            set { sensorBack = value; }
         }
 
-        public SensorDataDTO(byte sensorADistance, byte sensorBDistance)
+        public byte SensorLeft
         {
-            this.sensorADistance = sensorADistance;
-            this.sensorBDistance = sensorBDistance;
+            get { return sensorLeft; }
+            set { sensorLeft = value; }
+        }
+
+        public byte SensorRight
+        {
+            get { return sensorRight; }
+            set { sensorRight = value; }
+        }
+
+        public SensorDataDTO(byte sensorFront, byte sensorBack, byte sensorLeft, byte sensorRight)
+        {
+            this.sensorFront = sensorFront;
+            this.sensorBack = sensorBack;
+            this.sensorLeft = sensorLeft;
+            this.sensorRight = sensorRight;
         }
     }
 }
