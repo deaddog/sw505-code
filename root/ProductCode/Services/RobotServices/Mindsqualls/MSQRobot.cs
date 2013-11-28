@@ -235,10 +235,10 @@ namespace Services.RobotServices.Mindsqualls
                             sensorData.SensorLeft = reply[3];
 
                             //For testing of distance:
-                            //foreach (var item in sensorData)
-                            //{
-                            //    Console.WriteLine("s1: " + item.SensorADistance + " s2: " + item.SensorBDistance);
-                            //}
+                            //Console.WriteLine("front: " + sensorData.SensorFront);
+                            //Console.WriteLine("back: " + sensorData.SensorBack);
+                            //Console.WriteLine("left: " + sensorData.SensorLeft);
+                            //Console.WriteLine("right: " + sensorData.SensorRight);
 
                             Console.WriteLine("Measured!");
                             Console.ReadKey();
