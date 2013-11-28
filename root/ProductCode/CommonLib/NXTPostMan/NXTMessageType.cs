@@ -16,5 +16,9 @@ namespace CommonLib.NXTPostMan
         /// The robot has arrived at destination
         /// </summary>
         RobotHasArrivedAtDestination = 2,
+        /// <summary>
+        /// Order the robot to send a test message to the PC.
+        /// </summary>
+        SendTestMessageFromRobot = 3
     }
 }
