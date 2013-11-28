@@ -24,7 +24,7 @@ namespace Control
             robot = factory.CreateRobot();
         }
 
-        public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, ISensorData sensorReading)
+        public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, ISensorData sensorReadings)
         {
             double[,] newMap = new double[map.Columns, map.Rows];
 
@@ -32,24 +32,51 @@ namespace Control
             {
                 for (int j = 0; j < map.Columns - 1; j++)
                 {
-                    if (cellIsInPerceptualField())
-                        newMap[i, j] = logOddsInverse(
-                            model.GetProbabilityUltrasonicSensorX(
-                                map, robotPose, new CellIndex(i, j), getCorrectSensorReading()));
+                    if (cellIsInPerceptualRange(new CellIndex(i, j), map.CellSize))
+                    {
+                        double newProbability = logOddsInverse(model.GetProbabilityUltrasonicSensorX(
+                            map, robotPose, new CellIndex(i, j),
+                            getCorrectSensorReading(new CellIndex(i, j), map.CellSize, sensorReadings)));
+                        newMap[i, j] = logOdds(map[i, j]) + newProbability - logOdds(map.InitialProbability);
+                    }
                 }
             }
 
             return new OccupancyGrid(newMap, map.CellSize, map.X, map.Y);
         }
 
-        private bool cellIsInPerceptualField()
+        private bool cellIsInPerceptualRange(IIndex mapCell, double cellSize)
         {
-            throw new NotImplementedException();
+            int robotCellX = (int)Math.Floor(robotPose.X / cellSize);
+            int robotCellY = (int)Math.Floor(robotPose.Y / cellSize);
+
+            return mapCell.X == robotCellX || mapCell.Y == robotCellY;
         }
 
-        private byte getCorrectSensorReading()
+        private byte getCorrectSensorReading(IIndex mapCell, double cellSize, ISensorData sensorReadings)
         {
-            throw new NotImplementedException();
+            int robotCellX = (int)Math.Floor(robotPose.X / cellSize);
+            int robotCellY = (int)Math.Floor(robotPose.Y / cellSize);
+            int robotAngle = (int)Math.Round(robotPose.Angle / 90.0) * 90;
+
+            int relativeAngle = 0;
+            if (mapCell.Y > robotCellY)
+                relativeAngle = 90;
+            else if (mapCell.Y < robotCellY)
+                relativeAngle = 270;
+            else if (mapCell.X < robotCellX)
+                relativeAngle = 180;
+
+            relativeAngle = Math.Abs(relativeAngle - robotAngle) % 360;
+
+            if (relativeAngle == 0)
+                return sensorReadings.SensorFront;
+            else if (relativeAngle == 90)
+                return sensorReadings.SensorLeft;
+            else if (relativeAngle == 180)
+                return sensorReadings.SensorBack;
+            else
+                return sensorReadings.SensorRight;
         }
 
         private double logOdds(double cellPropability)
