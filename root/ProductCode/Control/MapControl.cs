@@ -24,7 +24,7 @@ namespace Control
             robot = factory.CreateRobot();
         }
 
-        public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, SensorSweepDTO sensorReading)
+        public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, ISensorData sensorReading)
         {
             double[,] newMap = new double[map.Columns, map.Rows];
 
@@ -32,15 +32,22 @@ namespace Control
             {
                 for (int j = 0; j < map.Columns - 1; j++)
                 {
-                    if (cellIsInPerceptualField(i, j, sensorReading))
-                        break;//newMap[i,j] = logOddsInverse(model.GetProbabilityUltrasonicSensorX(map, robotPose, 
+                    if (cellIsInPerceptualField())
+                        newMap[i, j] = logOddsInverse(
+                            model.GetProbabilityUltrasonicSensorX(
+                                map, robotPose, new CellIndex(i, j), getCorrectSensorReading()));
                 }
             }
 
             return new OccupancyGrid(newMap, map.CellSize, map.X, map.Y);
         }
 
-        private bool cellIsInPerceptualField(int cellX, int cellY, SensorSweepDTO sensorReading)
+        private bool cellIsInPerceptualField()
+        {
+            throw new NotImplementedException();
+        }
+
+        private byte getCorrectSensorReading()
         {
             throw new NotImplementedException();
         }
