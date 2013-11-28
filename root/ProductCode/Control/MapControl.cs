@@ -92,7 +92,10 @@ namespace Control
                 relativeAngle = 180;
 
             //Make up for robot pose angle
-            relativeAngle = Math.Abs(relativeAngle - robotAngle) % 360;
+            if (robotAngle > relativeAngle)
+                relativeAngle = 360 - (Math.Abs(relativeAngle - robotAngle));
+            else
+                relativeAngle -= robotAngle;
 
             //Return sensor reading based on relative position of cell and robot pose angle
             if (relativeAngle == 0)
