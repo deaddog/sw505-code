@@ -22,12 +22,6 @@ namespace SystemInterface.ConsoleUI
         {
             // create controller
             ScanningControl scanner = new ScanningControl();
-
-            // get data from sensorsweep
-            SensorSweepDTO dto = scanner.FullSweep();
-
-            //display data in console
-            Console.WriteLine(dto.ToString());
         }
     }
 }
