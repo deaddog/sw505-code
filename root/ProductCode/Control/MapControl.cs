@@ -32,6 +32,7 @@ namespace Control
             {
                 for (int j = 0; j < map.Columns - 1; j++)
                 {
+                    newMap[i, j] = map[i, j];
                     if (cellIsInPerceptualRange(new CellIndex(i, j), map.CellSize))
                     {
                         double newProbability = logOddsInverse(model.GetProbabilityUltrasonicSensorX(
