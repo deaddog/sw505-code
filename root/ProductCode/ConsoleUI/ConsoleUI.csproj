@@ -60,10 +60,6 @@
       <Project>{9efec74d-694b-48a9-a26e-a9359b312016}</Project>
       <Name>Control</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Services\Services.csproj">
-      <Project>{f2c6d342-4aca-4b7a-b207-8515677bdbbc}</Project>
-      <Name>Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

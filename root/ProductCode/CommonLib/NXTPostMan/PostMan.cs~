@@ -52,19 +52,21 @@ namespace CommonLib.NXTPostMan
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
         }
 
+<<<<<<< HEAD
         /// <summary>
         /// Checks if the message on top of mailbox is the specified type.
         /// </summary>
         /// <param name="type">the type to check against.</param>
         /// <returns>true if types match.</returns>
-
-	public bool HasMessageArrived(NXTMessageType type)
-        {
-            //string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
-            //NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());
+=======
         
-            //return type == recievedType;
-            throw new NotImplementedException();
+>>>>>>> 020a08c3be0f015d64ad41922ae672109b8e579c
+        public bool HasMessageArrived(NXTMessageType type)
+        {
+            string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
+            NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());
+
+            return type == recievedType;
         }
 
         /// <summary>
@@ -74,9 +76,8 @@ namespace CommonLib.NXTPostMan
         /// <returns>true if string matches item from mailbox</returns>
         public bool HasMessageArrived(string msg)
         {
-            //string mailMsg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
-            //return msg.Equals(mailMsg);
-            throw new NotImplementedException();
+            string mailMsg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
+            return msg.Equals(mailMsg);
         }
 
         /// <summary>
@@ -85,11 +86,10 @@ namespace CommonLib.NXTPostMan
         /// <returns>the message on top of mailbox formatted as an NXTMessage</returns>
         public NXTMessage RetrieveMessage()
         {
-            //string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
-            //NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());
+            string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+            NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());
 
-            //return new NXTMessage(recievedType, msg.Substring(1, msg.Length - 2));
-            throw new NotImplementedException();
+            return new NXTMessage(recievedType, msg.Substring(1, msg.Length - 2));
         }
 
     }

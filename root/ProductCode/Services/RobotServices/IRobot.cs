@@ -11,7 +11,6 @@ namespace Services.RobotServices
         void Drive(bool forward, uint distanceInMM);
         void MoveToPosition(ICoordinate destination);
         void UpdatePose(IPose pose);
-        ISensorData[] GetSensorData();
-        ISensorData MeasureDistanceUsingSensor();
+        ISensorData GetSensorData();
     }
 }

@@ -152,26 +152,6 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
-        public ISensorData MeasureDistanceUsingSensor()
-        {
-            //byte[] data = new byte[NUMBER_OF_SENSORS];
-
-            InitializeRobot(false);
-
-            sensor1.Poll();
-            sensor2.Poll();
-
-            //data[0] = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-            //data[1] = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-
-            byte dataA = sensor1.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-            byte dataB = sensor2.DistanceCm ?? DEFAULT_SENSOR_VALUE;
-
-            //FreeRobot(false);
-
-            return new SensorDataDTO(dataA, dataB);
-        }
-
         /// <summary>
         /// Sends command to robot, telling it to go to <paramref name="position"/>
         /// Also starts thread, checking for replies
@@ -232,7 +212,7 @@ namespace Services.RobotServices.Mindsqualls
 
                     //Checking the mailbox, if empty, exception is ignored and loop is reset
                     byte[] reply = robot.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, true);
-
+                    
                     //Attempt to parse the incoming command as the IncomingCommand enum
                     //  if failed, simple reset the loop via ArgumentException
                     //  if all is well, do switch on the command and do the corresponding action
@@ -255,10 +235,10 @@ namespace Services.RobotServices.Mindsqualls
                             sensorData.SensorLeft = reply[3];
 
                             //For testing of distance:
-                            //foreach (var item in sensorData)
-                            //{
-                            //    Console.WriteLine("s1: " + item.SensorADistance + " s2: " + item.SensorBDistance);
-                            //}
+                            //Console.WriteLine("front: " + sensorData.SensorFront);
+                            //Console.WriteLine("back: " + sensorData.SensorBack);
+                            //Console.WriteLine("left: " + sensorData.SensorLeft);
+                            //Console.WriteLine("right: " + sensorData.SensorRight);
 
                             Console.WriteLine("Measured!");
                             Console.ReadKey();

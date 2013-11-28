@@ -25,6 +25,7 @@ namespace SystemInterface.GUI.Controls
         /// The grid containing the data. Redrawn each time given a new grid.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OccupancyGrid Grid
         {
             get { return grid; }

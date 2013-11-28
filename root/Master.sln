@@ -1,34 +1,58 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "ProductCode\CommonLib\CommonLib.csproj", "{E868EDD2-1C74-4350-990A-ECF411D44291}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9973018E-FC09-4549-A484-0B702ADE1EE9} = {9973018E-FC09-4549-A484-0B702ADE1EE9}
+	EndProjectSection
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "CommonLibModel", "ModelProj\CommonLibModel\CommonLibModel.modelproj", "{BA8818FE-C1DD-445B-B4F3-0E33CFD52BD4}"
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "MainArchitecture", "ModelProj\MainArchitecture\MainArchitecture.modelproj", "{3A5C3CF3-CE15-44AA-8FF3-15531E7F9F08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibTest", "TestCode\CommonLibTest\CommonLibTest.csproj", "{9E94D4B1-BCD9-4215-A670-AF5014001BB6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9973018E-FC09-4549-A484-0B702ADE1EE9} = {9973018E-FC09-4549-A484-0B702ADE1EE9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ProductCode\ConsoleUI\ConsoleUI.csproj", "{9002BE54-970B-4EAA-9401-5A86A699AB58}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9EFEC74D-694B-48A9-A26E-A9359B312016} = {9EFEC74D-694B-48A9-A26E-A9359B312016}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUITest", "TestCode\ConsoleUITest\ConsoleUITest.csproj", "{EEB5CC74-850E-4AB7-994C-3F201F69A023}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ConsoleUIModel", "ModelProj\ConsoleUIModel\ConsoleUIModel.modelproj", "{8FA6A3AA-0266-440C-8032-4415C66A16D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "ProductCode\Data\Data.csproj", "{A312D164-A0A6-46EE-8552-0E4321E926F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "TestCode\DataTest\DataTest.csproj", "{AA51D4C7-3EE4-4188-870A-C07D622AACF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2C6D342-4ACA-4B7A-B207-8515677BDBBC} = {F2C6D342-4ACA-4B7A-B207-8515677BDBBC}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "DataModel", "ModelProj\DataModel\DataModel.modelproj", "{08B67C2E-F9EA-4166-AF27-99DAFC5991E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control", "ProductCode\Control\Control.csproj", "{9EFEC74D-694B-48A9-A26E-A9359B312016}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2C6D342-4ACA-4B7A-B207-8515677BDBBC} = {F2C6D342-4ACA-4B7A-B207-8515677BDBBC}
+		{A312D164-A0A6-46EE-8552-0E4321E926F1} = {A312D164-A0A6-46EE-8552-0E4321E926F1}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlTest", "TestCode\ControlTest\ControlTest.csproj", "{78FE5CD1-F4B5-4D3B-BAD4-89DE5A5E046B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9EFEC74D-694B-48A9-A26E-A9359B312016} = {9EFEC74D-694B-48A9-A26E-A9359B312016}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ControlModel", "ModelProj\ControlModel\ControlModel.modelproj", "{398E0380-CF9E-46F3-A1DB-5E7BEEDBEC56}"
 EndProject
@@ -36,14 +60,23 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ServicesModel", "ModelProj\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "ProductCode\Services\Services.csproj", "{F2C6D342-4ACA-4B7A-B207-8515677BDBBC}"
 	ProjectSection(ProjectDependencies) = postProject
+		{9973018E-FC09-4549-A484-0B702ADE1EE9} = {9973018E-FC09-4549-A484-0B702ADE1EE9}
 		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTest", "TestCode\ServicesTest\ServicesTest.csproj", "{1F4474AD-1621-4540-A3F5-6FFCB4A66DED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2C6D342-4ACA-4B7A-B207-8515677BDBBC} = {F2C6D342-4ACA-4B7A-B207-8515677BDBBC}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NKH.MindSqualls", "..\Mindsqualls\NKH.MindSqualls.csproj", "{9973018E-FC09-4549-A484-0B702ADE1EE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "ProductCode\GUI\GUI.csproj", "{A4D6B765-1D92-40B6-9F32-64E6E9357114}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9EFEC74D-694B-48A9-A26E-A9359B312016} = {9EFEC74D-694B-48A9-A26E-A9359B312016}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,11 +89,9 @@ Global
 		{E868EDD2-1C74-4350-990A-ECF411D44291}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E868EDD2-1C74-4350-990A-ECF411D44291}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA8818FE-C1DD-445B-B4F3-0E33CFD52BD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA8818FE-C1DD-445B-B4F3-0E33CFD52BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA8818FE-C1DD-445B-B4F3-0E33CFD52BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA8818FE-C1DD-445B-B4F3-0E33CFD52BD4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3A5C3CF3-CE15-44AA-8FF3-15531E7F9F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A5C3CF3-CE15-44AA-8FF3-15531E7F9F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A5C3CF3-CE15-44AA-8FF3-15531E7F9F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A5C3CF3-CE15-44AA-8FF3-15531E7F9F08}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E94D4B1-BCD9-4215-A670-AF5014001BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -76,7 +107,6 @@ Global
 		{EEB5CC74-850E-4AB7-994C-3F201F69A023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEB5CC74-850E-4AB7-994C-3F201F69A023}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FA6A3AA-0266-440C-8032-4415C66A16D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FA6A3AA-0266-440C-8032-4415C66A16D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FA6A3AA-0266-440C-8032-4415C66A16D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FA6A3AA-0266-440C-8032-4415C66A16D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A312D164-A0A6-46EE-8552-0E4321E926F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -88,7 +118,6 @@ Global
 		{AA51D4C7-3EE4-4188-870A-C07D622AACF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA51D4C7-3EE4-4188-870A-C07D622AACF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08B67C2E-F9EA-4166-AF27-99DAFC5991E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08B67C2E-F9EA-4166-AF27-99DAFC5991E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08B67C2E-F9EA-4166-AF27-99DAFC5991E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08B67C2E-F9EA-4166-AF27-99DAFC5991E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9EFEC74D-694B-48A9-A26E-A9359B312016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -100,11 +129,9 @@ Global
 		{78FE5CD1-F4B5-4D3B-BAD4-89DE5A5E046B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78FE5CD1-F4B5-4D3B-BAD4-89DE5A5E046B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{398E0380-CF9E-46F3-A1DB-5E7BEEDBEC56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{398E0380-CF9E-46F3-A1DB-5E7BEEDBEC56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{398E0380-CF9E-46F3-A1DB-5E7BEEDBEC56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{398E0380-CF9E-46F3-A1DB-5E7BEEDBEC56}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2C6D342-4ACA-4B7A-B207-8515677BDBBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
