@@ -96,6 +96,27 @@ namespace CommonLib.NXTPostMan
             }
         }
 
+        public bool HasMessageArrived()
+        {
+            try
+            {
+                byte[] msg = CommunicationBrick.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, false);
+
+                if (msg != null) { return true;  } else { return false; }
+            }
+            catch (NxtCommunicationProtocolException ex)
+            {
+                if (ex.ErrorMessage.Equals(NxtErrorMessage.SpecifiedMailboxQueueIsEmpty))
+                {
+                    return false;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
         /// <summary>
         /// Retrieves the message on top of mailbox.
         /// </summary>
@@ -131,5 +152,8 @@ namespace CommonLib.NXTPostMan
                 throw new ArgumentException("Unable to parse commandtype!");
             }
         }
+
+
+
     }
 }
