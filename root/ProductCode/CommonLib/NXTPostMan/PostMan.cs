@@ -54,6 +54,7 @@ namespace CommonLib.NXTPostMan
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
         }
 
+        
         public bool HasMessageArrived(NXTMessageType type)
         {
             string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);

@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="CommonLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CommonLib\bin\Debug\CommonLib.dll</HintPath>
+      <HintPath>..\..\bin\CommonLib.dll</HintPath>
     </Reference>
     <Reference Include="NKH.MindSqualls, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -52,6 +52,10 @@
     <Reference Include="NKH.MindSqualls, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\NKH.MindSqualls.dll</HintPath>
+    </Reference>
+    <Reference Include="Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Services.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,10 +82,6 @@
     <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
       <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
       <Name>NKH.MindSqualls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
-      <Project>{e868edd2-1c74-4350-990a-ecf411d44291}</Project>
-      <Name>CommonLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

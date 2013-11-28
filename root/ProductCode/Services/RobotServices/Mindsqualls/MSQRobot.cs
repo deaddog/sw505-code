@@ -195,8 +195,8 @@ namespace Services.RobotServices.Mindsqualls
             //FreeRobot(true);
         }
 
-        private ISensorData[] sensorData;
-        public ISensorData[] GetSensorData()
+        private ISensorData sensorData;
+        public ISensorData GetSensorData()
         {
             InitializeRobot(true);
 
@@ -248,9 +248,11 @@ namespace Services.RobotServices.Mindsqualls
                             Console.ReadKey();
                             break;
                         case IncomingCommand.GetSensorData:
-                            sensorData = new ISensorData[2];
-                            sensorData[0] = new SensorDataDTO(reply[1], reply[2]);
-                            sensorData[1] = new SensorDataDTO(reply[3], reply[4]);
+                            sensorData = new SensorDataDTO();
+                            sensorData.SensorFront = reply[0];
+                            sensorData.SensorBack = reply[1];
+                            sensorData.SensorRight = reply[2];
+                            sensorData.SensorLeft = reply[3];
 
                             //For testing of distance:
                             //foreach (var item in sensorData)
