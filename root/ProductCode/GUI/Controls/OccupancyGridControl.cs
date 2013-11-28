@@ -134,7 +134,7 @@ namespace SystemInterface.GUI.Controls
             if (gridShowBorders)
                 graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
             if (gridShowProbilities && (!gridHideUnexplored || grid[x, y] != 0.5))
-                graphics.DrawString(grid[x,y].ToString(), this.Font, Brushes.Black, r.Location);
+                graphics.DrawString(grid[x, y].ToString(), this.Font, Brushes.Black, r.Location);
         }
 
         private Vector2D getPixelCoordinates(int x, int y)
@@ -156,24 +156,26 @@ namespace SystemInterface.GUI.Controls
                 // Columns ruler 
                 for (int i = 0; i < grid.Columns; i++)
                 {
-                    Rectangle r = new Rectangle();
-                    r.Location = new Point(i * rectangleWidth + GridActualLocation.X + Padding.Left, GridActualLocation.Y - RULER_HEIGHT_WIDTH + Padding.Top);
-                    r.Size = new Size(rectangleWidth, RULER_HEIGHT_WIDTH);
+                    Vector2D topleft = getPixelCoordinates(i, 0) - new Vector2D(0, RULER_HEIGHT_WIDTH);
+                    Vector2D bottomright = getPixelCoordinates(i + 1, 0);
+
+                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
 
                     g.FillRectangle(rulerBackgroundBrush, r);
-                    g.DrawRectangle(Pens.Gray, r);
+                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
                     g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
                 }
 
                 // Rows ruler
                 for (int i = 0; i < grid.Rows; i++)
                 {
-                    Rectangle r = new Rectangle();
-                    r.Location = new Point(GridActualLocation.X - RULER_HEIGHT_WIDTH + Padding.Left, i * rectangleHeight + GridActualLocation.Y + Padding.Top);
-                    r.Size = new Size(RULER_HEIGHT_WIDTH, rectangleHeight);
+                    Vector2D topleft = getPixelCoordinates(0, i) - new Vector2D(RULER_HEIGHT_WIDTH, 0);
+                    Vector2D bottomright = getPixelCoordinates(0, i + 1);
+
+                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
 
                     g.FillRectangle(rulerBackgroundBrush, r);
-                    g.DrawRectangle(Pens.Gray, r);
+                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
                     g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
                 }
             }
