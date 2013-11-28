@@ -50,7 +50,6 @@
     <Compile Include="DTOs\SensorDataDTO.cs" />
     <Compile Include="DTOs\Vector2D.cs" />
     <Compile Include="Interfaces\ICoordinate.cs" />
-    <Compile Include="Interfaces\IIndex.cs" />
     <Compile Include="Interfaces\IPose.cs" />
     <Compile Include="Interfaces\ISensorData.cs" />
     <Compile Include="NXTPostMan\INXTPostMan.cs" />

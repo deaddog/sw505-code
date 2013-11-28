@@ -39,13 +39,13 @@ namespace Data.SensorModel
             get { return cellDepthCM; }
         }
 
-        private double l_0(OccupancyGrid grid, IIndex index)
+        private double l_0(OccupancyGrid grid, CellIndex index)
         {
-            double prior = grid[index.X,index.Y];
+            double prior = grid.InitialProbability;
             return Math.Log10(prior / (1 - prior));
         }
 
-        private CellCoordinate getCoordinateFromCellIndex(OccupancyGrid grid, IIndex index)
+        private CellCoordinate getCoordinateFromCellIndex(OccupancyGrid grid, CellIndex index)
         {
             float cellRadius = grid.CellSize / 2;
             return new CellCoordinate(grid.CellSize * index.X + cellRadius, grid.CellSize * index.Y + cellRadius);
@@ -58,7 +58,7 @@ namespace Data.SensorModel
         /// <param name="cell">The cells coordinates.</param>
         /// <param name="sensorX">The sensor X's length measured.</param>
         /// <returns></returns>
-        public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, IPose robot, IIndex cell, byte sensorX)
+        public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
             float cellRadius = grid.CellSize / 2;
 
