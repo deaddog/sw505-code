@@ -128,7 +128,7 @@ namespace SystemInterface.GUI.Controls
 
             RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
 
-            using (SolidBrush brush = new SolidBrush(setColor(grid[x, y])))
+            using (SolidBrush brush = new SolidBrush(getColor(grid[x, y])))
                 graphics.FillRectangle(brush, r);
 
             if (gridShowBorders)
@@ -202,7 +202,7 @@ namespace SystemInterface.GUI.Controls
         /// </summary>
         /// <param name="probability">The probability to generate a color for</param>
         /// <returns>A color representing a probability</returns>
-        private Color setColor(double probability)
+        private Color getColor(double probability)
         {
             if (probability < 0.5) // greens (turn up the reds to make color more yellow)
             {
