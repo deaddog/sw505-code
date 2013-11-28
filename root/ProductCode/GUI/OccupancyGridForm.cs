@@ -79,7 +79,7 @@ namespace SystemInterface.GUI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            OccupancyGrid grid = new OccupancyGrid(10, 10);
+            OccupancyGrid grid = new OccupancyGrid(30, 23, 10, -150, -115);
             occupancyGridControl1.Grid = grid;
 
             #region Initialize comboboxes
