@@ -50,14 +50,14 @@ namespace Data
         /// </summary>
         /// <param name="columns">Number of columns in grid (the width)</param>
         /// <param name="rows">Number of rows in grid (the height)</param>
-        public OccupancyGrid(int columns, int rows, float cellsize, float xOffset, float yOffset)
+        public OccupancyGrid(int columns, int rows, float cellsize, float xLocation, float yLocation)
         {
             this.rows = rows;
             this.columns = columns;
 
             this.cellsize = cellsize;
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
+            this.xOffset = xLocation;
+            this.yOffset = yLocation;
 
             gridCells = new double[columns, rows];
 
@@ -66,14 +66,14 @@ namespace Data
                     gridCells[x, y] = INITIAL_PROBABILITY;
         }
 
-        public OccupancyGrid(double[,] grid, float cellsize, float xOffset, float yOffset)
+        public OccupancyGrid(double[,] grid, float cellsize, float xLocation, float yLocation)
         {
             this.rows = grid.GetLength(0);
             this.columns = grid.GetLength(1);
 
             this.cellsize = cellsize;
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
+            this.xOffset = xLocation;
+            this.yOffset = yLocation;
 
             gridCells = (double[,])grid.Clone();
         }
