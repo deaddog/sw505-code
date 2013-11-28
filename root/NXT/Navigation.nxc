@@ -89,7 +89,7 @@ Pose WhereDummy()
 bool GotoPointIncrement(Point target)
 {
  //Where am i
- Pose p = WhereDummy();
+ Pose p = WhereAmI();  
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);
  

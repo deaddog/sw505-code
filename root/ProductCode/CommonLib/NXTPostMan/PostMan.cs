@@ -35,9 +35,7 @@ namespace CommonLib.NXTPostMan
         }
 
         #endregion
-
-
-
+        
         public void SendMessage(NXTMessage msg)
         {
             // send the preformed message to the robot.
@@ -54,6 +52,11 @@ namespace CommonLib.NXTPostMan
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
         }
 
+        /// <summary>
+        /// Checks if the message on top of mailbox is the specified type.
+        /// </summary>
+        /// <param name="type">the type to check against.</param>
+        /// <returns>true if types match.</returns>
         public bool HasMessageArrived(NXTMessageType type)
         {
             string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
@@ -62,19 +65,27 @@ namespace CommonLib.NXTPostMan
             return type == recievedType;
         }
 
+        /// <summary>
+        /// Checks if the message on top of mailbox matches string.
+        /// </summary>
+        /// <param name="msg">the string to match against.</param>
+        /// <returns>true if string matches item from mailbox</returns>
         public bool HasMessageArrived(string msg)
         {
-            throw new NotImplementedException();
+            string mailMsg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, false);
+            return msg.Equals(mailMsg);
         }
 
-        public NXTMessage RetrieveMessage(NXTMessageType type)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Retrieves the message on top of mailbox.
+        /// </summary>
+        /// <returns>the message on top of mailbox formatted as an NXTMessage</returns>
         public NXTMessage RetrieveMessage()
         {
-            throw new NotImplementedException();
+            string msg = CommunicationBrick.CommLink.MessageRead(PC_INBOX, NxtMailbox.Box0, true);
+            NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), msg[0].ToString());
+
+            return new NXTMessage(recievedType, msg.Substring(1, msg.Length - 2));
         }
 
     }
