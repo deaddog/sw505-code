@@ -10,7 +10,7 @@ namespace SystemInterface.RobotInterface
 {
     public class RobotCommandInterpreter
     {
-        private PostMan postman;
+        private INXTPostMan postman;
         private bool RUNNING = true;
         private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 10000;
 
@@ -19,7 +19,7 @@ namespace SystemInterface.RobotInterface
         /// <summary>
         /// Default cTor.
         /// </summary>
-        public RobotCommandInterpreter() : this(PostMan.getInstance())
+        public RobotCommandInterpreter() : this(PostMan.getInstance()) { }
 
         /// <summary>
         /// Master cTor.
@@ -36,18 +36,24 @@ namespace SystemInterface.RobotInterface
         {
             while(RUNNING) {
 
-                if(postman.HasMessageArrived) {
+                if (postman.HasMessageArrived())
+                {
 
                     NXTMessage msg = postman.RetrieveMessage();
 
                     switch(msg.MessageType) {
 
                         case(NXTMessageType.RobotRequestsLocation):
-
+                            
                             RobotRequestLocation(msg);
                             break;
                         case(NXTMessageType.RobotHasArrivedAtDestination):
 
+                            RobotHasArrivedAtDestination(msg);
+                            break;
+                        case(NXTMessageType.SendSensorData):
+
+                            SendSensorData(msg);
                             break;
                         default:
                             throw new Exception("Dont know what to do ???");
@@ -60,16 +66,21 @@ namespace SystemInterface.RobotInterface
 
         #region Command Handlers
 
-        private void RobotRequestLocation(NXTMessageType msg) {
+        private void RobotRequestLocation(NXTMessage msg) {
 
-
+            
+            throw new NotImplementedException();
         }
 
-        private void RobotHasArrivedAtDestination(NXTMessageType msg) {
+        private void RobotHasArrivedAtDestination(NXTMessage msg) {
 
-
+            throw new NotImplementedException();
         }
 
+        private void SendSensorData(NXTMessage msg)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

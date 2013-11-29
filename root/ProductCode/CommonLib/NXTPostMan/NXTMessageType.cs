@@ -4,21 +4,38 @@ namespace CommonLib.NXTPostMan
 {
     public enum NXTMessageType
     {
-        /// <summary>
-        /// Request robot moves to position
-        /// </summary>
-        MoveToPos = 0,
+        // ################################
+        // # Incoming Messages.           #
+        // ################################
+
         /// <summary>
         /// The robot requests location
         /// </summary>
-        RobotRequestsLocation = 1,
+        RobotRequestsLocation = 10,
         /// <summary>
         /// The robot has arrived at destination
         /// </summary>
-        RobotHasArrivedAtDestination = 2,
+        RobotHasArrivedAtDestination = 11,
+        
+        SendSensorData = 12,
+
+        // ################################
+        // # Outgoing Messages.           #
+        // ################################
+        
+        /// <summary>
+        /// Request robot moves to position
+        /// </summary>
+        MoveToPos = 50,
+
+
+        GetSensorMeasurement = 51,
+
         /// <summary>
         /// Order the robot to send a test message to the PC.
         /// </summary>
-        SendTestMessageFromRobot = 3
+        SendTestMessageFromRobot = 52
+
+
     }
 }
