@@ -13,6 +13,8 @@ namespace Data
     {
         private const double INITIAL_PROBABILITY = 0.5;
 
+        public double InitialProbability { get { return INITIAL_PROBABILITY; } }
+
         private int rows;
         public int Rows
         {

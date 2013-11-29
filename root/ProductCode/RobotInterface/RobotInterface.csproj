@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2C6D342-4ACA-4B7A-B207-8515677BDBBC}</ProjectGuid>
+    <ProjectGuid>{EF1B5664-A887-4528-B8F3-580BC1786DD2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Services</RootNamespace>
-    <AssemblyName>Services</AssemblyName>
+    <RootNamespace>SystemInterface.RobotInterface</RootNamespace>
+    <AssemblyName>RobotInterface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,12 +16,10 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\Services.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,21 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CommonLib">
       <HintPath>..\..\bin\CommonLib.dll</HintPath>
     </Reference>
-    <Reference Include="NKH.MindSqualls, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\NKH.MindSqualls.dll</HintPath>
-    </Reference>
-    <Reference Include="Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Services.dll</HintPath>
+    <Reference Include="Control">
+      <HintPath>..\..\bin\Control.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,22 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RobotServices\NXTEncoder.cs" />
-    <Compile Include="TrackingServices\ColorTracker.cs" />
-    <Compile Include="TrackingServices\OrientationTracker.cs" />
+    <Compile Include="RobotCommandInterpreter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RobotServices\IRobot.cs" />
-    <Compile Include="RobotServices\IncomingCommandEnum.cs" />
-    <Compile Include="RobotServices\OutgoingCommandEnum.cs" />
-    <Compile Include="RobotServices\Mindsqualls\MSQRobot.cs" />
-    <Compile Include="RobotServices\RobotFactory.cs" />
-    <Compile Include="TrackingServices\CoordinateConverter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
-      <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
-      <Name>NKH.MindSqualls</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

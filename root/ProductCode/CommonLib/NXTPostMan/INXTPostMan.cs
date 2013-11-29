@@ -10,6 +10,8 @@ namespace CommonLib.NXTPostMan
 
         bool HasMessageArrived(string msg);
 
+        bool HasMessageArrived();
+
         NXTMessage RetrieveMessage();
     }
 }

@@ -4,10 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "..\..\ProductCode\CommonLib\CommonLib.csproj", "{E868EDD2-1C74-4350-990A-ECF411D44291}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control", "..\..\ProductCode\Control\Control.csproj", "{9EFEC74D-694B-48A9-A26E-A9359B312016}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2C6D342-4ACA-4B7A-B207-8515677BDBBC} = {F2C6D342-4ACA-4B7A-B207-8515677BDBBC}
+		{A312D164-A0A6-46EE-8552-0E4321E926F1} = {A312D164-A0A6-46EE-8552-0E4321E926F1}
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "..\..\ProductCode\Services\Services.csproj", "{F2C6D342-4ACA-4B7A-B207-8515677BDBBC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "..\..\ProductCode\Data\Data.csproj", "{A312D164-A0A6-46EE-8552-0E4321E926F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E868EDD2-1C74-4350-990A-ECF411D44291} = {E868EDD2-1C74-4350-990A-ECF411D44291}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibTest", "..\..\TestCode\CommonLibTest\CommonLibTest.csproj", "{9E94D4B1-BCD9-4215-A670-AF5014001BB6}"
 EndProject
