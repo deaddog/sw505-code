@@ -16,36 +16,48 @@ namespace SystemInterface.GUI
 {
     public partial class OccupancyGridForm : Form
     {
+        private Size diffSize;
         public OccupancyGridForm()
         {
             InitializeComponent();
+
+            diffSize = new Size(this.Width - gridControl.Width, this.Height - gridControl.Height);
+            gridControl.Resize += gridControl_Resize;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            occupancyGridControl1.Grid = new OccupancyGrid(30, 23, 10, -150, -115);
+            gridControl.Grid = new OccupancyGrid(30, 23, 10, -150, -115);
         }
 
         private void checkBoxShowBorders_CheckedChanged(object sender, EventArgs e)
         {
-            occupancyGridControl1.GridShowBorders = checkBoxShowBorders.Checked;
+            gridControl.GridShowBorders = checkBoxShowBorders.Checked;
         }
 
         private void checkBoxShowProbabilities_CheckedChanged(object sender, EventArgs e)
         {
             checkBoxHideUnexplored.Enabled =
-                occupancyGridControl1.GridShowProbabilities =
+                gridControl.GridShowProbabilities =
                 checkBoxShowProbabilities.Checked;
         }
 
         private void checkBoxHideUnexplored_CheckedChanged(object sender, EventArgs e)
         {
-            occupancyGridControl1.GridHideUnexplored = checkBoxHideUnexplored.Checked;
+            gridControl.GridHideUnexplored = checkBoxHideUnexplored.Checked;
         }
 
         private void checkBoxShowRulers_CheckedChanged(object sender, EventArgs e)
         {
-            occupancyGridControl1.GridShowRuler = checkBoxShowRulers.Checked;
+            gridControl.GridShowRuler = checkBoxShowRulers.Checked;
+        }
+
+        private void gridControl_Resize(object sender, EventArgs e)
+        {
+            if (DesignMode)
+                return;
+            else
+                this.Size = new Size(gridControl.Width + diffSize.Width, gridControl.Height + diffSize.Height);
         }
     }
 }

@@ -33,8 +33,8 @@ namespace SystemInterface.GUI
             this.checkBoxShowProbabilities = new System.Windows.Forms.CheckBox();
             this.checkBoxHideUnexplored = new System.Windows.Forms.CheckBox();
             this.checkBoxShowRulers = new System.Windows.Forms.CheckBox();
-            this.occupancyGridControl1 = new SystemInterface.GUI.Controls.OccupancyGridControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gridControl = new SystemInterface.GUI.Controls.OccupancyGridControl();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,24 +91,6 @@ namespace SystemInterface.GUI
             this.checkBoxShowRulers.UseVisualStyleBackColor = true;
             this.checkBoxShowRulers.CheckedChanged += new System.EventHandler(this.checkBoxShowRulers_CheckedChanged);
             // 
-            // occupancyGridControl1
-            // 
-            this.occupancyGridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.occupancyGridControl1.AreaHeight = 231F;
-            this.occupancyGridControl1.AreaWidth = 308F;
-            this.occupancyGridControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.occupancyGridControl1.GridHideUnexplored = true;
-            this.occupancyGridControl1.GridShowRuler = true;
-            this.occupancyGridControl1.Location = new System.Drawing.Point(142, 15);
-            this.occupancyGridControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.occupancyGridControl1.Name = "occupancyGridControl1";
-            this.occupancyGridControl1.Padding = new System.Windows.Forms.Padding(17, 16, 17, 16);
-            this.occupancyGridControl1.Size = new System.Drawing.Size(712, 534);
-            this.occupancyGridControl1.TabIndex = 0;
-            this.occupancyGridControl1.TabStop = false;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.checkBoxShowBorders);
@@ -122,13 +104,32 @@ namespace SystemInterface.GUI
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
+            // gridControl
+            // 
+            this.gridControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridControl.AreaHeight = 231F;
+            this.gridControl.AreaWidth = 308F;
+            this.gridControl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.gridControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gridControl.GridHideUnexplored = true;
+            this.gridControl.GridShowRuler = true;
+            this.gridControl.Location = new System.Drawing.Point(142, 15);
+            this.gridControl.Margin = new System.Windows.Forms.Padding(2);
+            this.gridControl.Name = "gridControl";
+            this.gridControl.Padding = new System.Windows.Forms.Padding(25);
+            this.gridControl.Size = new System.Drawing.Size(712, 534);
+            this.gridControl.TabIndex = 0;
+            this.gridControl.TabStop = false;
+            // 
             // OccupancyGridForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 564);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.occupancyGridControl1);
+            this.Controls.Add(this.gridControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
@@ -145,7 +146,7 @@ namespace SystemInterface.GUI
 
         #endregion
 
-        private SystemInterface.GUI.Controls.OccupancyGridControl occupancyGridControl1;
+        private SystemInterface.GUI.Controls.OccupancyGridControl gridControl;
         private System.Windows.Forms.CheckBox checkBoxShowBorders;
         private System.Windows.Forms.CheckBox checkBoxShowProbabilities;
         private System.Windows.Forms.CheckBox checkBoxHideUnexplored;
