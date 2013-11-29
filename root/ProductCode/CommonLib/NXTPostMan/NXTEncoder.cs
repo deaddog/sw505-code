@@ -1,6 +1,7 @@
 ﻿using System;
 using CommonLib.Interfaces;
 using System.Globalization;
+using CommonLib;
 
 namespace CommonLib.NXTPostMan
 {
@@ -52,5 +53,17 @@ namespace CommonLib.NXTPostMan
 
             return str;
         }
+  
+        public static byte[] ByteEncode(ICoordinate cord) {
+
+            return StringByteConverter.GetBytes((NXTEncoder.Encode(cord)));
+        }
+
+        public static byte[] ByteEncode(IPose pose) {
+            return StringByteConverter.GetBytes((NXTEncoder.Encode(pose)));
+        }
+
+
+
     }
 }

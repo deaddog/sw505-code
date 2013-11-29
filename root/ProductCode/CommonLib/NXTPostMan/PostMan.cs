@@ -125,8 +125,7 @@ namespace CommonLib.NXTPostMan
         {
             try {
                 byte[] msg = CommunicationBrick.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, true);
-                NXTMessageType recievedType = parseCommandType(msg);
-                return new NXTMessage(recievedType, msg.ToString().Substring(1, msg.Length - 2));
+                return new NXTMessage(msg);
             }
             catch (NxtCommunicationProtocolException ex)
             {

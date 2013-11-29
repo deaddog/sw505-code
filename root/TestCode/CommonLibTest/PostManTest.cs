@@ -5,6 +5,7 @@ using CommonLib.Interfaces;
 using CommonLib.DTOs;
 using CommonLib.NXTPostMan;
 using System.Windows.Forms;
+using CommonLib;
 
 namespace CommonLibTest
 {
@@ -65,7 +66,8 @@ namespace CommonLibTest
             // Arrange
             ICoordinate cord = new Vector2D(5.0f, 5.0f);
             string encodedCord = NXTEncoder.Encode(cord);
-            NXTMessage msg = new NXTMessage(NXTMessageType.MoveToPos, encodedCord);
+            byte[] byteMsg = NXTEncoder.ByteEncode(cord);
+            NXTMessage msg = new NXTMessage(NXTMessageType.MoveToPos, encodedCord,byteMsg);
             DialogResult result;
 
             // Act
@@ -106,7 +108,6 @@ namespace CommonLibTest
             // Assert
             Assert.IsTrue(result);
         }
-
 
 
     }

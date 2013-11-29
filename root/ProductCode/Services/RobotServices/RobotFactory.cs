@@ -38,7 +38,7 @@ namespace Services.RobotServices
         public IRobot CreateRobot()
         {
             if (robot == null)
-                return new MSQRobot();
+                return new PmanRobot();
             else return robot;
         }
     }
