@@ -17,17 +17,42 @@ namespace SystemInterface.GUI
     public partial class OccupancyGridForm : Form
     {
         private Size diffSize;
-        public OccupancyGridForm()
+        public OccupancyGridForm(OccupancyGrid initialGrid)
         {
             InitializeComponent();
 
             diffSize = new Size(this.Width - gridControl.Width, this.Height - gridControl.Height);
             gridControl.Resize += gridControl_Resize;
+
+            this.Grid = initialGrid;
+
+            checkBoxShowBorders_CheckedChanged(null, null);
+            checkBoxShowProbabilities_CheckedChanged(null, null);
+            checkBoxHideUnexplored_CheckedChanged(null, null);
+            checkBoxShowRulers_CheckedChanged(null, null);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public OccupancyGrid Grid
         {
-            gridControl.Grid = new OccupancyGrid(30, 23, 10, -150, -115);
+            get { return gridControl.Grid; }
+            set { gridControl.Grid = value; }
+        }
+
+        public Image GridImage
+        {
+            get { return gridControl.Image; }
+            set { gridControl.Image = value; }
+        }
+
+        public float AreaWidth
+        {
+            get { return gridControl.AreaWidth; }
+            set { gridControl.AreaWidth = value; }
+        }
+        public float AreaHeight
+        {
+            get { return gridControl.AreaHeight; }
+            set { gridControl.AreaHeight = value; }
         }
 
         private void checkBoxShowBorders_CheckedChanged(object sender, EventArgs e)
