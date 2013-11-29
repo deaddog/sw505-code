@@ -13,6 +13,8 @@ namespace Control
     {
         private IRobot robot;
 
+        #region cTor Chain.
+
         public NavigationControl() : this(RobotFactory.GetInstance()) { }
 
         public NavigationControl(RobotFactory factory)
@@ -20,9 +22,16 @@ namespace Control
             robot = factory.CreateRobot();
         }
 
+        #endregion
+
         public void TellRobotNavigateTo(ICoordinate location)
         {
             robot.MoveToPosition(location);
+        }
+
+        public void SendRobotToNextLocation()
+        {
+            throw new NotImplementedException();
         }
     }
 }

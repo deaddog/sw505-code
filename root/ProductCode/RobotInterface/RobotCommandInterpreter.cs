@@ -10,23 +10,28 @@ namespace SystemInterface.RobotInterface
 {
     public class RobotCommandInterpreter
     {
+        private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 10000;
+
         private INXTPostMan postman;
         private bool RUNNING = true;
-        private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 10000;
+        private LocationControl locCon;
+        private NavigationControl navCon;
 
         #region cTor Chain.
 
         /// <summary>
         /// Default cTor.
         /// </summary>
-        public RobotCommandInterpreter() : this(PostMan.getInstance()) { }
+        public RobotCommandInterpreter() : this(PostMan.getInstance(), new LocationControl(), new NavigationControl()) { }
 
         /// <summary>
         /// Master cTor.
         /// </summary>
-        public RobotCommandInterpreter(PostMan p)
+        public RobotCommandInterpreter(PostMan p, LocationControl loc, NavigationControl nav)
         {
             postman = p;
+            locCon = loc;
+            navCon = nav;
             new Thread(new ThreadStart(this.listener)).Start();
         }
 
@@ -68,17 +73,19 @@ namespace SystemInterface.RobotInterface
 
         private void RobotRequestLocation(NXTMessage msg) {
 
-            
-            throw new NotImplementedException();
+            ICoordinate cord = locCon.FindRobotLocation();
+            NXTMessage outMsg = new NXTMessage(NXTMessageType.RobotRequestsLocation, NXTEncoder.Encode(cord));
+            postman.SendMessage(outMsg);
         }
 
         private void RobotHasArrivedAtDestination(NXTMessage msg) {
 
-            throw new NotImplementedException();
+            navCon.SendRobotToNextLocation();
         }
 
         private void SendSensorData(NXTMessage msg)
         {
+
             throw new NotImplementedException();
         }
         #endregion
