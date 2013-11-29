@@ -16,7 +16,10 @@ namespace SystemInterface.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OccupancyGridForm());
+            Application.Run(new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115))
+            {
+                //GridImage = ImageToUse
+            });
         }
     }
 }
