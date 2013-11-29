@@ -202,7 +202,14 @@ namespace SystemInterface.GUI.Controls
             if (gridShowBorders)
                 graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
             if (gridShowProbilities && (!gridHideUnexplored || grid[x, y] != 0.5))
-                graphics.DrawString(grid[x, y].ToString(), this.Font, Brushes.Black, r.Location);
+            {
+                string text = grid[x, y].ToString("0.0");
+                //Measure text size and calculate position so that text is centered.
+                SizeF textSize = graphics.MeasureString(text, this.Font);
+                PointF p = new PointF((r.Width - textSize.Width) / 2f + r.X, (r.Height - textSize.Height) / 2f + r.Y);
+
+                graphics.DrawString(text, this.Font, Brushes.Black, p);
+            }
         }
 
         private Vector2D getPixelCoordinates(int x, int y)
