@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="LocationControl.cs" />
     <Compile Include="MapControl.cs" />
+    <Compile Include="MappingControl.cs" />
     <Compile Include="NavigationControl.cs" />
     <Compile Include="ScanningControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -12,13 +13,15 @@ namespace SystemInterface.GUI.Controls
     /// <summary>
     /// Represents an occupancy grid drawn on top of a picturebox
     /// </summary>
-    public class OccupancyGridControl : PictureBox
+    public class OccupancyGridControl : Control
     {
-        private const int GRID_TRANSPARANCY = 150;
+        private const float DEFAULT_AREASIZE = 1;
+        private const int GRID_TRANSPARANCY = 70;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        private Services.TrackingServices.CoordinateConverter conv = new CoordinateConverter(640, 480, 308, 231);
+        // The image size below (640x480) is updated to match any image set using the Image property
+        private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
 
         private OccupancyGrid grid;
         /// <summary>
@@ -32,6 +35,63 @@ namespace SystemInterface.GUI.Controls
             set
             {
                 grid = value;
+                this.Invalidate();
+            }
+        }
+
+        private Image image;
+        [DefaultValue(null)]
+        public Image Image
+        {
+            get { return image; }
+            set
+            {
+                Size size = image != null ? image.Size : Size.Empty;
+
+                if (value != null && value.Size != size)
+                {
+                    conv.SetPixelSize(value.Width, value.Height);
+                    this.Size = value.Size + new Size(Padding.Horizontal, Padding.Vertical);
+                }
+
+                image = value;
+                this.Invalidate();
+            }
+        }
+
+        private float areaWidth = DEFAULT_AREASIZE, areaHeight = DEFAULT_AREASIZE;
+        [DefaultValue(DEFAULT_AREASIZE)]
+        public float AreaWidth
+        {
+            get { return areaWidth; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
+
+                float old = areaWidth;
+
+                if (old != value)
+                    conv.SetActualSize(value, areaHeight);
+
+                areaWidth = value;
+                this.Invalidate();
+            }
+        }
+        public float AreaHeight
+        {
+            get { return areaHeight; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
+
+                float old = areaHeight;
+
+                if (old != value)
+                    conv.SetActualSize(areaWidth, value);
+
+                areaHeight = value;
                 this.Invalidate();
             }
         }
@@ -105,6 +165,11 @@ namespace SystemInterface.GUI.Controls
         /// </summary>
         public OccupancyGridControl()
         {
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.UserPaint,
+                true);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -112,6 +177,9 @@ namespace SystemInterface.GUI.Controls
             base.OnPaint(pe);
             if (DesignMode)
                 return;
+
+            if (image != null)
+                pe.Graphics.DrawImage(image, Padding.Left, Padding.Top);
 
             for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
                 for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
@@ -132,9 +200,17 @@ namespace SystemInterface.GUI.Controls
                 graphics.FillRectangle(brush, r);
 
             if (gridShowBorders)
-                graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
+                using (Pen pen = new Pen(Color.FromArgb(70, Color.Black)))
+                    graphics.DrawRectangle(pen, r.X, r.Y, r.Width, r.Height);
             if (gridShowProbilities && (!gridHideUnexplored || grid[x, y] != 0.5))
-                graphics.DrawString(grid[x, y].ToString(), this.Font, Brushes.Black, r.Location);
+            {
+                string text = grid[x, y].ToString("0.0");
+                //Measure text size and calculate position so that text is centered.
+                SizeF textSize = graphics.MeasureString(text, this.Font);
+                PointF p = new PointF((r.Width - textSize.Width) / 2f + r.X, (r.Height - textSize.Height) / 2f + r.Y);
+
+                graphics.DrawString(text, this.Font, Brushes.Black, p);
+            }
         }
 
         private Vector2D getPixelCoordinates(int x, int y)
@@ -154,29 +230,38 @@ namespace SystemInterface.GUI.Controls
                 // Columns ruler 
                 for (int i = 0; i < grid.Columns; i++)
                 {
-                    Vector2D topleft = getPixelCoordinates(i, 0) - new Vector2D(0, Padding.Top);
-                    Vector2D bottomright = getPixelCoordinates(i + 1, 0);
+                    Vector2D topleft = new Vector2D(getPixelCoordinates(i, 0).X, 0);
+                    Vector2D bottomright = new Vector2D(getPixelCoordinates(i + 1, 0).X, Padding.Top);
 
-                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
-
-                    g.FillRectangle(rulerBackgroundBrush, r);
-                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
-                    g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
+                    drawRulerRectangle(g, rulerBackgroundBrush, topleft, bottomright, false);
                 }
 
                 // Rows ruler
                 for (int i = 0; i < grid.Rows; i++)
                 {
-                    Vector2D topleft = getPixelCoordinates(0, i) - new Vector2D(Padding.Left, 0);
-                    Vector2D bottomright = getPixelCoordinates(0, i + 1);
+                    Vector2D topleft = new Vector2D(0, getPixelCoordinates(0, i).Y);
+                    Vector2D bottomright = new Vector2D(Padding.Left, getPixelCoordinates(0, i + 1).Y);
 
-                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
-
-                    g.FillRectangle(rulerBackgroundBrush, r);
-                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
-                    g.DrawString((i + 1).ToString(), this.Font, Brushes.Black, r.Location);
+                    drawRulerRectangle(g, rulerBackgroundBrush, topleft, bottomright, true);
                 }
             }
+        }
+
+        private void drawRulerRectangle(Graphics g, Brush brush, Vector2D topleft, Vector2D bottomright, bool row)
+        {
+            RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
+
+            g.FillRectangle(brush, r);
+            g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
+
+            var point = conv.ConvertPixelToActual(topleft);
+            string cm = (row ? point.Y : point.X).ToString("0");
+
+            //Measure text size and calculate position so that text is centered.
+            SizeF textSize = g.MeasureString(cm, this.Font);
+            PointF p = new PointF((r.Width - textSize.Width) / 2f + r.X, (r.Height - textSize.Height) / 2f + r.Y);
+
+            g.DrawString(cm, this.Font, Brushes.Black, p);
         }
 
         /// <summary>

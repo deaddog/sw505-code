@@ -70,8 +70,8 @@ namespace Data
 
         public OccupancyGrid(double[,] grid, float cellsize, float xLocation, float yLocation)
         {
-            this.rows = grid.GetLength(0);
-            this.columns = grid.GetLength(1);
+            this.columns = grid.GetLength(0);
+            this.rows = grid.GetLength(1);
 
             this.cellsize = cellsize;
             this.xOffset = xLocation;
