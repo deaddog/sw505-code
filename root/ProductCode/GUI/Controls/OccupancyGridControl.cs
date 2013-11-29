@@ -16,7 +16,7 @@ namespace SystemInterface.GUI.Controls
     public class OccupancyGridControl : Control
     {
         private const float DEFAULT_AREASIZE = 1;
-        private const int GRID_TRANSPARANCY = 150;
+        private const int GRID_TRANSPARANCY = 70;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
@@ -200,7 +200,8 @@ namespace SystemInterface.GUI.Controls
                 graphics.FillRectangle(brush, r);
 
             if (gridShowBorders)
-                graphics.DrawRectangle(Pens.Black, r.X, r.Y, r.Width, r.Height);
+                using (Pen pen = new Pen(Color.FromArgb(70, Color.Black)))
+                    graphics.DrawRectangle(pen, r.X, r.Y, r.Width, r.Height);
             if (gridShowProbilities && (!gridHideUnexplored || grid[x, y] != 0.5))
             {
                 string text = grid[x, y].ToString("0.0");
