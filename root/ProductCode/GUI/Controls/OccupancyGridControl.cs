@@ -225,13 +225,7 @@ namespace SystemInterface.GUI.Controls
                     Vector2D topleft = new Vector2D(getPixelCoordinates(i, 0).X, 0);
                     Vector2D bottomright = new Vector2D(getPixelCoordinates(i + 1, 0).X, Padding.Top);
 
-                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
-
-                    g.FillRectangle(rulerBackgroundBrush, r);
-                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
-
-                    float cm = conv.ConvertPixelToActual(topleft).X;
-                    g.DrawString(cm.ToString("0"), this.Font, Brushes.Black, r.Location);
+                    drawRulerRectangle(g, rulerBackgroundBrush, topleft, bottomright, false);
                 }
 
                 // Rows ruler
@@ -240,15 +234,26 @@ namespace SystemInterface.GUI.Controls
                     Vector2D topleft = new Vector2D(0, getPixelCoordinates(0, i).Y);
                     Vector2D bottomright = new Vector2D(Padding.Left, getPixelCoordinates(0, i + 1).Y);
 
-                    RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
-
-                    g.FillRectangle(rulerBackgroundBrush, r);
-                    g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
-
-                    float cm = conv.ConvertPixelToActual(topleft).Y;
-                    g.DrawString(cm.ToString("0"), this.Font, Brushes.Black, r.Location);
+                    drawRulerRectangle(g, rulerBackgroundBrush, topleft, bottomright, true);
                 }
             }
+        }
+
+        private void drawRulerRectangle(Graphics g, Brush brush, Vector2D topleft, Vector2D bottomright, bool row)
+        {
+            RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
+
+            g.FillRectangle(brush, r);
+            g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
+
+            var point = conv.ConvertPixelToActual(topleft);
+            string cm = (row ? point.Y : point.X).ToString("0");
+
+            //Measure text size and calculate position so that text is centered.
+            SizeF textSize = g.MeasureString(cm, this.Font);
+            PointF p = new PointF((r.Width - textSize.Width) / 2f + r.X, (r.Height - textSize.Height) / 2f + r.Y);
+
+            g.DrawString(cm, this.Font, Brushes.Black, p);
         }
 
         /// <summary>
