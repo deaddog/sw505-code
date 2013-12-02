@@ -22,7 +22,7 @@ namespace SystemInterface.RobotInterface
         /// <summary>
         /// Default cTor.
         /// </summary>
-        public RobotCommandInterpreter() : this(PostMan.getInstance(), new LocationControl(), new NavigationControl()) { }
+        public RobotCommandInterpreter() : this(PostMan.Instance, new LocationControl(), new NavigationControl()) { }
 
         /// <summary>
         /// Master cTor.

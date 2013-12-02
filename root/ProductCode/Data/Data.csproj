@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ISensorModel.cs" />
     <Compile Include="OccupancyGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

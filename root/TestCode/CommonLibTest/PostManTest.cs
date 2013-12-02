@@ -33,7 +33,7 @@ namespace CommonLibTest
         [TestInitialize]
         public void Initializer()
         {
-            postman = PostMan.getInstance();
+            postman = PostMan.Instance;
         }
 
         [TestCleanup]
