@@ -23,6 +23,12 @@ namespace CommonLib
             return new string(chars);
         }
 
+        public static string GetString(byte b)
+        {
+            byte[] temp = { b };
+            return System.Text.Encoding.ASCII.GetString(temp);
+        }
+
 
     }
 }
