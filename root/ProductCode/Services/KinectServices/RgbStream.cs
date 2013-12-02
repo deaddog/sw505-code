@@ -48,6 +48,20 @@ namespace Services.KinectServices
             }
         }
 
+        private RgbImageFormats format;
+        public RgbImageFormats ImageFormat
+        {
+            get { return format; }
+            set
+            {
+                kinectSensor.ColorStream.Disable();
+
+                this.format = value;
+
+                kinectSensor.ColorStream.Enable((ColorImageFormat)this.format);
+            }
+        }
+
         private RgbStream(KinectSensor sensor)
         {
             this.kinectSensor = sensor;
@@ -75,6 +89,8 @@ namespace Services.KinectServices
                     hasBeenLoaded = false;
                 }
             };
+
+            this.ImageFormat = RgbImageFormats.Resolution640x480Fps30;
         }
 
         private static Bitmap ImageToBitmap(ColorImageFrame Image)
