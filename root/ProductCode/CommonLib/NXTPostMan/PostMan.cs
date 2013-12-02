@@ -45,7 +45,7 @@ namespace CommonLib.NXTPostMan
         }
 
         public void SendMessage(ICoordinate cord)
-        {
+        {   
             string encodedString = NXTEncoder.Encode(cord);
             string toSendMessage = String.Format("{0}{1}", (byte)NXTMessageType.MoveToPos, encodedString);
             CommunicationBrick.Connect();
