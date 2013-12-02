@@ -17,10 +17,9 @@ namespace Services.KinectServices
         private object updaterLock;
 
         private Bitmap lastBitmap;
-        private bool hasBeenLoaded;
         public Bitmap Bitmap
         {
-            get { lock (updaterLock) { hasBeenLoaded = true; return lastBitmap; } }
+            get { return lastBitmap; }
         }
 
         private static RgbStream instance;
@@ -62,6 +61,8 @@ namespace Services.KinectServices
             }
         }
 
+        public event EventHandler ImageUpdated;
+
         private RgbStream(KinectSensor sensor)
         {
             this.kinectSensor = sensor;
@@ -77,16 +78,18 @@ namespace Services.KinectServices
             {
                 lock (updaterLock)
                 {
-                    if (!hasBeenLoaded && lastBitmap != null)
-                    {
-                        lastBitmap.Dispose();
-                        lastBitmap = null;
-                    }
+                    Bitmap old = lastBitmap;
 
                     using (var frame = e.OpenColorImageFrame())
                         lastBitmap = ImageToBitmap(frame);
 
-                    hasBeenLoaded = false;
+                    ImageUpdated(this, EventArgs.Empty);
+
+                    if (old != null)
+                    {
+                        old.Dispose();
+                        old = null;
+                    }
                 }
             };
 
