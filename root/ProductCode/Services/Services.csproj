@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KinectServices\RgbStream.cs" />
     <Compile Include="RobotServices\NXTEncoder.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
