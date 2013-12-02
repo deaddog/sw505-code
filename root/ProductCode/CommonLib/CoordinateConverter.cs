@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using CommonLib.DTOs;
 
-namespace Services.TrackingServices
+namespace CommonLib
 {
     /// <summary>
     /// Converts image coordinates to actual coordinates, based on given dimensions of image and actual sizes

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoordinateConverter.cs" />
     <Compile Include="DTOs\CellIndex.cs" />
     <Compile Include="DTOs\Coordinate.cs" />
     <Compile Include="DTOs\SensorDataDTO.cs" />
