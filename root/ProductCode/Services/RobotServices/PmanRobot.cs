@@ -14,7 +14,7 @@ namespace Services.RobotServices
 
         #region cTor chain
         
-        public PmanRobot() : this(PostMan.getInstance()) { }
+        public PmanRobot() : this(PostMan.Instance) { }
 
         public PmanRobot(INXTPostMan p)
         {

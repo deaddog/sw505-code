@@ -16,13 +16,16 @@ namespace CommonLib.NXTPostMan
 
         #region cTor Chain
 
-        public static PostMan getInstance()
+        public static PostMan Instance
         {
-            if (instance == null)
+            get
             {
-                instance = new PostMan();
+                if (instance == null)
+                {
+                    instance = new PostMan();
+                }
+                return instance;
             }
-            return instance;
         }
 
         /// <summary>
