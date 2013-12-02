@@ -41,7 +41,7 @@ namespace SystemInterface.RobotInterface
         {
             while(RUNNING) {
 
-                if (postman.HasMessageArrived())
+                if (checkForMessages())
                 {
 
                     NXTMessage msg = postman.RetrieveMessage();
@@ -56,10 +56,6 @@ namespace SystemInterface.RobotInterface
 
                             RobotHasArrivedAtDestination(msg);
                             break;
-                        case(NXTMessageType.SendSensorData):
-
-                            SendSensorData(msg);
-                            break;
                         default:
                             throw new Exception("Dont know what to do ???");
                     }
@@ -69,12 +65,28 @@ namespace SystemInterface.RobotInterface
             }
         }
 
+        private bool checkForMessages()
+        {
+            if (postman.HasMessageArrived(NXTMessageType.RobotRequestsLocation)
+                || postman.HasMessageArrived(NXTMessageType.RobotHasArrivedAtDestination))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #region Command Handlers
 
         private void RobotRequestLocation(NXTMessage msg) {
 
             ICoordinate cord = locCon.FindRobotLocation();
-            NXTMessage outMsg = new NXTMessage(NXTMessageType.RobotRequestsLocation, NXTEncoder.Encode(cord));
+            string encodedMsg = NXTEncoder.Encode(cord);
+            byte[] byteEncMsg = NXTEncoder.ByteEncode(cord);
+            NXTMessage outMsg = new NXTMessage(NXTMessageType.RobotRequestsLocation, 
+                encodedMsg, byteEncMsg);
             postman.SendMessage(outMsg);
         }
 
@@ -83,11 +95,6 @@ namespace SystemInterface.RobotInterface
             navCon.SendRobotToNextLocation();
         }
 
-        private void SendSensorData(NXTMessage msg)
-        {
-
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }

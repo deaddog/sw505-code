@@ -60,6 +60,7 @@
     <Compile Include="NXTPostMan\NXTMessageType.cs" />
     <Compile Include="NXTPostMan\PostMan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringByteConverter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
