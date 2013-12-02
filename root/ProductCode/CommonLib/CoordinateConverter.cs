@@ -30,6 +30,12 @@ namespace CommonLib
             this.scaleY = this.actualHeight / this.imageHeight;
         }
 
+
+        /// <summary>
+        /// Sets a new actual size.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
         public void SetActualSize(float width, float height)
         {
             this.actualWidth = width / 2f;
@@ -38,6 +44,12 @@ namespace CommonLib
             this.scaleX = this.actualWidth / this.imageWidth;
             this.scaleY = this.actualHeight / this.imageHeight;
         }
+
+        /// <summary>
+        /// Sets a new image size.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
         public void SetPixelSize(int width, int height)
         {
             this.imageWidth = width / 2f;
