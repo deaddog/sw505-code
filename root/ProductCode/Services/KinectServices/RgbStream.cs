@@ -9,6 +9,17 @@ namespace Services.KinectServices
 {
     public class RgbStream
     {
+        private KinectSensor kinectSensor;
+        private Bitmap currentImage;
+        private object updaterLock;
+
+        private RgbStream(KinectSensor sensor)
+        {
+            this.kinectSensor = sensor;
+            this.currentImage = null;
+            this.updaterLock = new object();
+        }
+
         private static Bitmap ImageToBitmap(ColorImageFrame Image)
         {
             if (Image != null)
