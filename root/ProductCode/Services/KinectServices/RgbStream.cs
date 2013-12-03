@@ -16,10 +16,9 @@ namespace Services.KinectServices
         private Bitmap currentImage;
         private object updaterLock;
 
-        private Bitmap lastBitmap;
         public Bitmap Bitmap
         {
-            get { return lastBitmap; }
+            get { return currentImage; }
         }
 
         private static RgbStream instance;
@@ -78,12 +77,13 @@ namespace Services.KinectServices
             {
                 lock (updaterLock)
                 {
-                    Bitmap old = lastBitmap;
+                    Bitmap old = currentImage;
 
                     using (var frame = e.OpenColorImageFrame())
-                        lastBitmap = ImageToBitmap(frame);
+                        currentImage = ImageToBitmap(frame);
 
-                    ImageUpdated(this, EventArgs.Empty);
+                    if (ImageUpdated != null)
+                        ImageUpdated(this, EventArgs.Empty);
 
                     if (old != null)
                     {
@@ -92,8 +92,6 @@ namespace Services.KinectServices
                     }
                 }
             };
-
-            this.ImageFormat = RgbImageFormats.Resolution640x480Fps30;
         }
 
         private static Bitmap ImageToBitmap(ColorImageFrame Image)
