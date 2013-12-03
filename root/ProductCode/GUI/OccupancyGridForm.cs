@@ -38,12 +38,6 @@ namespace SystemInterface.GUI
             set { gridControl.Grid = value; }
         }
 
-        public Image GridImage
-        {
-            get { return gridControl.Image; }
-            set { gridControl.Image = value; }
-        }
-
         public float AreaWidth
         {
             get { return gridControl.AreaWidth; }

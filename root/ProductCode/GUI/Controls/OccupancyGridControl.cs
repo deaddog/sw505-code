@@ -13,7 +13,7 @@ namespace SystemInterface.GUI.Controls
     /// <summary>
     /// Represents an occupancy grid drawn on top of a picturebox
     /// </summary>
-    public class OccupancyGridControl : Control
+    public class OccupancyGridControl : System.Windows.Forms.Control
     {
         private const float DEFAULT_AREASIZE = 1;
         private const int GRID_TRANSPARANCY = 70;
@@ -40,8 +40,7 @@ namespace SystemInterface.GUI.Controls
         }
 
         private Image image;
-        [DefaultValue(null)]
-        public Image Image
+        private Image Image
         {
             get { return image; }
             set
@@ -170,6 +169,9 @@ namespace SystemInterface.GUI.Controls
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.UserPaint,
                 true);
+
+            if (!DesignMode)
+                Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
         }
 
         protected override void OnPaint(PaintEventArgs pe)
