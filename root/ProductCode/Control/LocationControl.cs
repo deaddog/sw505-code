@@ -8,34 +8,24 @@ namespace Control
 {
     public class LocationControl
     {
-        private ICoordinate defaultLocation = new Vector2D(5.0f,5.0f); 
-
-        #region cTor Chain.
-
+        private static readonly IPose defaultPose = new Pose(0.0f, 0.0f, 0.0);
 
         /// <summary>
-        /// Default cTor.
+        /// Initializes a new instance of the <see cref="LocationControl"/> class.
         /// </summary>
-        public LocationControl() : this(new OrientationTracker(Color.Black, Color.White))  { }
+        public LocationControl() : this(new OrientationTracker(Color.Black, Color.White)) { }
 
-
-        /// <summary>
-        /// Master cTor.
-        /// </summary>
-        /// <param name="tracker">The tracker used to find robot.</param>
-        public LocationControl(OrientationTracker tracker)
+        private LocationControl(OrientationTracker tracker)
         {
 
         }
 
-
-        #endregion
-
-        public ICoordinate FindRobotLocation()
+        /// <summary>
+        /// Gets the current pose of the tracked robot.
+        /// </summary>
+        public IPose RobotPose
         {
-
-            return defaultLocation;
+            get { return defaultPose; }
         }
-
     }
 }
