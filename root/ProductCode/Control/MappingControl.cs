@@ -47,10 +47,10 @@ namespace Control
 
         private void arrived(object sender, EventArgs e)
         {
-            MapCurrent(mapper);
+            MapCurrent();
         }
 
-        private void MapCurrent(MapControl mapper)
+        private void MapCurrent()
         {
             newGrid = mapper.UpdateOccupancyGrid(oldGrid, sensorModel, scanner.GetSensorData());
         }
