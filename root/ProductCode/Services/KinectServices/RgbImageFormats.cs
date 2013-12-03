@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Services.KinectServices
 {
+    /// <summary>
+    /// Describes the different image formats supplied by <see cref="RgbStream"/>.
+    /// </summary>
     public enum RgbImageFormats
     {
         /// <summary>
