@@ -20,7 +20,7 @@ namespace Control
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueControl"/> class.
         /// </summary>
-        public QueueControl() : this(PostMan.getInstance()) { }
+        public QueueControl() : this(PostMan.Instance) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueControl"/> class.
