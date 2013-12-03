@@ -16,8 +16,7 @@ namespace Control
     {
         IRobot robot;
         ISensorModel sensorModel;
-        OccupancyGrid oldGrid;
-        OccupancyGrid newGrid;
+        OccupancyGrid grid;
         MapControl mapper;
         ScanningControl scanner;
         
@@ -52,7 +51,7 @@ namespace Control
 
         private void MapCurrent()
         {
-            newGrid = mapper.UpdateOccupancyGrid(oldGrid, sensorModel, scanner.GetSensorData());
+            grid = mapper.UpdateOccupancyGrid(grid, sensorModel, scanner.GetSensorData());
         }
     }
 }
