@@ -1,4 +1,5 @@
 ﻿using System;
+using CommonLib;
 
 namespace CommonLib.NXTPostMan
 {
@@ -27,7 +28,7 @@ namespace CommonLib.NXTPostMan
         {
             try
             {
-                NXTMessageType recievedType = (NXTMessageType)completeByteMsg[0];
+                NXTMessageType recievedType = (NXTMessageType)Enum.Parse(typeof(NXTMessageType), StringByteConverter.GetString(completeByteMsg[0]));
                 msgType = recievedType;
                 encodedMsg = completeByteMsg.ToString().Substring(1, completeByteMsg.Length - 2);
                 byteMsg = completeByteMsg;

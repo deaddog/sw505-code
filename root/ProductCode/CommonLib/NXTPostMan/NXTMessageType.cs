@@ -11,13 +11,13 @@ namespace CommonLib.NXTPostMan
         /// <summary>
         /// The robot requests location
         /// </summary>
-        RobotRequestsLocation = 10,
+        RobotRequestsLocation = 0,
         /// <summary>
         /// The robot has arrived at destination
         /// </summary>
-        RobotHasArrivedAtDestination = 11,
+        RobotHasArrivedAtDestination = 1,
         
-        SendSensorData = 12,
+        SendSensorData = 2,
 
         // ################################
         // # Outgoing Messages.           #
