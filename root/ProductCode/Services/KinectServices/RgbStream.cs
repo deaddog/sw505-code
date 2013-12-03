@@ -99,14 +99,19 @@ namespace Services.KinectServices
                     using (var frame = e.OpenColorImageFrame())
                         currentImage = ImageToBitmap(frame);
 
-                    if (ImageUpdated != null)
-                        ImageUpdated(this, EventArgs.Empty);
-
-                    if (old != null)
+                    if (currentImage != null)
                     {
-                        old.Dispose();
-                        old = null;
+                        if (ImageUpdated != null)
+                            ImageUpdated(this, EventArgs.Empty);
+
+                        if (old != null)
+                        {
+                            old.Dispose();
+                            old = null;
+                        }
                     }
+                    else
+                        currentImage = old;
                 }
             };
         }
