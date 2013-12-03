@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Services.KinectServices
 {
+    /// <summary>
+    /// Provides a stream of <see cref="Bitmap"/> images from a Microsoft Kinect.
+    /// </summary>
     public class RgbStream
     {
         private const int CONNECT_SLEEP_TIME = 1000;
@@ -16,12 +19,19 @@ namespace Services.KinectServices
         private Bitmap currentImage;
         private object updaterLock;
 
+        /// <summary>
+        /// Gets the last bitmap captured by the Kinect.
+        /// Notice that the bitmap is automatically disposed when a new image is ready - use <see cref="ImageUpdated"/> for notifications.
+        /// </summary>
         public Bitmap Bitmap
         {
             get { return currentImage; }
         }
 
         private static RgbStream instance;
+        /// <summary>
+        /// Gets the singleton instance of <see cref="RgbStream"/>.
+        /// </summary>
         public static RgbStream Instance
         {
             get
@@ -47,6 +57,9 @@ namespace Services.KinectServices
         }
 
         private RgbImageFormats format;
+        /// <summary>
+        /// Gets or sets the image format used by this <see cref="RgbStream"/>.
+        /// </summary>
         public RgbImageFormats ImageFormat
         {
             get { return format; }
@@ -60,6 +73,10 @@ namespace Services.KinectServices
             }
         }
 
+        /// <summary>
+        /// Occurs when the <see cref="RgbStream.Bitmap"/> property is updated with a new image.
+        /// After this event occurs, the previous image is automatically disposed.
+        /// </summary>
         public event EventHandler ImageUpdated;
 
         private RgbStream(KinectSensor sensor)
