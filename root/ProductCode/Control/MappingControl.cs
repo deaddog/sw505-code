@@ -15,7 +15,11 @@ namespace Control
     public class MappingControl
     {
         IRobot robot;
-        OccupancyGrid grid;
+        ISensorModel sensorModel;
+        OccupancyGrid oldGrid;
+        OccupancyGrid newGrid;
+        MapControl mapper;
+        ScanningControl scanner;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingControl"/> class.
@@ -25,6 +29,30 @@ namespace Control
         private MappingControl(RobotFactory factory)
         {
             robot = factory.CreateRobot();
+            sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+            mapper = new MapControl();
+            scanner = new ScanningControl();
+        }
+
+        public void MapAtDest(QueueControl queue)
+        {
+            GoToNext(queue);
+        }
+
+        private void GoToNext(QueueControl queue)
+        {
+            queue.Arrived += arrived;
+            queue.StartQueue();
+        }
+
+        private void arrived(object sender, EventArgs e)
+        {
+            MapCurrent(mapper);
+        }
+
+        private void MapCurrent(MapControl mapper)
+        {
+            newGrid = mapper.UpdateOccupancyGrid(oldGrid, sensorModel, scanner.GetSensorData());
         }
     }
 }

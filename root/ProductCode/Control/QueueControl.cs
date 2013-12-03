@@ -53,7 +53,7 @@ namespace Control
         /// <summary>
         /// Stops the queue checking for messages
         /// </summary>
-        public void StopQueue()
+        private void stopQueue()
         {
             shouldMessage = false;
         }
@@ -84,7 +84,21 @@ namespace Control
                     postman.RetrieveMessage();
                     (postman as PostMan).SendMessage(coordinateQueue.Dequeue());
                 }
+                else
+                {
+                    stopQueue();
+                    OnArrived(EventArgs.Empty);
+                }
             }
+        }
+
+        public delegate void ArrivedEventHandler(object sender, EventArgs e);
+        public event ArrivedEventHandler Arrived;
+
+        protected virtual void OnArrived(EventArgs e)
+        {
+            if (Arrived != null)
+                Arrived(this, e);
         }
     }
 }
