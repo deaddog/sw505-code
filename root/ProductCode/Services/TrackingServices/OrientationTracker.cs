@@ -39,6 +39,23 @@ namespace Services.TrackingServices
         }
 
         /// <summary>
+        /// Gets or sets the front tracked color.
+        /// </summary>
+        public Color FrontColor
+        {
+            get { return front.Color; }
+            set { front.Color = value; }
+        }
+        /// <summary>
+        /// Gets or sets the rear tracked color.
+        /// </summary>
+        public Color RearColor
+        {
+            get { return rear.Color; }
+            set { rear.Color = value; }
+        }
+
+        /// <summary>
         /// Gets the last center-location tracked. This is the midpoint between the front and the rear.
         /// </summary>
         public Vector2D Center
