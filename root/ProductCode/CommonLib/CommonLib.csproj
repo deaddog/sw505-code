@@ -48,6 +48,7 @@
     <Compile Include="CoordinateConverter.cs" />
     <Compile Include="DTOs\CellIndex.cs" />
     <Compile Include="DTOs\Coordinate.cs" />
+    <Compile Include="DTOs\Pose.cs" />
     <Compile Include="DTOs\SensorDataDTO.cs" />
     <Compile Include="DTOs\Vector2D.cs" />
     <Compile Include="Interfaces\ICoordinate.cs" />
