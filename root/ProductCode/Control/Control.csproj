@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayControl.cs" />
     <Compile Include="LocationControl.cs" />
     <Compile Include="MapControl.cs" />
     <Compile Include="MappingControl.cs" />
