@@ -10,7 +10,6 @@ namespace Services.RobotServices
     {
         private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 5000;
         private INXTPostMan postman;
-        private IPose currentPost;
 
         #region cTor chain
         
@@ -22,26 +21,6 @@ namespace Services.RobotServices
         }
 
         #endregion
-        
-        #region Primitive Robot Commands.
-
-        public void TurnRobot(uint degrees, bool clockwise)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TurnSensor(uint degrees, bool clockwise)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Drive(bool forward, uint distanceInMM)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
 
         public void MoveToPosition(ICoordinate destination)
         {
@@ -49,11 +28,6 @@ namespace Services.RobotServices
             byte[] byteEncMsg = CommonLib.NXTPostMan.NXTEncoder.ByteEncode(destination);
             NXTMessage msg = new NXTMessage(NXTMessageType.MoveToPos, encodedMsg, byteEncMsg);
             postman.SendMessage(msg);
-        }
-
-        public void UpdatePose(IPose pose)
-        {
-            currentPost = pose;
         }
 
         public ISensorData GetSensorData()
