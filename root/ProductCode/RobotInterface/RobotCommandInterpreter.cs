@@ -22,7 +22,9 @@ namespace SystemInterface.RobotInterface
         /// <summary>
         /// Default cTor.
         /// </summary>
-        public RobotCommandInterpreter() : this(PostMan.Instance, new LocationControl(), new NavigationControl()) { }
+        public RobotCommandInterpreter() 
+            : this(PostMan.Instance, new LocationControl(), new NavigationControl())
+        { }
 
         /// <summary>
         /// Master cTor.
@@ -39,20 +41,20 @@ namespace SystemInterface.RobotInterface
 
         private void listener()
         {
-            while(RUNNING) {
-
+            while (RUNNING)
+            {
                 if (checkForMessages())
                 {
-
                     NXTMessage msg = postman.RetrieveMessage();
 
-                    switch(msg.MessageType) {
+                    switch (msg.MessageType)
+                    {
 
-                        case(NXTMessageType.RobotRequestsLocation):
-                            
+                        case (NXTMessageType.RobotRequestsLocation):
+
                             RobotRequestLocation(msg);
                             break;
-                        case(NXTMessageType.RobotHasArrivedAtDestination):
+                        case (NXTMessageType.RobotHasArrivedAtDestination):
 
                             RobotHasArrivedAtDestination(msg);
                             break;
@@ -80,18 +82,18 @@ namespace SystemInterface.RobotInterface
 
         #region Command Handlers
 
-        private void RobotRequestLocation(NXTMessage msg) {
-
-            ICoordinate cord = locCon.FindRobotLocation();
+        private void RobotRequestLocation(NXTMessage msg)
+        {
+            ICoordinate cord = locCon.RobotPose;
             string encodedMsg = NXTEncoder.Encode(cord);
             byte[] byteEncMsg = NXTEncoder.ByteEncode(cord);
-            NXTMessage outMsg = new NXTMessage(NXTMessageType.RobotRequestsLocation, 
+            NXTMessage outMsg = new NXTMessage(NXTMessageType.RobotRequestsLocation,
                 encodedMsg, byteEncMsg);
             postman.SendMessage(outMsg);
         }
 
-        private void RobotHasArrivedAtDestination(NXTMessage msg) {
-
+        private void RobotHasArrivedAtDestination(NXTMessage msg)
+        {
             navCon.SendRobotToNextLocation();
         }
 
