@@ -1,8 +1,9 @@
-﻿using System;
-using CommonLib.Interfaces;
+﻿using CommonLib.Interfaces;
 using CommonLib.DTOs;
 using Services.TrackingServices;
+using System;
 using System.Drawing;
+using System.Threading;
 
 namespace Control
 {
@@ -25,6 +26,21 @@ namespace Control
         private LocationControl(OrientationTracker tracker)
         {
             this.tracker = tracker;
+
+            DisplayControl.Instance.ImageUpdated += (s, e) =>
+                {
+                    Bitmap bitmap = DisplayControl.Instance.Bitmap.Clone() as Bitmap;
+                    Thread thread = new Thread(obj =>
+                        {
+                            Bitmap bmp = obj as Bitmap;
+                            if (bmp == null)
+                                return;
+
+                            tracker.Update(bmp);
+                            bmp.Dispose();
+                        });
+                    thread.Start(bitmap);
+                };
         }
 
         public Color FrontColor
@@ -43,7 +59,7 @@ namespace Control
         /// </summary>
         public IPose RobotPose
         {
-            get { return defaultPose; }
+            get { return new Pose(tracker.Center, tracker.Orientation); }
         }
     }
 }
