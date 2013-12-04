@@ -52,7 +52,7 @@ namespace Control
                         byte sensorReading = getCorrectSensorReading(
                             new CellIndex(i, j), map.CellSize, sensorReadings
                             );
-                        double newProbability = model.GetProbabilityUltrasonicSensorX(
+                        double newProbability = model.GetProbability(
                             map, robotPose, new CellIndex(i, j), sensorReading
                             );
                         newMap[i, j] = logOddsInverse(
