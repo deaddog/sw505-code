@@ -23,8 +23,10 @@ sub rotate_right()
  Run(MOTOR_PORT, MOTOR_POWER, GEAR_RATIO*ANGLE);
 }
 
-inline string rotate_and_measure(bool clockwise)
+inline string rotate_and_measure()
 {
+ static bool clockwise = true;
+ 
  string r = "";
  byte data[4];
  if(clockwise)
@@ -36,7 +38,6 @@ inline string rotate_and_measure(bool clockwise)
   data[2] = measure_sensor1();
   data[3] = measure_sensor2();
   r = ByteArrayToStr(data);
-  return r;
  }
  else
  {
@@ -47,8 +48,9 @@ inline string rotate_and_measure(bool clockwise)
   data[0] = measure_sensor1();
   data[1] = measure_sensor2();
   r = ByteArrayToStr(data);
-  return r;
  }
+ clockwise = !clockwise;
+ return r;
 }
 
 

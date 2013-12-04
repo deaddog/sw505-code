@@ -25,7 +25,6 @@ task main(){
      string cmd = "";
      string args = "";
      byte cmdType;
-     bool clockwise = true;
 
      // clear mailboxes
      in = "...";
@@ -73,18 +72,8 @@ task main(){
                  
                  string s = "";
                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
-                 s = StrCat(s,rotate_and_measure(clockwise));
+                 s = StrCat(s,rotate_and_measure());
                  SendMessage(OUTBOX,s);
-                 
-                 if(clockwise)
-                 {
-                  clockwise = false;
-                 }
-                 else
-                 {
-                  clockwise = true;
-                 }
-                 
                  break;
 
              }//end switch cmdtype
