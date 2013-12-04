@@ -20,9 +20,8 @@ namespace Control
             get
             {
                 if (instance == null)
-                {
                     instance = new DisplayControl();
-                }
+
                 return instance;
             }
         }

@@ -14,6 +14,7 @@ namespace Services.KinectServices
     public class RgbStream
     {
         private const int CONNECT_SLEEP_TIME = 1000;
+        private const int MAX_SLEEPS = 10;
 
         private KinectSensor kinectSensor;
         private Bitmap currentImage;
@@ -44,10 +45,12 @@ namespace Services.KinectServices
                                   where s.Status == KinectStatus.Connected
                                   select s;
 
-                    while ((sensor = sensors.FirstOrDefault()) == null)
+                    int sleep = 0;
+                    while ((sensor = sensors.FirstOrDefault()) == null && sleep++ < MAX_SLEEPS)
                         System.Threading.Thread.Sleep(CONNECT_SLEEP_TIME);
 
-                    sensor.Start();
+                    if (sensor != null)
+                        sensor.Start();
 
                     instance = new RgbStream(sensor);
                 }
@@ -65,11 +68,13 @@ namespace Services.KinectServices
             get { return format; }
             set
             {
-                kinectSensor.ColorStream.Disable();
+                if (kinectSensor != null)
+                    kinectSensor.ColorStream.Disable();
 
                 this.format = value;
 
-                kinectSensor.ColorStream.Enable((ColorImageFormat)this.format);
+                if (kinectSensor != null)
+                    kinectSensor.ColorStream.Enable((ColorImageFormat)this.format);
             }
         }
 
@@ -84,6 +89,9 @@ namespace Services.KinectServices
             this.kinectSensor = sensor;
             this.currentImage = null;
             this.updaterLock = new object();
+
+            if (kinectSensor == null)
+                return;
 
             //Start the sensor and wait for it to be ready
             this.kinectSensor.Start();
