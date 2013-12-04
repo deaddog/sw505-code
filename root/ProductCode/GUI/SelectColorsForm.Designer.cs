@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.color1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.color2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.color_new = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,19 +44,21 @@
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(78, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(84, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(360, 254);
+            this.pictureBox1.Size = new System.Drawing.Size(354, 254);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             // 
-            // panel2
+            // color1
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(12, 25);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(60, 30);
-            this.panel2.TabIndex = 4;
+            this.color1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.color1.Location = new System.Drawing.Point(12, 25);
+            this.color1.Name = "color1";
+            this.color1.Size = new System.Drawing.Size(30, 30);
+            this.color1.TabIndex = 4;
             // 
             // label2
             // 
@@ -66,13 +69,13 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Farve 1";
             // 
-            // panel3
+            // color2
             // 
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Location = new System.Drawing.Point(12, 74);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(60, 30);
-            this.panel3.TabIndex = 6;
+            this.color2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.color2.Location = new System.Drawing.Point(12, 74);
+            this.color2.Name = "color2";
+            this.color2.Size = new System.Drawing.Size(30, 30);
+            this.color2.TabIndex = 6;
             // 
             // label3
             // 
@@ -102,16 +105,25 @@
             this.button2.Text = "Accepter";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // color_new
+            // 
+            this.color_new.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.color_new.Location = new System.Drawing.Point(48, 25);
+            this.color_new.Name = "color_new";
+            this.color_new.Size = new System.Drawing.Size(30, 30);
+            this.color_new.TabIndex = 5;
+            // 
             // SelectColorsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(450, 278);
+            this.Controls.Add(this.color_new);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.color2);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.color1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -127,11 +139,12 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel color1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel color2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Panel color_new;
     }
 }
