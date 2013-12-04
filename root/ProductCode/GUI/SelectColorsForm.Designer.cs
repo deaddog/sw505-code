@@ -33,8 +33,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.color2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonUpdate = new System.Windows.Forms.Button();
+            this.buttonAccept = new System.Windows.Forms.Button();
             this.color_new = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -86,24 +86,26 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Farve 2";
             // 
-            // button1
+            // buttonUpdate
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(375, 15);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(60, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Opdater";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUpdate.Location = new System.Drawing.Point(375, 15);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(60, 23);
+            this.buttonUpdate.TabIndex = 8;
+            this.buttonUpdate.Text = "Opdater";
+            this.buttonUpdate.UseVisualStyleBackColor = true;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
-            // button2
+            // buttonAccept
             // 
-            this.button2.Location = new System.Drawing.Point(12, 110);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(60, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Accepter";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonAccept.Location = new System.Drawing.Point(12, 110);
+            this.buttonAccept.Name = "buttonAccept";
+            this.buttonAccept.Size = new System.Drawing.Size(60, 23);
+            this.buttonAccept.TabIndex = 9;
+            this.buttonAccept.Text = "Accepter";
+            this.buttonAccept.UseVisualStyleBackColor = true;
+            this.buttonAccept.Click += new System.EventHandler(this.buttonAccept_Click);
             // 
             // color_new
             // 
@@ -119,8 +121,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(450, 278);
             this.Controls.Add(this.color_new);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonAccept);
+            this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.color2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.color1);
@@ -143,8 +145,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel color2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.Button buttonAccept;
         private System.Windows.Forms.Panel color_new;
     }
 }
