@@ -10,6 +10,6 @@ namespace Data
 {
     public interface ISensorModel
     {
-        double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX);
+        double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX);
     }
 }
