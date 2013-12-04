@@ -1,9 +1,10 @@
 ﻿using CommonLib.Interfaces;
 using CommonLib.DTOs;
-using Services.TrackingServices;
 using System;
 using System.Drawing;
 using System.Threading;
+using Services.KinectServices;
+using Services.TrackingServices;
 
 namespace Control
 {
@@ -12,31 +13,35 @@ namespace Control
     /// </summary>
     public class LocationControl
     {
-        private static readonly IPose defaultPose = new Pose(0.0f, 0.0f, 0.0);
+        private RobotLocation robLocation;
 
-        private OrientationTracker tracker;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LocationControl"/> class.
-        /// </summary>
-        public LocationControl()
-            : this(new OrientationTracker(Color.Black, Color.White))
+        private static LocationControl instance;
+        public static LocationControl Instance
         {
+            get
+            {
+                if (instance == null)
+                    instance = new LocationControl();
+
+                return instance;
+            }
         }
-        private LocationControl(OrientationTracker tracker)
-        {
-            this.tracker = tracker;
 
-            DisplayControl.Instance.ImageUpdated += (s, e) =>
+        private LocationControl()
+        {
+            this.robLocation = RobotLocation.Instance;
+
+            RgbStream.Instance.ImageUpdated += (s, e) =>
                 {
-                    Bitmap bitmap = DisplayControl.Instance.Bitmap.Clone() as Bitmap;
+                    Bitmap bitmap = RgbStream.Instance.Bitmap.Clone() as Bitmap;
                     Thread thread = new Thread(obj =>
                         {
                             Bitmap bmp = obj as Bitmap;
                             if (bmp == null)
                                 return;
 
-                            tracker.Update(bmp);
+                            robLocation.Update(bmp);
+
                             bmp.Dispose();
                         });
                     thread.Start(bitmap);
@@ -45,13 +50,13 @@ namespace Control
 
         public Color FrontColor
         {
-            get { return tracker.FrontColor; }
-            set { tracker.FrontColor = value; }
+            get { return robLocation.FrontColor; }
+            set { robLocation.FrontColor = value; }
         }
         public Color RearColor
         {
-            get { return tracker.RearColor; }
-            set { tracker.RearColor = value; }
+            get { return robLocation.RearColor; }
+            set { robLocation.RearColor = value; }
         }
 
         /// <summary>
@@ -59,7 +64,7 @@ namespace Control
         /// </summary>
         public IPose RobotPose
         {
-            get { return new Pose(tracker.Center, tracker.Orientation); }
+            get { return robLocation.RobotPose; }
         }
     }
 }
