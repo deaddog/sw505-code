@@ -15,6 +15,7 @@ namespace Data.SensorModel
         private const double OCCUPIED_CELL_VALUE = 1;
         private const double FREE_CELL_VALUE = 0;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
+        private const double AVERAGE_OBSTACLE_DEPTH_CM = 2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSensorModel"/> class.
@@ -60,16 +61,14 @@ namespace Data.SensorModel
         /// <returns></returns>
         public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
-            float cellRadius = grid.CellSize / 2;
-
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
             double r = Math.Abs((c.X - robot.X) + (c.Y - robot.Y));
 
-            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + cellRadius))
+            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM))
             {
                 return l_0(grid,cell);
             }
-            else if (sensorX - cellRadius <= r && r <= sensorX + cellRadius)
+            else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM)
             {
                 return OCCUPIED_CELL_VALUE;
             }

@@ -28,9 +28,9 @@ namespace Control
 
         #endregion
 
-        public void GetSensorData()
+        public ISensorData GetSensorData()
         {
-            rob.GetSensorData();
+            return rob.GetSensorData();
         }
     }
 }
