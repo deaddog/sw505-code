@@ -42,18 +42,19 @@ namespace Control
         {
             double[,] newMap = new double[map.Columns, map.Rows];
 
-            for (int i = 0; i < map.Rows - 1; i++)
+            for (int i = 0; i < map.Columns; i++)
             {
-                for (int j = 0; j < map.Columns - 1; j++)
+                for (int j = 0; j < map.Rows; j++)
                 {
+                    CellIndex cell = new CellIndex(i, j);
                     newMap[i, j] = map[i, j];
-                    if (cellIsInPerceptualRange(new CellIndex(i, j), map.CellSize))
+                    if (cellIsInPerceptualRange(cell, map.CellSize))
                     {
                         byte sensorReading = getCorrectSensorReading(
-                            new CellIndex(i, j), map.CellSize, sensorReadings
+                            cell, map.CellSize, sensorReadings
                             );
-                        double newProbability = model.GetProbabilityUltrasonicSensorX(
-                            map, robotPose, new CellIndex(i, j), sensorReading
+                        double newProbability = model.GetProbability(
+                            map, robotPose, cell, sensorReading
                             );
                         newMap[i, j] = logOddsInverse(
                             logOdds(map[i, j]) + logOdds(newProbability) - logOdds(map.InitialProbability)

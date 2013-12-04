@@ -15,7 +15,7 @@ namespace Data.SensorModel
         private const double OCCUPIED_CELL_VALUE = 1;
         private const double FREE_CELL_VALUE = 0;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
-        private const double AVERAGE_OBSTACLE_DEPTH_CM = 2;
+        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSensorModel"/> class.
@@ -40,7 +40,7 @@ namespace Data.SensorModel
             get { return cellDepthCM; }
         }
 
-        private double l_0(OccupancyGrid grid, CellIndex index)
+        private double calculateInitialLogOdds(OccupancyGrid grid, CellIndex index)
         {
             double prior = grid.InitialProbability;
             return Math.Log10(prior / (1 - prior));
@@ -59,16 +59,16 @@ namespace Data.SensorModel
         /// <param name="cell">The cells coordinates.</param>
         /// <param name="sensorX">The sensor X's length measured.</param>
         /// <returns></returns>
-        public double GetProbabilityUltrasonicSensorX(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
+        public double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
             double r = Math.Abs((c.X - robot.X) + (c.Y - robot.Y));
 
-            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM))
+            if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
             {
-                return l_0(grid,cell);
+                return calculateInitialLogOdds(grid,cell);
             }
-            else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM)
+            else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
             {
                 return OCCUPIED_CELL_VALUE;
             }
