@@ -56,6 +56,7 @@
     <Compile Include="RobotServices\NXTEncoder.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
+    <Compile Include="TrackingServices\RobotLocation.cs" />
     <Compile Include="TrackingServices\OrientationTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RobotServices\IRobot.cs" />
