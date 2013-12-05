@@ -29,9 +29,9 @@ Pose WhereAmI() {
             cmd = SubStr(in, 0, 2);
             cmdType = StrToNum(cmd);
             if (cmdType == INCOMING_GET_POS) {
-               string x = SubStr(in, 1, 7);
-               string y = SubStr(in, 8, 7);
-               string angle = SubStr(in, 15, 7);
+               string x = SubStr(in, 2, 7);
+               string y = SubStr(in, 9, 7);
+               string angle = SubStr(in, 16, 7);
 
                Pose po;
                po.p.x = StrToNum(x);
@@ -43,6 +43,12 @@ Pose WhereAmI() {
                TextOut(2, LCD_LINE2, "x: " + NumToStr(po.p.x));
                TextOut(2, LCD_LINE3, "y: " + NumToStr(po.p.y));
                TextOut(2, LCD_LINE4, "angle: " + NumToStr(po.angle));
+               
+               writeLogString("I AM AT:");
+               writeLogString("  x: " + NumToStr(po.p.x));
+               writeLogString("  y: " + NumToStr(po.p.y));
+               writeLogString("  a: " + NumToStr(po.angle));
+               
                return po;
             }//end if cmdtype
          }//end if strlen in
