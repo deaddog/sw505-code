@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonLib.DTOs;
+using Services.TrackingServices;
+using Services.RouteServices;
 
 namespace Control
 {
@@ -17,37 +19,60 @@ namespace Control
     {
         private const int LOG_ODDS_BASE = 10;
 
-        private IPose robotPose;
         private IRobot robot;
+        private IPose robotPose;
         private ISensorModel sensorModel;
         OccupancyGrid grid;
+        Queue<ICoordinate> coordQueue;
+        private int counter;
 
         private static MappingControl instance;
 
-        public static MappingControl GetInstance()
+        public static MappingControl Instance
         {
-            if (instance == null)
-                instance = new MappingControl();
-            return instance;
+            get
+            {
+                if (instance == null)
+                    instance = new MappingControl();
+                return instance;
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingControl"/> class.
         /// </summary>
-        private MappingControl() : this(RobotFactory.GetInstance()) { }
-
-        private MappingControl(RobotFactory factory)
+        private MappingControl()
         {
-            robot = factory.CreateRobot();
+            robot = RobotFactory.GetInstance().CreateRobot();
             sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+            counter = 0;
         }
 
+        /// <summary>
+        /// Starts mapping, asks for route when needed
+        /// </summary>
+        public void Map()
+        {
+            if (counter < 3)
+            {
+                counter++;
+                UpdateOccupancyGrid();
+                coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
+            }
+        }
+
+        /// <summary>
+        /// Sends the robot to next location, if any remain
+        /// </summary>
         public void SendRobotToNextLocation()
         {
-            throw new NotImplementedException();
+            if (coordQueue.Count > 0)
+                robot.MoveToPosition(coordQueue.Dequeue());
+            else
+                this.Map();
         }
 
-        public ISensorData GetSensorData()
+        private ISensorData GetSensorData()
         {
             return robot.GetSensorData();
         }
@@ -59,32 +84,56 @@ namespace Control
         /// <param name="model">The sensor model.</param>
         /// <param name="sensorReadings">The sensor readings.</param>
         /// <returns>An updated map</returns>
-        public OccupancyGrid UpdateOccupancyGrid(OccupancyGrid map, ISensorModel model, ISensorData sensorReadings)
+        public void UpdateOccupancyGrid()
         {
-            double[,] newMap = new double[map.Columns, map.Rows];
+            robotPose = RobotLocation.Instance.RobotPose;
+            ISensorData sensorReadings = GetSensorData();
+            double[,] newMap = new double[grid.Columns, grid.Rows];
 
-            for (int i = 0; i < map.Columns; i++)
+            for (int i = 0; i < grid.Columns; i++)
             {
-                for (int j = 0; j < map.Rows; j++)
+                for (int j = 0; j < grid.Rows; j++)
                 {
                     CellIndex cell = new CellIndex(i, j);
-                    newMap[i, j] = map[i, j];
-                    if (cellIsInPerceptualRange(cell, map.CellSize))
+                    newMap[i, j] = grid[i, j];
+                    if (cellIsInPerceptualRange(cell, grid.CellSize))
                     {
                         byte sensorReading = getCorrectSensorReading(
-                            cell, map.CellSize, sensorReadings
+                            cell, grid.CellSize, sensorReadings
                             );
-                        double newProbability = model.GetProbability(
-                            map, robotPose, cell, sensorReading
+                        double newProbability = sensorModel.GetProbability(
+                            grid, robotPose, cell, sensorReading
                             );
                         newMap[i, j] = logOddsInverse(
-                            logOdds(map[i, j]) + logOdds(newProbability) - logOdds(map.InitialProbability)
+                            logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(grid.InitialProbability)
                             );
                     }
                 }
             }
 
-            return new OccupancyGrid(newMap, map.CellSize, map.X, map.Y);
+            grid = new OccupancyGrid(newMap, grid.CellSize, grid.X, grid.Y);
+            onGridUpdated(new GridEventArgs(grid));
+        }
+
+        public delegate void GridUpdatedEventHandler(object sender, EventArgs e);
+        public event GridUpdatedEventHandler GridUpdated;
+
+        protected virtual void onGridUpdated(EventArgs e)
+        {
+            if (GridUpdated != null)
+                GridUpdated(this, e);
+        }
+
+        public class GridEventArgs : EventArgs
+        {
+            private readonly OccupancyGrid grid;
+
+            public GridEventArgs(OccupancyGrid grid)
+            {
+                this.grid = grid;
+            }
+
+            public OccupancyGrid Grid { get { return grid; } }
         }
 
         private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
