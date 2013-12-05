@@ -8,7 +8,7 @@ namespace Services.RobotServices
 {
     public class PmanRobot : IRobot
     {
-        private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 5000;
+        private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 100;
         private INXTPostMan postman;
 
         #region cTor chain
