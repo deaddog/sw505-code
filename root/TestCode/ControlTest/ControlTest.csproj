@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MappingControlTests.cs" />
     <Compile Include="NavigationControlTest.cs" />
     <Compile Include="QueueControlTest.cs" />
     <Compile Include="ScanningControlTest.cs" />

@@ -73,7 +73,8 @@ inline PolarCoordinate NavigateToPoint(Pose robot, Point target)
 //Turns the robot the specified angle
 void TurnAngle(float angle)
 {
- TextOut(0,LCD_LINE2,NumToStr(angle));
+ writeLogString("Turning:");
+ writeLogString("  a: " + NumToStr(angle));
  if(angle > 0)
   TurnRight(POWER,angle);
  else

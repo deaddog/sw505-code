@@ -84,9 +84,9 @@ namespace SystemInterface.RobotInterface
 
         private void RobotRequestLocation(NXTMessage msg)
         {
-            ICoordinate cord = locCon.RobotPose;
-            string encodedMsg = NXTEncoder.Encode(cord);
-            byte[] byteEncMsg = NXTEncoder.ByteEncode(cord);
+            IPose pose = locCon.RobotPose;
+            string encodedMsg = NXTEncoder.Encode(pose);
+            byte[] byteEncMsg = NXTEncoder.ByteEncode(pose);
             NXTMessage outMsg = new NXTMessage(NXTMessageType.SendPostion,
                 encodedMsg, byteEncMsg);
             postman.SendMessage(outMsg);
