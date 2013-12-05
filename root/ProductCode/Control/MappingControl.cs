@@ -112,6 +112,28 @@ namespace Control
             }
 
             grid = new OccupancyGrid(newMap, grid.CellSize, grid.X, grid.Y);
+            onGridUpdated(new GridEventArgs(grid));
+        }
+
+        public delegate void GridUpdatedEventHandler(object sender, EventArgs e);
+        public event GridUpdatedEventHandler GridUpdated;
+
+        protected virtual void onGridUpdated(EventArgs e)
+        {
+            if (GridUpdated != null)
+                GridUpdated(this, e);
+        }
+
+        public class GridEventArgs : EventArgs
+        {
+            private readonly OccupancyGrid grid;
+
+            public GridEventArgs(OccupancyGrid grid)
+            {
+                this.grid = grid;
+            }
+
+            public OccupancyGrid Grid { get { return grid; } }
         }
 
         private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
