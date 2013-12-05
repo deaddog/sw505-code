@@ -15,7 +15,7 @@ namespace SystemInterface.RobotInterface
         private INXTPostMan postman;
         private bool RUNNING = true;
         private LocationControl locCon;
-        private NavigationControl navCon;
+        private MappingControl mapCon;
 
         #region cTor Chain.
 
@@ -23,17 +23,17 @@ namespace SystemInterface.RobotInterface
         /// Default cTor.
         /// </summary>
         public RobotCommandInterpreter() 
-            : this(PostMan.Instance, LocationControl.Instance, new NavigationControl())
+            : this(PostMan.Instance, LocationControl.Instance, MappingControl.Instance)
         { }
 
         /// <summary>
         /// Master cTor.
         /// </summary>
-        public RobotCommandInterpreter(PostMan p, LocationControl loc, NavigationControl nav)
+        public RobotCommandInterpreter(PostMan p, LocationControl loc, MappingControl map)
         {
             postman = p;
             locCon = loc;
-            navCon = nav;
+            mapCon = map;
             new Thread(new ThreadStart(this.listener)).Start();
         }
 
@@ -94,7 +94,7 @@ namespace SystemInterface.RobotInterface
 
         private void RobotHasArrivedAtDestination(NXTMessage msg)
         {
-            navCon.SendRobotToNextLocation();
+            mapCon.SendRobotToNextLocation();
         }
 
         #endregion

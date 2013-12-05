@@ -16,7 +16,9 @@ namespace CommonLib.NXTPostMan
         /// The robot has arrived at destination
         /// </summary>
         RobotHasArrivedAtDestination = 1,
-        
+        /// <summary>
+        /// The robot sends sensor data
+        /// </summary>
         SendSensorData = 2,
 
         // ################################
@@ -28,7 +30,9 @@ namespace CommonLib.NXTPostMan
         /// </summary>
         MoveToPos = 50,
 
-
+        /// <summary>
+        /// Request the robot for sensor data
+        /// </summary>
         GetSensorMeasurement = 51,
 
         /// <summary>

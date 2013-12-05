@@ -26,15 +26,19 @@ namespace SystemInterface.GUI
 
         private void SetImage(Bitmap image)
         {
-            this.image = image;
+            Bitmap old = this.image;
+            this.image = image == null ? null : image.Clone() as Bitmap;
 
-            if (image != null)
+            if (this.image != null)
             {
                 Size diff = this.Size - pictureBox1.Size;
-                this.Size = image.Size + diff;
+                this.Size = this.image.Size + diff;
             }
 
-            this.pictureBox1.Image = image;
+            this.pictureBox1.Image = this.image;
+
+            if (old != null)
+                old.Dispose();
         }
 
         public Color Color1
@@ -48,7 +52,7 @@ namespace SystemInterface.GUI
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.X >= 0 && e.Y >= 0 && e.X < image.Width && e.Y < image.Height)
+            if (image != null && e.X >= 0 && e.Y >= 0 && e.X < image.Width && e.Y < image.Height)
                 color_new.BackColor = image.GetPixel(e.X, e.Y);
         }
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
