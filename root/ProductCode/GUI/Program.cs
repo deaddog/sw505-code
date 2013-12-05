@@ -16,10 +16,21 @@ namespace SystemInterface.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115))
+
+            bool go = true;
+            using (SelectColorsForm colorForm = new SelectColorsForm())
             {
-                //GridImage = ImageToUse
-            });
+                if (colorForm.ShowDialog() == DialogResult.OK)
+                {
+                    Control.LocationControl.Instance.FrontColor = colorForm.Color1;
+                    Control.LocationControl.Instance.RearColor = colorForm.Color2;
+                }
+                else
+                    go = false;
+            }
+
+            if (go)
+                Application.Run(new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115)));
         }
     }
 }
