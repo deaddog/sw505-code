@@ -38,17 +38,6 @@ namespace SystemInterface.GUI
             set { gridControl.Grid = value; }
         }
 
-        public float AreaWidth
-        {
-            get { return gridControl.AreaWidth; }
-            set { gridControl.AreaWidth = value; }
-        }
-        public float AreaHeight
-        {
-            get { return gridControl.AreaHeight; }
-            set { gridControl.AreaHeight = value; }
-        }
-
         private void checkBoxShowBorders_CheckedChanged(object sender, EventArgs e)
         {
             gridControl.GridShowBorders = checkBoxShowBorders.Checked;
