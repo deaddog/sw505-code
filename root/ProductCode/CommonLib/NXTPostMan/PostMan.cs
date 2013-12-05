@@ -1,5 +1,6 @@
 ﻿using System;
 using NKH.MindSqualls;
+using NKH.MindSqualls.MotorControl;
 using CommonLib.Interfaces;
 
 namespace CommonLib.NXTPostMan
@@ -12,7 +13,7 @@ namespace CommonLib.NXTPostMan
         // Used for sending/receiving commands to/from NXT
         private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
         private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
-        private NxtBrick CommunicationBrick;
+        private McNxtBrick CommunicationBrick;
 
         #region cTor Chain
 
@@ -33,8 +34,13 @@ namespace CommonLib.NXTPostMan
         /// </summary>
         private PostMan() {
 
-            CommunicationBrick = new NxtBrick(NxtCommLinkType.Bluetooth, SERIAL_PORT_NUMBER);
+            CommunicationBrick = new McNxtBrick(NxtCommLinkType.Bluetooth, SERIAL_PORT_NUMBER);
+            CommunicationBrick.Sensor1 = new NxtUltrasonicSensor();
+            CommunicationBrick.Sensor2 = new NxtUltrasonicSensor();
 
+            CommunicationBrick.Connect();
+            if (!CommunicationBrick.IsMotorControlRunning())
+                CommunicationBrick.StartMotorControl();
         }
 
         #endregion
@@ -43,7 +49,6 @@ namespace CommonLib.NXTPostMan
         {
             // send the preformed message to the robot.
             string toSendMessage = String.Format("{0}{1}", (byte)msg.MessageType, msg.EncodedMsg);
-            CommunicationBrick.Connect();
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
         }
 
@@ -51,7 +56,6 @@ namespace CommonLib.NXTPostMan
         {   
             string encodedString = NXTEncoder.Encode(cord);
             string toSendMessage = String.Format("{0}{1}", (byte)NXTMessageType.MoveToPos, encodedString);
-            CommunicationBrick.Connect();
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
         }
 
@@ -147,7 +151,8 @@ namespace CommonLib.NXTPostMan
         {
             try
             {
-                return (NXTMessageType)msg[0];
+                // 48 is subtracted to convert from ASCII numbers
+                return (NXTMessageType)msg[0] - 48;
             }
             catch (ArgumentException)
             {
