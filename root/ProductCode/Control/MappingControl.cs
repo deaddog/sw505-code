@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonLib.DTOs;
 using Services.TrackingServices;
+using Services.RouteServices;
 
 namespace Control
 {
@@ -23,10 +24,11 @@ namespace Control
         private ISensorModel sensorModel;
         OccupancyGrid grid;
         Queue<ICoordinate> coordQueue;
+        private int counter;
 
         private static MappingControl instance;
 
-        public static MappingControl GetInstance
+        public static MappingControl Instance
         {
             get
             {
@@ -39,20 +41,29 @@ namespace Control
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingControl"/> class.
         /// </summary>
-        private MappingControl() : this(RobotFactory.GetInstance()) { }
-
-        private MappingControl(RobotFactory factory)
+        private MappingControl()
         {
-            robot = factory.CreateRobot();
+            robot = RobotFactory.GetInstance().CreateRobot();
             sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+            counter = 0;
         }
 
+        /// <summary>
+        /// Starts mapping, asks for route when needed
+        /// </summary>
         public void Map()
         {
-            UpdateOccupancyGrid();
-            //queue skal være retur værdi fra whatever gui Stefan laver
+            if (counter < 3)
+            {
+                counter++;
+                UpdateOccupancyGrid();
+                coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
+            }
         }
 
+        /// <summary>
+        /// Sends the robot to next location, if any remain
+        /// </summary>
         public void SendRobotToNextLocation()
         {
             if (coordQueue.Count > 0)
