@@ -87,7 +87,7 @@ namespace SystemInterface.RobotInterface
             ICoordinate cord = locCon.RobotPose;
             string encodedMsg = NXTEncoder.Encode(cord);
             byte[] byteEncMsg = NXTEncoder.ByteEncode(cord);
-            NXTMessage outMsg = new NXTMessage(NXTMessageType.RobotRequestsLocation,
+            NXTMessage outMsg = new NXTMessage(NXTMessageType.SendPostion,
                 encodedMsg, byteEncMsg);
             postman.SendMessage(outMsg);
         }

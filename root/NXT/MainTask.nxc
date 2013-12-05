@@ -1,6 +1,7 @@
 //INCOMING COMMANDS FROM MINDSQUALLS
 #define INCOMING_MOVE_TO_POS 50
 #define INCOMING_GET_SENSOR_MEASUREMENT 51
+#define INCOMING_GET_POS 52
 
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
 #define OUTGOING_WHERE_AM_I 0
@@ -25,6 +26,7 @@ task main(){
      string cmd = "";
      string args = "";
      byte cmdType;
+     bool clockwise = true;
 
      // clear mailboxes
      in = "...";
@@ -72,8 +74,18 @@ task main(){
                  
                  string s = "";
                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
-                 s = StrCat(s,rotate_and_measure());
+                 s = StrCat(s,rotate_and_measure(clockwise));
                  SendMessage(OUTBOX,s);
+                 
+                 if(clockwise)
+                 {
+                  clockwise = false;
+                 }
+                 else
+                 {
+                  clockwise = true;
+                 }
+                 
                  break;
 
              }//end switch cmdtype

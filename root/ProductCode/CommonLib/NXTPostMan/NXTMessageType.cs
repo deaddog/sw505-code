@@ -36,10 +36,8 @@ namespace CommonLib.NXTPostMan
         GetSensorMeasurement = 51,
 
         /// <summary>
-        /// Order the robot to send a test message to the PC.
+        /// Send postion to robot
         /// </summary>
-        SendTestMessageFromRobot = 52
-
-
+        SendPostion = 52,
     }
 }
