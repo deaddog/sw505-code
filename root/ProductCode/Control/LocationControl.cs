@@ -55,10 +55,24 @@ namespace Control
                 return;
 
             robLocation.Update(bmp);
+            if (RobotPoseChanged != null)
+                RobotPoseChanged(this, EventArgs.Empty);
 
             bmp.Dispose();
             taken = false;
         }
+
+        public void SetImageSize(int width, int height)
+        {
+            robLocation.SetImageSize(width, height);
+        }
+        public void SetActualSize(float width, float height)
+        {
+            robLocation.SetActualSize(width, height);
+        }
+
+        public Vector2D Front { get { return robLocation.Front; } }
+        public Vector2D Rear { get { return robLocation.Rear; } }
 
         public Color FrontColor
         {
@@ -70,6 +84,8 @@ namespace Control
             get { return robLocation.RearColor; }
             set { robLocation.RearColor = value; }
         }
+
+        public event EventHandler RobotPoseChanged;
 
         /// <summary>
         /// Gets the current pose of the tracked robot.

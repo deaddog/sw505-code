@@ -162,6 +162,18 @@ namespace SystemInterface.GUI.Controls
                 Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
 
             Control.MappingControl.Instance.GridUpdated += (s, e) => this.grid = e.Grid;
+            this.Poses["robot"] = new Pose(0, 0, 0);
+            this.Coordinates["p1"] = new Vector2D(0, 0);
+            this.Coordinates["p2"] = new Vector2D(0, 0);
+            this.Coordinates.SetColor("p1", Color.Black);
+            this.Coordinates.SetColor("p2", Color.Black);
+
+            Control.LocationControl.Instance.RobotPoseChanged += (s, e) =>
+            {
+                this.Poses["robot"] = Control.LocationControl.Instance.RobotPose;
+                this.Coordinates["p1"] = Control.LocationControl.Instance.Front;
+                this.Coordinates["p2"] = Control.LocationControl.Instance.Rear;
+            };
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -319,7 +331,7 @@ namespace SystemInterface.GUI.Controls
                 double a = element.Angle * (Math.PI / 180);
 
                 Vector2D p = ConvertActualToPixel(new Vector2D(element.X, element.Y)) + Padding;
-                Vector2D p2 = new Vector2D((float)Math.Cos(-a), (float)Math.Sin(-a)) * 50 + p;
+                Vector2D p2 = new Vector2D((float)Math.Cos(a), (float)Math.Sin(a)) * 50 + p;
 
                 AdjustableArrowCap bigArrow = new AdjustableArrowCap(3, 4);
                 using (Pen pen = new Pen(color) { CustomEndCap = bigArrow })
@@ -386,7 +398,10 @@ namespace SystemInterface.GUI.Controls
                 else if (!elements.ContainsKey(key))
                     throw new ArgumentException("Unknown key: " + key);
                 else
+                {
                     colors[key] = color;
+                    parent.Invalidate();
+                }
             }
 
             protected abstract void DrawElement(Graphics graphics, T element, Color color);
