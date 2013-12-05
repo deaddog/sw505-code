@@ -23,7 +23,7 @@ namespace SystemInterface.RobotInterface
         /// Default cTor.
         /// </summary>
         public RobotCommandInterpreter() 
-            : this(PostMan.Instance, LocationControl.Instance, MappingControl.GetInstance)
+            : this(PostMan.Instance, LocationControl.Instance, MappingControl.Instance)
         { }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace Control
 
         private static MappingControl instance;
 
-        public static MappingControl GetInstance
+        public static MappingControl Instance
         {
             get
             {
@@ -39,18 +39,16 @@ namespace Control
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingControl"/> class.
         /// </summary>
-        private MappingControl() : this(RobotFactory.GetInstance()) { }
-
-        private MappingControl(RobotFactory factory)
+        private MappingControl()
         {
-            robot = factory.CreateRobot();
+            robot = RobotFactory.GetInstance().CreateRobot();
             sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
         }
 
         public void Map()
         {
             UpdateOccupancyGrid();
-            //queue skal være retur værdi fra whatever gui Stefan laver
+            //coordQueue = 
         }
 
         public void SendRobotToNextLocation()
