@@ -28,7 +28,7 @@ Pose WhereAmI() {
          if (StrLen(in) > 0) {
             cmd = SubStr(in, 0, 1);
             cmdType = StrToNum(cmd);
-            if (cmdType == OUTGOING_WHERE_AM_I) {
+            if (cmdType == INCOMING_GET_POS) {
                string x = SubStr(in, 1, 7);
                string y = SubStr(in, 8, 7);
                string angle = SubStr(in, 15, 7);
