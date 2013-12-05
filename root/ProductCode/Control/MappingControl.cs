@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonLib.DTOs;
 using Services.TrackingServices;
+using Services.RouteServices;
 
 namespace Control
 {
@@ -47,16 +48,22 @@ namespace Control
             counter = 0;
         }
 
+        /// <summary>
+        /// Starts mapping, asks for route when needed
+        /// </summary>
         public void Map()
         {
             if (counter < 3)
             {
                 counter++;
                 UpdateOccupancyGrid();
-                //coordQueue = 
+                coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
             }
         }
 
+        /// <summary>
+        /// Sends the robot to next location, if any remain
+        /// </summary>
         public void SendRobotToNextLocation()
         {
             if (coordQueue.Count > 0)
