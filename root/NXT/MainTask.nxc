@@ -43,11 +43,11 @@ task main(){
      while(true){
           //Check inbox for new commands
           ReceiveRemoteString(INBOX, true, in);
-          
+
           //If there is a command, convert to int and do switch
           //  else reset loop
           if (StrLen(in) > 0){
-             cmd = SubStr(in, 0, 1);
+             cmd = SubStr(in, 0, 2);
              cmdType = StrToNum(cmd);
              args = SubStr(in, 1, StrLen(in)-1);
              

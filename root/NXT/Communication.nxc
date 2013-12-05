@@ -26,7 +26,7 @@ Pose WhereAmI() {
      while(true) {
          ReceiveRemoteString(INBOX, true, in);
          if (StrLen(in) > 0) {
-            cmd = SubStr(in, 0, 1);
+            cmd = SubStr(in, 0, 2);
             cmdType = StrToNum(cmd);
             if (cmdType == INCOMING_GET_POS) {
                string x = SubStr(in, 1, 7);
