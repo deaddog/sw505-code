@@ -74,7 +74,10 @@ task main(){
                  
                  string s = "";
                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
+                 ClearScreen();
+                 TextOut(0, LCD_LINE1, "Measuring...");
                  s = StrCat(s,rotate_and_measure(clockwise));
+                 TextOut(1, LCD_LINE1, "Sending...");
                  SendMessage(OUTBOX,s);
                  
                  if(clockwise)
