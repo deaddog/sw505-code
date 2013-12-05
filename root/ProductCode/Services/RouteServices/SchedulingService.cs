@@ -11,10 +11,12 @@ namespace Services.RouteServices
     public class SchedulingService
     {
         private static SchedulingService instance;
+        public SchedulingForm form;
+
 
         private SchedulingService()
         {
-
+           
         }
 
         public static SchedulingService Instance
@@ -28,7 +30,11 @@ namespace Services.RouteServices
         }
         public IEnumerable<ICoordinate> GetRoute(OccupancyGrid grid)
         {
-            throw new NotImplementedException();
+            form = new SchedulingForm(grid);
+            
+
+            form.ShowDialog();
+            yield return form.Point;
         }
 
 

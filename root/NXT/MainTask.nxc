@@ -1,6 +1,7 @@
 //INCOMING COMMANDS FROM MINDSQUALLS
 #define INCOMING_MOVE_TO_POS 50
 #define INCOMING_GET_SENSOR_MEASUREMENT 51
+#define INCOMING_GET_POS 52
 
 //OUTGOING COMMANDS TO BE RECEIVED BY MINDSQUALLS
 #define OUTGOING_WHERE_AM_I 0
@@ -42,11 +43,11 @@ task main(){
      while(true){
           //Check inbox for new commands
           ReceiveRemoteString(INBOX, true, in);
-          
+
           //If there is a command, convert to int and do switch
           //  else reset loop
           if (StrLen(in) > 0){
-             cmd = SubStr(in, 0, 1);
+             cmd = SubStr(in, 0, 2);
              cmdType = StrToNum(cmd);
              args = SubStr(in, 1, StrLen(in)-1);
              
@@ -73,7 +74,10 @@ task main(){
                  
                  string s = "";
                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
+                 ClearScreen();
+                 TextOut(0, LCD_LINE1, "Measuring...");
                  s = StrCat(s,rotate_and_measure(clockwise));
+                 TextOut(1, LCD_LINE1, "Sending...");
                  SendMessage(OUTBOX,s);
                  
                  if(clockwise)
