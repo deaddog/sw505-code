@@ -51,7 +51,14 @@ namespace Control
         /// <summary>
         /// Starts mapping, asks for route when needed
         /// </summary>
-        public void Map()
+        public void Map(OccupancyGrid initialGrid)
+        {
+            this.grid = initialGrid;
+
+            System.Threading.Thread mapThread = new System.Threading.Thread(mapAgain);
+            mapThread.Start();
+        }
+        private void mapAgain()
         {
             if (counter < 3)
             {
@@ -69,7 +76,7 @@ namespace Control
             if (coordQueue.Count > 0)
                 robot.MoveToPosition(coordQueue.Dequeue());
             else
-                this.Map();
+                this.mapAgain();
         }
 
         private ISensorData GetSensorData()
