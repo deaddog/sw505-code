@@ -8,7 +8,7 @@ namespace CommonLib.NXTPostMan
     public class PostMan : INXTPostMan
     {
         private static PostMan instance;
-        private const byte SERIAL_PORT_NUMBER = 4;
+        private const byte SERIAL_PORT_NUMBER = 9;
         
         // Used for sending/receiving commands to/from NXT
         private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
