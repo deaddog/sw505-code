@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -7,6 +8,7 @@ using SystemInterface.GUI.Controls;
 using Data;
 using CommonLib;
 using CommonLib.DTOs;
+using CommonLib.Interfaces;
 
 namespace SystemInterface.GUI.Controls
 {
@@ -129,6 +131,19 @@ namespace SystemInterface.GUI.Controls
         }
         #endregion
 
+        private CoordinateCollection drawCoordinates;
+        private PoseCollection drawPoses;
+        private const float pointradius = 3;
+
+        public DrawCollection<ICoordinate> Coordinates
+        {
+            get { return drawCoordinates; }
+        }
+        public DrawCollection<IPose> Poses
+        {
+            get { return drawPoses; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
@@ -139,6 +154,9 @@ namespace SystemInterface.GUI.Controls
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.UserPaint,
                 true);
+
+            this.drawCoordinates = new CoordinateCollection(this);
+            this.drawPoses = new PoseCollection(this);
 
             if (!DesignMode)
                 Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
@@ -161,6 +179,10 @@ namespace SystemInterface.GUI.Controls
 
             if (gridShowRuler)
                 drawRulers(pe.Graphics);
+
+            pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            drawCoordinates.Draw(pe.Graphics);
+            drawPoses.Draw(pe.Graphics);
         }
 
         private void drawCell(Graphics graphics, int x, int y)
@@ -282,6 +304,106 @@ namespace SystemInterface.GUI.Controls
                 }
 
                 return Color.FromArgb(yellowAlpha, 255, 255, 0);
+            }
+        }
+
+        public class PoseCollection : DrawCollection<IPose>
+        {
+            public PoseCollection(OccupancyGridControl parent)
+                : base(parent, new Dictionary<string, IPose>())
+            {
+            }
+
+            protected override void DrawElement(Graphics graphics, IPose element, Color color)
+            {
+                double a = element.Angle * (Math.PI / 180);
+
+                Vector2D p = ConvertActualToPixel(new Vector2D(element.X, element.Y)) + Padding;
+                Vector2D p2 = new Vector2D((float)Math.Cos(-a), (float)Math.Sin(-a)) * 50 + p;
+
+                AdjustableArrowCap bigArrow = new AdjustableArrowCap(3, 4);
+                using (Pen pen = new Pen(color) { CustomEndCap = bigArrow })
+                    graphics.DrawLine(pen, (PointF)p, (PointF)p2);
+            }
+        }
+        public class CoordinateCollection : DrawCollection<ICoordinate>
+        {
+            public CoordinateCollection(OccupancyGridControl parent)
+                : base(parent, new Dictionary<string, ICoordinate>())
+            {
+            }
+
+            protected override void DrawElement(Graphics graphics, ICoordinate element, Color color)
+            {
+                Vector2D p = ConvertActualToPixel(new Vector2D(element.X, element.Y)) + Padding - new Vector2D(pointradius, pointradius);
+
+                using (SolidBrush brush = new SolidBrush(color))
+                    graphics.FillEllipse(brush, p.X, p.Y, pointradius * 2, pointradius * 2);
+            }
+        }
+
+        public abstract class DrawCollection<T>
+        {
+            private Dictionary<string, T> elements;
+            private Dictionary<string, Color> colors;
+            private Action<Graphics, T, Color> drawMethod;
+
+            private OccupancyGridControl parent;
+
+            protected DrawCollection(OccupancyGridControl parent, Dictionary<string, T> newDictionary)
+            {
+                this.parent = parent;
+                this.elements = newDictionary;
+                this.colors = new Dictionary<string, Color>();
+                this.drawMethod = drawMethod;
+            }
+
+            public T this[string key]
+            {
+                get
+                {
+                    if (key == null)
+                        throw new ArgumentNullException("key");
+
+                    return elements[key];
+                }
+                set
+                {
+                    if (key == null)
+                        throw new ArgumentNullException("key");
+
+                    elements[key] = value;
+                    if (!colors.ContainsKey(key))
+                        colors.Add(key, Color.Red);
+
+                    parent.Invalidate();
+                }
+            }
+            public void SetColor(string key, Color color)
+            {
+                if (key == null)
+                    throw new ArgumentNullException("key");
+                else if (!elements.ContainsKey(key))
+                    throw new ArgumentException("Unknown key: " + key);
+                else
+                    colors[key] = color;
+            }
+
+            protected abstract void DrawElement(Graphics graphics, T element, Color color);
+
+            protected Vector2D Padding
+            {
+                get { return new Vector2D(parent.Padding.Left, parent.Padding.Top); }
+            }
+            protected Vector2D ConvertActualToPixel(Vector2D point)
+            {
+                return parent.conv.ConvertActualToPixel(point);
+            }
+
+            public void Draw(Graphics graphics)
+            {
+                foreach (var e in elements)
+                    DrawElement(graphics, e.Value, colors[e.Key]);
             }
         }
     }
