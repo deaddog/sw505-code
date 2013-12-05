@@ -26,15 +26,19 @@ namespace SystemInterface.GUI
 
         private void SetImage(Bitmap image)
         {
-            this.image = image;
+            Bitmap old = this.image;
+            this.image = image == null ? null : image.Clone() as Bitmap;
 
-            if (image != null)
+            if (this.image != null)
             {
                 Size diff = this.Size - pictureBox1.Size;
-                this.Size = image.Size + diff;
+                this.Size = this.image.Size + diff;
             }
 
-            this.pictureBox1.Image = image;
+            this.pictureBox1.Image = this.image;
+
+            if (old != null)
+                old.Dispose();
         }
 
         public Color Color1
