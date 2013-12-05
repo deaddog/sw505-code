@@ -48,7 +48,7 @@ namespace SystemInterface.GUI
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.X >= 0 && e.Y >= 0 && e.X < image.Width && e.Y < image.Height)
+            if (image != null && e.X >= 0 && e.Y >= 0 && e.X < image.Width && e.Y < image.Height)
                 color_new.BackColor = image.GetPixel(e.X, e.Y);
         }
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
