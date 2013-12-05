@@ -30,7 +30,10 @@ namespace SystemInterface.GUI
             }
 
             if (go)
+            {
+                RobotInterface.RobotCommandInterpreter interpreter = new RobotInterface.RobotCommandInterpreter();
                 Application.Run(new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115)));
+            }
         }
     }
 }
