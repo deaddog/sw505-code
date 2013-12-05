@@ -23,6 +23,8 @@ namespace Services.RouteServices
         private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
 
         private OccupancyGrid grid;
+        private Vector2D point;
+        private Point pixelPoint;
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
         /// </summary>
@@ -34,65 +36,14 @@ namespace Services.RouteServices
             set
             {
                 grid = value;
-                this.Invalidate();
-            }
-        }
-
-        private Image image;
-        private Image Image
-        {
-            get { return image; }
-            set
-            {
-                Size size = image != null ? image.Size : Size.Empty;
-
-                if (value != null && value.Size != size)
-                {
-                    conv.SetPixelSize(value.Width, value.Height);
-                    this.Size = value.Size + new Size(Padding.Horizontal, Padding.Vertical);
-                }
-
-                image = value;
+                this.areaWidth = grid.Columns * grid.CellSize;
+                this.areaHeight = grid.Rows * grid.CellSize;
+                conv.SetActualSize(areaWidth, areaHeight);
                 this.Invalidate();
             }
         }
 
         private float areaWidth = DEFAULT_AREASIZE, areaHeight = DEFAULT_AREASIZE;
-        [DefaultValue(DEFAULT_AREASIZE)]
-        public float AreaWidth
-        {
-            get { return areaWidth; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
-
-                float old = areaWidth;
-
-                if (old != value)
-                    conv.SetActualSize(value, areaHeight);
-
-                areaWidth = value;
-                this.Invalidate();
-            }
-        }
-        public float AreaHeight
-        {
-            get { return areaHeight; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
-
-                float old = areaHeight;
-
-                if (old != value)
-                    conv.SetActualSize(areaWidth, value);
-
-                areaHeight = value;
-                this.Invalidate();
-            }
-        }
 
         #region Grid properties
 
@@ -168,9 +119,8 @@ namespace Services.RouteServices
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.UserPaint,
                 true);
-
-            if (!DesignMode)
-                Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
+            conv.SetPixelSize(640, 480);
+            
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -179,8 +129,7 @@ namespace Services.RouteServices
             if (DesignMode)
                 return;
 
-            if (image != null)
-                pe.Graphics.DrawImage(image, Padding.Left, Padding.Top);
+            
 
             for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
                 for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
@@ -188,6 +137,8 @@ namespace Services.RouteServices
 
             if (gridShowRuler)
                 drawRulers(pe.Graphics);
+
+            drawCross(pe.Graphics, pixelPoint);
         }
 
         private void drawCell(Graphics graphics, int x, int y)
@@ -246,6 +197,13 @@ namespace Services.RouteServices
                     drawRulerRectangle(g, rulerBackgroundBrush, topleft, bottomright, true);
                 }
             }
+        }
+
+        private void drawCross(Graphics g, Point p)
+        {
+            g.DrawLine(Pens.Red,new PointF(p.X-10,p.Y) , new PointF(p.X+10,p.Y));
+            g.DrawLine(Pens.Red, new PointF(p.X,p.Y-10), new PointF(p.X,p.Y+10));
+
         }
 
         private void drawRulerRectangle(Graphics g, Brush brush, Vector2D topleft, Vector2D bottomright, bool row)
@@ -311,5 +269,36 @@ namespace Services.RouteServices
                 return Color.FromArgb(yellowAlpha, 255, 255, 0);
             }
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // OccupancyGridControl
+            // 
+            this.ResumeLayout(false);
+
+        }
+
+        public event EventHandler UpdatePoint;
+
+        public Vector2D Point
+        {
+            get { return point; }
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            pixelPoint = e.Location;
+            
+            point = conv.ConvertPixelToActual(new Vector2D(pixelPoint.X, pixelPoint.Y));
+            this.Invalidate();
+            if (UpdatePoint != null)
+                UpdatePoint(this, EventArgs.Empty);
+
+        }
+
     }
 }
