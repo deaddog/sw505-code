@@ -65,6 +65,7 @@ namespace Control
                 counter++;
                 UpdateOccupancyGrid();
                 coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
+                SendRobotToNextLocation();
             }
         }
 
