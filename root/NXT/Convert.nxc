@@ -61,5 +61,9 @@ inline PolarCoordinate ConvertCarthesianToPolar(Point robot, Point target)
 //Calculates the angle for the the robot to to when the robot is at angle robotangle
 inline float FindAngleToPoint(float robotangle, float targetangle)
 {
+ writeLogString("ANGLE TO POINT:");
+ writeLogString("  ra: " + NumToStr(robotangle));
+ writeLogString("  ta: " + NumToStr(targetangle));
+ writeLogString("  re: " + NumToStr(robotangle - targetangle));
  return robotangle - targetangle;
 }
