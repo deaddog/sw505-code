@@ -51,7 +51,14 @@ namespace Control
         /// <summary>
         /// Starts mapping, asks for route when needed
         /// </summary>
-        public void Map()
+        public void Map(OccupancyGrid initialGrid)
+        {
+            this.grid = initialGrid;
+
+            System.Threading.Thread mapThread = new System.Threading.Thread(mapAgain);
+            mapThread.Start();
+        }
+        private void mapAgain()
         {
             if (counter < 3)
             {
@@ -69,7 +76,7 @@ namespace Control
             if (coordQueue.Count > 0)
                 robot.MoveToPosition(coordQueue.Dequeue());
             else
-                this.Map();
+                this.mapAgain();
         }
 
         private ISensorData GetSensorData()
@@ -112,23 +119,23 @@ namespace Control
             }
 
             grid = new OccupancyGrid(newMap, grid.CellSize, grid.X, grid.Y);
-            onGridUpdated(new GridEventArgs(grid));
+            onGridUpdated(new GridUpdaterEventArgs(grid));
         }
 
-        public delegate void GridUpdatedEventHandler(object sender, EventArgs e);
+        public delegate void GridUpdatedEventHandler(object sender, GridUpdaterEventArgs e);
         public event GridUpdatedEventHandler GridUpdated;
 
-        protected virtual void onGridUpdated(EventArgs e)
+        protected virtual void onGridUpdated(GridUpdaterEventArgs e)
         {
             if (GridUpdated != null)
                 GridUpdated(this, e);
         }
 
-        public class GridEventArgs : EventArgs
+        public class GridUpdaterEventArgs : EventArgs
         {
             private readonly OccupancyGrid grid;
 
-            public GridEventArgs(OccupancyGrid grid)
+            public GridUpdaterEventArgs(OccupancyGrid grid)
             {
                 this.grid = grid;
             }

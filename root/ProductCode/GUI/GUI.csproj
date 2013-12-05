@@ -136,6 +136,10 @@
       <Project>{a312d164-a0a6-46ee-8552-0e4321e926f1}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RobotInterface\RobotInterface.csproj">
+      <Project>{ef1b5664-a887-4528-b8f3-580bc1786dd2}</Project>
+      <Name>RobotInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
