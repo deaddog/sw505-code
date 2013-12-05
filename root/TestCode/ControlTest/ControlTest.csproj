@@ -35,13 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\CommonLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Control">
-      <HintPath>..\..\bin\Control.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -62,6 +55,16 @@
     <Compile Include="QueueControlTest.cs" />
     <Compile Include="ScanningControlTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProductCode\CommonLib\CommonLib.csproj">
+      <Project>{e868edd2-1c74-4350-990a-ecf411d44291}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProductCode\Control\Control.csproj">
+      <Project>{9efec74d-694b-48a9-a26e-a9359b312016}</Project>
+      <Name>Control</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

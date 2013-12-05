@@ -45,10 +45,6 @@
       <HintPath>..\..\bin\Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Kinect, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="NKH.MindSqualls, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\NKH.MindSqualls.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -88,6 +84,14 @@
     <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
       <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
       <Name>NKH.MindSqualls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Mindsqualls\NKH.MindSqualls.csproj">
+      <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
+      <Name>NKH.MindSqualls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
+      <Project>{e868edd2-1c74-4350-990a-ecf411d44291}</Project>
+      <Name>CommonLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

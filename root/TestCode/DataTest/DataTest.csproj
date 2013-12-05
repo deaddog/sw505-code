@@ -35,12 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonLib">
-      <HintPath>..\..\bin\CommonLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Services">
-      <HintPath>..\..\bin\Services.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -61,9 +55,17 @@
     <Compile Include="SimpleSensorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ProductCode\CommonLib\CommonLib.csproj">
+      <Project>{e868edd2-1c74-4350-990a-ecf411d44291}</Project>
+      <Name>CommonLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ProductCode\Data\Data.csproj">
       <Project>{a312d164-a0a6-46ee-8552-0e4321e926f1}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProductCode\Services\Services.csproj">
+      <Project>{f2c6d342-4aca-4b7a-b207-8515677bdbbc}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
