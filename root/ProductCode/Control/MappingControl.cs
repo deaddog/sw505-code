@@ -23,6 +23,7 @@ namespace Control
         private ISensorModel sensorModel;
         OccupancyGrid grid;
         Queue<ICoordinate> coordQueue;
+        private int counter;
 
         private static MappingControl instance;
 
@@ -43,12 +44,17 @@ namespace Control
         {
             robot = RobotFactory.GetInstance().CreateRobot();
             sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+            counter = 0;
         }
 
         public void Map()
         {
-            UpdateOccupancyGrid();
-            //coordQueue = 
+            if (counter < 3)
+            {
+                counter++;
+                UpdateOccupancyGrid();
+                //coordQueue = 
+            }
         }
 
         public void SendRobotToNextLocation()
