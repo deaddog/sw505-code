@@ -16,6 +16,7 @@ namespace Services.RouteServices
     {
         private const float DEFAULT_AREASIZE = 1;
         private const int GRID_TRANSPARANCY = 70;
+        private const int CROSS_SIZE = 10;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
@@ -201,8 +202,8 @@ namespace Services.RouteServices
 
         private void drawCross(Graphics g, Point p)
         {
-            g.DrawLine(Pens.Red,new PointF(p.X-10,p.Y) , new PointF(p.X+10,p.Y));
-            g.DrawLine(Pens.Red, new PointF(p.X,p.Y-10), new PointF(p.X,p.Y+10));
+            g.DrawLine(Pens.Red,new PointF(p.X-CROSS_SIZE,p.Y) , new PointF(p.X+CROSS_SIZE,p.Y));
+            g.DrawLine(Pens.Red, new PointF(p.X,p.Y-CROSS_SIZE), new PointF(p.X,p.Y+CROSS_SIZE));
 
         }
 
