@@ -1,7 +1,7 @@
 #include "MCTasks.nxc"
 #include "Convert.nxc"
 
-#define MOVE_INCREMENT 100
+#define MOVE_INCREMENT 1000
 #define POWER 100
 
 // Waits for the motors to be ready

@@ -37,6 +37,16 @@ namespace Services.RouteServices
             yield return form.Point;
         }
 
+        public int test()
+        {
+            OccupancyGrid grid = new OccupancyGrid(30, 23, 10, -150, -115);
+            form = new SchedulingForm(grid);
+
+
+            form.ShowDialog();
+            return 10;
+        }
+
 
     }
 }

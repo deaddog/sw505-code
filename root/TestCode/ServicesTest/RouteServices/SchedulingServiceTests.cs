@@ -24,9 +24,9 @@ namespace Services.RouteServices.Tests
         {
             OccupancyGrid g = new OccupancyGrid(30, 23, 10, -150, -115);
             s.GetRoute(g);
+            int k = s.test();
 
-
-            Assert.Fail();
+            Assert.AreEqual(10, k);
         }
     }
 }
