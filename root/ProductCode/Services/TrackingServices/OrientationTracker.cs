@@ -17,10 +17,10 @@ namespace Services.TrackingServices
         /// </summary>
         /// <param name="front">The color of the tracked 'front'.</param>
         /// <param name="rear">The color of the tracked 'rear'.</param>
-        public OrientationTracker(Color front, Color rear)
+        public OrientationTracker(Color front, Color rear, CommonLib.CoordinateConverter converter)
         {
-            this.front = new ColorTracker(front);
-            this.rear = new ColorTracker(rear);
+            this.front = new ColorTracker(front, converter);
+            this.rear = new ColorTracker(rear, converter);
         }
 
         /// <summary>

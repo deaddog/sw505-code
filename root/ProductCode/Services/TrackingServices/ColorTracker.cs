@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using CommonLib.DTOs;
+using CommonLib;
 
 namespace Services.TrackingServices
 {
@@ -19,6 +20,8 @@ namespace Services.TrackingServices
         private Color originalColor;
         private Color targetColor;
 
+        private CoordinateConverter converter;
+
         private Rectangle bounds;
         private Vector2D center;
 
@@ -26,11 +29,13 @@ namespace Services.TrackingServices
         /// Initializes a new instance of the <see cref="ColorTracker"/> class.
         /// </summary>
         /// <param name="color">The color that should be tracked.</param>
-        public ColorTracker(Color color)
+        public ColorTracker(Color color, CoordinateConverter converter)
         {
             this.bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
             this.threshold = DEFAULT_THRESHOLD;
             this.originalColor = this.targetColor = color;
+
+            this.converter = converter;
         }
 
         /// <summary>
@@ -85,7 +90,7 @@ namespace Services.TrackingServices
 
             PointF newPoint;
             if (findCenter(bounds, out newPoint))
-                center = (Vector2D)newPoint;
+                center = converter.ConvertPixelToActual((Vector2D)newPoint);
             else
             {
                 bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);

@@ -31,8 +31,11 @@ namespace SystemInterface.GUI
 
             if (go)
             {
+                Control.LocationControl.Instance.SetActualSize(308, 231);
+                Control.LocationControl.Instance.SetImageSize(640, 480);
                 RobotInterface.RobotCommandInterpreter interpreter = new RobotInterface.RobotCommandInterpreter();
-                Application.Run(new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115)));
+                OccupancyGridForm form = new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115));
+                Application.Run(form);
             }
         }
     }

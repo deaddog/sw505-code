@@ -31,6 +31,14 @@ namespace SystemInterface.GUI
             checkBoxHideUnexplored_CheckedChanged(null, null);
             checkBoxShowRulers_CheckedChanged(null, null);
         }
+        public GUI.Controls.OccupancyGridControl.DrawCollection<CommonLib.Interfaces.ICoordinate> Coordinates
+        {
+            get { return gridControl.Coordinates; }
+        }
+        public GUI.Controls.OccupancyGridControl.DrawCollection<CommonLib.Interfaces.IPose> Poses
+        {
+            get { return gridControl.Poses; }
+        }
 
         public OccupancyGrid Grid
         {

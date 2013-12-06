@@ -10,7 +10,7 @@ namespace SystemInterface.RobotInterface
 {
     public class RobotCommandInterpreter
     {
-        private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 10000;
+        private const int THREAD_SLEEP_INTERVAL_IN_MILLISECONDS = 100;
 
         private INXTPostMan postman;
         private bool RUNNING = true;
