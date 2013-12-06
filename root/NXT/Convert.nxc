@@ -67,7 +67,7 @@ inline float FindAngleToPoint(float robotangle, float targetangle)
  writeLogString("Angle: " + NumToStr(angle));
  if(angle > 180)
   angle = angle - 360;
- else if(angle < 180)
+ else if(angle < -180)
   angle = angle + 360;
   
  return angle;
