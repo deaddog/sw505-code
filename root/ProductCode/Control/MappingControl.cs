@@ -18,6 +18,7 @@ namespace Control
     public class MappingControl
     {
         private const int LOG_ODDS_BASE = 10;
+        private const int AMOUNT_OF_POINTS = 1000;
 
         private IRobot robot;
         private IPose robotPose;
@@ -60,7 +61,7 @@ namespace Control
         }
         private void mapAgain()
         {
-            if (counter < 3)
+            if (counter < AMOUNT_OF_POINTS)
             {
                 counter++;
                 UpdateOccupancyGrid();
