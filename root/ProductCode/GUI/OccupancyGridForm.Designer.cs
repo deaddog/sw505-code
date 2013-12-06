@@ -41,8 +41,6 @@ namespace SystemInterface.GUI
             // checkBoxShowBorders
             // 
             this.checkBoxShowBorders.AutoSize = true;
-            this.checkBoxShowBorders.Checked = true;
-            this.checkBoxShowBorders.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowBorders.Location = new System.Drawing.Point(5, 18);
             this.checkBoxShowBorders.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxShowBorders.Name = "checkBoxShowBorders";
@@ -82,6 +80,8 @@ namespace SystemInterface.GUI
             // checkBoxShowRulers
             // 
             this.checkBoxShowRulers.AutoSize = true;
+            this.checkBoxShowRulers.Checked = true;
+            this.checkBoxShowRulers.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowRulers.Location = new System.Drawing.Point(5, 39);
             this.checkBoxShowRulers.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxShowRulers.Name = "checkBoxShowRulers";
@@ -134,6 +134,7 @@ namespace SystemInterface.GUI
             this.MinimizeBox = false;
             this.Name = "OccupancyGridForm";
             this.Padding = new System.Windows.Forms.Padding(13);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Occupancy Grid";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
