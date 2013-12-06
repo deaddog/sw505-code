@@ -49,7 +49,7 @@ namespace Data.SensorModel
         private CellCoordinate getCoordinateFromCellIndex(OccupancyGrid grid, CellIndex index)
         {
             float cellRadius = grid.CellSize / 2;
-            return new CellCoordinate(grid.CellSize * index.X + cellRadius, grid.CellSize * index.Y + cellRadius);
+            return new CellCoordinate(grid.X + grid.CellSize * index.X + cellRadius, grid.Y + grid.CellSize * index.Y + cellRadius);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Data.SensorModel
 
             if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
             {
-                return calculateInitialLogOdds(grid,cell);
+                return calculateInitialLogOdds(grid, cell);
             }
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
             {
