@@ -117,7 +117,7 @@ namespace SystemInterface.GUI
             this.gridControl.Margin = new System.Windows.Forms.Padding(2);
             this.gridControl.Name = "gridControl";
             this.gridControl.Padding = new System.Windows.Forms.Padding(25);
-            this.gridControl.Size = new System.Drawing.Size(712, 534);
+            this.gridControl.Size = new System.Drawing.Size(684, 517);
             this.gridControl.TabIndex = 0;
             this.gridControl.TabStop = false;
             // 
@@ -125,7 +125,7 @@ namespace SystemInterface.GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 564);
+            this.ClientSize = new System.Drawing.Size(841, 547);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gridControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
