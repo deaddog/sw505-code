@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>ConnectionSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="CoordinateConverter.cs" />
     <Compile Include="DTOs\CellIndex.cs" />
     <Compile Include="DTOs\Coordinate.cs" />
@@ -64,6 +69,13 @@
       <Project>{9973018e-fc09-4549-a484-0b702ade1ee9}</Project>
       <Name>NKH.MindSqualls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ConnectionSettings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ConnectionSettings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

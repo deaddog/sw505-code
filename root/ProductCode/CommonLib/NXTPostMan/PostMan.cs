@@ -8,8 +8,7 @@ namespace CommonLib.NXTPostMan
     public class PostMan : INXTPostMan
     {
         private static PostMan instance;
-        private const byte SERIAL_PORT_NUMBER = 9;
-        
+
         // Used for sending/receiving commands to/from NXT
         private const NxtMailbox2 PC_INBOX = NxtMailbox2.Box0;
         private const NxtMailbox PC_OUTBOX = NxtMailbox.Box1;
@@ -23,18 +22,16 @@ namespace CommonLib.NXTPostMan
             {
                 if (instance == null)
                 {
-                    instance = new PostMan();
+                    instance = new PostMan(ConnectionSettings.Default.NXTPort);
                 }
                 return instance;
             }
         }
 
-        /// <summary>
-        /// default cTor.
-        /// </summary>
-        private PostMan() {
+        private PostMan(byte serialPortNumber)
+        {
 
-            CommunicationBrick = new McNxtBrick(NxtCommLinkType.Bluetooth, SERIAL_PORT_NUMBER);
+            CommunicationBrick = new McNxtBrick(NxtCommLinkType.Bluetooth, serialPortNumber);
             CommunicationBrick.Sensor1 = new NxtUltrasonicSensor();
             CommunicationBrick.Sensor2 = new NxtUltrasonicSensor();
 
@@ -44,7 +41,7 @@ namespace CommonLib.NXTPostMan
         }
 
         #endregion
-        
+
         public void SendMessage(NXTMessage msg)
         {
             // send the preformed message to the robot.
@@ -53,7 +50,7 @@ namespace CommonLib.NXTPostMan
         }
 
         public void SendMessage(ICoordinate cord)
-        {   
+        {
             string encodedString = NXTEncoder.Encode(cord);
             string toSendMessage = String.Format("{0}{1}", (byte)NXTMessageType.MoveToPos, encodedString);
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
@@ -89,7 +86,8 @@ namespace CommonLib.NXTPostMan
         /// <returns>true if string matches item from mailbox</returns>
         public bool HasMessageArrived(string msg)
         {
-            try {
+            try
+            {
                 string mailMsg = CommunicationBrick.CommLink.MessageReadToStringASCII(PC_INBOX, NxtMailbox.Box0, false);
                 return msg.Equals(mailMsg);
             }
@@ -109,7 +107,7 @@ namespace CommonLib.NXTPostMan
             {
                 byte[] msg = CommunicationBrick.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, false);
 
-                if (msg != null) { return true;  } else { return false; }
+                if (msg != null) { return true; } else { return false; }
             }
             catch (NxtCommunicationProtocolException ex)
             {
@@ -130,7 +128,8 @@ namespace CommonLib.NXTPostMan
         /// <returns>the message on top of mailbox formatted as an NXTMessage</returns>
         public NXTMessage RetrieveMessage()
         {
-            try {
+            try
+            {
                 byte[] msg = CommunicationBrick.CommLink.MessageReadToBytes(PC_INBOX, NxtMailbox.Box0, true);
                 return new NXTMessage(msg);
             }
@@ -146,7 +145,7 @@ namespace CommonLib.NXTPostMan
                 }
             }
         }
-        
+
         private NXTMessageType parseCommandType(byte[] msg)
         {
             try
