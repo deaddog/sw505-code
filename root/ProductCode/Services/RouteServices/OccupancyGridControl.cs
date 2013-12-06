@@ -37,14 +37,47 @@ namespace Services.RouteServices
             set
             {
                 grid = value;
-                this.areaWidth = grid.Columns * grid.CellSize;
-                this.areaHeight = grid.Rows * grid.CellSize;
-                conv.SetActualSize(areaWidth, areaHeight);
                 this.Invalidate();
             }
         }
 
         private float areaWidth = DEFAULT_AREASIZE, areaHeight = DEFAULT_AREASIZE;
+        [DefaultValue(DEFAULT_AREASIZE)]
+        public float AreaWidth
+        {
+            get { return areaWidth; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
+
+                float old = areaWidth;
+
+                if (old != value)
+                    conv.SetActualSize(value, areaHeight);
+
+                areaWidth = value;
+                this.Invalidate();
+            }
+        }
+        [DefaultValue(DEFAULT_AREASIZE)]
+        public float AreaHeight
+        {
+            get { return areaHeight; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("Area height must be greather than zero.");
+
+                float old = areaHeight;
+
+                if (old != value)
+                    conv.SetActualSize(areaWidth, value);
+
+                areaHeight = value;
+                this.Invalidate();
+            }
+        }
 
         #region Grid properties
 

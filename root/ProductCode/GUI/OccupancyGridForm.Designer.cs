@@ -109,6 +109,8 @@ namespace SystemInterface.GUI
             this.gridControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridControl.AreaHeight = 231F;
+            this.gridControl.AreaWidth = 308F;
             this.gridControl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.gridControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gridControl.GridHideUnexplored = true;
