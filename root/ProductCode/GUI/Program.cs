@@ -16,6 +16,18 @@ namespace SystemInterface.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            if (CommonLib.ConnectionSettings.Default.NXTPort == 0)
+            {
+                int port = -1;
+                while (port <= 0 || port > 255)
+                    int.TryParse(Microsoft.VisualBasic.Interaction.InputBox(
+                        "Select the port number you would like to use for the NXT:", "NXT Port"), out port);
+
+                CommonLib.ConnectionSettings.Default.NXTPort = (byte)port;
+                CommonLib.ConnectionSettings.Default.Save();
+            }
+
             bool go = true;
 #if !LOWTECH
             using (SelectColorsForm colorForm = new SelectColorsForm())
