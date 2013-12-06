@@ -247,7 +247,7 @@ namespace Services.RouteServices
             g.FillRectangle(brush, r);
             g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
 
-            var point = conv.ConvertPixelToActual(topleft);
+            var point = conv.ConvertPixelToActual(topleft + new Vector2D(Padding.Left, Padding.Top));
             string cm = (row ? point.Y : point.X).ToString("0");
 
             //Measure text size and calculate position so that text is centered.
