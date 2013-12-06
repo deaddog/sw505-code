@@ -22,8 +22,18 @@ namespace Services.RouteServices
         }
 
         private OccupancyGrid grid;
-
+        private Size diffSize;
         private Vector2D point;
+
+        public SchedulingForm(OccupancyGrid grid)
+        {
+            InitializeComponent();
+            
+            diffSize = new Size(this.Width - occupancyGridControl1.Width, this.Height - occupancyGridControl1.Height);
+            occupancyGridControl1.Resize += occupancyGridControl1_Resize;
+
+            occupancyGridControl1.Grid = grid;
+        }
 
         public Vector2D Point
         {
@@ -31,31 +41,28 @@ namespace Services.RouteServices
             set { point = value; }
         }
         
-        
         public OccupancyGrid Grid
         {
             get { return grid; }
             set { grid = value; }
         }
         
-
-        public SchedulingForm(OccupancyGrid grid)
-        {
-            InitializeComponent();
-            occupancyGridControl1.Grid = grid;
-        }
-
         private void occupancyGridControl1_UpdatePoint(object sender, EventArgs e)
         {
             label1.Text = occupancyGridControl1.Point.ToString();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             point = occupancyGridControl1.Point;
             this.Close();
         }
-
+        private void occupancyGridControl1_Resize(object sender, EventArgs e)
+        {
+            if (DesignMode)
+                return;
+            else
+                 this.Size = new Size(occupancyGridControl1.Width + diffSize.Width, occupancyGridControl1.Height + diffSize.Height);
+        }
         
     }
 }
