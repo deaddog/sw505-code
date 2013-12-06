@@ -57,6 +57,7 @@
             this.occupancyGridControl1.AreaHeight = 231F;
             this.occupancyGridControl1.AreaWidth = 308F;
             this.occupancyGridControl1.Location = new System.Drawing.Point(102, 12);
+            this.occupancyGridControl1.GridShowRuler = true;
             this.occupancyGridControl1.Name = "occupancyGridControl1";
             this.occupancyGridControl1.Size = new System.Drawing.Size(702, 543);
             this.occupancyGridControl1.TabIndex = 0;
@@ -67,7 +68,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 567);
+            this.ClientSize = new System.Drawing.Size(871, 569);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.occupancyGridControl1);
