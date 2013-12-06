@@ -1,16 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
-  Id="09d4639c-4153-4ab0-a0fe-ec531f08ec01"
-  name="RobotInterface" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
-  <packagedElements>
-    <packageHasNamedElement>
-      <class
-        Id="de6d25d2-7f2c-46df-b6ce-4ce1abdbc748"
-        name="RobotCommandInterpreter"
-        isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false" />
-    </packageHasNamedElement>
-  </packagedElements>
-</package>
+  Id="dd5b784d-4c2b-4fa4-be80-dcb39a8d3f01"
+  name="Package1" xmlns="http://schemas.microsoft.com/dsltools/ModelStore" />

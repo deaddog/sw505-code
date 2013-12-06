@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="776beed2-82e9-452c-bc7b-030ac83cc05b"
+  name="Interfaces" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="6e6c0aa6-9ee8-4dcd-ad71-828eac3ef758"
+        name="ApplicationException"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="167f1ff5-7215-4207-89d2-cae5664e3600"
+        name="ControlException"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="cf791caa-ef50-4704-bc5b-17191d5cfe48"
+            isSubstitutable="false">
+            <classMoniker
+              Id="6e6c0aa6-9ee8-4dcd-ad71-828eac3ef758"
+              LastKnownName="ApplicationException"
+              LastKnownLocation="Package_1557.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b45bbdd8-1ddb-4769-897f-a5d85729af26"
+        name="DataException"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="18bb8e9c-2944-47b1-b591-af44900ced15"
+            isSubstitutable="false">
+            <classMoniker
+              Id="6e6c0aa6-9ee8-4dcd-ad71-828eac3ef758"
+              LastKnownName="ApplicationException"
+              LastKnownLocation="Package_1557.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a6e85090-d063-4dbc-a179-694ddd4d5fa6"
+        name="iCoordinate"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="040c9f0b-894c-4461-9b08-b9b60902cfe7"
+        name="iPose"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="7f05dee7-7992-4c09-aa9f-925785f75326"
+        name="iSensorData"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="332ab595-32a4-4528-9406-dd9b6508113d"
+        name="ICoordinate"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="5a2b82c0-ff08-4641-96bf-343db0524011"
+        name="ISensorData"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="33814c27-94a8-4350-818a-3d75cd55695f"
+        name="IPose"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

@@ -1,21 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
-  Id="f6e65958-d5f3-41f4-b93c-108fe20dce76"
-  name="GUI.exe" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  Id="81fadbd0-2689-4baf-a5f8-1a732f8f988e"
+  name="TrackingServices" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <packagedElements>
     <packageHasNamedElement>
       <class
-        Id="44fd6eef-6539-4e42-9d81-8de8b553a2a5"
-        name="OccupancyGridForm"
+        Id="3cca40b0-dfab-41e0-8257-7f1c2583f5d1"
+        name="ColorTracker"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="b9ea3ddc-73b9-4aaf-9173-2345681d9e7e"
-        name="SelectColorsForm"
+        Id="c6649236-7031-495a-84c0-958c183c8219"
+        name="OrientationTracker"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f92b6c22-ecf9-495b-90c7-8fbcf4b9ef49"
+        name="RobotLocation"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />

@@ -1,87 +1,62 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
-  Id="661e504d-66d5-4ae1-a1d1-2b8244c27675"
-  name="Control.dll" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
-  <suppliersInternal>
-    <dependency
-      Id="4c3729ec-fd82-42de-899c-c5cc397f623b">
-      <packageMoniker
-        Id="0e92a79f-2f45-4cd4-a8bf-79f40e96a62c"
-        LastKnownName="Data.dll"
-        LastKnownLocation="Package4_0948.uml" />
-    </dependency>
-    <dependency
-      Id="0ac641c9-17eb-4c03-b180-f3ea4569e2b6">
-      <packageMoniker
-        Id="e88a4fa8-7082-4c5c-bb68-f3209c6f1eb8"
-        LastKnownName="Services.dll"
-        LastKnownLocation="Package11_0948.uml" />
-    </dependency>
-    <dependency
-      Id="c831c253-0181-4a80-9b36-bf391817f906">
-      <packageMoniker
-        Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
-        LastKnownName="CommonLib.dll"
-        LastKnownLocation="Package7_0948.uml" />
-    </dependency>
-  </suppliersInternal>
+  Id="2ea7d93d-33b8-4c43-b6e6-63de8698d066"
+  name="NXTPostMan" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <packagedElements>
     <packageHasNamedElement>
       <class
-        Id="2644e8e8-ee57-4d5f-962c-a852027ae2ef"
-        name="MappingControl"
+        Id="0d19f797-f696-4aa4-a818-941f063a2761"
+        name="NXTMessage"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="92fbf7c6-4f36-46f2-ab0f-32b2422ef7f7"
-        name="DisplayControl"
+        Id="d2d66064-4384-4f6d-87e3-7708df1228fa"
+        name="PostMan"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="9c072708-3c2e-4a84-a7a4-51d8482e7095"
-        name="MapControl"
+        Id="aa80dfb7-5eb2-4685-a6c2-2a3a0c2e0a40"
+        name="iNXTPostMan"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="bd4df420-b544-499c-8b80-fbc9f10337cd"
-        name="LocationControl"
+        Id="32cc2bc5-0438-4931-89cb-669d168cea5e"
+        name="NoMailException"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="34b02b9b-fbce-4624-9a28-ce946ccf6582"
-        name="NavigationControl"
+        Id="be75b06e-8153-4ac0-a1dd-a94e2fa8ec6f"
+        name="NXTEncoder"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <class
-        Id="11e578f5-96b0-4101-a402-e871654aa4ab"
-        name="QueueControl"
+      <enumeration
+        Id="a26743ae-614a-4ad5-897e-407ed6195fec"
+        name="NXTMessageType"
         isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false" />
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <class
-        Id="68cf65e7-477e-4e47-82eb-315f1a6fb8d2"
-        name="ScanningControl"
+      <Interface
+        Id="e64854ab-3662-47b3-8bcf-1d0ef56bb209"
+        name="INXTPostMan"
         isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false" />
+        isLeaf="false" />
     </packageHasNamedElement>
   </packagedElements>
 </package>
