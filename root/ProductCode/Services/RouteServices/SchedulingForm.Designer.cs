@@ -54,9 +54,12 @@
             // 
             // occupancyGridControl1
             // 
+            this.occupancyGridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.occupancyGridControl1.Location = new System.Drawing.Point(150, 12);
             this.occupancyGridControl1.Name = "occupancyGridControl1";
-            this.occupancyGridControl1.Size = new System.Drawing.Size(702, 543);
+            this.occupancyGridControl1.Size = new System.Drawing.Size(563, 434);
             this.occupancyGridControl1.TabIndex = 0;
             this.occupancyGridControl1.Text = "occupancyGridControl1";
             this.occupancyGridControl1.UpdatePoint += new System.EventHandler(this.occupancyGridControl1_UpdatePoint);
@@ -65,7 +68,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(871, 569);
+            this.ClientSize = new System.Drawing.Size(732, 460);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.occupancyGridControl1);

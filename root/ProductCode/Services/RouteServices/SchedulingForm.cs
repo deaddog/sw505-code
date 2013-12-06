@@ -30,7 +30,6 @@ namespace Services.RouteServices
             InitializeComponent();
             
             diffSize = new Size(this.Width - occupancyGridControl1.Width, this.Height - occupancyGridControl1.Height);
-            occupancyGridControl1.Resize += occupancyGridControl1_Resize;
 
             occupancyGridControl1.Grid = grid;
         }

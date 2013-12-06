@@ -124,6 +124,12 @@ namespace Services.RouteServices
             
         }
 
+        protected override void OnResize(EventArgs e)
+        {
+            this.conv.SetPixelSize(this.Width, this.Height);
+            base.OnResize(e);
+        }
+
         protected override void OnPaint(PaintEventArgs pe)
         {
             base.OnPaint(pe);
