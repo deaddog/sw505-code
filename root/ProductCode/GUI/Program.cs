@@ -16,8 +16,8 @@ namespace SystemInterface.GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             bool go = true;
+#if !LOWTECH
             using (SelectColorsForm colorForm = new SelectColorsForm())
             {
                 if (colorForm.ShowDialog() == DialogResult.OK)
@@ -28,12 +28,15 @@ namespace SystemInterface.GUI
                 else
                     go = false;
             }
+#endif
 
             if (go)
             {
+#if !LOWTECH
                 Control.LocationControl.Instance.SetActualSize(308, 231);
                 Control.LocationControl.Instance.SetImageSize(640, 480);
                 RobotInterface.RobotCommandInterpreter interpreter = new RobotInterface.RobotCommandInterpreter();
+#endif
                 OccupancyGridForm form = new OccupancyGridForm(new Data.OccupancyGrid(30, 23, 10, -150, -115));
                 Application.Run(form);
             }

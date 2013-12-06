@@ -42,7 +42,9 @@ namespace SystemInterface.GUI.Controls
                 conv.SetActualSize(areaWidth, areaHeight);
                 this.Invalidate();
 
+#if !LOWTECH
                 Control.MappingControl.Instance.Map(this.grid);
+#endif
             }
         }
 
@@ -158,6 +160,7 @@ namespace SystemInterface.GUI.Controls
             this.drawCoordinates = new CoordinateCollection(this);
             this.drawPoses = new PoseCollection(this);
 
+#if !LOWTECH
             if (!DesignMode)
                 Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
 
@@ -174,6 +177,8 @@ namespace SystemInterface.GUI.Controls
                 this.Coordinates["p1"] = Control.LocationControl.Instance.Front;
                 this.Coordinates["p2"] = Control.LocationControl.Instance.Rear;
             };
+#endif
+            this.Coordinates["center"] = new Vector2D(0, 0);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
