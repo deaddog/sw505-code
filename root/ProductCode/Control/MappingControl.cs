@@ -148,8 +148,8 @@ namespace Control
         private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
         {
             //Calculate in which the robot is located
-            int robotCellX = (int)Math.Floor(robotPose.X / cellSize);
-            int robotCellY = (int)Math.Floor(robotPose.Y / cellSize);
+            int robotCellX = (int)Math.Floor((robotPose.X - grid.X) / cellSize);
+            int robotCellY = (int)Math.Floor((robotPose.Y - grid.Y) / cellSize);
 
             //If current map cell is in either same row or column as robot, return true
             return mapCell.X == robotCellX || mapCell.Y == robotCellY;
