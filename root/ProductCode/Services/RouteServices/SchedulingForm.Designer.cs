@@ -54,10 +54,13 @@
             // 
             // occupancyGridControl1
             // 
+            this.occupancyGridControl1.AreaHeight = 231F;
+            this.occupancyGridControl1.AreaWidth = 308F;
             this.occupancyGridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.occupancyGridControl1.Location = new System.Drawing.Point(150, 12);
+            this.occupancyGridControl1.GridShowRuler = true;
             this.occupancyGridControl1.Name = "occupancyGridControl1";
             this.occupancyGridControl1.Size = new System.Drawing.Size(563, 434);
             this.occupancyGridControl1.TabIndex = 0;

@@ -18,6 +18,7 @@ namespace Control
     public class MappingControl
     {
         private const int LOG_ODDS_BASE = 10;
+        private const int AMOUNT_OF_POINTS = 1000;
 
         private IRobot robot;
         private IPose robotPose;
@@ -60,7 +61,7 @@ namespace Control
         }
         private void mapAgain()
         {
-            if (counter < 3)
+            if (counter < AMOUNT_OF_POINTS)
             {
                 counter++;
                 UpdateOccupancyGrid();
@@ -147,8 +148,8 @@ namespace Control
         private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
         {
             //Calculate in which the robot is located
-            int robotCellX = (int)Math.Floor(robotPose.X / cellSize);
-            int robotCellY = (int)Math.Floor(robotPose.Y / cellSize);
+            int robotCellX = (int)Math.Floor((robotPose.X - grid.X) / cellSize);
+            int robotCellY = (int)Math.Floor((robotPose.Y - grid.Y) / cellSize);
 
             //If current map cell is in either same row or column as robot, return true
             return mapCell.X == robotCellX || mapCell.Y == robotCellY;
