@@ -12,10 +12,12 @@ namespace Data.SensorModel
     {
         // constants for the sensor model
         private const double DEFAULT_VALUE = 0.5;
-        private const double OCCUPIED_CELL_VALUE = 1;
-        private const double FREE_CELL_VALUE = 0;
+        private const double OCCUPIED_CELL_VALUE = .7;
+        private const double FREE_CELL_VALUE = .2;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
-        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 1;
+        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 10;
+
+        private readonly double initialLogOdds;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSensorModel"/> class.
@@ -24,6 +26,7 @@ namespace Data.SensorModel
         public SimpleSensorModel(double cellDepthCM = 20)
         {
             this.cellDepthCM = cellDepthCM;
+            this.initialLogOdds = OccupancyGrid.INITIAL_PROBABILITY;
         }
 
 
@@ -38,12 +41,6 @@ namespace Data.SensorModel
         public double CellDepthCM
         {
             get { return cellDepthCM; }
-        }
-
-        private double calculateInitialLogOdds(OccupancyGrid grid, CellIndex index)
-        {
-            double prior = grid.InitialProbability;
-            return Math.Log10(prior / (1 - prior));
         }
 
         private CellCoordinate getCoordinateFromCellIndex(OccupancyGrid grid, CellIndex index)
@@ -62,16 +59,12 @@ namespace Data.SensorModel
         public double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
-            double r = Math.Abs((c.X - robot.X) + (c.Y - robot.Y));
+            double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
             if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
-            {
-                return calculateInitialLogOdds(grid, cell);
-            }
+                return initialLogOdds;
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
-            {
                 return OCCUPIED_CELL_VALUE;
-            }
             else
                 return FREE_CELL_VALUE;
         }

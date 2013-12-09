@@ -11,9 +11,7 @@ namespace Data
     /// </summary>
     public struct OccupancyGrid
     {
-        private const double INITIAL_PROBABILITY = 0.5;
-
-        public double InitialProbability { get { return INITIAL_PROBABILITY; } }
+        public const double INITIAL_PROBABILITY = 0.5;
 
         private int rows;
         public int Rows
