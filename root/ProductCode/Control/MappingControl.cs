@@ -61,7 +61,7 @@ namespace Control
             this.grid = initialGrid;
 
             coordQueue = new Queue<ICoordinate>();
-            coordQueue.Enqueue(new Vector2D(110, 70));
+            coordQueue.Enqueue(new Vector2D(0, 0));
             SendRobotToNextLocation();
         }
         private void mapAgain()
@@ -70,6 +70,7 @@ namespace Control
             {
                 counter++;
 
+                UpdateOccupancyGrid();
                 UpdateOccupancyGrid();
                 coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
                 SendRobotToNextLocation();
