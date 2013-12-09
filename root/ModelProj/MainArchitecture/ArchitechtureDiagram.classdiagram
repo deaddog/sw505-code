@@ -5,13 +5,13 @@
       <package Id="7590f99f-99c9-4db8-99b1-a30a63965c73" name="SystemInterface">
         <elementDefinition Id="62d0f44b-293a-4f68-adbf-2f00c256e61c" />
         <suppliersInternal>
-          <dependency Id="5696d8d4-a10a-4cd9-bbc6-55ab507e129f">
-            <packageMoniker Id="eca8cc46-2851-46f6-9698-02fd356fee22" LastKnownName="Control.dll" />
-            <elementDefinition Id="73420bc2-f207-45f6-b5df-c3a9894624b3" />
-          </dependency>
           <dependency Id="b8bd4cbb-ae96-407a-bf3d-09072ee36c43">
             <packageMoniker Id="efce9605-501d-47e1-b95c-6c8962f60c35" LastKnownName="CommonLib.dll" />
             <elementDefinition Id="11fd103a-7749-435c-b6bd-5e9bfd67f6b8" />
+          </dependency>
+          <dependency Id="82c14ad4-5889-4618-8436-2afc1955a336">
+            <packageMoniker Id="eca8cc46-2851-46f6-9698-02fd356fee22" LastKnownName="Control.dll" />
+            <elementDefinition Id="047a6ebf-3955-48ad-a2d4-62495f92d82f" />
           </dependency>
         </suppliersInternal>
         <packagedElements>
@@ -21,13 +21,32 @@
             </package>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <package Id="80ff259c-e4cf-45e3-9ca6-44ad7518cd9c" name="Network Interface">
+            <package Id="80ff259c-e4cf-45e3-9ca6-44ad7518cd9c" name="RobotInterface">
               <elementDefinition Id="09d4639c-4153-4ab0-a0fe-ec531f08ec01" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="30a5c2f0-3e5e-4ce3-aa19-8a7e067f1ccc" name="RobotCommandInterpreter" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="de6d25d2-7f2c-46df-b6ce-4ce1abdbc748" />
+                  </class>
+                </packageHasNamedElement>
+              </packagedElements>
             </package>
           </packageHasNamedElement>
           <packageHasNamedElement>
             <package Id="76926312-7d16-407c-b479-9668c087b2f5" name="GUI.exe">
               <elementDefinition Id="f6e65958-d5f3-41f4-b93c-108fe20dce76" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="29224cf9-d60d-4fdd-9040-45b474d8279a" name="OccupancyGridForm" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="44fd6eef-6539-4e42-9d81-8de8b553a2a5" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="04888a12-a5a6-40cd-a14d-493b1ca3bd0e" name="SelectColorsForm" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="b9ea3ddc-73b9-4aaf-9173-2345681d9e7e" />
+                  </class>
+                </packageHasNamedElement>
+              </packagedElements>
             </package>
           </packageHasNamedElement>
         </packagedElements>
@@ -37,56 +56,26 @@
       <package Id="063144da-8e47-41d5-8a88-dfd6e5f8ef3d" name="Data.dll">
         <elementDefinition Id="0e92a79f-2f45-4cd4-a8bf-79f40e96a62c" />
         <suppliersInternal>
-          <dependency Id="71f84293-c428-4688-8995-075cbbcad41a">
+          <dependency Id="f9db5541-38b2-497a-a05f-80e6d40fe4b6">
             <packageMoniker Id="efce9605-501d-47e1-b95c-6c8962f60c35" LastKnownName="CommonLib.dll" />
-            <elementDefinition Id="2fe16a0d-e602-4548-963c-ce9e128f7327" />
+            <elementDefinition Id="ce6d661a-5253-41af-b417-d2f1153bcc03" />
           </dependency>
         </suppliersInternal>
         <packagedElements>
           <packageHasNamedElement>
-            <package Id="91374cac-ba42-444c-b7d3-3f582fb94f9e" name="Domain">
-              <elementDefinition Id="c416ec86-4dd7-41b7-9ae1-4ba1b513ffb5" />
-              <packagedElements>
-                <packageHasNamedElement>
-                  <class Id="0d2d33b4-c9a2-41d9-ac62-d35bbaa39f9a" name="Map" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="54216d8a-8fa1-4302-ba4f-a3ad7905f191" />
-                  </class>
-                </packageHasNamedElement>
-                <packageHasNamedElement>
-                  <class Id="e4b60d4d-c97f-4bd9-b5ae-662285643e02" name="Archive" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="a6fe5e88-05f4-4c43-a81e-5463623e0980" />
-                    <targetEnds>
-                      <association Id="c146da09-90f4-4f4d-94fa-93ff41b1c182" isDerived="false" sourceEndRoleName="Archive" targetEndRoleName="Map" isLeaf="false" isAbstract="false">
-                        <classMoniker Id="0d2d33b4-c9a2-41d9-ac62-d35bbaa39f9a" LastKnownName="Map" />
-                        <relationshipOwnedElementsInternal>
-                          <associationHasOwnedEnds>
-                            <memberEnd Id="a2650e96-84a4-43a0-8047-52c22249da50" name="Archive" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
-                              <elementDefinition Id="fa365326-ca2e-4743-8359-abf2d8876da0" />
-                            </memberEnd>
-                          </associationHasOwnedEnds>
-                          <associationHasOwnedEnds>
-                            <memberEnd Id="8b9ce2c7-540c-4d6f-958c-b513d96ff23d" name="Map" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                              <lowerValueInternal>
-                                <literalString Id="ff09b1d7-9ca2-44ec-bf6d-975c11d87b4a" name="Lower" value="0">
-                                  <elementDefinition Id="c614dd23-d5c7-4cc5-8830-822c6dbf9a53" />
-                                </literalString>
-                              </lowerValueInternal>
-                              <upperValueInternal>
-                                <literalString Id="f744500b-468a-4ddb-996c-1896916f6905" name="Upper" value="*">
-                                  <elementDefinition Id="9c5ea5b6-6ec3-4289-b077-512b0c71e54d" />
-                                </literalString>
-                              </upperValueInternal>
-                              <elementDefinition Id="45ce68a9-d20d-4704-828a-f0d2b0bef670" />
-                            </memberEnd>
-                          </associationHasOwnedEnds>
-                        </relationshipOwnedElementsInternal>
-                        <elementDefinition Id="aa1dd123-56d9-4b41-b488-a63537f02d46" />
-                      </association>
-                    </targetEnds>
-                  </class>
-                </packageHasNamedElement>
-              </packagedElements>
-            </package>
+            <Interface Id="1e11fe40-acd3-418d-9b86-011f1208d865" name="ISensorModel" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="ab8ccf80-f873-4c49-bebb-6d7cb7ffda67" />
+            </Interface>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="43d122e7-6f49-49fd-8b0d-c3ada5435dfc" name="OccupancyGrid" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e45db0f0-72e1-4f30-9f40-bec7ce416350" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="e9500415-cca8-497b-8220-900f729c765a" name="SensorModelFactory" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="10fa7cbc-df85-4020-9154-ae2bf7186e0c" />
+            </class>
           </packageHasNamedElement>
         </packagedElements>
       </package>
@@ -103,9 +92,9 @@
             <packageMoniker Id="f97ab369-d3a5-40fd-b8cd-1aab9f35d80e" LastKnownName="Services.dll" />
             <elementDefinition Id="0ac641c9-17eb-4c03-b180-f3ea4569e2b6" />
           </dependency>
-          <dependency Id="977a33a7-d49f-4bad-919c-61d033f4891a">
+          <dependency Id="1aad9cf3-e424-4884-8eba-1182f385b1b2">
             <packageMoniker Id="efce9605-501d-47e1-b95c-6c8962f60c35" LastKnownName="CommonLib.dll" />
-            <elementDefinition Id="f9606914-3a2b-424a-9a84-72e0f656545d" />
+            <elementDefinition Id="c831c253-0181-4a80-9b36-bf391817f906" />
           </dependency>
         </suppliersInternal>
         <packagedElements>
@@ -115,13 +104,13 @@
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="297c40a8-b4e9-4d8d-8180-773404de35c0" name="RemoteAccessControl" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <elementDefinition Id="bd4df420-b544-499c-8b80-fbc9f10337cd" />
+            <class Id="7cc5fb43-50b2-43a4-a22f-fd2e087e55aa" name="DisplayControl" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="92fbf7c6-4f36-46f2-ab0f-32b2422ef7f7" />
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="7cc5fb43-50b2-43a4-a22f-fd2e087e55aa" name="DisplayControl" isAbstract="false" isLeaf="false" isActiveClass="false">
-              <elementDefinition Id="92fbf7c6-4f36-46f2-ab0f-32b2422ef7f7" />
+            <class Id="297c40a8-b4e9-4d8d-8180-773404de35c0" name="LocationControl" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="bd4df420-b544-499c-8b80-fbc9f10337cd" />
             </class>
           </packageHasNamedElement>
         </packagedElements>
@@ -130,6 +119,12 @@
     <logicalClassDesignerModelHasPackages>
       <package Id="efce9605-501d-47e1-b95c-6c8962f60c35" name="CommonLib.dll">
         <elementDefinition Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa" />
+        <suppliersInternal>
+          <dependency Id="e93873e2-d4bc-4446-9694-e7b49408bf8e">
+            <packageMoniker Id="443f34fa-2eff-4c95-9987-8d8ca3eab7b0" LastKnownName="NKH.MindSqualls" />
+            <elementDefinition Id="9075690b-2162-48d6-a048-b7fc0e1452db" />
+          </dependency>
+        </suppliersInternal>
         <packagedElements>
           <packageHasNamedElement>
             <package Id="28f15afc-2b64-4625-851d-a001e4425bde" name="DTOs">
@@ -141,59 +136,215 @@
                   </class>
                 </packageHasNamedElement>
                 <packageHasNamedElement>
-                  <class Id="bff88dea-579b-4316-8f6a-a55045b3afab" name="MapData" isAbstract="false" isLeaf="false" isActiveClass="false">
+                  <class Id="bff88dea-579b-4316-8f6a-a55045b3afab" name="Vector2D" isAbstract="false" isLeaf="false" isActiveClass="false">
                     <elementDefinition Id="b41c903f-f330-4248-8d20-668710eeb5b0" />
                   </class>
                 </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="37b50bad-7b24-45d4-b948-0f5f6dc650e2" name="CellIndex" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="61f34adf-0870-40ff-be68-16dd13bc8492" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="0dce6a04-dedc-4c57-91e2-449c85c3034c" name="Coordinate" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="709930ba-45d3-4bb2-a20e-5022d5a29721" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="2b94e7b9-c8e7-4f06-998e-852b8790998b" name="Pose" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="75ca0c3e-5ec7-4768-a8e3-5fa44135debd" />
+                  </class>
+                </packageHasNamedElement>
               </packagedElements>
             </package>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <package Id="e8cee56f-1613-4110-9a7a-2e251d67f943" name="TechnicalServices">
-              <elementDefinition Id="745c6e46-2d67-4d70-801c-7b5d4bcec4de" />
+            <package Id="1e02ac14-6e97-4b0f-baa4-6c2277bdfcea" name="Interfaces">
+              <elementDefinition Id="776beed2-82e9-452c-bc7b-030ac83cc05b" />
               <packagedElements>
                 <packageHasNamedElement>
-                  <class Id="28e8b8ba-7dab-4b06-bf62-c3e30ec70b07" name="Math" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="92c4a756-5d69-444a-a8da-b7a1a0ac7b2d" />
+                  <Interface Id="efa5f942-3a9a-4e60-a394-7dfc02caf136" name="ICoordinate" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="332ab595-32a4-4528-9406-dd9b6508113d" />
+                  </Interface>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <Interface Id="07e3d158-0262-4a3f-8c31-42a780e800a5" name="ISensorData" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="5a2b82c0-ff08-4641-96bf-343db0524011" />
+                  </Interface>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <Interface Id="22333e40-de1e-47dd-b962-21628c409b7c" name="IPose" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="33814c27-94a8-4350-818a-3d75cd55695f" />
+                  </Interface>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="83f1a1b6-c206-4ee2-a47c-92a2b8869b1b" name="NXTPostMan">
+              <elementDefinition Id="2ea7d93d-33b8-4c43-b6e6-63de8698d066" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="18fbb1ea-1518-4ae3-b129-2cfba7e48edb" name="NXTMessage" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="0d19f797-f696-4aa4-a818-941f063a2761" />
                   </class>
                 </packageHasNamedElement>
                 <packageHasNamedElement>
-                  <class Id="281e52e7-1351-4c53-bfc0-f2eb7fd945c1" name="Hashing" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="8cc11652-c589-41d1-8151-0deb6ba4bf0f" />
+                  <class Id="dd264e99-9e78-4299-9765-3433c2bc6880" name="PostMan" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="d2d66064-4384-4f6d-87e3-7708df1228fa" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="c380bb72-8077-4d19-9ad1-c53e54d3709d" name="NoMailException" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="32cc2bc5-0438-4931-89cb-669d168cea5e" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="6213e69c-9e92-4d4e-aebb-034d3b6a9e4a" name="NXTEncoder" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="be75b06e-8153-4ac0-a1dd-a94e2fa8ec6f" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <enumeration Id="48a179b8-3a5f-4710-96c6-c9a557f37fdb" name="NXTMessageType" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="a26743ae-614a-4ad5-897e-407ed6195fec" />
+                  </enumeration>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <Interface Id="595c473b-4e3f-4b46-9a97-fd378c36d4aa" name="INXTPostMan" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="e64854ab-3662-47b3-8bcf-1d0ef56bb209" />
+                  </Interface>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="0621c08a-3750-49c4-8859-b4496545a350" name="CoordinateConverter" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="bf8f24e7-3fb7-484e-9624-5cda95127af4" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f36087d1-224c-4e5b-b1e2-01ccd59065c9" name="StringByteConverter" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2c066e82-96d1-4338-95f4-f08aa5ccbb10" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="f97ab369-d3a5-40fd-b8cd-1aab9f35d80e" name="Services.dll">
+        <elementDefinition Id="e88a4fa8-7082-4c5c-bb68-f3209c6f1eb8" />
+        <suppliersInternal>
+          <dependency Id="a62e106a-d613-4c0c-a4c6-fffe12b472f1">
+            <packageMoniker Id="efce9605-501d-47e1-b95c-6c8962f60c35" LastKnownName="CommonLib.dll" />
+            <elementDefinition Id="1e0091c2-5a0e-4496-b1c6-74c08e2b1c10" />
+          </dependency>
+        </suppliersInternal>
+        <packagedElements>
+          <packageHasNamedElement>
+            <package Id="0df64f8d-5757-4d57-a4d0-3fccbeb6b6e7" name="KinectServices">
+              <elementDefinition Id="58a1413f-0dd0-44db-95f7-7b3eb3d6dd16" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="0d433280-8cf8-48d2-912a-4629763d7649" name="RgbImageFormats" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="e62c5f4e-b9d0-41ed-84da-d6e16e7a16ce" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="9261a50b-d331-4b53-a7c9-5c95efae537f" name="RgbStream" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="5ba55339-febb-485a-a27e-d70ed63360c8" />
                   </class>
                 </packageHasNamedElement>
               </packagedElements>
             </package>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <package Id="1f3a47e8-4eca-4f43-a6a0-05b77cef46d9" name="Exceptions">
-              <elementDefinition Id="aa966401-6dc7-4a59-b6c4-445cd2c42f17" />
+            <package Id="0f77b37c-d9db-4007-a8c5-3fb6d4b78354" name="RobotServices">
+              <elementDefinition Id="602296e1-33cc-4b91-a2b5-0b2c016b6322" />
               <packagedElements>
                 <packageHasNamedElement>
-                  <class Id="a1f3f53e-4dea-4474-996f-e1f45884086f" name="ApplicationException" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="46b54707-4b92-46ce-84b3-f3d750f72540" />
+                  <package Id="ad843cd7-cb84-4618-b5c6-06f4a92a5615" name="Mindsqualls">
+                    <elementDefinition Id="93ab4a73-4a82-49bf-9d9e-67a094adaf28" />
+                    <packagedElements>
+                      <packageHasNamedElement>
+                        <class Id="5d9b4ee0-f74f-404d-b844-da7dd56a332c" name="MSQRobot" isAbstract="false" isLeaf="false" isActiveClass="false">
+                          <elementDefinition Id="b889b80d-7352-4553-af2d-1202f0dba035" />
+                        </class>
+                      </packageHasNamedElement>
+                    </packagedElements>
+                  </package>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="42e30a0c-c770-4bdd-ad6d-d56a25853447" name="NXTEncoder" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="144b36e9-f6d0-423a-adea-661af0140162" />
                   </class>
                 </packageHasNamedElement>
                 <packageHasNamedElement>
-                  <class Id="58e0b3c9-cad8-41e6-93d9-d8ee75fd858f" name="ControlException" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="4de0be7d-a369-4e28-a9be-6a76c755986a" />
-                    <generalsInternal>
-                      <generalization Id="c9e45a5c-89d6-46f4-9fea-b2e979b17965" isSubstitutable="false">
-                        <classMoniker Id="a1f3f53e-4dea-4474-996f-e1f45884086f" LastKnownName="ApplicationException" />
-                        <elementDefinition Id="687eae29-5721-4000-a873-c44485208743" />
-                      </generalization>
-                    </generalsInternal>
+                  <enumeration Id="b92352cf-cffb-4793-8e75-f2c1c4ce111a" name="IncommingCommandEnum" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="c89bf685-390c-4239-9475-c6bbef8bcf98" />
+                  </enumeration>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <enumeration Id="d6250871-d2f1-4953-89e9-d023175edda6" name="OutgoingCommandEnum1" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="146cf0e4-745a-4552-b3e2-e6800fff5ec2" />
+                  </enumeration>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <Interface Id="883e5a74-bb91-4875-860b-ca23766b9e17" name="IRobot" isAbstract="false" isLeaf="false">
+                    <elementDefinition Id="8e977091-c2a2-4ca7-8d50-c006699be2b8" />
+                  </Interface>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="dae762a8-df66-4dee-9e75-d008010739d0" name="PmanRobot" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="3323d0bd-2aa4-424a-ba16-60e6c77534d4" />
                   </class>
                 </packageHasNamedElement>
                 <packageHasNamedElement>
-                  <class Id="e326d96d-5113-49a3-9fbf-a30952746aa1" name="DataException" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="a8c58d7d-cb9e-456b-954d-b2283164bcdd" />
-                    <generalsInternal>
-                      <generalization Id="cad30999-defb-4bd2-93e2-b54b5f0df8d5" isSubstitutable="false">
-                        <classMoniker Id="a1f3f53e-4dea-4474-996f-e1f45884086f" LastKnownName="ApplicationException" />
-                        <elementDefinition Id="cff74f77-ec7b-4bee-bfeb-98c86012344e" />
-                      </generalization>
-                    </generalsInternal>
+                  <class Id="3dd93243-9cc2-497b-a239-bc53b2c2a52a" name="RobotFactory" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="28d9dde9-7e9f-4ee2-b1fb-fce4683cdb35" />
+                  </class>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="f5202576-d5d4-405d-888e-3d8eed1aa87a" name="RouteService">
+              <elementDefinition Id="60089c71-295a-4940-805a-717b5dceddb9" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="2c53cbab-3154-4003-9389-357d75417f34" name="SchedulingForm" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="57ff5072-6ef1-4d41-b7d3-21ea3f77961b" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="2822470f-30d9-4e0d-83d5-8848125dde41" name="SchedulingService" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="ec84b2ba-8465-4994-afa4-776616a12c36" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="1515c5bf-8e2b-4e73-abb3-ef5518103649" name="OccupancyGridControl" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="3c7724ee-fe46-4017-8e0a-8bb27463e2a7" />
+                  </class>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="a7bd6458-7a97-44e8-a965-eed468dfaba5" name="TrackingServices">
+              <elementDefinition Id="81fadbd0-2689-4baf-a5f8-1a732f8f988e" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="7ecfd38e-7e21-4c1d-9438-1909565f5f05" name="ColorTracker" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="3cca40b0-dfab-41e0-8257-7f1c2583f5d1" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="4f13c068-851a-42da-ae8c-c8490e683512" name="OrientationTracker" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="c6649236-7031-495a-84c0-958c183c8219" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="52f833c6-4b43-4186-bb87-05ebba8cbeb9" name="RobotLocation" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="f92b6c22-ecf9-495b-90c7-8fbcf4b9ef49" />
                   </class>
                 </packageHasNamedElement>
               </packagedElements>
@@ -203,87 +354,8 @@
       </package>
     </logicalClassDesignerModelHasPackages>
     <logicalClassDesignerModelHasPackages>
-      <package Id="f97ab369-d3a5-40fd-b8cd-1aab9f35d80e" name="Services.dll">
-        <elementDefinition Id="e88a4fa8-7082-4c5c-bb68-f3209c6f1eb8" />
-        <suppliersInternal>
-          <dependency Id="8144cd28-aa81-4f6c-8f8f-49b96639b221">
-            <packageMoniker Id="efce9605-501d-47e1-b95c-6c8962f60c35" LastKnownName="CommonLib.dll" />
-            <elementDefinition Id="402cc8fb-4c39-4600-a4e1-1f04cdead4d0" />
-          </dependency>
-        </suppliersInternal>
-        <packagedElements>
-          <packageHasNamedElement>
-            <package Id="811c390a-2992-49e0-88b1-dc4f7e3ebb2a" name="OpenCV">
-              <elementDefinition Id="bff33001-8d17-4e27-86b3-1643fa1831e7" />
-            </package>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
-            <package Id="87d480b3-4063-4aa4-8745-7c33b59bf117" name="RemoteServices">
-              <elementDefinition Id="9efb34e5-18a8-4dae-bbfe-cd9b1a3186c9" />
-            </package>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
-            <package Id="21882afb-7128-4f06-b4ad-a9d050e90984" name="RobotServices">
-              <elementDefinition Id="4707a2c0-2520-4152-a4ad-e4599743e0ae" />
-              <packagedElements>
-                <packageHasNamedElement>
-                  <package Id="06769b90-504e-486a-8a81-f14685c1e003" name="Mindsqualls">
-                    <elementDefinition Id="0f008b19-0dfe-416f-9b2e-e0b6b55c71b8" />
-                    <packagedElements>
-                      <packageHasNamedElement>
-                        <class Id="711f8613-5a81-4830-8ba4-06d18dea48e5" name="MSQRobot" isAbstract="false" isLeaf="false" isActiveClass="false">
-                          <elementDefinition Id="e125343a-2e72-498d-b4b2-2303380fe62f" />
-                          <suppliersInternal>
-                            <interfaceRealization Id="a1775b08-e1ac-46ec-b95b-fab35c1eead6">
-                              <interfaceMoniker Id="eb6343c2-b04c-452f-ae30-9b0450a50387" LastKnownName="IRobot" />
-                              <elementDefinition Id="1c0c6d81-dab6-4338-b761-04b157f934c9" />
-                            </interfaceRealization>
-                          </suppliersInternal>
-                        </class>
-                      </packageHasNamedElement>
-                    </packagedElements>
-                  </package>
-                </packageHasNamedElement>
-                <packageHasNamedElement>
-                  <Interface Id="eb6343c2-b04c-452f-ae30-9b0450a50387" name="IRobot" isAbstract="false" isLeaf="false">
-                    <elementDefinition Id="72b23806-9f1b-42d1-937c-d4a5d23076b6" />
-                  </Interface>
-                </packageHasNamedElement>
-                <packageHasNamedElement>
-                  <class Id="429527e4-9959-4568-b737-d9355ca7b91e" name="RobotFactory" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="eb5c89b6-d866-4b5b-a194-dd10abae6260" />
-                    <targetEnds>
-                      <association Id="073acbb4-355d-4a6a-98bf-d156ce6aaea6" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
-                        <interfaceMoniker Id="eb6343c2-b04c-452f-ae30-9b0450a50387" LastKnownName="IRobot" />
-                        <relationshipOwnedElementsInternal>
-                          <associationHasOwnedEnds>
-                            <memberEnd Id="21453eae-c590-4f4e-9e0a-c77502315598" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
-                              <elementDefinition Id="0d4bf6ef-300b-4237-8144-79436c42a5b1" />
-                            </memberEnd>
-                          </associationHasOwnedEnds>
-                          <associationHasOwnedEnds>
-                            <memberEnd Id="11be7059-8e43-49fc-a95b-90b38e0365de" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
-                              <elementDefinition Id="6ddfd3c3-4f0e-4fa8-9f4d-dcadf0ee60f7" />
-                            </memberEnd>
-                          </associationHasOwnedEnds>
-                        </relationshipOwnedElementsInternal>
-                        <elementDefinition Id="8d436cf5-9e8b-40f4-b68f-e3f7f673a88b" />
-                      </association>
-                    </targetEnds>
-                    <ownedOperationsInternal>
-                      <operation Id="40f77a3d-a890-4232-a9b8-43a8764579d9" name="RobotFactory getInstance" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-                        <elementDefinition Id="83acd2bc-307e-45c3-b71b-577ee54dccb7" />
-                      </operation>
-                      <operation Id="f264ba7d-4616-4534-911e-40a9b9c7c092" name="IRobot createRobot" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-                        <elementDefinition Id="55625f61-da54-42a3-9a67-98a381a57f2a" />
-                      </operation>
-                    </ownedOperationsInternal>
-                  </class>
-                </packageHasNamedElement>
-              </packagedElements>
-            </package>
-          </packageHasNamedElement>
-        </packagedElements>
+      <package Id="443f34fa-2eff-4c95-9987-8d8ca3eab7b0" name="NKH.MindSqualls">
+        <elementDefinition Id="19a0a591-21fb-43de-ac1d-0ad302e274ec" />
       </package>
     </logicalClassDesignerModelHasPackages>
   </packagedElements>

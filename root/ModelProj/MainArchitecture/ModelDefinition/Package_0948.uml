@@ -5,18 +5,18 @@
   name="SystemInterface" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <suppliersInternal>
     <dependency
-      Id="73420bc2-f207-45f6-b5df-c3a9894624b3">
-      <packageMoniker
-        Id="661e504d-66d5-4ae1-a1d1-2b8244c27675"
-        LastKnownName="Control.dll"
-        LastKnownLocation="Package6_0948.uml" />
-    </dependency>
-    <dependency
       Id="11fd103a-7749-435c-b6bd-5e9bfd67f6b8">
       <packageMoniker
         Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
         LastKnownName="CommonLib.dll"
         LastKnownLocation="Package7_0948.uml" />
+    </dependency>
+    <dependency
+      Id="047a6ebf-3955-48ad-a2d4-62495f92d82f">
+      <packageMoniker
+        Id="661e504d-66d5-4ae1-a1d1-2b8244c27675"
+        LastKnownName="Control.dll"
+        LastKnownLocation="Package6_0948.uml" />
     </dependency>
   </suppliersInternal>
   <packagedElements>
@@ -29,7 +29,7 @@
     <packageHasNamedElement>
       <packageMoniker
         Id="09d4639c-4153-4ab0-a0fe-ec531f08ec01"
-        LastKnownName="Network Interface"
+        LastKnownName="RobotInterface"
         LastKnownLocation="Package2_0948.uml" />
     </packageHasNamedElement>
     <packageHasNamedElement>

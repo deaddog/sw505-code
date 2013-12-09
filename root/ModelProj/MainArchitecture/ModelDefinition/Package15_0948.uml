@@ -10,17 +10,7 @@
         name="MSQRobot"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <suppliersInternal>
-          <interfaceRealization
-            Id="1c0c6d81-dab6-4338-b761-04b157f934c9">
-            <interfaceMoniker
-              Id="72b23806-9f1b-42d1-937c-d4a5d23076b6"
-              LastKnownName="IRobot"
-              LastKnownLocation="Package14_0948.uml" />
-          </interfaceRealization>
-        </suppliersInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
   </packagedElements>
 </package>

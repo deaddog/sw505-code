@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="KinectServices\RgbImageFormats.cs" />
     <Compile Include="KinectServices\RgbStream.cs" />
-    <Compile Include="RobotServices\NXTEncoder.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
     <Compile Include="RouteServices\OccupancyGridControl.cs">
       <SubType>Component</SubType>

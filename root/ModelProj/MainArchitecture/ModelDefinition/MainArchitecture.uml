@@ -34,6 +34,26 @@
         LastKnownName="Services.dll"
         LastKnownLocation="Package11_0948.uml" />
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="dd5b784d-4c2b-4fa4-be80-dcb39a8d3f01"
+        LastKnownName="Package1"
+        LastKnownLocation="Package_1607.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="19a0a591-21fb-43de-ac1d-0ad302e274ec"
+        LastKnownName="NKH.MindSqualls"
+        LastKnownLocation="Package_1043.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="c9fcecf9-7ac9-4c81-a192-08c477be9508"
+        name="Class1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

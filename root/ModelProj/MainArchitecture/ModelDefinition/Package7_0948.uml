@@ -3,6 +3,15 @@
   dslVersion="1.0.0.0"
   Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
   name="CommonLib.dll" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <suppliersInternal>
+    <dependency
+      Id="9075690b-2162-48d6-a048-b7fc0e1452db">
+      <packageMoniker
+        Id="19a0a591-21fb-43de-ac1d-0ad302e274ec"
+        LastKnownName="NKH.MindSqualls"
+        LastKnownLocation="Package_1043.uml" />
+    </dependency>
+  </suppliersInternal>
   <packagedElements>
     <packageHasNamedElement>
       <packageMoniker
@@ -21,6 +30,34 @@
         Id="aa966401-6dc7-4a59-b6c4-445cd2c42f17"
         LastKnownName="Exceptions"
         LastKnownLocation="Package10_0948.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="776beed2-82e9-452c-bc7b-030ac83cc05b"
+        LastKnownName="Interfaces"
+        LastKnownLocation="Package_1557.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="2ea7d93d-33b8-4c43-b6e6-63de8698d066"
+        LastKnownName="NXTPostMan"
+        LastKnownLocation="Package_1600.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bf8f24e7-3fb7-484e-9624-5cda95127af4"
+        name="CoordinateConverter"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2c066e82-96d1-4338-95f4-f08aa5ccbb10"
+        name="StringByteConverter"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
     </packageHasNamedElement>
   </packagedElements>
 </package>

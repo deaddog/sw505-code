@@ -1,48 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
-  Id="4707a2c0-2520-4152-a4ad-e4599743e0ae"
+  Id="602296e1-33cc-4b91-a2b5-0b2c016b6322"
   name="RobotServices" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <packagedElements>
     <packageHasNamedElement>
       <packageMoniker
-        Id="0f008b19-0dfe-416f-9b2e-e0b6b55c71b8"
+        Id="93ab4a73-4a82-49bf-9d9e-67a094adaf28"
         LastKnownName="Mindsqualls"
-        LastKnownLocation="Package15_0948.uml" />
+        LastKnownLocation="Package_1047.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="144b36e9-f6d0-423a-adea-661af0140162"
+        name="NXTEncoder"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="c89bf685-390c-4239-9475-c6bbef8bcf98"
+        name="IncommingCommandEnum"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="146cf0e4-745a-4552-b3e2-e6800fff5ec2"
+        name="OutgoingCommandEnum1"
+        isAbstract="false"
+        isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <Interface
-        Id="72b23806-9f1b-42d1-937c-d4a5d23076b6"
+        Id="8e977091-c2a2-4ca7-8d50-c006699be2b8"
         name="IRobot"
         isAbstract="false"
         isLeaf="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="eb5c89b6-d866-4b5b-a194-dd10abae6260"
+        Id="3323d0bd-2aa4-424a-ba16-60e6c77534d4"
+        name="PmanRobot"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="28d9dde9-7e9f-4ee2-b1fb-fce4683cdb35"
         name="RobotFactory"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="83acd2bc-307e-45c3-b71b-577ee54dccb7"
-            name="RobotFactory getInstance"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="55625f61-da54-42a3-9a67-98a381a57f2a"
-            name="IRobot createRobot"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
   </packagedElements>
 </package>

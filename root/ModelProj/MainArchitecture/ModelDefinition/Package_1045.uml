@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
   dslVersion="1.0.0.0"
-  Id="f6e65958-d5f3-41f4-b93c-108fe20dce76"
-  name="GUI.exe" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  Id="58a1413f-0dd0-44db-95f7-7b3eb3d6dd16"
+  name="KinectServices" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <packagedElements>
     <packageHasNamedElement>
       <class
-        Id="44fd6eef-6539-4e42-9d81-8de8b553a2a5"
-        name="OccupancyGridForm"
+        Id="e62c5f4e-b9d0-41ed-84da-d6e16e7a16ce"
+        name="RgbImageFormats"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
-        Id="b9ea3ddc-73b9-4aaf-9173-2345681d9e7e"
-        name="SelectColorsForm"
+        Id="5ba55339-febb-485a-a27e-d70ed63360c8"
+        name="RgbStream"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />

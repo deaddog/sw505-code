@@ -5,7 +5,7 @@
   name="Services.dll" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
   <suppliersInternal>
     <dependency
-      Id="402cc8fb-4c39-4600-a4e1-1f04cdead4d0">
+      Id="1e0091c2-5a0e-4496-b1c6-74c08e2b1c10">
       <packageMoniker
         Id="5e7a09a4-128a-440f-b06e-c83cad7d41aa"
         LastKnownName="CommonLib.dll"
@@ -38,6 +38,30 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="58a1413f-0dd0-44db-95f7-7b3eb3d6dd16"
+        LastKnownName="KinectServices"
+        LastKnownLocation="Package_1045.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="602296e1-33cc-4b91-a2b5-0b2c016b6322"
+        LastKnownName="RobotServices"
+        LastKnownLocation="Package1_1045.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="60089c71-295a-4940-805a-717b5dceddb9"
+        LastKnownName="RouteService"
+        LastKnownLocation="Package_1046.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="81fadbd0-2689-4baf-a5f8-1a732f8f988e"
+        LastKnownName="TrackingServices"
+        LastKnownLocation="Package1_1046.uml" />
     </packageHasNamedElement>
   </packagedElements>
 </package>

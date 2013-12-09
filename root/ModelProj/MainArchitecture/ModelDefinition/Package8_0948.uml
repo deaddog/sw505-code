@@ -15,7 +15,31 @@
     <packageHasNamedElement>
       <class
         Id="b41c903f-f330-4248-8d20-668710eeb5b0"
-        name="MapData"
+        name="Vector2D"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="61f34adf-0870-40ff-be68-16dd13bc8492"
+        name="CellIndex"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="709930ba-45d3-4bb2-a20e-5022d5a29721"
+        name="Coordinate"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="75ca0c3e-5ec7-4768-a8e3-5fa44135debd"
+        name="Pose"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
