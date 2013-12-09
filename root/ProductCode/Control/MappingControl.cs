@@ -61,20 +61,18 @@ namespace Control
             this.grid = initialGrid;
 
             coordQueue = new Queue<ICoordinate>();
-            coordQueue.Enqueue(RobotLocation.Instance.RobotPose);
-
-            System.Threading.Thread mapThread = new System.Threading.Thread(mapAgain);
-            mapThread.Start();
+            coordQueue.Enqueue(new Vector2D(110, 70));
+            SendRobotToNextLocation();
         }
         private void mapAgain()
         {
             if (counter < AMOUNT_OF_POINTS)
             {
                 counter++;
-                
-                SendRobotToNextLocation();
+
                 UpdateOccupancyGrid();
                 coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
+                SendRobotToNextLocation();
             }
 
         }
