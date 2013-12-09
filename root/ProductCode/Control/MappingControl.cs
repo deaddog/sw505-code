@@ -23,8 +23,8 @@ namespace Control
         private IRobot robot;
         private IPose robotPose;
         private ISensorModel sensorModel;
-        OccupancyGrid grid;
-        Queue<ICoordinate> coordQueue;
+        private OccupancyGrid grid;
+        private Queue<ICoordinate> coordQueue;
         private int counter;
 
         private static MappingControl instance;
@@ -34,7 +34,11 @@ namespace Control
             get
             {
                 if (instance == null)
-                    instance = new MappingControl();
+                {
+                    IRobot robot = RobotFactory.GetInstance().CreateRobot();
+                    ISensorModel sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+                    instance = new MappingControl(robot, sensorModel);
+                }
                 return instance;
             }
         }
@@ -42,10 +46,10 @@ namespace Control
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingControl"/> class.
         /// </summary>
-        private MappingControl()
+        private MappingControl(IRobot robot, ISensorModel sensorModel)
         {
-            robot = RobotFactory.GetInstance().CreateRobot();
-            sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+            this.robot = robot;
+            this.sensorModel = sensorModel;
             counter = 0;
         }
 
@@ -114,7 +118,7 @@ namespace Control
                             grid, robotPose, cell, sensorReading
                             );
                         newMap[i, j] = logOddsInverse(
-                            logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(grid.InitialProbability)
+                            logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(OccupancyGrid.INITIAL_PROBABILITY)
                             );
                     }
                 }
@@ -145,30 +149,35 @@ namespace Control
             public OccupancyGrid Grid { get { return grid; } }
         }
 
+        private CellIndex getRobotIndex(IPose robotPose, double cellSize)
+        {
+            int robotCellX = (int)Math.Floor((robotPose.X - grid.X) / cellSize);
+            int robotCellY = (int)Math.Floor((robotPose.Y - grid.Y) / cellSize);
+            return new CellIndex(robotCellX, robotCellY);
+        }
+
         private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
         {
             //Calculate in which the robot is located
-            int robotCellX = (int)Math.Floor((robotPose.X - grid.X) / cellSize);
-            int robotCellY = (int)Math.Floor((robotPose.Y - grid.Y) / cellSize);
+            CellIndex robotCell = getRobotIndex(robotPose, cellSize);
 
             //If current map cell is in either same row or column as robot, return true
-            return mapCell.X == robotCellX || mapCell.Y == robotCellY;
+            return mapCell.X == robotCell.X || mapCell.Y == robotCell.Y;
         }
 
         private byte getCorrectSensorReading(CellIndex mapCell, double cellSize, ISensorData sensorReadings)
         {
             //Calculate in which the robot is located
-            int robotCellX = (int)Math.Floor(robotPose.X / cellSize);
-            int robotCellY = (int)Math.Floor(robotPose.Y / cellSize);
+            CellIndex robotCell = getRobotIndex(robotPose, cellSize);
             int robotAngle = (int)Math.Round(robotPose.Angle / 90.0) * 90;
 
             //Sets the relative position of the current cell as an angle, where angle 0 is x > 0 and y = 0
             int relativeAngle = 0;
-            if (mapCell.Y > robotCellY)
+            if (mapCell.Y > robotCell.Y)
                 relativeAngle = 90;
-            else if (mapCell.Y < robotCellY)
+            else if (mapCell.Y < robotCell.Y)
                 relativeAngle = 270;
-            else if (mapCell.X < robotCellX)
+            else if (mapCell.X < robotCell.X)
                 relativeAngle = 180;
 
             //Make up for robot pose angle

@@ -23,6 +23,7 @@ namespace Services.TrackingServices
 
         private OrientationTracker tracker;
         private CoordinateConverter converter;
+        private bool hasbeenupdated;
 
         private RobotLocation()
         {
@@ -58,12 +59,13 @@ namespace Services.TrackingServices
         /// </summary>
         public IPose RobotPose
         {
-            get { return new Pose(tracker.Center, tracker.Orientation); }
+            get { while (!hasbeenupdated) { } return new Pose(tracker.Center, tracker.Orientation); }
         }
 
         public void Update(Bitmap bitmap)
         {
             tracker.Update(bitmap);
+            hasbeenupdated = true;
         }
     }
 }
