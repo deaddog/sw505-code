@@ -12,17 +12,12 @@ namespace Data.SensorModel
     {
         // constants for the sensor model
         private const double DEFAULT_VALUE = 0.5;
-        private const double OCCUPIED_CELL_VALUE = 1;
-        private const double FREE_CELL_VALUE = 0;
+        private const double OCCUPIED_CELL_VALUE = .7;
+        private const double FREE_CELL_VALUE = .2;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
-        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 1;
+        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 10;
 
         private readonly double initialLogOdds;
-        private static double calculateInitialLogOdds()
-        {
-            double prior = OccupancyGrid.INITIAL_PROBABILITY;
-            return Math.Log10(prior / (1 - prior));
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSensorModel"/> class.
@@ -31,7 +26,7 @@ namespace Data.SensorModel
         public SimpleSensorModel(double cellDepthCM = 20)
         {
             this.cellDepthCM = cellDepthCM;
-            this.initialLogOdds = calculateInitialLogOdds();
+            this.initialLogOdds = OccupancyGrid.INITIAL_PROBABILITY;
         }
 
 
@@ -67,13 +62,9 @@ namespace Data.SensorModel
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
             if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
-            {
                 return initialLogOdds;
-            }
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
-            {
                 return OCCUPIED_CELL_VALUE;
-            }
             else
                 return FREE_CELL_VALUE;
         }
