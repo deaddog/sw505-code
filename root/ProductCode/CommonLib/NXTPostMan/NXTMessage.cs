@@ -39,7 +39,7 @@ namespace CommonLib.NXTPostMan
             }
         }
 
-        public NXTMessage(NXTMessageType type, string msg, byte[] bMsg)
+        public NXTMessage(NXTMessageType type, string msg, byte[] bMsg = null)
         {
             msgType = type;
             encodedMsg = msg;

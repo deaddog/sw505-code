@@ -52,9 +52,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MappingControlTests.cs" />
-    <Compile Include="NavigationControlTest.cs" />
-    <Compile Include="QueueControlTest.cs" />
-    <Compile Include="ScanningControlTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

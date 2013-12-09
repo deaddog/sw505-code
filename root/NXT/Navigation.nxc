@@ -81,23 +81,20 @@ void TurnAngle(float angle)
   TurnLeft(POWER, -angle);
 }
 
-
-Pose WhereDummy()
+void AdjustAngle()
 {
-  Pose pos;
-  
-  pos.p.x = 0;
-  pos.p.y = 0;
-  pos.angle = 90;
-  
-  return pos;
+	Pose p = WhereAmI();	
+	float targetAngle = FindNearestPerpendicular(p);
+	float turnAngle = FindAngleToPoint(p.angle, targetAngle);
+	PlaySound(SOUND_LOW_BEEP);
+	TurnAngle(turnAngle);
+	WaitForMotors();
 }
 
 //The robot queries its position and drives a small increment in that direction
 // MOVE_INCEREMENT determines the size of the increment (in mm)
 bool GotoPointIncrement(Point target)
 {
- //Where am i
  Pose p = WhereAmI();  
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);

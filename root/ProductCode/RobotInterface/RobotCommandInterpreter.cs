@@ -49,14 +49,11 @@ namespace SystemInterface.RobotInterface
 
                     switch (msg.MessageType)
                     {
-
                         case (NXTMessageType.RobotRequestsLocation):
-
-                            RobotRequestLocation(msg);
+                            RobotRequestLocation();
                             break;
                         case (NXTMessageType.RobotHasArrivedAtDestination):
-
-                            RobotHasArrivedAtDestination(msg);
+                            RobotHasArrivedAtDestination();
                             break;
                         default:
                             throw new Exception("Dont know what to do ???");
@@ -69,30 +66,21 @@ namespace SystemInterface.RobotInterface
 
         private bool checkForMessages()
         {
-            if (postman.HasMessageArrived(NXTMessageType.RobotRequestsLocation)
-                || postman.HasMessageArrived(NXTMessageType.RobotHasArrivedAtDestination))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return postman.HasMessageArrived(NXTMessageType.RobotRequestsLocation)
+                || postman.HasMessageArrived(NXTMessageType.RobotHasArrivedAtDestination);
         }
 
         #region Command Handlers
 
-        private void RobotRequestLocation(NXTMessage msg)
+        private void RobotRequestLocation()
         {
             IPose pose = locCon.RobotPose;
             string encodedMsg = NXTEncoder.Encode(pose);
-            byte[] byteEncMsg = NXTEncoder.ByteEncode(pose);
-            NXTMessage outMsg = new NXTMessage(NXTMessageType.SendPostion,
-                encodedMsg, byteEncMsg);
+            NXTMessage outMsg = new NXTMessage(NXTMessageType.SendPostion, encodedMsg);
             postman.SendMessage(outMsg);
         }
 
-        private void RobotHasArrivedAtDestination(NXTMessage msg)
+        private void RobotHasArrivedAtDestination()
         {
             mapCon.SendRobotToNextLocation();
         }
