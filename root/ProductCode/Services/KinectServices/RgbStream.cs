@@ -100,7 +100,7 @@ namespace Services.KinectServices
             //Event for when a frame from the colorstream is ready
             this.kinectSensor.ColorFrameReady += (s, e) =>
             {
-                lock (updaterLock)
+                if(System.Threading.Monitor.TryEnter(updaterLock, 20))
                 {
                     Bitmap old = currentImage;
 
@@ -120,6 +120,8 @@ namespace Services.KinectServices
                     }
                     else
                         currentImage = old;
+
+                    System.Threading.Monitor.Exit(updaterLock);
                 }
             };
         }
