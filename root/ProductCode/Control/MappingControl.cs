@@ -34,7 +34,11 @@ namespace Control
             get
             {
                 if (instance == null)
-                    instance = new MappingControl();
+                {
+                    IRobot robot = RobotFactory.GetInstance().CreateRobot();
+                    ISensorModel sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+                    instance = new MappingControl(robot, sensorModel);
+                }
                 return instance;
             }
         }
@@ -42,10 +46,10 @@ namespace Control
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingControl"/> class.
         /// </summary>
-        private MappingControl()
+        private MappingControl(IRobot robot, ISensorModel sensorModel)
         {
-            robot = RobotFactory.GetInstance().CreateRobot();
-            sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
+            this.robot = robot;
+            this.sensorModel = sensorModel;
             counter = 0;
         }
 
