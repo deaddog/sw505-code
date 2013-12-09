@@ -23,8 +23,8 @@ namespace Control
         private IRobot robot;
         private IPose robotPose;
         private ISensorModel sensorModel;
-        OccupancyGrid grid;
-        Queue<ICoordinate> coordQueue;
+        private OccupancyGrid grid;
+        private Queue<ICoordinate> coordQueue;
         private int counter;
 
         private static MappingControl instance;
