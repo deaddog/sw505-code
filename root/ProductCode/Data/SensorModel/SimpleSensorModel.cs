@@ -17,6 +17,13 @@ namespace Data.SensorModel
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
         private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 1;
 
+        private readonly double initialLogOdds;
+        private static double calculateInitialLogOdds()
+        {
+            double prior = OccupancyGrid.INITIAL_PROBABILITY;
+            return Math.Log10(prior / (1 - prior));
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSensorModel"/> class.
         /// </summary>
@@ -24,6 +31,7 @@ namespace Data.SensorModel
         public SimpleSensorModel(double cellDepthCM = 20)
         {
             this.cellDepthCM = cellDepthCM;
+            this.initialLogOdds = calculateInitialLogOdds();
         }
 
 
@@ -38,12 +46,6 @@ namespace Data.SensorModel
         public double CellDepthCM
         {
             get { return cellDepthCM; }
-        }
-
-        private static double calculateInitialLogOdds()
-        {
-            double prior = OccupancyGrid.INITIAL_PROBABILITY;
-            return Math.Log10(prior / (1 - prior));
         }
 
         private CellCoordinate getCoordinateFromCellIndex(OccupancyGrid grid, CellIndex index)
@@ -66,7 +68,7 @@ namespace Data.SensorModel
 
             if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
             {
-                return calculateInitialLogOdds();
+                return initialLogOdds;
             }
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
             {
