@@ -76,9 +76,7 @@ namespace SystemInterface.RobotInterface
         {
             IPose pose = locCon.RobotPose;
             string encodedMsg = NXTEncoder.Encode(pose);
-            byte[] byteEncMsg = NXTEncoder.ByteEncode(pose);
-            NXTMessage outMsg = new NXTMessage(NXTMessageType.SendPostion,
-                encodedMsg, byteEncMsg);
+            NXTMessage outMsg = new NXTMessage(NXTMessageType.SendPostion, encodedMsg);
             postman.SendMessage(outMsg);
         }
 
