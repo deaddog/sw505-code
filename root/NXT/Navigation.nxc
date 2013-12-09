@@ -1,7 +1,7 @@
 #include "MCTasks.nxc"
 #include "Convert.nxc"
 
-#define MOVE_INCREMENT 1000
+#define MOVE_INCREMENT 250
 #define POWER 100
 
 // Waits for the motors to be ready
@@ -101,14 +101,16 @@ bool GotoPointIncrement(Point target)
  Pose p = WhereAmI();  
  PolarCoordinate c = NavigateToPoint(p, target);
  TurnAngle(c.angle);
- 
+ writeLogString("Distance: " + NumToStr(c.length));
  if(c.length > MOVE_INCREMENT)
  {
+  writeLogString("  Driving MOVE_INCREMENT" );
   RunForward(POWER,MOVE_INCREMENT);
   return false;
  }
  else
  {
+  writeLogString("  Driving " + NumToStr(c.length));
   RunForward(POWER,c.length);
   return true;
  }
@@ -119,7 +121,9 @@ void GotoPoint(Point target)
 {
  while(!GotoPointIncrement(target))
  {
+ WaitForMotors();
  }
+WaitForMotors();
 }
 
 //Main function that tests all functions in this file
