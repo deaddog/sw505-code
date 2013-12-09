@@ -72,3 +72,8 @@ inline float FindAngleToPoint(float robotangle, float targetangle)
   
  return angle;
 }
+
+float FindNearestPerpendicular(Pose p)
+{
+	return floor(p.angle/90 + 0.5)*90;
+}

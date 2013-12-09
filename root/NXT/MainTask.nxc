@@ -63,8 +63,7 @@ task main(){
              writeLogString("IN: " + in);
              
              switch(cmdType){
-                 case INCOMING_MOVE_TO_POS:
-                 //Placeholder for command "goto"
+                 case INCOMING_MOVE_TO_POS:             
                  string x = SubStr(in, 2, 7);
                  string y = SubStr(in, 9, 7);
 
@@ -82,11 +81,11 @@ task main(){
                  writeLogString("  y: " + NumToStr(p.y));
 
                  GotoPoint(p);
-                 IAmThere();  
+                 IAmThere();
                  break;
                  
                  case INCOMING_GET_SENSOR_MEASUREMENT :
-                 
+                 AdjustAngle();
                  string s = "";
                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
                  ClearScreen();
