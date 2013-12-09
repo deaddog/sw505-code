@@ -114,7 +114,7 @@ namespace Control
                             grid, robotPose, cell, sensorReading
                             );
                         newMap[i, j] = logOddsInverse(
-                            logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(grid.InitialProbability)
+                            logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(OccupancyGrid.INITIAL_PROBABILITY)
                             );
                     }
                 }

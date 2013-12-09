@@ -40,9 +40,9 @@ namespace Data.SensorModel
             get { return cellDepthCM; }
         }
 
-        private double calculateInitialLogOdds(OccupancyGrid grid, CellIndex index)
+        private static double calculateInitialLogOdds()
         {
-            double prior = grid.InitialProbability;
+            double prior = OccupancyGrid.INITIAL_PROBABILITY;
             return Math.Log10(prior / (1 - prior));
         }
 
@@ -62,11 +62,11 @@ namespace Data.SensorModel
         public double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
-            double r = Math.Abs((c.X - robot.X) + (c.Y - robot.Y));
+            double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
             if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
             {
-                return calculateInitialLogOdds(grid, cell);
+                return calculateInitialLogOdds();
             }
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
             {
