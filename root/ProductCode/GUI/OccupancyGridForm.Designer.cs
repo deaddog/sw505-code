@@ -53,6 +53,8 @@ namespace SystemInterface.GUI
             // checkBoxShowProbabilities
             // 
             this.checkBoxShowProbabilities.AutoSize = true;
+            this.checkBoxShowProbabilities.Checked = true;
+            this.checkBoxShowProbabilities.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxShowProbabilities.Location = new System.Drawing.Point(5, 60);
             this.checkBoxShowProbabilities.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxShowProbabilities.Name = "checkBoxShowProbabilities";
