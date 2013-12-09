@@ -19,14 +19,14 @@ namespace Services.RouteServices.Tests
             s = SchedulingService.Instance;
         }
 
-        [TestMethod()]
-        public void GetRouteTest()
-        {
-            OccupancyGrid g = new OccupancyGrid(30, 23, 10, -150, -115);
-            s.GetRoute(g);
-            int k = s.test();
+        //[TestMethod()]
+        //public void GetRouteTest()
+        //{
+        //    OccupancyGrid g = new OccupancyGrid(30, 23, 10, -150, -115);
+        //    s.GetRoute(g);
+        //   int k = s.test();
 
-            Assert.AreEqual(10, k);
-        }
+        //    Assert.AreEqual(10, k);
+        //}
     }
 }

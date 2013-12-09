@@ -81,11 +81,12 @@ task main(){
                  writeLogString("  y: " + NumToStr(p.y));
 
                  GotoPoint(p);
+                 AdjustAngle();
                  IAmThere();
                  break;
                  
                  case INCOMING_GET_SENSOR_MEASUREMENT :
-                 AdjustAngle();
+                 
                  string s = "";
                  s = NumToStr(OUTGOING_SEND_SENSOR_DATA);
                  ClearScreen();
