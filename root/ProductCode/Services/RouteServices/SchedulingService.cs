@@ -30,13 +30,38 @@ namespace Services.RouteServices
 
         public IEnumerable<ICoordinate> GetRoute(OccupancyGrid grid)
         {
+            if (points.Count > 0)
+            {
+                var queue = points.Dequeue();
+                if (queue.Count > 0)
+                    return ReturnElements(queue);
+                else
+                    return GetRoute(grid);
+            }
+            else
+            {
+                LoadPoints(grid);
+                return GetRoute(grid);
+            }
+        }
+
+        private IEnumerable<ICoordinate> ReturnElements(Queue<ICoordinate> queue)
+        {
+            foreach (ICoordinate item in queue)
+                yield return item;
+        }
+
+        private void LoadPoints(OccupancyGrid grid)
+        {
             List<ICoordinate> coordinates = new List<ICoordinate>();
             using (SchedulingForm form = new SchedulingForm(grid))
             {
                 form.ShowDialog();
                 coordinates.Add(form.Point);
             }
-            yield return coordinates[0];
+            Queue<ICoordinate> queue = new Queue<ICoordinate>();
+            queue.Enqueue(coordinates[0]);
+            points.Enqueue(queue);
         }
     }
 }
