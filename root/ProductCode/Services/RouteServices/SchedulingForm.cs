@@ -87,8 +87,8 @@ namespace Services.RouteServices
 
             Label label = new Label()
             {
-                Text = p.X.ToString("0.0") + " ; " + p.Y.ToString("0.0"),
-                ForeColor = (newRoute || flowLayoutPanel1.Controls.Count == 0) ? Color.Red : Color.Black
+                Text = (newRoute ? "New: " : "") +
+                    p.X.ToString("0.0") + " ; " + p.Y.ToString("0.0")
             };
             flowLayoutPanel1.Controls.Add(label);
         }
