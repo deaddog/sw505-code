@@ -11,12 +11,6 @@ namespace Services.RouteServices
     public class SchedulingService
     {
         private static SchedulingService instance;
-
-        private SchedulingService()
-        {
-           
-        }
-
         public static SchedulingService Instance
         {
             get
@@ -25,6 +19,13 @@ namespace Services.RouteServices
                     instance = new SchedulingService();
                 return instance;
             }
+        }
+
+        private Queue<Queue<ICoordinate>> points;
+
+        private SchedulingService()
+        {
+            this.points = new Queue<Queue<ICoordinate>>();
         }
 
         public IEnumerable<ICoordinate> GetRoute(OccupancyGrid grid)
