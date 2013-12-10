@@ -22,6 +22,11 @@ namespace Services.RouteServices
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
+        private static readonly Color PointColor = Color.Blue;
+        private static readonly Color RouteColor = Color.Maroon;
+        private const float pointRadius = 2.5f;
+        private const float routeRadius = 6;
+
         // The image size below (640x480) is updated to match any image set using the Image property
         private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
 
@@ -201,16 +206,19 @@ namespace Services.RouteServices
             if (gridShowRuler)
                 drawRulers(pe.Graphics);
 
+            pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             foreach (var route in drawnRoutes)
             {
                 PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) - new Vector2D(Padding.Left, Padding.Top))).ToArray();
 
-                pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
                 if (routePoints.Length > 1)
-                    pe.Graphics.DrawLines(Pens.Blue, routePoints);
-                pe.Graphics.SmoothingMode = SmoothingMode.Default;
-                foreach (var element in routePoints)
-                    drawCross(pe.Graphics, element);
+                    using (Pen pen = new Pen(PointColor))
+                        pe.Graphics.DrawLines(pen, routePoints);
+
+                for (int i = 0; i < routePoints.Length - 1; i++)
+                    drawDot(pe.Graphics, PointColor, pointRadius, routePoints[i]);
+                if (routePoints.Length > 0)
+                    drawDot(pe.Graphics, RouteColor, routeRadius, routePoints[routePoints.Length - 1]);
             }
         }
 
@@ -272,11 +280,10 @@ namespace Services.RouteServices
             }
         }
 
-        private void drawCross(Graphics g, PointF p)
+        private void drawDot(Graphics g, Color color, float radius, PointF p)
         {
-            g.DrawLine(Pens.Red, new PointF(p.X - CROSS_SIZE, p.Y), new PointF(p.X + CROSS_SIZE, p.Y));
-            g.DrawLine(Pens.Red, new PointF(p.X, p.Y - CROSS_SIZE), new PointF(p.X, p.Y + CROSS_SIZE));
-
+            using (SolidBrush brush = new SolidBrush(color))
+                g.FillEllipse(brush, p.X - radius, p.Y - radius, radius * 2, radius * 2);
         }
 
         private void drawRulerRectangle(Graphics g, Brush brush, Vector2D topleft, Vector2D bottomright, bool row)
