@@ -12,8 +12,8 @@ namespace Data.SensorModel
     {
         // constants for the sensor model
         private const double DEFAULT_VALUE = 0.5;
-        private const double OCCUPIED_CELL_VALUE = .7;
-        private const double FREE_CELL_VALUE = .2;
+        private const double OCCUPIED_CELL_VALUE = .6;
+        private const double FREE_CELL_VALUE = .4;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
         private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 10;
 
