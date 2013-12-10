@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Data;
 using CommonLib;
 using CommonLib.DTOs;
+using CommonLib.Interfaces;
 
 namespace Services.RouteServices
 {
@@ -168,6 +169,17 @@ namespace Services.RouteServices
                 drawnRoutes.RemoveLast();
 
             this.Invalidate();
+        }
+
+        public IEnumerable<IEnumerable<ICoordinate>> GetRoutes()
+        {
+            foreach (var route in drawnRoutes)
+                yield return GetRoute(route);
+        }
+        private IEnumerable<ICoordinate> GetRoute(LinkedList<Vector2D> route)
+        {
+            foreach (var v in route)
+                yield return v;
         }
 
         /// <summary>

@@ -9,14 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Data;
 using CommonLib.DTOs;
+using CommonLib.Interfaces;
 
 namespace Services.RouteServices
 {
     public partial class SchedulingForm : Form
     {
-        private OccupancyGrid grid;
         private Size diffSize;
-        private Vector2D point;
 
         public SchedulingForm(OccupancyGrid grid)
         {
@@ -27,16 +26,9 @@ namespace Services.RouteServices
             occupancyGridControl1.Grid = grid;
         }
 
-        public Vector2D Point
+        public IEnumerable<IEnumerable<ICoordinate>> GetRoutes()
         {
-            get { return point; }
-            set { point = value; }
-        }
-
-        public OccupancyGrid Grid
-        {
-            get { return grid; }
-            set { grid = value; }
+            return occupancyGridControl1.GetRoutes();
         }
 
         private void button1_Click(object sender, EventArgs e)
