@@ -159,7 +159,7 @@ namespace Services.RouteServices
             if (drawnRoutes.Last.Value.Count > 0)
                 drawnRoutes.Last.Value.RemoveLast();
 
-            if (drawnRoutes.Count > 1)
+            if (drawnRoutes.Count > 1 && drawnRoutes.Last.Value.Count == 0)
                 drawnRoutes.RemoveLast();
 
             this.Invalidate();
@@ -203,10 +203,12 @@ namespace Services.RouteServices
 
             foreach (var route in drawnRoutes)
             {
-                PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) + new Vector2D(Padding.Left, Padding.Top))).ToArray();
+                PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) - new Vector2D(Padding.Left, Padding.Top))).ToArray();
 
-                if (routePoints.Length > 0)
+                pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+                if (routePoints.Length > 1)
                     pe.Graphics.DrawLines(Pens.Blue, routePoints);
+                pe.Graphics.SmoothingMode = SmoothingMode.Default;
                 foreach (var element in routePoints)
                     drawCross(pe.Graphics, element);
             }
@@ -341,13 +343,13 @@ namespace Services.RouteServices
             }
         }
 
-        private Vector2D GetPoint(Point location)
+        public Vector2D GetPoint(Point location)
         {
             return GetPoint(location.X, location.Y);
         }
-        private Vector2D GetPoint(int x, int y)
+        public Vector2D GetPoint(int x, int y)
         {
-            return conv.ConvertPixelToActual(new Vector2D(x - Padding.Left, y - Padding.Top));
+            return conv.ConvertPixelToActual(new Vector2D(x + Padding.Left, y + Padding.Top));
         }
     }
 }
