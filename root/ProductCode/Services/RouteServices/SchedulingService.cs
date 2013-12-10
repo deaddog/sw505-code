@@ -28,7 +28,7 @@ namespace Services.RouteServices
             this.points = new Queue<Queue<ICoordinate>>();
         }
 
-        public IEnumerable<ICoordinate> GetRoute(OccupancyGrid grid)
+        public IEnumerable<ICoordinate> GetRoute(IPose robotLocation, OccupancyGrid grid)
         {
             if (points.Count > 0)
             {
@@ -36,12 +36,12 @@ namespace Services.RouteServices
                 if (queue.Count > 0)
                     return ReturnElements(queue);
                 else
-                    return GetRoute(grid);
+                    return GetRoute(robotLocation, grid);
             }
             else
             {
-                LoadPoints(grid);
-                return GetRoute(grid);
+                LoadPoints(robotLocation, grid);
+                return GetRoute(robotLocation, grid);
             }
         }
 
@@ -51,10 +51,10 @@ namespace Services.RouteServices
                 yield return item;
         }
 
-        private void LoadPoints(OccupancyGrid grid)
+        private void LoadPoints(IPose robotLocation, OccupancyGrid grid)
         {
             List<ICoordinate> coordinates = new List<ICoordinate>();
-            using (SchedulingForm form = new SchedulingForm(grid))
+            using (SchedulingForm form = new SchedulingForm(robotLocation, grid))
             {
                 form.ShowDialog();
                 foreach (var route in form.GetRoutes())

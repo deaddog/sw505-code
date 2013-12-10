@@ -72,7 +72,7 @@ namespace Control
 
                 UpdateOccupancyGrid();
                 UpdateOccupancyGrid();
-                coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(grid));
+                coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(robotPose, grid));
                 SendRobotToNextLocation();
             }
 

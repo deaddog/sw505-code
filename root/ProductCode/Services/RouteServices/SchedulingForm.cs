@@ -17,13 +17,14 @@ namespace Services.RouteServices
     {
         private Size diffSize;
 
-        public SchedulingForm(OccupancyGrid grid)
+        public SchedulingForm(IPose robotLocation, OccupancyGrid grid)
         {
             InitializeComponent();
 
             diffSize = new Size(this.Width - occupancyGridControl1.Width, this.Height - occupancyGridControl1.Height);
 
             occupancyGridControl1.Grid = grid;
+            occupancyGridControl1.RobotLocation = robotLocation;
         }
 
         public IEnumerable<IEnumerable<ICoordinate>> GetRoutes()

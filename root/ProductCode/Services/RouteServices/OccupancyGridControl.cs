@@ -23,8 +23,9 @@ namespace Services.RouteServices
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
-        private static readonly Color PointColor = Color.Blue;
-        private static readonly Color RouteColor = Color.Maroon;
+        private static readonly Color pointColor = Color.Blue;
+        private static readonly Color routeColor = Color.Maroon;
+        private static readonly Color robotColor = Color.HotPink;
         private const float pointRadius = 2.5f;
         private const float routeRadius = 6;
 
@@ -43,6 +44,19 @@ namespace Services.RouteServices
             set
             {
                 grid = value;
+                this.Invalidate();
+            }
+        }
+
+        private IPose robotLocation;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IPose RobotLocation
+        {
+            get { return robotLocation; }
+            set
+            {
+                robotLocation = value;
                 this.Invalidate();
             }
         }
@@ -224,14 +238,18 @@ namespace Services.RouteServices
                 PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) - new Vector2D(Padding.Left, Padding.Top))).ToArray();
 
                 if (routePoints.Length > 1)
-                    using (Pen pen = new Pen(PointColor))
+                    using (Pen pen = new Pen(pointColor))
                         pe.Graphics.DrawLines(pen, routePoints);
 
                 for (int i = 0; i < routePoints.Length - 1; i++)
-                    drawDot(pe.Graphics, PointColor, pointRadius, routePoints[i]);
+                    drawDot(pe.Graphics, pointColor, pointRadius, routePoints[i]);
                 if (routePoints.Length > 0)
-                    drawDot(pe.Graphics, RouteColor, routeRadius, routePoints[routePoints.Length - 1]);
+                    drawDot(pe.Graphics, routeColor, routeRadius, routePoints[routePoints.Length - 1]);
             }
+
+            PointF robotPoint = (PointF)(conv.ConvertActualToPixel(new Vector2D(robotLocation.X, robotLocation.Y)) - new Vector2D(Padding.Left, Padding.Top));
+            drawDot(pe.Graphics, robotColor, pointRadius, robotPoint);
+            drawPose(pe.Graphics, robotLocation, robotColor);
         }
 
         private void drawCell(Graphics graphics, int x, int y)
@@ -296,6 +314,17 @@ namespace Services.RouteServices
         {
             using (SolidBrush brush = new SolidBrush(color))
                 g.FillEllipse(brush, p.X - radius, p.Y - radius, radius * 2, radius * 2);
+        }
+        private void drawPose(Graphics graphics, IPose element, Color color)
+        {
+            double a = element.Angle * (Math.PI / 180);
+
+            Vector2D p = conv.ConvertActualToPixel(new Vector2D(element.X, element.Y)) - new Vector2D(Padding.Top, Padding.Left);
+            Vector2D p2 = new Vector2D((float)Math.Cos(a), (float)Math.Sin(a)) * 50 + p;
+
+            AdjustableArrowCap bigArrow = new AdjustableArrowCap(3, 4);
+            using (Pen pen = new Pen(color, 2) { CustomEndCap = bigArrow })
+                graphics.DrawLine(pen, (PointF)p, (PointF)p2);
         }
 
         private void drawRulerRectangle(Graphics g, Brush brush, Vector2D topleft, Vector2D bottomright, bool row)
