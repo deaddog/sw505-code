@@ -57,11 +57,16 @@ namespace Services.RouteServices
             using (SchedulingForm form = new SchedulingForm(grid))
             {
                 form.ShowDialog();
-                coordinates.Add(form.Point);
+                foreach (var route in form.GetRoutes())
+                {
+                    Queue<ICoordinate> queue = new Queue<ICoordinate>();
+
+                    foreach (var point in route)
+                        queue.Enqueue(point);
+
+                    points.Enqueue(queue);
+                }
             }
-            Queue<ICoordinate> queue = new Queue<ICoordinate>();
-            queue.Enqueue(coordinates[0]);
-            points.Enqueue(queue);
         }
     }
 }
