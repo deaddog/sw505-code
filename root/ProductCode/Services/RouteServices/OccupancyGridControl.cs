@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using Data;
 using CommonLib;
@@ -143,6 +144,26 @@ namespace Services.RouteServices
         #endregion
 
         private LinkedList<LinkedList<Vector2D>> drawnRoutes;
+        public void AddPointToRoute(Vector2D point)
+        {
+            drawnRoutes.Last.Value.AddLast(point);
+            this.Invalidate();
+        }
+        public void AddNewRoute(Vector2D point)
+        {
+            drawnRoutes.AddLast(new LinkedList<Vector2D>());
+            AddPointToRoute(point);
+        }
+        public void RemoveLastPoint()
+        {
+            if (drawnRoutes.Last.Value.Count > 0)
+                drawnRoutes.Last.Value.RemoveLast();
+
+            if (drawnRoutes.Count > 1)
+                drawnRoutes.RemoveLast();
+
+            this.Invalidate();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
@@ -158,6 +179,7 @@ namespace Services.RouteServices
             conv.SetPixelSize(640, 480);
 
             drawnRoutes = new LinkedList<LinkedList<Vector2D>>();
+            drawnRoutes.AddLast(new LinkedList<Vector2D>());
         }
 
         protected override void OnResize(EventArgs e)
@@ -180,11 +202,14 @@ namespace Services.RouteServices
                 drawRulers(pe.Graphics);
 
             foreach (var route in drawnRoutes)
-                foreach (var element in route)
-                {
-                    PointF p = (PointF)(conv.ConvertActualToPixel(element) + new Vector2D(Padding.Left, Padding.Top));
-                    drawCross(pe.Graphics, p);
-                }
+            {
+                PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) + new Vector2D(Padding.Left, Padding.Top))).ToArray();
+
+                if (routePoints.Length > 0)
+                    pe.Graphics.DrawLines(Pens.Blue, routePoints);
+                foreach (var element in routePoints)
+                    drawCross(pe.Graphics, element);
+            }
         }
 
         private void drawCell(Graphics graphics, int x, int y)
