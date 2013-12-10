@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -141,6 +142,8 @@ namespace Services.RouteServices
         }
         #endregion
 
+        private LinkedList<LinkedList<Vector2D>> drawnRoutes;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
@@ -153,6 +156,8 @@ namespace Services.RouteServices
                 ControlStyles.UserPaint,
                 true);
             conv.SetPixelSize(640, 480);
+
+            drawnRoutes = new LinkedList<LinkedList<Vector2D>>();
         }
 
         protected override void OnResize(EventArgs e)
@@ -174,7 +179,12 @@ namespace Services.RouteServices
             if (gridShowRuler)
                 drawRulers(pe.Graphics);
 
-            drawCross(pe.Graphics, pixelPoint);
+            foreach (var route in drawnRoutes)
+                foreach (var element in route)
+                {
+                    PointF p = (PointF)(conv.ConvertActualToPixel(element) + new Vector2D(Padding.Left, Padding.Top));
+                    drawCross(pe.Graphics, p);
+                }
         }
 
         private void drawCell(Graphics graphics, int x, int y)
@@ -235,10 +245,10 @@ namespace Services.RouteServices
             }
         }
 
-        private void drawCross(Graphics g, Point p)
+        private void drawCross(Graphics g, PointF p)
         {
-            g.DrawLine(Pens.Red,new PointF(p.X-CROSS_SIZE,p.Y) , new PointF(p.X+CROSS_SIZE,p.Y));
-            g.DrawLine(Pens.Red, new PointF(p.X,p.Y-CROSS_SIZE), new PointF(p.X,p.Y+CROSS_SIZE));
+            g.DrawLine(Pens.Red, new PointF(p.X - CROSS_SIZE, p.Y), new PointF(p.X + CROSS_SIZE, p.Y));
+            g.DrawLine(Pens.Red, new PointF(p.X, p.Y - CROSS_SIZE), new PointF(p.X, p.Y + CROSS_SIZE));
 
         }
 
@@ -306,11 +316,11 @@ namespace Services.RouteServices
             }
         }
 
-        public Vector2D GetPoint(Point location)
+        private Vector2D GetPoint(Point location)
         {
             return GetPoint(location.X, location.Y);
         }
-        public Vector2D GetPoint(int x, int y)
+        private Vector2D GetPoint(int x, int y)
         {
             return conv.ConvertPixelToActual(new Vector2D(x - Padding.Left, y - Padding.Top));
         }
