@@ -15,7 +15,7 @@ namespace Data.SensorModel
         private const double OCCUPIED_CELL_VALUE = .6;
         private const double FREE_CELL_VALUE = .4;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
-        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 10;
+        private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 5;
 
         private readonly double initialLogOdds;
 
