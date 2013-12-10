@@ -135,7 +135,6 @@
             this.occupancyGridControl1.Size = new System.Drawing.Size(570, 379);
             this.occupancyGridControl1.TabIndex = 0;
             this.occupancyGridControl1.Text = "occupancyGridControl1";
-            this.occupancyGridControl1.UpdatePoint += new System.EventHandler(this.occupancyGridControl1_UpdatePoint);
             // 
             // SchedulingForm
             // 

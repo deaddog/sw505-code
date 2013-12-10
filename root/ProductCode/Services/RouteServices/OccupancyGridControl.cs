@@ -24,8 +24,6 @@ namespace Services.RouteServices
         private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
 
         private OccupancyGrid grid;
-        private Vector2D point;
-        private Point pixelPoint;
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
         /// </summary>
@@ -155,7 +153,6 @@ namespace Services.RouteServices
                 ControlStyles.UserPaint,
                 true);
             conv.SetPixelSize(640, 480);
-            
         }
 
         protected override void OnResize(EventArgs e)
@@ -169,8 +166,6 @@ namespace Services.RouteServices
             base.OnPaint(pe);
             if (DesignMode)
                 return;
-
-            
 
             for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
                 for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
@@ -311,35 +306,13 @@ namespace Services.RouteServices
             }
         }
 
-        private void InitializeComponent()
+        public Vector2D GetPoint(Point location)
         {
-            this.SuspendLayout();
-            // 
-            // OccupancyGridControl
-            // 
-            this.ResumeLayout(false);
-
+            return GetPoint(location.X, location.Y);
         }
-
-        public event EventHandler UpdatePoint;
-
-        public Vector2D Point
+        public Vector2D GetPoint(int x, int y)
         {
-            get { return point; }
+            return conv.ConvertPixelToActual(new Vector2D(x - Padding.Left, y - Padding.Top));
         }
-
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            base.OnMouseClick(e);
-
-            pixelPoint = e.Location;
-            
-            point = conv.ConvertPixelToActual(new Vector2D(pixelPoint.X, pixelPoint.Y));
-            this.Invalidate();
-            if (UpdatePoint != null)
-                UpdatePoint(this, EventArgs.Empty);
-
-        }
-
     }
 }
