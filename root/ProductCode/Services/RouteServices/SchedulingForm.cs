@@ -14,13 +14,6 @@ namespace Services.RouteServices
 {
     public partial class SchedulingForm : Form
     {
-        public static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SchedulingForm(new OccupancyGrid(30,23,10,-150,-115)));
-        }
-
         private OccupancyGrid grid;
         private Size diffSize;
         private Vector2D point;
