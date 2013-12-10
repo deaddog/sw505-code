@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using Data;
 using CommonLib;
 using CommonLib.DTOs;
+using CommonLib.Interfaces;
 
 namespace Services.RouteServices
 {
@@ -20,12 +23,16 @@ namespace Services.RouteServices
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
+        private static readonly Color pointColor = Color.Blue;
+        private static readonly Color routeColor = Color.Maroon;
+        private static readonly Color robotColor = Color.HotPink;
+        private const float pointRadius = 2.5f;
+        private const float routeRadius = 6;
+
         // The image size below (640x480) is updated to match any image set using the Image property
         private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
 
         private OccupancyGrid grid;
-        private Vector2D point;
-        private Point pixelPoint;
         /// <summary>
         /// The grid containing the data. Redrawn each time given a new grid.
         /// </summary>
@@ -37,6 +44,19 @@ namespace Services.RouteServices
             set
             {
                 grid = value;
+                this.Invalidate();
+            }
+        }
+
+        private IPose robotLocation;
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IPose RobotLocation
+        {
+            get { return robotLocation; }
+            set
+            {
+                robotLocation = value;
                 this.Invalidate();
             }
         }
@@ -143,6 +163,39 @@ namespace Services.RouteServices
         }
         #endregion
 
+        private LinkedList<LinkedList<Vector2D>> drawnRoutes;
+        public void AddPointToRoute(Vector2D point)
+        {
+            drawnRoutes.Last.Value.AddLast(point);
+            this.Invalidate();
+        }
+        public void AddNewRoute(Vector2D point)
+        {
+            drawnRoutes.AddLast(new LinkedList<Vector2D>());
+            AddPointToRoute(point);
+        }
+        public void RemoveLastPoint()
+        {
+            if (drawnRoutes.Last.Value.Count > 0)
+                drawnRoutes.Last.Value.RemoveLast();
+
+            if (drawnRoutes.Count > 1 && drawnRoutes.Last.Value.Count == 0)
+                drawnRoutes.RemoveLast();
+
+            this.Invalidate();
+        }
+
+        public IEnumerable<IEnumerable<ICoordinate>> GetRoutes()
+        {
+            foreach (var route in drawnRoutes)
+                yield return GetRoute(route);
+        }
+        private IEnumerable<ICoordinate> GetRoute(LinkedList<Vector2D> route)
+        {
+            foreach (var v in route)
+                yield return v;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
@@ -151,15 +204,18 @@ namespace Services.RouteServices
             SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
                 ControlStyles.UserPaint,
                 true);
             conv.SetPixelSize(640, 480);
-            
+
+            drawnRoutes = new LinkedList<LinkedList<Vector2D>>();
+            drawnRoutes.AddLast(new LinkedList<Vector2D>());
         }
 
         protected override void OnResize(EventArgs e)
         {
-            this.conv.SetPixelSize(this.Width, this.Height);
+            this.conv.SetPixelSize(this.Width - Padding.Horizontal, this.Height - Padding.Vertical);
             base.OnResize(e);
         }
 
@@ -169,8 +225,6 @@ namespace Services.RouteServices
             if (DesignMode)
                 return;
 
-            
-
             for (int columnIndex = 0; columnIndex < grid.Columns; columnIndex++)
                 for (int rowIndex = 0; rowIndex < grid.Rows; rowIndex++)
                     drawCell(pe.Graphics, columnIndex, rowIndex);
@@ -178,7 +232,24 @@ namespace Services.RouteServices
             if (gridShowRuler)
                 drawRulers(pe.Graphics);
 
-            drawCross(pe.Graphics, pixelPoint);
+            pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            foreach (var route in drawnRoutes)
+            {
+                PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) - new Vector2D(Padding.Left, Padding.Top))).ToArray();
+
+                if (routePoints.Length > 1)
+                    using (Pen pen = new Pen(pointColor))
+                        pe.Graphics.DrawLines(pen, routePoints);
+
+                for (int i = 0; i < routePoints.Length - 1; i++)
+                    drawDot(pe.Graphics, pointColor, pointRadius, routePoints[i]);
+                if (routePoints.Length > 0)
+                    drawDot(pe.Graphics, routeColor, routeRadius, routePoints[routePoints.Length - 1]);
+            }
+
+            PointF robotPoint = (PointF)(conv.ConvertActualToPixel(new Vector2D(robotLocation.X, robotLocation.Y)) - new Vector2D(Padding.Left, Padding.Top));
+            drawDot(pe.Graphics, robotColor, pointRadius, robotPoint);
+            drawPose(pe.Graphics, robotLocation, robotColor);
         }
 
         private void drawCell(Graphics graphics, int x, int y)
@@ -239,11 +310,21 @@ namespace Services.RouteServices
             }
         }
 
-        private void drawCross(Graphics g, Point p)
+        private void drawDot(Graphics g, Color color, float radius, PointF p)
         {
-            g.DrawLine(Pens.Red,new PointF(p.X-CROSS_SIZE,p.Y) , new PointF(p.X+CROSS_SIZE,p.Y));
-            g.DrawLine(Pens.Red, new PointF(p.X,p.Y-CROSS_SIZE), new PointF(p.X,p.Y+CROSS_SIZE));
+            using (SolidBrush brush = new SolidBrush(color))
+                g.FillEllipse(brush, p.X - radius, p.Y - radius, radius * 2, radius * 2);
+        }
+        private void drawPose(Graphics graphics, IPose element, Color color)
+        {
+            double a = element.Angle * (Math.PI / 180);
 
+            Vector2D p = conv.ConvertActualToPixel(new Vector2D(element.X, element.Y)) - new Vector2D(Padding.Top, Padding.Left);
+            Vector2D p2 = new Vector2D((float)Math.Cos(a), (float)Math.Sin(a)) * 50 + p;
+
+            AdjustableArrowCap bigArrow = new AdjustableArrowCap(3, 4);
+            using (Pen pen = new Pen(color, 2) { CustomEndCap = bigArrow })
+                graphics.DrawLine(pen, (PointF)p, (PointF)p2);
         }
 
         private void drawRulerRectangle(Graphics g, Brush brush, Vector2D topleft, Vector2D bottomright, bool row)
@@ -310,35 +391,13 @@ namespace Services.RouteServices
             }
         }
 
-        private void InitializeComponent()
+        public Vector2D GetPoint(Point location)
         {
-            this.SuspendLayout();
-            // 
-            // OccupancyGridControl
-            // 
-            this.ResumeLayout(false);
-
+            return GetPoint(location.X, location.Y);
         }
-
-        public event EventHandler UpdatePoint;
-
-        public Vector2D Point
+        public Vector2D GetPoint(int x, int y)
         {
-            get { return point; }
+            return conv.ConvertPixelToActual(new Vector2D(x + Padding.Left, y + Padding.Top));
         }
-
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            base.OnMouseClick(e);
-
-            pixelPoint = e.Location;
-            
-            point = conv.ConvertPixelToActual(new Vector2D(pixelPoint.X, pixelPoint.Y));
-            this.Invalidate();
-            if (UpdatePoint != null)
-                UpdatePoint(this, EventArgs.Empty);
-
-        }
-
     }
 }
