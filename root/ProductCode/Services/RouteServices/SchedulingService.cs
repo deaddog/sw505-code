@@ -11,7 +11,6 @@ namespace Services.RouteServices
     public class SchedulingService
     {
         private static SchedulingService instance;
-        private SchedulingForm form;
 
         private SchedulingService()
         {
@@ -30,10 +29,13 @@ namespace Services.RouteServices
 
         public IEnumerable<ICoordinate> GetRoute(OccupancyGrid grid)
         {
-            form = new SchedulingForm(grid);
-
-            form.ShowDialog();
-            yield return form.Point;
+            List<ICoordinate> coordinates = new List<ICoordinate>();
+            using (SchedulingForm form = new SchedulingForm(grid))
+            {
+                form.ShowDialog();
+                coordinates.Add(form.Point);
+            }
+            yield return coordinates[0];
         }
     }
 }
