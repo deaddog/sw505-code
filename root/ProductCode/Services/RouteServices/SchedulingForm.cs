@@ -39,13 +39,8 @@ namespace Services.RouteServices
             set { grid = value; }
         }
         
-        private void occupancyGridControl1_UpdatePoint(object sender, EventArgs e)
-        {
-            label1.Text = occupancyGridControl1.Point.ToString();
-        }
         private void button1_Click(object sender, EventArgs e)
         {
-            point = occupancyGridControl1.Point;
             this.Close();
         }
         private void occupancyGridControl1_Resize(object sender, EventArgs e)
