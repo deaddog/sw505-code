@@ -235,7 +235,7 @@ namespace Services.RouteServices
             pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             foreach (var route in drawnRoutes)
             {
-                PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) - new Vector2D(Padding.Left, Padding.Top))).ToArray();
+                PointF[] routePoints = (from p in route select (PointF)(conv.ConvertActualToPixel(p) + new Vector2D(Padding.Left, Padding.Top))).ToArray();
 
                 if (routePoints.Length > 1)
                     using (Pen pen = new Pen(pointColor))
@@ -247,7 +247,7 @@ namespace Services.RouteServices
                     drawDot(pe.Graphics, routeColor, routeRadius, routePoints[routePoints.Length - 1]);
             }
 
-            PointF robotPoint = (PointF)(conv.ConvertActualToPixel(new Vector2D(robotLocation.X, robotLocation.Y)) - new Vector2D(Padding.Left, Padding.Top));
+            PointF robotPoint = (PointF)(conv.ConvertActualToPixel(new Vector2D(robotLocation.X, robotLocation.Y)) + new Vector2D(Padding.Left, Padding.Top));
             drawDot(pe.Graphics, robotColor, pointRadius, robotPoint);
             drawPose(pe.Graphics, robotLocation, robotColor);
         }
@@ -319,7 +319,7 @@ namespace Services.RouteServices
         {
             double a = element.Angle * (Math.PI / 180);
 
-            Vector2D p = conv.ConvertActualToPixel(new Vector2D(element.X, element.Y)) - new Vector2D(Padding.Top, Padding.Left);
+            Vector2D p = conv.ConvertActualToPixel(new Vector2D(element.X, element.Y)) + new Vector2D(Padding.Top, Padding.Left);
             Vector2D p2 = new Vector2D((float)Math.Cos(a), (float)Math.Sin(a)) * 50 + p;
 
             AdjustableArrowCap bigArrow = new AdjustableArrowCap(3, 4);
@@ -334,7 +334,7 @@ namespace Services.RouteServices
             g.FillRectangle(brush, r);
             g.DrawRectangle(Pens.Gray, r.X, r.Y, r.Width, r.Height);
 
-            var point = conv.ConvertPixelToActual(topleft + new Vector2D(Padding.Left, Padding.Top));
+            var point = conv.ConvertPixelToActual(topleft - new Vector2D(Padding.Left, Padding.Top));
             string cm = (row ? point.Y : point.X).ToString("0");
 
             //Measure text size and calculate position so that text is centered.
@@ -397,7 +397,7 @@ namespace Services.RouteServices
         }
         public Vector2D GetPoint(int x, int y)
         {
-            return conv.ConvertPixelToActual(new Vector2D(x + Padding.Left, y + Padding.Top));
+            return conv.ConvertPixelToActual(new Vector2D(x - Padding.Left, y - Padding.Top));
         }
     }
 }
