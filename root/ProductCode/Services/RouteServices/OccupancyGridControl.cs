@@ -151,6 +151,7 @@ namespace Services.RouteServices
             SetStyle(
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
                 ControlStyles.UserPaint,
                 true);
             conv.SetPixelSize(640, 480);
@@ -159,7 +160,7 @@ namespace Services.RouteServices
 
         protected override void OnResize(EventArgs e)
         {
-            this.conv.SetPixelSize(this.Width, this.Height);
+            this.conv.SetPixelSize(this.Width - Padding.Horizontal, this.Height - Padding.Vertical);
             base.OnResize(e);
         }
 
