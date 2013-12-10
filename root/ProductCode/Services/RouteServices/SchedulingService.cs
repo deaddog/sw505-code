@@ -11,8 +11,7 @@ namespace Services.RouteServices
     public class SchedulingService
     {
         private static SchedulingService instance;
-        public SchedulingForm form;
-
+        private SchedulingForm form;
 
         private SchedulingService()
         {
