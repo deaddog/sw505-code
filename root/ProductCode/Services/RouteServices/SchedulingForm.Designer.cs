@@ -28,28 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.buttonDone = new System.Windows.Forms.Button();
             this.labelGuide = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelMouse = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.occupancyGridControl1 = new Services.RouteServices.OccupancyGridControl();
             this.groupBox1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
             // 
             // buttonDone
             // 
@@ -93,22 +81,11 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.label1);
-            this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 96);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(132, 350);
             this.flowLayoutPanel1.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 13);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "label2";
             // 
             // groupBox2
             // 
@@ -135,6 +112,9 @@
             this.occupancyGridControl1.Size = new System.Drawing.Size(570, 379);
             this.occupancyGridControl1.TabIndex = 0;
             this.occupancyGridControl1.Text = "occupancyGridControl1";
+            this.occupancyGridControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.occupancyGridControl1_MouseClick);
+            this.occupancyGridControl1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.occupancyGridControl1_MouseDoubleClick);
+            this.occupancyGridControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.occupancyGridControl1_MouseMove);
             // 
             // SchedulingForm
             // 
@@ -149,8 +129,6 @@
             this.Name = "SchedulingForm";
             this.Text = "SchedulingForm";
             this.groupBox1.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -159,13 +137,11 @@
         #endregion
 
         private OccupancyGridControl occupancyGridControl1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonDone;
         private System.Windows.Forms.Label labelGuide;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label labelMouse;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
     }
 }
