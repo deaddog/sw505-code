@@ -85,11 +85,13 @@ namespace Control
         public void SendRobotToNextLocation()
         {
             if (coordQueue.Count > 0)
-                robot.MoveToPosition(coordQueue.Dequeue());
-            else
             {
-                new System.Threading.Thread(() => this.mapAgain()).Start();
+                ICoordinate destination = coordQueue.Dequeue();
+                onDestinationUpdated(new DestinationUpdatedEventArgs(destination));
+                robot.MoveToPosition(destination);
             }
+            else
+                new System.Threading.Thread(() => this.mapAgain()).Start();
         }
 
         private ISensorData GetSensorData()
