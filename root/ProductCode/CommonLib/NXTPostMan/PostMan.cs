@@ -49,13 +49,6 @@ namespace CommonLib.NXTPostMan
             CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, toSendMessage);
         }
 
-        public void SendMessage(ICoordinate cord)
-        {
-            string encodedString = NXTEncoder.Encode(cord);
-            string toSendMessage = String.Format("{0}{1}", (byte)NXTMessageType.MoveToPos, encodedString);
-            CommunicationBrick.CommLink.MessageWrite(PC_OUTBOX, encodedString);
-        }
-
         /// <summary>
         /// Checks if the message on top of mailbox is the specified type.
         /// </summary>

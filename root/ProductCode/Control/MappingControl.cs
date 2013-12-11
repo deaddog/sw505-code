@@ -19,6 +19,7 @@ namespace Control
     {
         private const int LOG_ODDS_BASE = 10;
         private const int AMOUNT_OF_POINTS = 1000;
+        private const float DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM = 12;
 
         private IRobot robot;
         private IPose robotPose;
@@ -106,6 +107,10 @@ namespace Control
         public void UpdateOccupancyGrid()
         {
             robotPose = RobotLocation.Instance.RobotPose;
+            double a = robotPose.Angle * (Math.PI / 180);
+            robotPose = new Pose(robotPose.X + (float)Math.Cos(a) * DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM, robotPose.Y + (float)Math.Sin(a) * DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM, robotPose.Angle);
+
+
             ISensorData sensorReadings = GetSensorData();
             double[,] newMap = new double[grid.Columns, grid.Rows];
 

@@ -16,11 +16,6 @@
         </suppliersInternal>
         <packagedElements>
           <packageHasNamedElement>
-            <package Id="0f7d0e29-e710-4f7b-a2c0-8a15539ea9bb" name="ConsoleUI.exe">
-              <elementDefinition Id="a7860e1c-175c-4321-b026-d03b14129618" />
-            </package>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
             <package Id="80ff259c-e4cf-45e3-9ca6-44ad7518cd9c" name="RobotInterface">
               <elementDefinition Id="09d4639c-4153-4ab0-a0fe-ec531f08ec01" />
               <packagedElements>
@@ -241,38 +236,9 @@
         </suppliersInternal>
         <packagedElements>
           <packageHasNamedElement>
-            <package Id="0df64f8d-5757-4d57-a4d0-3fccbeb6b6e7" name="KinectServices">
-              <elementDefinition Id="58a1413f-0dd0-44db-95f7-7b3eb3d6dd16" />
-              <packagedElements>
-                <packageHasNamedElement>
-                  <class Id="0d433280-8cf8-48d2-912a-4629763d7649" name="RgbImageFormats" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="e62c5f4e-b9d0-41ed-84da-d6e16e7a16ce" />
-                  </class>
-                </packageHasNamedElement>
-                <packageHasNamedElement>
-                  <class Id="9261a50b-d331-4b53-a7c9-5c95efae537f" name="RgbStream" isAbstract="false" isLeaf="false" isActiveClass="false">
-                    <elementDefinition Id="5ba55339-febb-485a-a27e-d70ed63360c8" />
-                  </class>
-                </packageHasNamedElement>
-              </packagedElements>
-            </package>
-          </packageHasNamedElement>
-          <packageHasNamedElement>
             <package Id="0f77b37c-d9db-4007-a8c5-3fb6d4b78354" name="RobotServices">
               <elementDefinition Id="602296e1-33cc-4b91-a2b5-0b2c016b6322" />
               <packagedElements>
-                <packageHasNamedElement>
-                  <package Id="ad843cd7-cb84-4618-b5c6-06f4a92a5615" name="Mindsqualls">
-                    <elementDefinition Id="93ab4a73-4a82-49bf-9d9e-67a094adaf28" />
-                    <packagedElements>
-                      <packageHasNamedElement>
-                        <class Id="5d9b4ee0-f74f-404d-b844-da7dd56a332c" name="MSQRobot" isAbstract="false" isLeaf="false" isActiveClass="false">
-                          <elementDefinition Id="b889b80d-7352-4553-af2d-1202f0dba035" />
-                        </class>
-                      </packageHasNamedElement>
-                    </packagedElements>
-                  </package>
-                </packageHasNamedElement>
                 <packageHasNamedElement>
                   <class Id="42e30a0c-c770-4bdd-ad6d-d56a25853447" name="NXTEncoder" isAbstract="false" isLeaf="false" isActiveClass="false">
                     <elementDefinition Id="144b36e9-f6d0-423a-adea-661af0140162" />
@@ -345,6 +311,23 @@
                 <packageHasNamedElement>
                   <class Id="52f833c6-4b43-4186-bb87-05ebba8cbeb9" name="RobotLocation" isAbstract="false" isLeaf="false" isActiveClass="false">
                     <elementDefinition Id="f92b6c22-ecf9-495b-90c7-8fbcf4b9ef49" />
+                  </class>
+                </packageHasNamedElement>
+              </packagedElements>
+            </package>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <package Id="0df64f8d-5757-4d57-a4d0-3fccbeb6b6e7" name="KinectServices">
+              <elementDefinition Id="58a1413f-0dd0-44db-95f7-7b3eb3d6dd16" />
+              <packagedElements>
+                <packageHasNamedElement>
+                  <class Id="0d433280-8cf8-48d2-912a-4629763d7649" name="RgbImageFormats" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="e62c5f4e-b9d0-41ed-84da-d6e16e7a16ce" />
+                  </class>
+                </packageHasNamedElement>
+                <packageHasNamedElement>
+                  <class Id="9261a50b-d331-4b53-a7c9-5c95efae537f" name="RgbStream" isAbstract="false" isLeaf="false" isActiveClass="false">
+                    <elementDefinition Id="5ba55339-febb-485a-a27e-d70ed63360c8" />
                   </class>
                 </packageHasNamedElement>
               </packagedElements>
