@@ -96,7 +96,6 @@ void AdjustAngle()
 	PlaySound(SOUND_LOW_BEEP);
 	TurnAngle(turnAngle);
 	WaitForMotors();
-	AdjustSensor();
 }
 
 //The robot queries its position and drives a small increment in that direction
