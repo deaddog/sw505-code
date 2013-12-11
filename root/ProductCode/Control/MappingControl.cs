@@ -135,28 +135,31 @@ namespace Control
             }
 
             grid = new OccupancyGrid(newMap, grid.CellSize, grid.X, grid.Y);
-            onGridUpdated(new GridUpdaterEventArgs(grid));
+            onGridUpdated(new GridUpdatedEventArgs(grid));
         }
 
-        public delegate void GridUpdatedEventHandler(object sender, GridUpdaterEventArgs e);
+        public delegate void GridUpdatedEventHandler(object sender, GridUpdatedEventArgs e);
         public event GridUpdatedEventHandler GridUpdated;
 
-        protected virtual void onGridUpdated(GridUpdaterEventArgs e)
+        protected virtual void onGridUpdated(GridUpdatedEventArgs e)
         {
             if (GridUpdated != null)
                 GridUpdated(this, e);
         }
 
-        public class GridUpdaterEventArgs : EventArgs
+        public class GridUpdatedEventArgs : EventArgs
         {
             private readonly OccupancyGrid grid;
 
-            public GridUpdaterEventArgs(OccupancyGrid grid)
+            public GridUpdatedEventArgs(OccupancyGrid grid)
             {
                 this.grid = grid;
             }
 
-            public OccupancyGrid Grid { get { return grid; } }
+            public OccupancyGrid Grid
+            {
+                get { return grid; }
+            }
         }
 
         private CellIndex getRobotIndex(IPose robotPose, double cellSize)
