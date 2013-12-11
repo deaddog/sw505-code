@@ -86,7 +86,9 @@ namespace Control
             if (coordQueue.Count > 0)
                 robot.MoveToPosition(coordQueue.Dequeue());
             else
-                this.mapAgain();
+            {
+                new System.Threading.Thread(() => this.mapAgain()).Start();
+            }
         }
 
         private ISensorData GetSensorData()
