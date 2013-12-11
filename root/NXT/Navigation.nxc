@@ -3,6 +3,7 @@
 
 #define MOVE_INCREMENT 250
 #define POWER 100
+#define DISTANCE_BETWEEN_SENSOR_AND_ROBOT_MID_IN_MM 120
 
 // Waits for the motors to be ready
 inline void WaitForMotors()
@@ -81,6 +82,12 @@ void TurnAngle(float angle)
   TurnLeft(POWER, -angle);
 }
 
+void AdjustSensor()
+{
+ RunBackward(100, DISTANCE_BETWEEN_SENSOR_AND_ROBOT_MID_IN_MM);
+ WaitForMotors();
+}
+
 void AdjustAngle()
 {
 	Pose p = WhereAmI();	
@@ -89,6 +96,7 @@ void AdjustAngle()
 	PlaySound(SOUND_LOW_BEEP);
 	TurnAngle(turnAngle);
 	WaitForMotors();
+	AdjustSensor();
 }
 
 //The robot queries its position and drives a small increment in that direction
