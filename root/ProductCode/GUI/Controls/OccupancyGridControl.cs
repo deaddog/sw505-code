@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using SystemInterface.GUI.Controls;
 using Data;
@@ -455,8 +456,9 @@ namespace SystemInterface.GUI.Controls
 
             public void Draw(Graphics graphics)
             {
-                foreach (var e in elements)
-                    DrawElement(graphics, e.Value, colors[e.Key]);
+                string[] keys = elements.Keys.ToArray();
+                for (int i = 0; i < keys.Length; i++)
+                    DrawElement(graphics, elements[keys[i]], colors[keys[i]]);
             }
         }
     }
