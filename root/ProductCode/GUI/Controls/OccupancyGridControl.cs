@@ -211,8 +211,12 @@ namespace SystemInterface.GUI.Controls
                 this.Coordinates["p1"] = Control.LocationControl.Instance.Front;
                 this.Coordinates["p2"] = Control.LocationControl.Instance.Rear;
             };
+
+            Control.MappingControl.Instance.DestinationUpdated += (s, e) => this.Coordinates["destination"] = e.Destination;
 #endif
             this.Coordinates["center"] = new Vector2D(0, 0);
+            this.Coordinates.SetColor("center", Color.Black);
+            this.Coordinates.SetColor("destination", Color.DodgerBlue);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -397,7 +401,6 @@ namespace SystemInterface.GUI.Controls
         {
             private Dictionary<string, T> elements;
             private Dictionary<string, Color> colors;
-            private Action<Graphics, T, Color> drawMethod;
 
             private OccupancyGridControl parent;
 
@@ -406,7 +409,6 @@ namespace SystemInterface.GUI.Controls
                 this.parent = parent;
                 this.elements = newDictionary;
                 this.colors = new Dictionary<string, Color>();
-                this.drawMethod = drawMethod;
             }
 
             public T this[string key]
@@ -434,8 +436,6 @@ namespace SystemInterface.GUI.Controls
             {
                 if (key == null)
                     throw new ArgumentNullException("key");
-                else if (!elements.ContainsKey(key))
-                    throw new ArgumentException("Unknown key: " + key);
                 else
                 {
                     colors[key] = color;
