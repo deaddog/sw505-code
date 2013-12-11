@@ -147,6 +147,16 @@ namespace Control
                 GridUpdated(this, e);
         }
 
+
+        public delegate void DestinationUpdatedEventHandler(object sender, DestinationUpdatedEventArgs e);
+        public event DestinationUpdatedEventHandler DestinationUpdated;
+
+        protected virtual void onDestinationUpdated(DestinationUpdatedEventArgs e)
+        {
+            if (DestinationUpdated != null)
+                DestinationUpdated(this, e);
+        }
+
         public class GridUpdatedEventArgs : EventArgs
         {
             private readonly OccupancyGrid grid;
@@ -159,6 +169,21 @@ namespace Control
             public OccupancyGrid Grid
             {
                 get { return grid; }
+            }
+        }
+
+        public class DestinationUpdatedEventArgs : EventArgs
+        {
+            private readonly ICoordinate destination;
+
+            public DestinationUpdatedEventArgs(ICoordinate destination)
+            {
+                this.destination = destination;
+            }
+
+            public ICoordinate Destination
+            {
+                get { return destination; }
             }
         }
 
