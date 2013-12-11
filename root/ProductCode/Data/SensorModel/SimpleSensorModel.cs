@@ -62,6 +62,9 @@ namespace Data.SensorModel
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
+            if (sensorX == 255)
+                return initialLogOdds;
+
             if (r < MINIMIM_SENSOR_RANGE_CM)
                 return initialLogOdds;
             else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
