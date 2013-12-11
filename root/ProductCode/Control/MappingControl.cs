@@ -106,13 +106,12 @@ namespace Control
         /// <returns>An updated map</returns>
         public void UpdateOccupancyGrid()
         {
+            ISensorData sensorReadings = GetSensorData();
+            double[,] newMap = new double[grid.Columns, grid.Rows];
+
             robotPose = RobotLocation.Instance.RobotPose;
             double a = robotPose.Angle * (Math.PI / 180);
             robotPose = new Pose(robotPose.X + (float)Math.Cos(a) * DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM, robotPose.Y + (float)Math.Sin(a) * DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM, robotPose.Angle);
-
-
-            ISensorData sensorReadings = GetSensorData();
-            double[,] newMap = new double[grid.Columns, grid.Rows];
 
             for (int i = 0; i < grid.Columns; i++)
             {
