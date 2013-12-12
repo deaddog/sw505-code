@@ -20,5 +20,15 @@ namespace Services.RouteServices
         private RouterFactory()
         {
         }
+
+        public IRouter GetGUIRouter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IRouter GetAutomatedRouter()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
