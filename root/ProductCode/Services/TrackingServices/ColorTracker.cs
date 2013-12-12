@@ -16,6 +16,7 @@ namespace Services.TrackingServices
         public const int BOUNDS_INFLATE = 5;
         private const int BOUNDS_MAX = 100000;
         private const int MINIMUM_NUMBER_OF_INTERRESTING_NEIGHBOURS = 4;
+        private const short CENTERPOINT_QUEUE_SIZE = 3;
 
         private float threshold;
         private Color originalColor;
@@ -38,9 +39,11 @@ namespace Services.TrackingServices
             this.originalColor = this.targetColor = color;
 
             this.converter = converter;
-            
-            centerPoints.Enqueue(new Vector2D());
-            centerPoints.Enqueue(new Vector2D());
+
+            for (int i = 0; i < CENTERPOINT_QUEUE_SIZE; i++)
+            {
+                centerPoints.Enqueue(new Vector2D());
+            }
         }
 
         /// <summary>
