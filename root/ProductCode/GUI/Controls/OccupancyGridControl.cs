@@ -251,7 +251,7 @@ namespace SystemInterface.GUI.Controls
                 graphics.FillRectangle(brush, r);
 
             if (gridShowBorders)
-                using (Pen pen = new Pen(Color.FromArgb(70, Color.Black)))
+                using (Pen pen = new Pen(Color.FromArgb(70, Color.White)))
                     graphics.DrawRectangle(pen, r.X, r.Y, r.Width, r.Height);
             if (gridShowProbilities && (!gridHideUnexplored || grid[x, y] != 0.5))
             {
