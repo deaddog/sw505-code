@@ -18,10 +18,10 @@ namespace Services.RouteServices
     public class OccupancyGridControl : System.Windows.Forms.Control
     {
         private const float DEFAULT_AREASIZE = 1;
-        private const int GRID_TRANSPARANCY = 70;
+        private const int GRID_TRANSPARANCY = 255;
         private const int CROSS_SIZE = 10;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
-        private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
+        private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 200;
 
         private static readonly Color pointColor = Color.Blue;
         private static readonly Color routeColor = Color.Maroon;
