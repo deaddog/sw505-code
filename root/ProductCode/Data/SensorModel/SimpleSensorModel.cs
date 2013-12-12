@@ -15,7 +15,7 @@ namespace Data.SensorModel
         private const double OCCUPIED_CELL_VALUE = .6;
         private const double FREE_CELL_VALUE = .4;
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
-		private const double MINIMIM_SENSOR_RANGE_CM = 20;
+		private const double MINIMIM_SENSOR_RANGE_CM = 10;
         private const double HALF_AVERAGE_OBSTACLE_DEPTH_CM = 5;
 
         private readonly double initialLogOdds;
@@ -62,11 +62,11 @@ namespace Data.SensorModel
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
-            if (sensorX == 255)
+            if (sensorX < 20)
                 return initialLogOdds;
 
             if (r < MINIMIM_SENSOR_RANGE_CM)
-                return initialLogOdds;
+                return FREE_CELL_VALUE;
             else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
                 return initialLogOdds;
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
