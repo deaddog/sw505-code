@@ -10,20 +10,9 @@ namespace Services.RouteServices
 {
     public class SchedulingService
     {
-        private static SchedulingService instance;
-        public static SchedulingService Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new SchedulingService();
-                return instance;
-            }
-        }
-
         private Queue<Queue<ICoordinate>> points;
 
-        private SchedulingService()
+        internal SchedulingService()
         {
             this.points = new Queue<Queue<ICoordinate>>();
         }
