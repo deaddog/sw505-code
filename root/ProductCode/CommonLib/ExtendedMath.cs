@@ -32,14 +32,14 @@ namespace CommonLib
         public static double DefIntegrate(Func<double, double> f, double lower, double upper, long pres)
         {
             double deltaX = (upper - lower) / pres;
-            double xi = lower;
+            double xi;
             double areaSum = 0;
+
             for (long i = 1; i <= pres; i++)
             {
-                xi += deltaX;
+                xi = lower + i * deltaX;
                 areaSum += deltaX * f(xi);
             }
-
             return areaSum;
         }
         
