@@ -22,6 +22,7 @@ namespace SystemInterface.GUI.Controls
         private const int GRID_TRANSPARANCY = 150;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
+        private const float POSE_VECTOR_LENGTH = 150;
 
         // The image size below (640x480) is updated to match any image set using the Image property
         private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
@@ -374,7 +375,7 @@ namespace SystemInterface.GUI.Controls
                 double a = element.Angle * (Math.PI / 180);
 
                 Vector2D p = ConvertActualToPixel(new Vector2D(element.X, element.Y)) + Padding;
-                Vector2D p2 = new Vector2D((float)Math.Cos(a), (float)Math.Sin(a)) * 50 + p;
+                Vector2D p2 = new Vector2D((float)Math.Cos(a), (float)Math.Sin(a)) * POSE_VECTOR_LENGTH + p;
 
                 AdjustableArrowCap bigArrow = new AdjustableArrowCap(3, 4);
                 using (Pen pen = new Pen(color) { CustomEndCap = bigArrow })
