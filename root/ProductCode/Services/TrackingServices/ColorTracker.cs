@@ -38,6 +38,9 @@ namespace Services.TrackingServices
             this.originalColor = this.targetColor = color;
 
             this.converter = converter;
+            
+            centerPoints.Enqueue(new Vector2D());
+            centerPoints.Enqueue(new Vector2D());
         }
 
         /// <summary>
