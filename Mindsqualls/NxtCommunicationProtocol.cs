@@ -583,30 +583,6 @@ namespace NKH.MindSqualls
             return message;
         }
 
-        public string MessageReadToStringISO(NxtMailbox2 remoteInboxNo, NxtMailbox localInboxNo, bool remove)
-        {
-            byte[] request = new byte[] {
-                0x00,
-                (byte) NxtCommand.MessageRead,
-                (byte) remoteInboxNo,
-                (byte) localInboxNo,
-                (byte) (remove ? 0xFF : 0x00)
-            };
-
-            byte[] reply = Send(request);
-
-            if (reply == null) return null;
-
-            byte localInboxNoOut = reply[3];  // TODO: Validate on this?
-
-            byte messageSize = reply[4];
-
-            var e = Encoding.GetEncoding("iso-8859-1");
-
-            string s = e.GetString(reply, 5, messageSize).TrimEnd('\0');
-            return s;
-        }
-
         public byte[] MessageReadToBytes(NxtMailbox2 remoteInboxNo, NxtMailbox localInboxNo, bool remove)
         {
             byte[] request = new byte[] {
