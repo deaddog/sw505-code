@@ -28,7 +28,7 @@ namespace Services.RouteServices
 
         public IScheduler GetAutomatedScheduler()
         {
-            throw new NotImplementedException();
+            return new AutomatedScheduler();
         }
     }
 }

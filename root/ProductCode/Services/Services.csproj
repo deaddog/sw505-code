@@ -50,6 +50,7 @@
     <Compile Include="KinectServices\RgbImageFormats.cs" />
     <Compile Include="KinectServices\RgbStream.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
+    <Compile Include="RouteServices\AutomatedScheduler.cs" />
     <Compile Include="RouteServices\IScheduler.cs" />
     <Compile Include="RouteServices\OccupancyGridControl.cs">
       <SubType>Component</SubType>
