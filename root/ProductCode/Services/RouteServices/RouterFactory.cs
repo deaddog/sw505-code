@@ -1,12 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.RouteServices
 {
-    class RouterFactory
+    public class RouterFactory
     {
+        private static RouterFactory instance;
+
+        public static RouterFactory Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new RouterFactory();
+
+                return instance;
+            }
+        }
+
+        private RouterFactory()
+        {
+        }
     }
 }
