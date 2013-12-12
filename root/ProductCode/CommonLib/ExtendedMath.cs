@@ -42,16 +42,5 @@ namespace CommonLib
             }
             return areaSum;
         }
-        
-        public static double Sum(IEnumerable col)
-        {
-            double sum = 0;
-            foreach (double val in col)
-            {
-                sum += val;
-            }
-            return sum;
-        }
-
     }
 }
