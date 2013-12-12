@@ -10,8 +10,12 @@ namespace Services.RouteServices
 {
     public class AutomatedScheduler : IScheduler
     {
+        private bool initialScan;
+        private CellIndex initialCell;
+
         internal AutomatedScheduler()
         {
+            this.initialScan = true;
         }
 
         public IEnumerable<ICoordinate> GetRoute(IPose robotLocation, OccupancyGrid grid)
@@ -22,7 +26,49 @@ namespace Services.RouteServices
 
         private IEnumerable<CellIndex> getRoute(IPose robotLocation, OccupancyGrid grid)
         {
-            throw new NotImplementedException();
+            if (initialScan)
+            {
+                initialScan = false;
+                initialCell = getIndex(robotLocation, grid);
+                yield return initialCell;
+            }
+            else
+            {
+                var route = getAutomatedRoute(robotLocation, grid).ToArray();
+
+                if (route.Length > 0)
+                {
+                    foreach (var index in route)
+                        yield return index;
+                }
+                else
+                    yield return getNextInitialNeighbour();
+            }
+        }
+
+        private int lastNeighbour = -1;
+        private CellIndex getNextInitialNeighbour()
+        {
+            lastNeighbour++;
+            switch (lastNeighbour)
+            {
+                case 0:
+                    return new CellIndex(initialCell.X - 1, initialCell.Y);
+                case 1:
+                    return new CellIndex(initialCell.X, initialCell.Y - 1);
+                case 2:
+                    return new CellIndex(initialCell.X + 1, initialCell.Y);
+                case 3:
+                    return new CellIndex(initialCell.X, initialCell.Y + 1);
+                default:
+                    lastNeighbour = -1;
+                    return getNextInitialNeighbour();
+            }
+        }
+
+        private IEnumerable<CellIndex> getAutomatedRoute(IPose robotLocation, OccupancyGrid grid)
+        {
+            yield break;
         }
 
         private static CellIndex getIndex(ICoordinate pose, OccupancyGrid grid)
