@@ -8,7 +8,7 @@ namespace Services.RouteServices
     /// <summary>
     /// Defines a route service, capable of determining a route for a robot.
     /// </summary>
-    public interface IRouter
+    public interface IScheduler
     {
         /// <summary>
         /// Gets the next route for a robot, such that the robot scans at the end of the route.

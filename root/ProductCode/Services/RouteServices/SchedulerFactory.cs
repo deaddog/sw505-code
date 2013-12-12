@@ -2,31 +2,31 @@
 
 namespace Services.RouteServices
 {
-    public class RouterFactory
+    public class SchedulerFactory
     {
-        private static RouterFactory instance;
+        private static SchedulerFactory instance;
 
-        public static RouterFactory Instance
+        public static SchedulerFactory Instance
         {
             get
             {
                 if (instance == null)
-                    instance = new RouterFactory();
+                    instance = new SchedulerFactory();
 
                 return instance;
             }
         }
 
-        private RouterFactory()
+        private SchedulerFactory()
         {
         }
 
-        public IRouter GetGUIRouter()
+        public IScheduler GetGUIScheduler()
         {
             throw new NotImplementedException();
         }
 
-        public IRouter GetAutomatedRouter()
+        public IScheduler GetAutomatedScheduler()
         {
             throw new NotImplementedException();
         }

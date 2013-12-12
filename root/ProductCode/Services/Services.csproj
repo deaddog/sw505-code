@@ -50,11 +50,11 @@
     <Compile Include="KinectServices\RgbImageFormats.cs" />
     <Compile Include="KinectServices\RgbStream.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
-    <Compile Include="RouteServices\IRouter.cs" />
+    <Compile Include="RouteServices\IScheduler.cs" />
     <Compile Include="RouteServices\OccupancyGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RouteServices\RouterFactory.cs" />
+    <Compile Include="RouteServices\SchedulerFactory.cs" />
     <Compile Include="RouteServices\SchedulingForm.cs">
       <SubType>Form</SubType>
     </Compile>
