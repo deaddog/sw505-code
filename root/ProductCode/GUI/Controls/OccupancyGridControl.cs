@@ -19,7 +19,7 @@ namespace SystemInterface.GUI.Controls
     public class OccupancyGridControl : System.Windows.Forms.Control
     {
         private const float DEFAULT_AREASIZE = 1;
-        private const int GRID_TRANSPARANCY = 70;
+        private const int GRID_TRANSPARANCY = 150;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
 
