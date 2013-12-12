@@ -12,6 +12,7 @@ namespace Data.SensorModel
     {
         private const double OCCUPIED_CELL_PROBABILITY = .6;
         private const double FREE_CELL_PROBABILITY = .4;
+        private const double NEAR_CELL_PROBABILITY = .1;
 
         private const double MAXIMUM_SENSOR_RANGE_CM = 170;
 		private const double MINIMIM_SENSOR_RANGE_CM = 10;
@@ -65,7 +66,7 @@ namespace Data.SensorModel
                 return initialProbability;
 
             if (r < MINIMIM_SENSOR_RANGE_CM)
-                return FREE_CELL_PROBABILITY;
+                return NEAR_CELL_PROBABILITY;
             else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM))
                 return initialProbability;
             else if (sensorX - HALF_AVERAGE_OBSTACLE_DEPTH_CM <= r && r <= sensorX + HALF_AVERAGE_OBSTACLE_DEPTH_CM)
