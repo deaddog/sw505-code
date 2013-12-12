@@ -3,6 +3,7 @@
 
 #define MOVE_INCREMENT 250
 #define POWER 100
+#define TURNPOWER 100
 #define DISTANCE_BETWEEN_SENSOR_AND_ROBOT_MID_IN_MM 120
 
 // Waits for the motors to be ready
@@ -26,7 +27,7 @@ sub RunForward( int power, float distance)
 {
  WaitForMotors();
  float degrees = ConvertMMToMotorDegrees(distance);
- Run(3, -power, degrees);
+ Run(3, power, degrees);
 }
 
 // Drives the robot backward the specified distance in MM with the specified power (-100 to 100)
@@ -34,7 +35,7 @@ sub RunBackward( int power, float distance)
 {
  WaitForMotors();
  float degrees = ConvertMMToMotorDegrees(distance);
- Run(3, power, degrees);
+ Run(3, -power, degrees);
 }
 
 // Turns the robot the specified number of degrees counterclockwise with the specified power
@@ -43,8 +44,8 @@ sub TurnLeft(int power, float angle)
  WaitForMotors();
  float distance = AngleToDistance(angle);
  float degrees = ConvertMMToMotorDegrees(distance);
- Run(0, power, degrees);
- Run(1,-power,degrees);
+ Run(0, -power, degrees);
+ Run(1,power,degrees);
 }
 
 // Turns the robot the specified number of degrees clockwise with the specified power
@@ -53,8 +54,8 @@ sub TurnRight(int power, float angle)
  WaitForMotors();
  float distance = AngleToDistance(angle);
  float degrees =ConvertMMToMotorDegrees(distance);
- Run(1, power, degrees);
- Run(0,-power,degrees);
+ Run(1, -power, degrees);
+ Run(0,power,degrees);
 }
 
 //Calculates the polar coordinate from the robot to the target in a coordinate system
@@ -77,9 +78,9 @@ void TurnAngle(float angle)
  writeLogString("Turning:");
  writeLogString("  a: " + NumToStr(angle));
  if(angle > 0)
-  TurnRight(POWER,angle);
+  TurnRight(TURNPOWER,angle);
  else
-  TurnLeft(POWER, -angle);
+  TurnLeft(TURNPOWER, -angle);
 }
 
 void AdjustSensor()
@@ -96,7 +97,6 @@ void AdjustAngle()
 	PlaySound(SOUND_LOW_BEEP);
 	TurnAngle(turnAngle);
 	WaitForMotors();
-	AdjustSensor();
 }
 
 //The robot queries its position and drives a small increment in that direction
@@ -110,7 +110,7 @@ bool GotoPointIncrement(Point target)
  if(c.length > MOVE_INCREMENT)
  {
   writeLogString("  Driving MOVE_INCREMENT" );
-  RunForward(POWER,MOVE_INCREMENT);
+  RunForward(POWER,c.length/2);
   return false;
  }
  else
