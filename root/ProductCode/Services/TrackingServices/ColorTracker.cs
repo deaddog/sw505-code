@@ -15,6 +15,7 @@ namespace Services.TrackingServices
         private const float DEFAULT_THRESHOLD = 50;
         public const int BOUNDS_INFLATE = 5;
         private const int BOUNDS_MAX = 100000;
+        private const int MINIMUM_NUMBER_OF_INTERRESTING_NEIGHBOURS = 4;
 
         private float threshold;
         private Color originalColor;
@@ -24,6 +25,7 @@ namespace Services.TrackingServices
 
         private Rectangle bounds;
         private Vector2D center;
+        private Queue<Vector2D> centerPoints = new Queue<Vector2D>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorTracker"/> class.
@@ -90,7 +92,16 @@ namespace Services.TrackingServices
 
             PointF newPoint;
             if (findCenter(bounds, out newPoint))
-                center = converter.ConvertPixelToActual((Vector2D)newPoint);
+            {
+                centerPoints.Dequeue();
+                centerPoints.Enqueue(converter.ConvertPixelToActual((Vector2D)newPoint));
+                Vector2D vsum = new Vector2D(0, 0);
+                foreach (Vector2D vec in centerPoints)
+                {
+                    vsum += vec;
+                }
+                center = vsum / centerPoints.Count;
+            }
             else
             {
                 bounds = new Rectangle(0, 0, BOUNDS_MAX, BOUNDS_MAX);
@@ -100,7 +111,9 @@ namespace Services.TrackingServices
 
         unsafe private static WeightGrid trackColor(Bitmap src, Rectangle clippingRectangle, Color track, float threshold)
         {
-            if (src.PixelFormat != PixelFormat.Format24bppRgb && src.PixelFormat != PixelFormat.Format32bppRgb && src.PixelFormat != PixelFormat.Format32bppArgb)
+            if (src.PixelFormat != PixelFormat.Format24bppRgb && 
+                src.PixelFormat != PixelFormat.Format32bppRgb && 
+                src.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
 
             float[,] wGrid = new float[clippingRectangle.Width, clippingRectangle.Height];
@@ -142,7 +155,7 @@ namespace Services.TrackingServices
 
             return 1 - v;
         }
-
+            
         private static bool findCenter(Rectangle bounds, out PointF center)
         {
             if (bounds.Width == 0 || bounds.Height == 0)
@@ -235,7 +248,7 @@ namespace Services.TrackingServices
 
                 for (int x = 0; x < grid.Width; x++)
                     for (int y = 0; y < grid.Height; y++)
-                        if (grid[x, y] > 0 && grid.CountNeighbours(x, y) < 4)
+                        if (grid[x, y] > 0 && grid.CountNeighbours(x, y) < MINIMUM_NUMBER_OF_INTERRESTING_NEIGHBOURS)
                         {
                             newGrid.grid[x, y] = 0;
                             changed = true;
