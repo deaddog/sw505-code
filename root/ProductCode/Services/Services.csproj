@@ -54,6 +54,7 @@
     <Compile Include="RouteServices\OccupancyGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="RouteServices\RouterFactory.cs" />
     <Compile Include="RouteServices\SchedulingForm.cs">
       <SubType>Form</SubType>
     </Compile>
