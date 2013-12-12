@@ -61,9 +61,11 @@ namespace Control
         {
             this.grid = initialGrid;
 
-            coordQueue = new Queue<ICoordinate>();
-            coordQueue.Enqueue(new Vector2D(0, 0));
-            SendRobotToNextLocation();
+            new System.Threading.Thread(() =>
+                {
+                    coordQueue = new Queue<ICoordinate>(SchedulingService.Instance.GetRoute(RobotLocation.Instance.RobotPose, grid));
+                    SendRobotToNextLocation();
+                }).Start();
         }
         private void mapAgain()
         {
