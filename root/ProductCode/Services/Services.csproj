@@ -61,7 +61,7 @@
     <Compile Include="RouteServices\SchedulingForm.Designer.cs">
       <DependentUpon>SchedulingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RouteServices\SchedulingService.cs" />
+    <Compile Include="RouteServices\GUIScheduler.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
     <Compile Include="TrackingServices\RobotLocation.cs" />
     <Compile Include="TrackingServices\OrientationTracker.cs" />

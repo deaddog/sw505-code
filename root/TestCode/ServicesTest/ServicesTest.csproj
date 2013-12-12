@@ -58,7 +58,6 @@
     <Compile Include="RobotFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MSQRobotTest.cs" />
-    <Compile Include="RouteServices\SchedulingServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ProductCode\CommonLib\CommonLib.csproj">
