@@ -43,6 +43,8 @@
     <Compile Include="OccupancyGrid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SensorModelFactory.cs" />
+    <Compile Include="SensorModel\AbstractSensorModel.cs" />
+    <Compile Include="SensorModel\GaussianSensorModel.cs" />
     <Compile Include="SensorModel\SimpleSensorModel.cs" />
   </ItemGroup>
   <ItemGroup>
