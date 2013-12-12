@@ -23,7 +23,7 @@ namespace Services.RouteServices
 
         public IScheduler GetGUIScheduler()
         {
-            throw new NotImplementedException();
+            return new GUIScheduler();
         }
 
         public IScheduler GetAutomatedScheduler()

@@ -8,7 +8,7 @@ using Data;
 
 namespace Services.RouteServices
 {
-    public class GUIScheduler
+    public class GUIScheduler : IScheduler
     {
         private Queue<Queue<ICoordinate>> points;
 
