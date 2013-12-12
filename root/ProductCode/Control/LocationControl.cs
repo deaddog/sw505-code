@@ -27,39 +27,33 @@ namespace Control
             }
         }
 
-        private bool taken = false;
-
         private LocationControl()
         {
             this.robLocation = RobotLocation.Instance;
 
             RgbStream.Instance.ImageUpdated += (s, e) =>
                 {
-                    if (taken)
-                        return;
+                    bool taken = false;
 
                     Monitor.Enter(robLocation, ref taken);
                     if(taken)
                     {
                         Bitmap bitmap = RgbStream.Instance.Bitmap.Clone() as Bitmap;
-                        Thread thread = new Thread(UpdateLocation);
-                        thread.Start(bitmap);
+                        new Thread((obj) =>
+                        {
+                            Bitmap bmp = obj as Bitmap;
+                            if (bmp == null)
+                                return;
+
+                            robLocation.Update(bmp);
+                            if (RobotPoseChanged != null)
+                                RobotPoseChanged(this, EventArgs.Empty);
+
+                            bmp.Dispose();
+                            taken = false;
+                        }).Start();
                     }
                 };
-        }
-
-        private void UpdateLocation(object obj)
-        {
-            Bitmap bmp = obj as Bitmap;
-            if (bmp == null)
-                return;
-
-            robLocation.Update(bmp);
-            if (RobotPoseChanged != null)
-                RobotPoseChanged(this, EventArgs.Empty);
-
-            bmp.Dispose();
-            taken = false;
         }
 
         public void SetImageSize(int width, int height)
