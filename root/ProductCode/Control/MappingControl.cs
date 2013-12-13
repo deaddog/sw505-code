@@ -19,7 +19,7 @@ namespace Control
     {
         private const int LOG_ODDS_BASE = 10;
         private const int AMOUNT_OF_POINTS = 1000;
-        private const float DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM = 12;
+        private const float DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM = 11f;
 
         private IRobot robot;
         private IPose robotPose;
