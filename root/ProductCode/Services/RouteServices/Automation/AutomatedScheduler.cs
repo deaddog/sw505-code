@@ -22,6 +22,7 @@ namespace Services.RouteServices.Automation
             return new CellCoordinate(grid.X + grid.CellSize * index.X + cellRadius, grid.Y + grid.CellSize * index.Y + cellRadius);
         }
 
+        private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4,
         private bool initialScan;
         private CellIndex initialCell;
 
@@ -84,6 +85,10 @@ namespace Services.RouteServices.Automation
 
         private bool testVisitable(CellIndex cell, OccupancyGrid grid)
         {
+            for (int x = cell.X; x < cell.X + 3; x++)
+                for (int y = cell.Y; y < cell.Y + 3; y++)
+                    if (grid[x, y] > VISIT_WHEN_ADJECENT_IS_VALUE)
+                        return false;
             return true;
         }
 
