@@ -13,12 +13,18 @@ namespace Services.RouteServices.Automation
         private Dictionary<T, DijkstraNode<T>> nodes;
         private Func<T, IEnumerable<T>> adjecent;
 
-        public DijkstraSearch(Func<T, IEnumerable<T>> adjecent)
+        public static DijkstraNode<T>[] Search(Func<T, IEnumerable<T>> adjecent, Func<T, T, uint> w, T s)
+        {
+            DijkstraSearch<T> searcher = new DijkstraSearch<T>(adjecent);
+            return searcher.Search(w, s);
+        }
+
+        private DijkstraSearch(Func<T, IEnumerable<T>> adjecent)
         {
             this.adjecent = adjecent;
         }
 
-        public IEnumerable<DijkstraNode<T>> Search(Func<T, T, uint> w, T s)
+        public DijkstraNode<T>[] Search(Func<T, T, uint> w, T s)
         {
             InitializeSingleSource(s);
 
@@ -30,9 +36,8 @@ namespace Services.RouteServices.Automation
                     Relax(u, v, w);
             }
 
-            // Return the result of the algorithm above by iterating the result.
-            foreach (DijkstraNode<T> node in S)
-                yield return node;
+            // Return the result of the algorithm above by.
+            return S.ToArray();
         }
 
         private void InitializeSingleSource(T s)
