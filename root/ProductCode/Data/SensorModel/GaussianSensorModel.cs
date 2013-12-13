@@ -10,7 +10,7 @@ namespace Data.SensorModel
 {
     public class GaussianSensorModel : AbstractSensorModel
     {
-        protected const double ETA = 1;
+        protected const double ETA = 9;
         protected const double RHO = 0.1;
         protected double constantdenominator = 2 * Math.Pow(AVERAGE_OBSTACLE_DEPTH_CM / 2, 2);
         protected double constantfactor = 1 /(Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2)));
