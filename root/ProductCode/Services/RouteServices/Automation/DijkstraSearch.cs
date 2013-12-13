@@ -8,12 +8,12 @@ namespace Services.RouteServices.Automation
 {
     public class DijkstraSearch<T>
     {
-        public void Search(Func<T, T, uint> w, T start)
-        {
-            List<DijkstraNode<T>> S = new List<DijkstraNode<T>>();
-            List<DijkstraNode<T>> Q = new List<DijkstraNode<T>>();
+        private List<DijkstraNode<T>> S;
+        private List<DijkstraNode<T>> Q;
 
-            Q.Add(new DijkstraNode<T>(start) { Weight = 0 });
+        public void Search(Func<T, T, uint> w, T s)
+        {
+            InitializeSingleSource(s);
 
             while (Q.Count > 0)
             {
@@ -24,6 +24,13 @@ namespace Services.RouteServices.Automation
             }
         }
 
+        private void InitializeSingleSource(T s)
+        {
+            S = new List<DijkstraNode<T>>();
+            Q = new List<DijkstraNode<T>>();
+
+            Q.Add(new DijkstraNode<T>(s) { Weight = 0 });
+        }
         private DijkstraNode<T> ExtractMin(List<DijkstraNode<T>> list)
         {
             return (from node in list orderby node.Weight ascending select node).First();
