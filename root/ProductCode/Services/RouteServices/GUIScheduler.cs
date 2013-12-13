@@ -8,22 +8,11 @@ using Data;
 
 namespace Services.RouteServices
 {
-    public class SchedulingService
+    public class GUIScheduler : IScheduler
     {
-        private static SchedulingService instance;
-        public static SchedulingService Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new SchedulingService();
-                return instance;
-            }
-        }
-
         private Queue<Queue<ICoordinate>> points;
 
-        private SchedulingService()
+        internal GUIScheduler()
         {
             this.points = new Queue<Queue<ICoordinate>>();
         }

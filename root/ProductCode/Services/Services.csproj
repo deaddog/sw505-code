@@ -50,16 +50,19 @@
     <Compile Include="KinectServices\RgbImageFormats.cs" />
     <Compile Include="KinectServices\RgbStream.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
+    <Compile Include="RouteServices\AutomatedScheduler.cs" />
+    <Compile Include="RouteServices\IScheduler.cs" />
     <Compile Include="RouteServices\OccupancyGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="RouteServices\SchedulerFactory.cs" />
     <Compile Include="RouteServices\SchedulingForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RouteServices\SchedulingForm.Designer.cs">
       <DependentUpon>SchedulingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RouteServices\SchedulingService.cs" />
+    <Compile Include="RouteServices\GUIScheduler.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
     <Compile Include="TrackingServices\RobotLocation.cs" />
     <Compile Include="TrackingServices\OrientationTracker.cs" />
