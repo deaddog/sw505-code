@@ -39,11 +39,6 @@ namespace Services.TrackingServices
             this.originalColor = this.targetColor = color;
 
             this.converter = converter;
-
-            for (int i = 0; i < CENTERPOINT_QUEUE_SIZE; i++)
-            {
-                centerPoints.Enqueue(new Vector2D());
-            }
         }
 
         /// <summary>
@@ -99,13 +94,14 @@ namespace Services.TrackingServices
             PointF newPoint;
             if (findCenter(bounds, out newPoint))
             {
-                centerPoints.Dequeue();
+                if (centerPoints.Count == CENTERPOINT_QUEUE_SIZE)
+                    centerPoints.Dequeue();
                 centerPoints.Enqueue(converter.ConvertPixelToActual((Vector2D)newPoint));
-                Vector2D vsum = new Vector2D(0, 0);
+
+                Vector2D vsum = Vector2D.Zero;
                 foreach (Vector2D vec in centerPoints)
-                {
                     vsum += vec;
-                }
+
                 center = vsum / centerPoints.Count;
             }
             else
@@ -117,8 +113,8 @@ namespace Services.TrackingServices
 
         unsafe private static WeightGrid trackColor(Bitmap src, Rectangle clippingRectangle, Color track, float threshold)
         {
-            if (src.PixelFormat != PixelFormat.Format24bppRgb && 
-                src.PixelFormat != PixelFormat.Format32bppRgb && 
+            if (src.PixelFormat != PixelFormat.Format24bppRgb &&
+                src.PixelFormat != PixelFormat.Format32bppRgb &&
                 src.PixelFormat != PixelFormat.Format32bppArgb)
                 throw new ArgumentException("Bitmap must be 24bpp or 32bpp.");
 
@@ -161,7 +157,7 @@ namespace Services.TrackingServices
 
             return 1 - v;
         }
-            
+
         private static bool findCenter(Rectangle bounds, out PointF center)
         {
             if (bounds.Width == 0 || bounds.Height == 0)
