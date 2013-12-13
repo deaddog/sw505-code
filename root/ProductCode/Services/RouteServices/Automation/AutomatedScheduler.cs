@@ -80,7 +80,10 @@ namespace Services.RouteServices.Automation
 
         private IEnumerable<CellIndex> getAutomatedRoute(IPose robotLocation, OccupancyGrid grid)
         {
-            DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), (cell1, cell2) => 1, getIndex(robotLocation, grid));
+            DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(
+                cell => adjecentCells(cell, grid),
+                (cell1, cell2) => 1,
+                getIndex(robotLocation, grid));
         }
 
         private bool testVisitable(CellIndex cell, OccupancyGrid grid)
