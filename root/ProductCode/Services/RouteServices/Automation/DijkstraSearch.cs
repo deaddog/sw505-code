@@ -47,5 +47,12 @@ namespace Services.RouteServices.Automation
                 v.Parent = u;
             }
         }
+
+        protected DijkstraNode<T> DiscoverNode(T value)
+        {
+            DijkstraNode<T> node = new DijkstraNode<T>(value);
+            Q.Add(node);
+            return node;
+        }
     }
 }
