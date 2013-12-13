@@ -4,22 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonLib.DTOs;
-using CommonLib.Interfaces;
 
 namespace Data.SensorModel
 {
-    public class SimpleSensorModel :AbstractSensorModel
+    public class GaussianSensorModel : AbstractSensorModel
     {
-        
+        protected const double ETA = 1;
 
-        /// <summary>
-        /// Gets the probability from ultrasonic sensor X.
-        /// </summary>
-        /// <param name="robot">The robots coordinates.</param>
-        /// <param name="cell">The cells coordinates.</param>
-        /// <param name="sensorX">The sensor X's length measured.</param>
-        /// <returns></returns>
-        public override double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
+        public double NormalDistribution(byte sensor, double distance)
+        {
+            return 1 /
+                (Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2)))
+
+                * Math.Pow(Math.E,
+                -(Math.Pow((distance - sensor), 2)
+                /
+                (Math.Pow(AVERAGE_OBSTACLE_DEPTH_CM, 2) / 6)));
+        }
+
+        public override double GetProbability(OccupancyGrid grid, CommonLib.Interfaces.IPose robot, CommonLib.DTOs.CellIndex cell, byte sensorX)
         {
             CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
@@ -32,7 +35,7 @@ namespace Data.SensorModel
             else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM/2))
                 return initialProbability;
             else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM/2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM/2)
-                return OCCUPIED_CELL_PROBABILITY;
+                throw new NotImplementedException();
             else
                 return FREE_CELL_PROBABILITY;
         }

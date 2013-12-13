@@ -52,6 +52,7 @@
     <Compile Include="DTOs\Pose.cs" />
     <Compile Include="DTOs\SensorDataDTO.cs" />
     <Compile Include="DTOs\Vector2D.cs" />
+    <Compile Include="ExtendedMath.cs" />
     <Compile Include="Interfaces\ICoordinate.cs" />
     <Compile Include="Interfaces\IPose.cs" />
     <Compile Include="Interfaces\ISensorData.cs" />
