@@ -7,7 +7,7 @@ namespace CommonLib
     public static class ExtendedMath
     {
         //private const long INTEGRAL_DIVISIONS = long.MaxValue;
-        private const long INTEGRAL_DIVISIONS = 10000;
+        private const long INTEGRAL_DIVISIONS = 100000;
 
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace CommonLib
         /// <returns>the definite integral of the function</returns>
         public static double DefIntegrate(Func<double, double> f, double lower, double upper, long pres)
         {
-            if (lower < upper) throw new ApplicationException("lower bound must be smaller than the upper bound!");
+            if (lower > upper) throw new ApplicationException("lower bound must be smaller than the upper bound!");
             double deltaX = (upper - lower) / pres;
             double xi;
             double areaSum = 0;
