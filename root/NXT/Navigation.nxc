@@ -4,7 +4,7 @@
 #define MOVE_INCREMENT 250
 #define POWER 100
 #define TURNPOWER 100
-#define DISTANCE_BETWEEN_SENSOR_AND_ROBOT_MID_IN_MM 120
+#define DISTANCE_BETWEEN_SENSOR_AND_ROBOT_MID_IN_MM 115
 
 // Waits for the motors to be ready
 inline void WaitForMotors()
