@@ -10,8 +10,9 @@ namespace Services.RouteServices.Automation
     {
         private List<DijkstraNode<T>> S;
         private List<DijkstraNode<T>> Q;
+        private Dictionary<T, DijkstraNode<T>> nodes;
 
-        public void Search(Func<T, T, uint> w, T s)
+        public void Search(Func<T, T, uint> w, T s, Func<T, IEnumerable<T>> adj)
         {
             InitializeSingleSource(s);
 
@@ -19,7 +20,7 @@ namespace Services.RouteServices.Automation
             {
                 var u = ExtractMin(Q);
                 S.Add(u);
-                foreach (var v in Adj(u))
+                foreach (var v in Adj(u, adj))
                     Relax(u, v, w);
             }
         }
@@ -28,16 +29,24 @@ namespace Services.RouteServices.Automation
         {
             S = new List<DijkstraNode<T>>();
             Q = new List<DijkstraNode<T>>();
+            nodes = new Dictionary<T, DijkstraNode<T>>();
 
-            Q.Add(new DijkstraNode<T>(s) { Weight = 0 });
+            DijkstraNode<T> start = DiscoverNode(s);
+            start.Weight = 0;
         }
         private DijkstraNode<T> ExtractMin(List<DijkstraNode<T>> list)
         {
             return (from node in list orderby node.Weight ascending select node).First();
         }
-        private IEnumerable<DijkstraNode<T>> Adj(DijkstraNode<T> element)
+        private IEnumerable<DijkstraNode<T>> Adj(DijkstraNode<T> element, Func<T, IEnumerable<T>> adj)
         {
-            throw new NotImplementedException();
+            foreach (var e in adj(element.Value))
+            {
+                if (nodes.ContainsKey(e))
+                    yield return nodes[e];
+                else
+                    yield return DiscoverNode(e);
+            }
         }
         private void Relax(DijkstraNode<T> u, DijkstraNode<T> v, Func<T, T, uint> w)
         {
@@ -52,6 +61,7 @@ namespace Services.RouteServices.Automation
         {
             DijkstraNode<T> node = new DijkstraNode<T>(value);
             Q.Add(node);
+            nodes.Add(value, node);
             return node;
         }
     }
