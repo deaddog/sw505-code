@@ -12,7 +12,7 @@ namespace Services.RouteServices.Automation
         private List<DijkstraNode<T>> Q;
         private Dictionary<T, DijkstraNode<T>> nodes;
 
-        public void Search(Func<T, T, uint> w, T s, Func<T, IEnumerable<T>> adj)
+        public IEnumerable<DijkstraNode<T>> Search(Func<T, T, uint> w, T s, Func<T, IEnumerable<T>> adj)
         {
             InitializeSingleSource(s);
 
@@ -23,6 +23,10 @@ namespace Services.RouteServices.Automation
                 foreach (var v in Adj(u, adj))
                     Relax(u, v, w);
             }
+
+            // Return the result of the algorithm above by iterating the result.
+            foreach (DijkstraNode<T> node in S)
+                yield return node;
         }
 
         private void InitializeSingleSource(T s)
