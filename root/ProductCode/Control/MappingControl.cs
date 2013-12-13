@@ -41,7 +41,7 @@ namespace Control
                 {
                     IRobot robot = RobotFactory.GetInstance().CreateRobot();
                     ISensorModel sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
-                    IScheduler scheduler = SchedulerFactory.Instance.GetGUIScheduler();
+                    IScheduler scheduler = SchedulerFactory.Instance.GetAutomatedScheduler();
                     instance = new MappingControl(robot, sensorModel, scheduler);
                 }
                 return instance;
