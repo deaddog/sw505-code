@@ -1,4 +1,4 @@
-﻿namespace Services.RouteServices
+﻿namespace Services.RouteServices.UserInput
 {
     partial class SchedulingForm
     {
@@ -34,7 +34,7 @@
             this.labelMouse = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.occupancyGridControl1 = new Services.RouteServices.OccupancyGridControl();
+            this.occupancyGridControl1 = new Services.RouteServices.UserInput.OccupancyGridControl();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();

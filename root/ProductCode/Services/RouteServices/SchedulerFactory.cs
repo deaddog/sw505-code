@@ -23,12 +23,12 @@ namespace Services.RouteServices
 
         public IScheduler GetGUIScheduler()
         {
-            return new GUIScheduler();
+            return new Services.RouteServices.UserInput.GUIScheduler();
         }
 
         public IScheduler GetAutomatedScheduler()
         {
-            return new AutomatedScheduler();
+            return new Services.RouteServices.Automation.AutomatedScheduler();
         }
     }
 }

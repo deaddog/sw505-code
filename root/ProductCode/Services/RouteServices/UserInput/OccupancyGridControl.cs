@@ -10,7 +10,7 @@ using CommonLib;
 using CommonLib.DTOs;
 using CommonLib.Interfaces;
 
-namespace Services.RouteServices
+namespace Services.RouteServices.UserInput
 {
     /// <summary>
     /// Represents an occupancy grid drawn on top of a picturebox

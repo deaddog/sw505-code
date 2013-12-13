@@ -11,7 +11,7 @@ using Data;
 using CommonLib.DTOs;
 using CommonLib.Interfaces;
 
-namespace Services.RouteServices
+namespace Services.RouteServices.UserInput
 {
     public partial class SchedulingForm : Form
     {

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Services.RouteServices
+namespace Services.RouteServices.Automation
 {
     public class AutomatedScheduler : IScheduler
     {
