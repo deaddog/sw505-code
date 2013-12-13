@@ -22,7 +22,7 @@ namespace Services.RouteServices.Automation
             return new CellCoordinate(grid.X + grid.CellSize * index.X + cellRadius, grid.Y + grid.CellSize * index.Y + cellRadius);
         }
 
-        private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4,
+        private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4;
         private bool initialScan;
         private CellIndex initialCell;
 
@@ -84,6 +84,16 @@ namespace Services.RouteServices.Automation
                 cell => adjecentCells(cell, grid),
                 (cell1, cell2) => 1,
                 getIndex(robotLocation, grid));
+
+            double lowest = double.PositiveInfinity;
+            Dictionary<CellIndex, double> knowledge = new Dictionary<CellIndex, double>();
+            foreach (var node in nodes)
+            {
+                double know = calculateKnowledge(node.Value, grid);
+                knowledge.Add(node.Value, know);
+                if (know < lowest)
+                    lowest = know;
+            }
         }
 
         private bool testVisitable(CellIndex cell, OccupancyGrid grid)
@@ -119,6 +129,10 @@ namespace Services.RouteServices.Automation
                 yield return new CellIndex(cell.X + 1, cell.Y);
                 if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X + 1, cell.Y + 1);
             }
+        }
+
+        private double calculateKnowledge(CellIndex cell, OccupancyGrid grid)
+        {
         }
     }
 }
