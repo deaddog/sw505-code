@@ -81,5 +81,24 @@ namespace Services.RouteServices.Automation
         {
             yield break;
         }
+        static IEnumerable<CellIndex> allAdjecentCells(CellIndex cell, OccupancyGrid grid)
+        {
+            if (cell.X > 1)
+            {
+                if (cell.Y > 1) yield return new CellIndex(cell.X - 1, cell.Y - 1);
+                yield return new CellIndex(cell.X - 1, cell.Y);
+                if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X - 1, cell.Y + 1);
+            }
+
+            if (cell.Y > 1) yield return new CellIndex(cell.X, cell.Y - 1);
+            if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X, cell.Y + 1);
+
+            if (cell.X < grid.Columns - 2)
+            {
+                if (cell.Y > 1) yield return new CellIndex(cell.X + 1, cell.Y - 1);
+                yield return new CellIndex(cell.X + 1, cell.Y);
+                if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X + 1, cell.Y + 1);
+            }
+        }
     }
 }
