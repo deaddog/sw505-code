@@ -79,9 +79,21 @@ namespace Services.RouteServices.Automation
 
         private IEnumerable<CellIndex> getAutomatedRoute(IPose robotLocation, OccupancyGrid grid)
         {
-            yield break;
+            DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), (cell1, cell2) => 1, getIndex(robotLocation, grid));
         }
-        static IEnumerable<CellIndex> allAdjecentCells(CellIndex cell, OccupancyGrid grid)
+
+        private bool testVisitable(CellIndex cell, OccupancyGrid grid)
+        {
+            return true;
+        }
+
+        private IEnumerable<CellIndex> adjecentCells(CellIndex cell, OccupancyGrid grid)
+        {
+            foreach (var c in allAdjecentCells(cell, grid))
+                if (testVisitable(cell, grid))
+                    yield return c;
+        }
+        private IEnumerable<CellIndex> allAdjecentCells(CellIndex cell, OccupancyGrid grid)
         {
             if (cell.X > 1)
             {
