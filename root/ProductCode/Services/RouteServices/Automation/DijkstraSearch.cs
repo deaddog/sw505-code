@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Services.RouteServices.Automation
 {
-    public static class DijkstraSearch
+    public class DijkstraSearch<T>
     {
-        public static void Search<T>(Func<T, T, uint> w, T start)
+        public void Search(Func<T, T, uint> w, T start)
         {
             List<DijkstraNode<T>> S = new List<DijkstraNode<T>>();
             List<DijkstraNode<T>> Q = new List<DijkstraNode<T>>();
@@ -24,15 +24,15 @@ namespace Services.RouteServices.Automation
             }
         }
 
-        private static DijkstraNode<T> ExtractMin<T>(List<DijkstraNode<T>> list)
+        private DijkstraNode<T> ExtractMin(List<DijkstraNode<T>> list)
         {
             return (from node in list orderby node.Weight ascending select node).First();
         }
-        private static IEnumerable<DijkstraNode<T>> Adj<T>(DijkstraNode<T> element)
+        private IEnumerable<DijkstraNode<T>> Adj(DijkstraNode<T> element)
         {
             throw new NotImplementedException();
         }
-        private static void Relax<T>(DijkstraNode<T> u, DijkstraNode<T> v, Func<T, T, uint> w)
+        private void Relax(DijkstraNode<T> u, DijkstraNode<T> v, Func<T, T, uint> w)
         {
             if (v.Weight > u.Weight + w(u.Value, v.Value))
             {
