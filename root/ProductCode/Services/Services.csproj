@@ -51,6 +51,7 @@
     <Compile Include="KinectServices\RgbStream.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
     <Compile Include="RouteServices\Automation\AutomatedScheduler.cs" />
+    <Compile Include="RouteServices\Automation\DijkstraNode.cs" />
     <Compile Include="RouteServices\IScheduler.cs" />
     <Compile Include="RouteServices\UserInput\OccupancyGridControl.cs">
       <SubType>Component</SubType>
