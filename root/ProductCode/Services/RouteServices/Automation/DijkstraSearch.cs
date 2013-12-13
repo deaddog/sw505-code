@@ -11,8 +11,14 @@ namespace Services.RouteServices.Automation
         private List<DijkstraNode<T>> S;
         private List<DijkstraNode<T>> Q;
         private Dictionary<T, DijkstraNode<T>> nodes;
+        private Func<T, IEnumerable<T>> adjecent;
 
-        public IEnumerable<DijkstraNode<T>> Search(Func<T, T, uint> w, T s, Func<T, IEnumerable<T>> adj)
+        public DijkstraSearch(Func<T, IEnumerable<T>> adjecent)
+        {
+            this.adjecent = adjecent;
+        }
+
+        public IEnumerable<DijkstraNode<T>> Search(Func<T, T, uint> w, T s)
         {
             InitializeSingleSource(s);
 
@@ -20,7 +26,7 @@ namespace Services.RouteServices.Automation
             {
                 var u = ExtractMin(Q);
                 S.Add(u);
-                foreach (var v in Adj(u, adj))
+                foreach (var v in Adj(u))
                     Relax(u, v, w);
             }
 
@@ -42,9 +48,9 @@ namespace Services.RouteServices.Automation
         {
             return (from node in list orderby node.Weight ascending select node).First();
         }
-        private IEnumerable<DijkstraNode<T>> Adj(DijkstraNode<T> element, Func<T, IEnumerable<T>> adj)
+        private IEnumerable<DijkstraNode<T>> Adj(DijkstraNode<T> element)
         {
-            foreach (var e in adj(element.Value))
+            foreach (var e in adjecent(element.Value))
             {
                 if (nodes.ContainsKey(e))
                     yield return nodes[e];
