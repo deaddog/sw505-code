@@ -51,7 +51,9 @@ namespace Services.RouteServices.Automation
         }
         private DijkstraNode<T> ExtractMin(List<DijkstraNode<T>> list)
         {
-            return (from node in list orderby node.Weight ascending select node).First();
+            DijkstraNode<T> node = (from n in list orderby n.Weight ascending select n).First();
+            Q.Remove(node);
+            return node;
         }
         private IEnumerable<DijkstraNode<T>> Adj(DijkstraNode<T> element)
         {
