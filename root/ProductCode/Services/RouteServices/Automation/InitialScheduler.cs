@@ -42,5 +42,10 @@ namespace Services.RouteServices.Automation
                 }
             }
         }
+
+        public bool DetermineIfRouteable(IPose robotLocation, OccupancyGrid grid)
+        {
+            return true;
+        }
     }
 }

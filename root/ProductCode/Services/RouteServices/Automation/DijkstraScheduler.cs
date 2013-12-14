@@ -38,6 +38,12 @@ namespace Services.RouteServices.Automation
                 if (know < lowest)
                     lowest = know;
             }
+            throw new NotImplementedException();
+        }
+
+        public bool DetermineIfRouteable(IPose robotLocation, OccupancyGrid grid)
+        {
+            throw new NotImplementedException();
         }
 
         private bool testVisitable(CellIndex cell, OccupancyGrid grid)
