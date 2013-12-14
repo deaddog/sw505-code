@@ -10,36 +10,23 @@ namespace Services.RouteServices.Automation
 {
     public class AutomatedScheduler : IScheduler
     {
+        private ICellScheduler current;
+        private ICellScheduler next;
+
         internal AutomatedScheduler()
         {
-            this.initialScan = true;
+            current = new InitialScheduler();
+            next = new DijkstraScheduler();
         }
 
         public IEnumerable<ICoordinate> GetRoute(IPose robotLocation, OccupancyGrid grid)
         {
-            foreach (CellIndex index in getRoute(robotLocation, grid))
-                yield return getCellCenter(index, grid);
-        }
-        private IEnumerable<CellIndex> getRoute(IPose robotLocation, OccupancyGrid grid)
-        {
-            if (initialScan)
+            if (next != null && next.DetermineIfRouteable(robotLocation, grid))
             {
-                initialScan = false;
-                initialCell = getIndex(robotLocation, grid);
-                yield return initialCell;
+                current = next;
+                next = null;
             }
-            else
-            {
-                var route = getAutomatedRoute(robotLocation, grid).ToArray();
-
-                if (route.Length > 0)
-                {
-                    foreach (var index in route)
-                        yield return index;
-                }
-                else
-                    yield return getNextInitialNeighbour();
-            }
+            return current.GetRoute(robotLocation, grid);
         }
     }
 }
