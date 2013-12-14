@@ -1,12 +1,19 @@
-﻿using System;
+﻿using CommonLib.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.RouteServices.Automation
 {
     public static class RouteSimplifier
     {
+        private IEnumerable<CellIndex> convertToCollection(DijkstraNode<CellIndex> node)
+        {
+            if (node == null)
+                yield break;
+
+            foreach (var cell in convertToCollection(node.Parent))
+                yield return cell;
+
+            yield return node.Value;
+        }
     }
 }
