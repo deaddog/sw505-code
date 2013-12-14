@@ -3,6 +3,7 @@ using CommonLib.Interfaces;
 using Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services.RouteServices.Automation
 {
@@ -12,10 +13,7 @@ namespace Services.RouteServices.Automation
 
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
-            DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(
-                cell => adjecentCells(cell, grid),
-                (cell1, cell2) => 1,
-                robotLocation);
+            DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
 
             double lowest = double.PositiveInfinity;
             Dictionary<CellIndex, double> knowledge = new Dictionary<CellIndex, double>();
@@ -26,7 +24,13 @@ namespace Services.RouteServices.Automation
                 if (know < lowest)
                     lowest = know;
             }
-            throw new NotImplementedException();
+
+            DijkstraNode<CellIndex> destination = (from node in nodes
+                                                   where knowledge[node.Value] == lowest 
+                                                   orderby node.Weight ascending 
+                                                   select node).FirstOrDefault();
+
+            return RouteSimplifier.GetRoute(destination);
         }
 
         public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
