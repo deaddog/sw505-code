@@ -50,19 +50,26 @@
     <Compile Include="KinectServices\RgbImageFormats.cs" />
     <Compile Include="KinectServices\RgbStream.cs" />
     <Compile Include="RobotServices\PmanRobot.cs" />
-    <Compile Include="RouteServices\AutomatedScheduler.cs" />
+    <Compile Include="RouteServices\Automation\AutomatedScheduler.cs" />
+    <Compile Include="RouteServices\Automation\DijkstraNode.cs" />
+    <Compile Include="RouteServices\Automation\DijkstraScheduler.cs" />
+    <Compile Include="RouteServices\Automation\DijkstraSearch.cs" />
+    <Compile Include="RouteServices\Automation\InitialScheduler.cs" />
+    <Compile Include="RouteServices\Automation\RouteSimplifier.cs" />
+    <Compile Include="RouteServices\ICellScheduler.cs" />
     <Compile Include="RouteServices\IScheduler.cs" />
-    <Compile Include="RouteServices\OccupancyGridControl.cs">
+    <Compile Include="RouteServices\CellSchedulerExtension.cs" />
+    <Compile Include="RouteServices\UserInput\OccupancyGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RouteServices\SchedulerFactory.cs" />
-    <Compile Include="RouteServices\SchedulingForm.cs">
+    <Compile Include="RouteServices\UserInput\SchedulingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RouteServices\SchedulingForm.Designer.cs">
+    <Compile Include="RouteServices\UserInput\SchedulingForm.Designer.cs">
       <DependentUpon>SchedulingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RouteServices\GUIScheduler.cs" />
+    <Compile Include="RouteServices\UserInput\GUIScheduler.cs" />
     <Compile Include="TrackingServices\ColorTracker.cs" />
     <Compile Include="TrackingServices\RobotLocation.cs" />
     <Compile Include="TrackingServices\OrientationTracker.cs" />
@@ -96,10 +103,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RouteServices\OccupancyGridControl.resx">
+    <EmbeddedResource Include="RouteServices\UserInput\OccupancyGridControl.resx">
       <DependentUpon>OccupancyGridControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RouteServices\SchedulingForm.resx">
+    <EmbeddedResource Include="RouteServices\UserInput\SchedulingForm.resx">
       <DependentUpon>SchedulingForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

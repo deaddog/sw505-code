@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CommonLib.Interfaces;
 using Data;
 
-namespace Services.RouteServices
+namespace Services.RouteServices.UserInput
 {
     public class GUIScheduler : IScheduler
     {

@@ -10,8 +10,6 @@ namespace Data.SensorModel
 {
     public class SimpleSensorModel :AbstractSensorModel
     {
-        
-
         /// <summary>
         /// Gets the probability from ultrasonic sensor X.
         /// </summary>
@@ -21,7 +19,7 @@ namespace Data.SensorModel
         /// <returns></returns>
         public override double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
-            CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
+            ICoordinate c = grid.GetCellCenter(cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
             if (sensorX < 20)

@@ -41,7 +41,7 @@ namespace Control
                 {
                     IRobot robot = RobotFactory.GetInstance().CreateRobot();
                     ISensorModel sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
-                    IScheduler scheduler = SchedulerFactory.Instance.GetGUIScheduler();
+                    IScheduler scheduler = SchedulerFactory.Instance.GetAutomatedScheduler();
                     instance = new MappingControl(robot, sensorModel, scheduler);
                 }
                 return instance;
@@ -128,14 +128,10 @@ namespace Control
                 {
                     CellIndex cell = new CellIndex(i, j);
                     newMap[i, j] = grid[i, j];
-                    if (cellIsInPerceptualRange(cell, grid.CellSize))
+                    if (cellIsInPerceptualRange(cell))
                     {
-                        byte sensorReading = getCorrectSensorReading(
-                            cell, grid.CellSize, sensorReadings
-                            );
-                        double newProbability = sensorModel.GetProbability(
-                            grid, robotPose, cell, sensorReading
-                            );
+                        byte sensorReading = getCorrectSensorReading(cell, sensorReadings);
+                        double newProbability = sensorModel.GetProbability(grid, robotPose, cell, sensorReading);
                         newMap[i, j] = logOddsInverse(
                             logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(OccupancyGrid.INITIAL_PROBABILITY)
                             );
@@ -196,26 +192,19 @@ namespace Control
             }
         }
 
-        private CellIndex getRobotIndex(IPose robotPose, double cellSize)
-        {
-            int robotCellX = (int)Math.Floor((robotPose.X - grid.X) / cellSize);
-            int robotCellY = (int)Math.Floor((robotPose.Y - grid.Y) / cellSize);
-            return new CellIndex(robotCellX, robotCellY);
-        }
-
-        private bool cellIsInPerceptualRange(CellIndex mapCell, double cellSize)
+        private bool cellIsInPerceptualRange(CellIndex mapCell)
         {
             //Calculate in which the robot is located
-            CellIndex robotCell = getRobotIndex(robotPose, cellSize);
+            CellIndex robotCell = grid.GetIndex(robotPose);
 
             //If current map cell is in either same row or column as robot, return true
             return mapCell.X == robotCell.X || mapCell.Y == robotCell.Y;
         }
 
-        private byte getCorrectSensorReading(CellIndex mapCell, double cellSize, ISensorData sensorReadings)
+        private byte getCorrectSensorReading(CellIndex mapCell, ISensorData sensorReadings)
         {
             //Calculate in which the robot is located
-            CellIndex robotCell = getRobotIndex(robotPose, cellSize);
+            CellIndex robotCell = grid.GetIndex(robotPose);
             int robotAngle = (int)Math.Round(robotPose.Angle / 90.0) * 90;
 
             //Sets the relative position of the current cell as an angle, where angle 0 is x > 0 and y = 0

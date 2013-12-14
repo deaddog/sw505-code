@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonLib.DTOs;
+using CommonLib.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,6 +78,18 @@ namespace Data
             this.yOffset = yLocation;
 
             gridCells = (double[,])grid.Clone();
+        }
+
+        public CellIndex GetIndex(ICoordinate pose)
+        {
+            int robotCellX = (int)Math.Floor((pose.X - xOffset) / cellsize);
+            int robotCellY = (int)Math.Floor((pose.Y - yOffset) / cellsize);
+            return new CellIndex(robotCellX, robotCellY);
+        }
+        public ICoordinate GetCellCenter(CellIndex index)
+        {
+            float cellRadius = cellsize / 2;
+            return new Vector2D(xOffset + cellsize * index.X + cellRadius, yOffset + cellsize * index.Y + cellRadius);
         }
 
         public double this[int column, int row]
