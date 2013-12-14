@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommonLib.DTOs;
+using CommonLib.Interfaces;
 
 namespace Data.SensorModel
 {
@@ -24,7 +25,7 @@ namespace Data.SensorModel
 
         public override double GetProbability(OccupancyGrid grid, CommonLib.Interfaces.IPose robot, CommonLib.DTOs.CellIndex cell, byte sensorX)
         {
-            CellCoordinate c = getCoordinateFromCellIndex(grid, cell);
+            ICoordinate c = grid.GetCellCenter(cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
             if (sensorX < 20)
