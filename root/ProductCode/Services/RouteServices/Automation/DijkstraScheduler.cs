@@ -10,6 +10,7 @@ namespace Services.RouteServices.Automation
     public class DijkstraScheduler : ICellScheduler
     {
         private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4;
+        private const double IGNORE_CELLS_PAST_VALUE = 0.75;
 
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
@@ -87,7 +88,12 @@ namespace Services.RouteServices.Automation
 
             for (int y = 0; y < grid.Rows; y++)
                 for (int x = 0; x < grid.Columns; x++)
-                    knowledge[x, y] = 0.5 - Math.Abs(0.5 - grid[x, y]);
+                {
+                    if (grid[x, y] > IGNORE_CELLS_PAST_VALUE)
+                        knowledge[x, y] = -1;
+                    else
+                        knowledge[x, y] = 0.5 - Math.Abs(0.5 - grid[x, y]);
+                }
 
             return knowledge;
         }
@@ -100,14 +106,26 @@ namespace Services.RouteServices.Automation
             int rows = knowledgegrid.GetLength(1);
 
             for (int x = cell.X; x < columns; x++)
+            {
+                if (knowledgegrid[x, cell.Y] == -1) break;
                 knowledge += knowledgegrid[x, cell.Y];
+            }
             for (int x = cell.X; x >= 0; x--)
+            {
+                if (knowledgegrid[x, cell.Y] == -1) break;
                 knowledge += knowledgegrid[x, cell.Y];
+            }
 
             for (int y = cell.Y; y < rows; y++)
+            {
+                if (knowledgegrid[cell.X, y] == -1) break;
                 knowledge += knowledgegrid[cell.X, y];
+            }
             for (int y = cell.Y; y >= 0; y--)
+            {
+                if (knowledgegrid[cell.X, y] == -1) break;
                 knowledge += knowledgegrid[cell.X, y];
+            }
 
             return knowledge;
         }
