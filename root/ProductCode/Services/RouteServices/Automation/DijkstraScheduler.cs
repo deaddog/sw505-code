@@ -22,12 +22,12 @@ namespace Services.RouteServices.Automation
             return new Vector2D(grid.X + grid.CellSize * index.X + cellRadius, grid.Y + grid.CellSize * index.Y + cellRadius);
         }
 
-        public IEnumerable<CellIndex> GetIndexRoute(IPose robotLocation, OccupancyGrid grid)
+        public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
             DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(
                 cell => adjecentCells(cell, grid),
                 (cell1, cell2) => 1,
-                getIndex(robotLocation, grid));
+                robotLocation);
 
             double lowest = double.PositiveInfinity;
             Dictionary<CellIndex, double> knowledge = new Dictionary<CellIndex, double>();
@@ -41,7 +41,7 @@ namespace Services.RouteServices.Automation
             throw new NotImplementedException();
         }
 
-        public bool DetermineIfRouteable(IPose robotLocation, OccupancyGrid grid)
+        public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
         {
             throw new NotImplementedException();
         }

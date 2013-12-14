@@ -11,16 +11,16 @@ namespace Services.RouteServices.Automation
         private CellIndex initialCell;
         private int lastNeighbour = -1;
 
-        public IEnumerable<CellIndex> GetIndexRoute(IPose robotLocation, OccupancyGrid grid)
+        public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
             yield return GetDestination(robotLocation, grid);
         }
-        private CellIndex GetDestination(IPose robotLocation, OccupancyGrid grid)
+        private CellIndex GetDestination(CellIndex robotLocation, OccupancyGrid grid)
         {
             if (initialScan)
             {
                 initialScan = false;
-                initialCell = grid.GetIndex(robotLocation);
+                initialCell = robotLocation;
                 return initialCell;
             }
             else
@@ -43,7 +43,7 @@ namespace Services.RouteServices.Automation
             }
         }
 
-        public bool DetermineIfRouteable(IPose robotLocation, OccupancyGrid grid)
+        public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
         {
             return true;
         }

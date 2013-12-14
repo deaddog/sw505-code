@@ -10,8 +10,13 @@ namespace Services.RouteServices
     {
         public static IEnumerable<ICoordinate> GetRoute(this ICellScheduler scheduler, IPose robotLocation, OccupancyGrid grid)
         {
-            foreach (CellIndex index in scheduler.GetIndexRoute(robotLocation, grid))
+            foreach (CellIndex index in scheduler.GetIndexRoute(grid.GetIndex(robotLocation), grid))
                 yield return grid.GetCellCenter(index);
+        }
+
+        public static bool DetermineIfRouteable(this ICellScheduler scheduler, IPose robotLocation, OccupancyGrid grid)
+        {
+            return scheduler.DetermineIfRouteable(grid.GetIndex(robotLocation), grid);
         }
     }
 }
