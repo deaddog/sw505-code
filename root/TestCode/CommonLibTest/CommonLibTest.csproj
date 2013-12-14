@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ExtendedMathTests.cs" />
     <Compile Include="PostManTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using CommonLib.Interfaces;
 
 namespace Data.SensorModel
 {
-    public class SimpleSensorModel :AbstractSensorModel
+    public class SimpleSensorModel : AbstractSensorModel
     {
         /// <summary>
         /// Gets the probability from ultrasonic sensor X.
@@ -27,9 +27,9 @@ namespace Data.SensorModel
 
             if (r < MINIMIM_SENSOR_RANGE_CM)
                 return NEAR_CELL_PROBABILITY;
-            else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM/2))
+            else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2))
                 return initialProbability;
-            else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM/2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM/2)
+            else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM / 2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2)
                 return OCCUPIED_CELL_PROBABILITY;
             else
                 return FREE_CELL_PROBABILITY;

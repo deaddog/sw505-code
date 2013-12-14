@@ -10,6 +10,7 @@ namespace Data
     public class SensorModelFactory
     {
         private static SimpleSensorModel simpleSensorModel;
+        private static GaussianSensorModel gaussianSensorModel;
         private static SensorModelFactory instance;
 
         public static SensorModelFactory GetInstance()
@@ -27,6 +28,13 @@ namespace Data
                 return new SimpleSensorModel();
             else
                 return simpleSensorModel;
+        }
+
+        public GaussianSensorModel CreateGaussianSensorModel()
+        {
+            if (gaussianSensorModel == null)
+                return new GaussianSensorModel();
+            else return gaussianSensorModel;
         }
     }
 }
