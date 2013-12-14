@@ -89,7 +89,7 @@ namespace Data
         public ICoordinate GetCellCenter(CellIndex index)
         {
             float cellRadius = cellsize / 2;
-            return new CellCoordinate(xOffset + cellsize * index.X + cellRadius, yOffset + cellsize * index.Y + cellRadius);
+            return new Vector2D(xOffset + cellsize * index.X + cellRadius, yOffset + cellsize * index.Y + cellRadius);
         }
 
         public double this[int column, int row]
