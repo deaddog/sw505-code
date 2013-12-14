@@ -31,7 +31,14 @@ namespace Services.RouteServices.Automation
 
         public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
         {
-            throw new NotImplementedException();
+            return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation).Length > 0;
+        }
+
+        private uint distance(CellIndex c1, CellIndex c2)
+        {
+            double distx = c1.X - c2.X;
+            double disty = c1.Y - c2.Y;
+            return (uint)Math.Sqrt(distx * distx + disty * disty) * 1000;
         }
 
         private bool testVisitable(CellIndex cell, OccupancyGrid grid)
