@@ -11,21 +11,25 @@ namespace Services.RouteServices.Automation
     public class AutomatedScheduler : IScheduler
     {
         private ICellScheduler current;
-        private ICellScheduler next;
+        private Queue<ICellScheduler> queue;
 
         internal AutomatedScheduler()
+            : this(new DijkstraScheduler())
+        {
+        }
+        internal AutomatedScheduler(params ICellScheduler[] schedulers)
         {
             current = new InitialScheduler();
-            next = new DijkstraScheduler();
+            queue = new Queue<ICellScheduler>();
+            foreach (var scheduler in schedulers)
+                queue.Enqueue(scheduler);
         }
 
         public IEnumerable<ICoordinate> GetRoute(IPose robotLocation, OccupancyGrid grid)
         {
-            if (next != null && next.DetermineIfRouteable(robotLocation, grid))
-            {
-                current = next;
-                next = null;
-            }
+            if (queue.Count > 0 && queue.Peek().DetermineIfRouteable(robotLocation, grid))
+                current = queue.Dequeue();
+
             return current.GetRoute(robotLocation, grid);
         }
     }
