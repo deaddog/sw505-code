@@ -133,6 +133,17 @@ namespace Services.RouteServices.Automation
 
         private double calculateKnowledge(CellIndex cell, OccupancyGrid grid)
         {
+            double knowledge = 0;
+            for (int x = cell.X; x < grid.Columns; x++)
+                knowledge += Math.Abs(0.5 - grid[x, cell.Y]);
+            for (int x = cell.X; x >=0 ; x--)
+                knowledge += Math.Abs(0.5 - grid[x, cell.Y]);
+            for (int y = cell.Y; y < grid.Rows; y++)
+                knowledge += Math.Abs(0.5 - grid[cell.X, y]);
+            for (int y = cell.Y; y >= 0; y--)
+                knowledge += Math.Abs(0.5 - grid[cell.X, y]);
+
+            return knowledge;
         }
     }
 }
