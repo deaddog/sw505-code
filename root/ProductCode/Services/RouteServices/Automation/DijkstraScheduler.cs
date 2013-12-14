@@ -14,20 +14,21 @@ namespace Services.RouteServices.Automation
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
             DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
+            double[,] knowledgegrid = buildKnowledgeGainGrid(grid);
 
-            double lowest = double.PositiveInfinity;
+            double highest = -1;
             Dictionary<CellIndex, double> knowledge = new Dictionary<CellIndex, double>();
             foreach (var node in nodes)
             {
-                double know = calculateKnowledge(node.Value, grid);
+                double know = calculateKnowledgeGain(node.Value, knowledgegrid);
                 knowledge.Add(node.Value, know);
-                if (know < lowest)
-                    lowest = know;
+                if (know > highest)
+                    highest = know;
             }
 
             DijkstraNode<CellIndex> destination = (from node in nodes
-                                                   where knowledge[node.Value] == lowest 
-                                                   orderby node.Weight ascending 
+                                                   where knowledge[node.Value] == highest
+                                                   orderby node.Weight descending
                                                    select node).FirstOrDefault();
 
             return RouteSimplifier.GetRoute(destination);
@@ -80,17 +81,33 @@ namespace Services.RouteServices.Automation
             }
         }
 
-        private double calculateKnowledge(CellIndex cell, OccupancyGrid grid)
+        private double[,] buildKnowledgeGainGrid(OccupancyGrid grid)
+        {
+            double[,] knowledge = new double[grid.Columns, grid.Rows];
+
+            for (int y = 0; y < grid.Rows; y++)
+                for (int x = 0; x < grid.Columns; x++)
+                    knowledge[x, y] = 0.5 - Math.Abs(0.5 - grid[x, y]);
+
+            return knowledge;
+        }
+
+        private double calculateKnowledgeGain(CellIndex cell, double[,] knowledgegrid)
         {
             double knowledge = 0;
-            for (int x = cell.X; x < grid.Columns; x++)
-                knowledge += Math.Abs(0.5 - grid[x, cell.Y]);
+
+            int columns = knowledgegrid.GetLength(0);
+            int rows = knowledgegrid.GetLength(1);
+
+            for (int x = cell.X; x < columns; x++)
+                knowledge += knowledgegrid[x, cell.Y];
             for (int x = cell.X; x >= 0; x--)
-                knowledge += Math.Abs(0.5 - grid[x, cell.Y]);
-            for (int y = cell.Y; y < grid.Rows; y++)
-                knowledge += Math.Abs(0.5 - grid[cell.X, y]);
+                knowledge += knowledgegrid[x, cell.Y];
+
+            for (int y = cell.Y; y < rows; y++)
+                knowledge += knowledgegrid[cell.X, y];
             for (int y = cell.Y; y >= 0; y--)
-                knowledge += Math.Abs(0.5 - grid[cell.X, y]);
+                knowledge += knowledgegrid[cell.X, y];
 
             return knowledge;
         }
