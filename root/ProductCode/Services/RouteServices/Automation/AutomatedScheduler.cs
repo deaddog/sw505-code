@@ -98,8 +98,8 @@ namespace Services.RouteServices.Automation
 
         private bool testVisitable(CellIndex cell, OccupancyGrid grid)
         {
-            for (int x = cell.X; x < cell.X + 3; x++)
-                for (int y = cell.Y; y < cell.Y + 3; y++)
+            for (int x = cell.X - 1; x < cell.X + 2; x++)
+                for (int y = cell.Y - 1; y < cell.Y + 2; y++)
                     if (grid[x, y] > VISIT_WHEN_ADJECENT_IS_VALUE)
                         return false;
             return true;
