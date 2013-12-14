@@ -15,7 +15,11 @@ namespace Services.RouteServices.Automation
             CellIndex p1 = e.Current;
 
             // Get the second point, for the loop below
-            if (!e.MoveNext()) yield break;
+            if (!e.MoveNext())
+            {
+                yield return p1;
+                yield break;
+            }
             CellIndex p2 = e.Current;
 
             // While there are additional points
