@@ -55,7 +55,9 @@
     <Compile Include="RouteServices\Automation\DijkstraSearch.cs" />
     <Compile Include="RouteServices\Automation\InitialScheduler.cs" />
     <Compile Include="RouteServices\Automation\RouteSimplifier.cs" />
+    <Compile Include="RouteServices\ICellScheduler.cs" />
     <Compile Include="RouteServices\IScheduler.cs" />
+    <Compile Include="RouteServices\CellSchedulerExtension.cs" />
     <Compile Include="RouteServices\UserInput\OccupancyGridControl.cs">
       <SubType>Component</SubType>
     </Compile>
