@@ -108,7 +108,7 @@ namespace Services.RouteServices.Automation
         private IEnumerable<CellIndex> adjecentCells(CellIndex cell, OccupancyGrid grid)
         {
             foreach (var c in allAdjecentCells(cell, grid))
-                if (testVisitable(cell, grid))
+                if (testVisitable(c, grid))
                     yield return c;
         }
         private IEnumerable<CellIndex> allAdjecentCells(CellIndex cell, OccupancyGrid grid)
