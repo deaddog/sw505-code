@@ -10,18 +10,6 @@ namespace Services.RouteServices.Automation
     {
         private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4;
 
-        private static CellIndex getIndex(ICoordinate pose, OccupancyGrid grid)
-        {
-            int robotCellX = (int)Math.Floor((pose.X - grid.X) / grid.CellSize);
-            int robotCellY = (int)Math.Floor((pose.Y - grid.Y) / grid.CellSize);
-            return new CellIndex(robotCellX, robotCellY);
-        }
-        private static ICoordinate getCellCenter(CellIndex index, OccupancyGrid grid)
-        {
-            float cellRadius = grid.CellSize / 2;
-            return new Vector2D(grid.X + grid.CellSize * index.X + cellRadius, grid.Y + grid.CellSize * index.Y + cellRadius);
-        }
-
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
             DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(
