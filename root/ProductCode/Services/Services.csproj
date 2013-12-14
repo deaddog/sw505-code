@@ -53,6 +53,7 @@
     <Compile Include="RouteServices\Automation\AutomatedScheduler.cs" />
     <Compile Include="RouteServices\Automation\DijkstraNode.cs" />
     <Compile Include="RouteServices\Automation\DijkstraSearch.cs" />
+    <Compile Include="RouteServices\Automation\InitialScheduler.cs" />
     <Compile Include="RouteServices\Automation\RouteSimplifier.cs" />
     <Compile Include="RouteServices\IScheduler.cs" />
     <Compile Include="RouteServices\UserInput\OccupancyGridControl.cs">
