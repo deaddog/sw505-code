@@ -1,12 +1,13 @@
-﻿using CommonLib.Interfaces;
+﻿using CommonLib.DTOs;
+using CommonLib.Interfaces;
 using Data;
 using System.Collections.Generic;
 
 namespace Services.RouteServices.Automation
 {
-    public class InitialScheduler : IScheduler
+    public class InitialScheduler : ICellScheduler
     {
-        public IEnumerable<ICoordinate> GetRoute(IPose robotLocation, OccupancyGrid grid)
+        public IEnumerable<CellIndex> GetIndexRoute(IPose robotLocation, OccupancyGrid grid)
         {
             throw new System.NotImplementedException();
         }
