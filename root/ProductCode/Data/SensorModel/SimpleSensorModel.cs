@@ -30,7 +30,6 @@ namespace Data.SensorModel
             this.initialProbability = OccupancyGrid.INITIAL_PROBABILITY;
         }
 
-
         private double cellDepthCM;
 
         /// <summary>
@@ -44,12 +43,6 @@ namespace Data.SensorModel
             get { return cellDepthCM; }
         }
 
-        private ICoordinate getCoordinateFromCellIndex(OccupancyGrid grid, CellIndex index)
-        {
-            float cellRadius = grid.CellSize / 2;
-            return new Vector2D(grid.X + grid.CellSize * index.X + cellRadius, grid.Y + grid.CellSize * index.Y + cellRadius);
-        }
-
         /// <summary>
         /// Gets the probability from ultrasonic sensor X.
         /// </summary>
@@ -59,7 +52,7 @@ namespace Data.SensorModel
         /// <returns></returns>
         public double GetProbability(OccupancyGrid grid, IPose robot, CellIndex cell, byte sensorX)
         {
-            ICoordinate c = getCoordinateFromCellIndex(grid, cell);
+            ICoordinate c = grid.GetCellCenter(cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
             if (sensorX < 20)
