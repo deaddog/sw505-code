@@ -219,9 +219,7 @@ namespace SystemInterface.GUI.Controls
 
             Control.MappingControl.Instance.DestinationUpdated += (s, e) => this.Coordinates["destination"] = e.Destination;
 #endif
-            this.Coordinates["center"] = new Vector2D(0, 0);
-            this.Coordinates.SetColor("center", Color.Black);
-            this.Coordinates.SetColor("destination", Color.DodgerBlue);
+            this.Coordinates.SetColor("destination", Color.Red);
 
             this.log = new GridLogger(DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".log");
         }
