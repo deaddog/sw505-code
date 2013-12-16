@@ -47,7 +47,7 @@ namespace SystemInterface.GUI.Controls
                     for (int y = 0; y < rows; y++)
                         array[x, y] = reader.ReadDouble();
 
-                grids.Add(new OccupancyGrid(array, size, xOff, yOff);
+                grids.Add(new OccupancyGrid(array, size, xOff, yOff));
             }
 
             return grids.ToArray();
