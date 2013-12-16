@@ -27,7 +27,8 @@ namespace Control
             }
         }
 
-        private bool taken = false;
+        private object updateLock = new object();
+        private Thread updateThread = null;
 
         private LocationControl()
         {
@@ -35,16 +36,13 @@ namespace Control
 
             RgbStream.Instance.ImageUpdated += (s, e) =>
                 {
-                    if (taken)
-                        return;
-
-                    Monitor.Enter(robLocation, ref taken);
-                    if(taken)
-                    {
-                        Bitmap bitmap = RgbStream.Instance.Bitmap.Clone() as Bitmap;
-                        Thread thread = new Thread(UpdateLocation);
-                        thread.Start(bitmap);
-                    }
+                    lock (updateLock)
+                        if (updateThread == null || !updateThread.IsAlive)
+                        {
+                            Bitmap bitmap = RgbStream.Instance.Bitmap.Clone() as Bitmap;
+                            updateThread = new Thread(UpdateLocation);
+                            updateThread.Start(bitmap);
+                        }
                 };
         }
 
@@ -59,7 +57,6 @@ namespace Control
                 RobotPoseChanged(this, EventArgs.Empty);
 
             bmp.Dispose();
-            taken = false;
         }
 
         public void SetImageSize(int width, int height)
