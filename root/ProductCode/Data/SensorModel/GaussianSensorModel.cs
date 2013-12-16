@@ -11,24 +11,26 @@ namespace Data.SensorModel
 {
     public class GaussianSensorModel : AbstractSensorModel
     {
-        protected const double ETA = 9;
         protected const double RHO = 0.1;
         protected double constantdenominator = 2 * Math.Pow(AVERAGE_OBSTACLE_DEPTH_CM / 2, 2);
         protected double constantfactor = 1 /(Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2)));
 
         public double NormalDistribution(byte sensor, double distance)
         {
-            return 
-                constantfactor * Math.Pow(Math.E,-(Math.Pow((distance - sensor), 2)/ constantdenominator ));
+            return constantfactor * Math.Pow(Math.E,-(Math.Pow((distance - sensor), 2)/ constantdenominator ));
         }
 
         public override double GetProbability(OccupancyGrid grid, CommonLib.Interfaces.IPose robot, CommonLib.DTOs.CellIndex cell, byte sensorX)
         {
-            ICoordinate c = grid.GetCellCenter(cell);
-            double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
-
             if (sensorX < 20)
                 return initialProbability;
+
+            ICoordinate c = grid.GetCellCenter(cell);
+            double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
+            double eta = calcEta(sensorX);
+
+
+
 
             if (r < MINIMIM_SENSOR_RANGE_CM)
                 return NEAR_CELL_PROBABILITY;
@@ -37,10 +39,16 @@ namespace Data.SensorModel
             else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM / 2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2)
             {
                 Func<double, double> NormalDist = x => NormalDistribution(sensorX, x);
-                return ETA * ExtendedMath.DefIntegrate(NormalDist, r - RHO, r + RHO);
+                return eta * ExtendedMath.DefIntegrate(NormalDist, r - RHO, r + RHO);
             }
             else
                 return FREE_CELL_PROBABILITY;
+        }
+
+        private double calcEta(byte sensorX)
+        {
+            
+            throw new NotImplementedException();
         }
     }
 }
