@@ -9,7 +9,13 @@ namespace Services.RouteServices.Automation
     {
         private bool initialScan;
         private CellIndex initialCell;
-        private int lastNeighbour = -1;
+        private int lastNeighbour;
+
+        public InitialScheduler()
+        {
+            this.initialScan = true;
+            this.lastNeighbour = -1;
+        }
 
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
