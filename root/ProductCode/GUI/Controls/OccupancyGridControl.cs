@@ -10,6 +10,7 @@ using Data;
 using CommonLib;
 using CommonLib.DTOs;
 using CommonLib.Interfaces;
+using System.IO;
 
 namespace SystemInterface.GUI.Controls
 {
@@ -182,6 +183,7 @@ namespace SystemInterface.GUI.Controls
         }
 
         private int gridUpdateCount = 0;
+        private GridLogger log;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
@@ -201,7 +203,7 @@ namespace SystemInterface.GUI.Controls
             if (!DesignMode)
                 Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
 
-            Control.MappingControl.Instance.GridUpdated += (s, e) => { gridUpdateCount++; this.grid = e.Grid; };
+            Control.MappingControl.Instance.GridUpdated += (s, e) => { gridUpdateCount++; this.grid = e.Grid; this.log.Log(e.Grid); };
             this.Poses["robot"] = new Pose(0, 0, 0);
             this.Coordinates["p1"] = new Vector2D(0, 0);
             this.Coordinates["p2"] = new Vector2D(0, 0);
@@ -220,6 +222,8 @@ namespace SystemInterface.GUI.Controls
             this.Coordinates["center"] = new Vector2D(0, 0);
             this.Coordinates.SetColor("center", Color.Black);
             this.Coordinates.SetColor("destination", Color.DodgerBlue);
+
+            this.log = new GridLogger(DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".log");
         }
 
         protected override void OnPaint(PaintEventArgs pe)
