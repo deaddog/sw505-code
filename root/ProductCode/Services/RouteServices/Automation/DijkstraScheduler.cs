@@ -14,7 +14,7 @@ namespace Services.RouteServices.Automation
 
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
-            DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
+            DijkstraNode<CellIndex>[] nodes = dijkstraSearch(robotLocation, grid);
             double[,] knowledgegrid = buildKnowledgeGainGrid(grid);
 
             double highest = -1;
@@ -37,7 +37,15 @@ namespace Services.RouteServices.Automation
 
         public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
         {
-            return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation).Length > 0;
+            return dijkstraSearch(robotLocation, grid).Length > 0;
+        }
+
+        private DijkstraNode<CellIndex>[] dijkstraSearch(CellIndex robotLocation, OccupancyGrid grid)
+        {
+            if (!testVisitable(robotLocation, grid))
+                return new DijkstraNode<CellIndex>[] { };
+            else
+                return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
         }
 
         private uint distance(CellIndex c1, CellIndex c2)
