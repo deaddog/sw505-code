@@ -11,6 +11,7 @@ namespace Services.RouteServices.Automation
     {
         private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4;
         private const double IGNORE_CELLS_PAST_VALUE = 0.75;
+        private const int MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION = 17;
 
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
@@ -113,23 +114,23 @@ namespace Services.RouteServices.Automation
             int columns = knowledgegrid.GetLength(0);
             int rows = knowledgegrid.GetLength(1);
 
-            for (int x = cell.X; x < columns; x++)
+            for (int x = cell.X; x < Math.Min(columns, x + MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); x++)
             {
                 if (knowledgegrid[x, cell.Y] == -1) break;
                 knowledge += knowledgegrid[x, cell.Y];
             }
-            for (int x = cell.X; x >= 0; x--)
+            for (int x = cell.X; x >= Math.Max(0, x - MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); x--)
             {
                 if (knowledgegrid[x, cell.Y] == -1) break;
                 knowledge += knowledgegrid[x, cell.Y];
             }
 
-            for (int y = cell.Y; y < rows; y++)
+            for (int y = cell.Y; y < Math.Min(rows, y + MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); y++)
             {
                 if (knowledgegrid[cell.X, y] == -1) break;
                 knowledge += knowledgegrid[cell.X, y];
             }
-            for (int y = cell.Y; y >= 0; y--)
+            for (int y = cell.Y; y >= Math.Max(0, y - MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); y--)
             {
                 if (knowledgegrid[cell.X, y] == -1) break;
                 knowledge += knowledgegrid[cell.X, y];
