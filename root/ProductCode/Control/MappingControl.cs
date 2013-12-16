@@ -40,7 +40,7 @@ namespace Control
                 if (instance == null)
                 {
                     IRobot robot = RobotFactory.GetInstance().CreateRobot();
-                    ISensorModel sensorModel = SensorModelFactory.GetInstance().CreateGaussianSensorModel();
+                    ISensorModel sensorModel = SensorModelFactory.GetInstance().CreateSimpleSensorModel();
                     IScheduler scheduler = SchedulerFactory.Instance.GetAutomatedScheduler();
                     instance = new MappingControl(robot, sensorModel, scheduler);
                 }
