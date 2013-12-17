@@ -27,7 +27,3 @@ namespace Data.SensorModel
         }
     }
 }
-
-
-
-
