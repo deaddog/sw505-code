@@ -23,7 +23,7 @@ namespace Data.SensorModel
             else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM / 2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2)
             {
                 Func<double, double> gaussianPDF = x => 
-                    Math.Pow(Math.E, Math.Pow(-(x - sensorX),2) / (2 * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2))) 
+                    Math.Pow(Math.E, -Math.Pow((x - sensorX),2) / (2 * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2))) 
                     / Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2));
 
                 double eta = calcEta(sensorX, gaussianPDF);
