@@ -13,7 +13,7 @@ namespace Services.TrackingServices
     public class ColorTracker
     {
         private const float DEFAULT_THRESHOLD = 50;
-        public const int BOUNDS_INFLATE = 5;
+        public const int BOUNDS_INFLATE = 7;
         private const int BOUNDS_MAX = 100000;
         private const int MINIMUM_NUMBER_OF_INTERRESTING_NEIGHBOURS = 4;
         private const short CENTERPOINT_QUEUE_SIZE = 3;

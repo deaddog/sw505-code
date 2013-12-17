@@ -28,8 +28,11 @@ namespace Services.RouteServices.Automation
                 CellIndex p3 = e.Current;
 
                 // If p1, p2 and p3 are not arranged in a line, yield p2
-                if(!isInline(p1,p2,p3))
+                if (!isInline(p1, p2, p3))
+                {
                     yield return p2;
+                    p1 = p2;
+                }
 
                 p2 = p3;
             }

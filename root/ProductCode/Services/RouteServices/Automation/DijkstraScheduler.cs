@@ -11,10 +11,11 @@ namespace Services.RouteServices.Automation
     {
         private const double VISIT_WHEN_ADJECENT_IS_VALUE = 0.4;
         private const double IGNORE_CELLS_PAST_VALUE = 0.75;
+        private const int MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION = 17;
 
         public IEnumerable<CellIndex> GetIndexRoute(CellIndex robotLocation, OccupancyGrid grid)
         {
-            DijkstraNode<CellIndex>[] nodes = DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
+            DijkstraNode<CellIndex>[] nodes = dijkstraSearch(robotLocation, grid);
             double[,] knowledgegrid = buildKnowledgeGainGrid(grid);
 
             double highest = -1;
@@ -37,7 +38,15 @@ namespace Services.RouteServices.Automation
 
         public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
         {
-            return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation).Length > 0;
+            return dijkstraSearch(robotLocation, grid).Length > 0;
+        }
+
+        private DijkstraNode<CellIndex>[] dijkstraSearch(CellIndex robotLocation, OccupancyGrid grid)
+        {
+            if (!testVisitable(robotLocation, grid))
+                return new DijkstraNode<CellIndex>[] { };
+            else
+                return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
         }
 
         private uint distance(CellIndex c1, CellIndex c2)
@@ -65,21 +74,13 @@ namespace Services.RouteServices.Automation
         private IEnumerable<CellIndex> allAdjecentCells(CellIndex cell, OccupancyGrid grid)
         {
             if (cell.X > 1)
-            {
-                if (cell.Y > 1) yield return new CellIndex(cell.X - 1, cell.Y - 1);
                 yield return new CellIndex(cell.X - 1, cell.Y);
-                if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X - 1, cell.Y + 1);
-            }
 
             if (cell.Y > 1) yield return new CellIndex(cell.X, cell.Y - 1);
             if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X, cell.Y + 1);
 
             if (cell.X < grid.Columns - 2)
-            {
-                if (cell.Y > 1) yield return new CellIndex(cell.X + 1, cell.Y - 1);
                 yield return new CellIndex(cell.X + 1, cell.Y);
-                if (cell.Y < grid.Rows - 2) yield return new CellIndex(cell.X + 1, cell.Y + 1);
-            }
         }
 
         private double[,] buildKnowledgeGainGrid(OccupancyGrid grid)
@@ -105,23 +106,23 @@ namespace Services.RouteServices.Automation
             int columns = knowledgegrid.GetLength(0);
             int rows = knowledgegrid.GetLength(1);
 
-            for (int x = cell.X; x < columns; x++)
+            for (int x = cell.X; x < Math.Min(columns, x + MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); x++)
             {
                 if (knowledgegrid[x, cell.Y] == -1) break;
                 knowledge += knowledgegrid[x, cell.Y];
             }
-            for (int x = cell.X; x >= 0; x--)
+            for (int x = cell.X; x >= Math.Max(0, x - MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); x--)
             {
                 if (knowledgegrid[x, cell.Y] == -1) break;
                 knowledge += knowledgegrid[x, cell.Y];
             }
 
-            for (int y = cell.Y; y < rows; y++)
+            for (int y = cell.Y; y < Math.Min(rows, y + MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); y++)
             {
                 if (knowledgegrid[cell.X, y] == -1) break;
                 knowledge += knowledgegrid[cell.X, y];
             }
-            for (int y = cell.Y; y >= 0; y--)
+            for (int y = cell.Y; y >= Math.Max(0, y - MAXIMUM_CELLRANGE_FOR_KNOWLEDGE_CALCULATION); y--)
             {
                 if (knowledgegrid[cell.X, y] == -1) break;
                 knowledge += knowledgegrid[cell.X, y];

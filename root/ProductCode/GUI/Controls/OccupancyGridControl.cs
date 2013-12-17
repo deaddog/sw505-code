@@ -10,6 +10,7 @@ using Data;
 using CommonLib;
 using CommonLib.DTOs;
 using CommonLib.Interfaces;
+using System.IO;
 
 namespace SystemInterface.GUI.Controls
 {
@@ -22,7 +23,7 @@ namespace SystemInterface.GUI.Controls
         private const int GRID_TRANSPARANCY = 150;
         // shows unexplored areas more clearly compared to other cells by lowering transparancy
         private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
-        private const float POSE_VECTOR_LENGTH = 150;
+        private const float POSE_VECTOR_LENGTH = 50;
 
         // The image size below (640x480) is updated to match any image set using the Image property
         private CoordinateConverter conv = new CoordinateConverter(640, 480, DEFAULT_AREASIZE, DEFAULT_AREASIZE);
@@ -181,6 +182,9 @@ namespace SystemInterface.GUI.Controls
             get { return drawPoses; }
         }
 
+        private int gridUpdateCount = 0;
+        private GridLogger log;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
@@ -199,7 +203,7 @@ namespace SystemInterface.GUI.Controls
             if (!DesignMode)
                 Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
 
-            Control.MappingControl.Instance.GridUpdated += (s, e) => this.grid = e.Grid;
+            Control.MappingControl.Instance.GridUpdated += (s, e) => { gridUpdateCount++; this.grid = e.Grid; this.log.Log(e.Grid); };
             this.Poses["robot"] = new Pose(0, 0, 0);
             this.Coordinates["p1"] = new Vector2D(0, 0);
             this.Coordinates["p2"] = new Vector2D(0, 0);
@@ -215,9 +219,9 @@ namespace SystemInterface.GUI.Controls
 
             Control.MappingControl.Instance.DestinationUpdated += (s, e) => this.Coordinates["destination"] = e.Destination;
 #endif
-            this.Coordinates["center"] = new Vector2D(0, 0);
-            this.Coordinates.SetColor("center", Color.Black);
-            this.Coordinates.SetColor("destination", Color.DodgerBlue);
+            this.Coordinates.SetColor("destination", Color.Red);
+
+            this.log = new GridLogger(DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".log");
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -239,6 +243,8 @@ namespace SystemInterface.GUI.Controls
             pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             drawCoordinates.Draw(pe.Graphics);
             drawPoses.Draw(pe.Graphics);
+
+            pe.Graphics.DrawString("Updates completed: " + gridUpdateCount, this.Font, Brushes.Red, new PointF(Padding.Left + 10, Padding.Top + 10));
         }
 
         private void drawCell(Graphics graphics, int x, int y)

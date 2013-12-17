@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\GridLogger.cs" />
     <Compile Include="OccupancyGridForm.cs">
       <SubType>Form</SubType>
     </Compile>

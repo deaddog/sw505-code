@@ -10,6 +10,13 @@ namespace Data.SensorModel
 {
     public class SimpleSensorModel : AbstractSensorModel
     {
+        private readonly double average_obstacle_depth_half;
+
+        public SimpleSensorModel()
+            : base()
+        {
+            this.average_obstacle_depth_half = AVERAGE_OBSTACLE_DEPTH_CM / 2;
+        }
         /// <summary>
         /// Gets the probability from ultrasonic sensor X.
         /// </summary>
@@ -27,9 +34,9 @@ namespace Data.SensorModel
 
             if (r < MINIMIM_SENSOR_RANGE_CM)
                 return NEAR_CELL_PROBABILITY;
-            else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2))
+            else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + average_obstacle_depth_half))
                 return initialProbability;
-            else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM / 2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2)
+            else if (sensorX - average_obstacle_depth_half <= r && r <= sensorX + average_obstacle_depth_half)
                 return OCCUPIED_CELL_PROBABILITY;
             else
                 return FREE_CELL_PROBABILITY;
