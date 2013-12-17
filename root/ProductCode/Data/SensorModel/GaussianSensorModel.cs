@@ -16,7 +16,12 @@ namespace Data.SensorModel
                 / Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2));
 
             double eta = calcEta(sensorX, gaussianPDF);
-            return eta * ExtendedMath.DefIntegrate(gaussianPDF, distance - RHO, distance + RHO);
+            double proba = eta * ExtendedMath.DefIntegrate(gaussianPDF, distance - RHO, distance + RHO);
+
+            if (sensorX < distance)
+                return Math.Max(proba, initialProbability);
+            else
+                return Math.Max(proba, FREE_CELL_PROBABILITY);
         }
 
         private double calcEta(byte sensorX, Func<double, double> gaussianPDF)
