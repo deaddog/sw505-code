@@ -38,15 +38,14 @@ namespace Services.RouteServices.Automation
 
         public bool DetermineIfRouteable(CellIndex robotLocation, OccupancyGrid grid)
         {
+            if (!testVisitable(robotLocation, grid))
+                return false;
             return dijkstraSearch(robotLocation, grid).Length > 0;
         }
 
         private DijkstraNode<CellIndex>[] dijkstraSearch(CellIndex robotLocation, OccupancyGrid grid)
         {
-            if (!testVisitable(robotLocation, grid))
-                return new DijkstraNode<CellIndex>[] { };
-            else
-                return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
+            return DijkstraSearch<CellIndex>.Search(cell => adjecentCells(cell, grid), distance, robotLocation);
         }
 
         private uint distance(CellIndex c1, CellIndex c2)
