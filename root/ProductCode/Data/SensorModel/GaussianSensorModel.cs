@@ -35,10 +35,9 @@ namespace Data.SensorModel
 
         private double calcEta(byte sensorX, Func<double, double> gaussianPDF)
         {
-            double pocc = ExtendedMath.logOddsInverse(OCCUPIED_CELL_PROBABILITY);
             double pmiddle = ExtendedMath.DefIntegrate(gaussianPDF, sensorX - RHO, sensorX + RHO);
 
-            return pocc / pmiddle;
+            return OCCUPIED_CELL_PROBABILITY / pmiddle;
         }
 
 
