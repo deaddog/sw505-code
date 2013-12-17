@@ -1,6 +1,7 @@
 ﻿using System;
 using CommonLib;
 using CommonLib.Interfaces;
+using CommonLib.DTOs;
 
 namespace Data.SensorModel
 {
@@ -8,29 +9,14 @@ namespace Data.SensorModel
     {
         protected const double RHO = 0.1;
        
-        public override double GetProbability(OccupancyGrid grid, CommonLib.Interfaces.IPose robot, CommonLib.DTOs.CellIndex cell, byte sensorX)
+        protected override double GetProbabilityInAlphaRange(OccupancyGrid grid, IPose robotPose, ICoordinate cellCenter, double distance, byte sensorX)
         {
-            if (sensorX < 20)
-                return initialProbability;
+            Func<double, double> gaussianPDF = x =>
+                Math.Pow(Math.E, -Math.Pow((x - sensorX), 2) / (2 * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2)))
+                / Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2));
 
-            ICoordinate c = grid.GetCellCenter(cell);
-            double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
-
-            if (r < MINIMIM_SENSOR_RANGE_CM)
-                return NEAR_CELL_PROBABILITY;
-            else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2))
-                return initialProbability;
-            else if (sensorX - AVERAGE_OBSTACLE_DEPTH_CM / 2 <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_CM / 2)
-            {
-                Func<double, double> gaussianPDF = x => 
-                    Math.Pow(Math.E, -Math.Pow((x - sensorX),2) / (2 * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2))) 
-                    / Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2));
-
-                double eta = calcEta(sensorX, gaussianPDF);
-                return eta * ExtendedMath.DefIntegrate(gaussianPDF, r - RHO, r + RHO);
-            }
-            else
-                return FREE_CELL_PROBABILITY;
+            double eta = calcEta(sensorX, gaussianPDF);
+            return eta * ExtendedMath.DefIntegrate(gaussianPDF, distance - RHO, distance + RHO);
         }
 
         private double calcEta(byte sensorX, Func<double, double> gaussianPDF)
