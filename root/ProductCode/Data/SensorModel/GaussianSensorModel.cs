@@ -8,7 +8,7 @@ namespace Data.SensorModel
     public class GaussianSensorModel : AbstractSensorModel
     {
         protected const double RHO = 0.1;
-       
+
         protected override double GetProbabilityInAlphaRange(OccupancyGrid grid, IPose robotPose, ICoordinate cellCenter, double distance, byte sensorX)
         {
             Func<double, double> gaussianPDF = x =>
@@ -19,9 +19,9 @@ namespace Data.SensorModel
             double proba = eta * ExtendedMath.DefIntegrate(gaussianPDF, distance - RHO, distance + RHO);
 
             if (sensorX < distance)
-                return Math.Max(proba, initialProbability);
+                return proba * (1 - initialProbability) + initialProbability;
             else
-                return Math.Max(proba, FREE_CELL_PROBABILITY);
+                return proba * (1 - FREE_CELL_PROBABILITY) + FREE_CELL_PROBABILITY;
         }
 
         private double calcEta(byte sensorX, Func<double, double> gaussianPDF)
