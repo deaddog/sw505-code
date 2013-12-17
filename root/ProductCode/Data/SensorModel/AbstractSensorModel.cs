@@ -17,7 +17,7 @@ namespace Data.SensorModel
         protected const double MAXIMUM_SENSOR_RANGE_CM = 170;
 		protected const double MINIMIM_SENSOR_RANGE_CM = 25;
         protected const double ROBOT_RADIUS_CM = 10;
-        protected const double AVERAGE_OBSTACLE_DEPTH_CM = 10;
+        protected const double AVERAGE_OBSTACLE_DEPTH_CM = 30;
 
         protected readonly double initialProbability;
 
