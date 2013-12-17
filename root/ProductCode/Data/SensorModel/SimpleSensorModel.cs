@@ -29,17 +29,16 @@ namespace Data.SensorModel
             ICoordinate c = grid.GetCellCenter(cell);
             double r = Math.Abs(c.X - robot.X + c.Y - robot.Y);
 
-            if (sensorX < 20)
-                return initialProbability;
+            
 
-            if (r < MINIMIM_SENSOR_RANGE_CM)
+            if (r < ROBOT_RADIUS_CM)
                 return NEAR_CELL_PROBABILITY;
             else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + average_obstacle_depth_half))
                 return initialProbability;
             else if (sensorX - average_obstacle_depth_half <= r && r <= sensorX + average_obstacle_depth_half)
-                return OCCUPIED_CELL_PROBABILITY;
+                return sensorX < MINIMIM_SENSOR_RANGE_CM ? SMALL_MEASUREMENT_PROBABILITY : OCCUPIED_CELL_PROBABILITY;
             else
-                return FREE_CELL_PROBABILITY;
+                return sensorX < MINIMIM_SENSOR_RANGE_CM ? SMALL_MEASUREMENT_PROBABILITY : FREE_CELL_PROBABILITY;
         }
     }
 }

@@ -12,9 +12,11 @@ namespace Data.SensorModel
         protected const double OCCUPIED_CELL_PROBABILITY = .6;
         protected const double FREE_CELL_PROBABILITY = .4;
         protected const double NEAR_CELL_PROBABILITY = .1;
+        protected const double SMALL_MEASUREMENT_PROBABILITY = .55;
 
         protected const double MAXIMUM_SENSOR_RANGE_CM = 170;
-		protected const double MINIMIM_SENSOR_RANGE_CM = 10;
+		protected const double MINIMIM_SENSOR_RANGE_CM = 25;
+        protected const double ROBOT_RADIUS_CM = 10;
         protected const double AVERAGE_OBSTACLE_DEPTH_CM = 10;
 
         protected readonly double initialProbability;
