@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using CommonLib.DTOs;
 using Services.TrackingServices;
 using Services.RouteServices;
+using CommonLib;
 
 namespace Control
 {
@@ -17,7 +18,6 @@ namespace Control
     /// </summary>
     public class MappingControl
     {
-        private const int LOG_ODDS_BASE = 10;
         private const int AMOUNT_OF_POINTS = 1000;
         private const float DISTANCE_BETWEEN_SENSORS_AND_ROBOT_MID_IN_CM = 11f;
 
@@ -132,8 +132,8 @@ namespace Control
                     {
                         byte sensorReading = getCorrectSensorReading(cell, sensorReadings);
                         double newProbability = sensorModel.GetProbability(grid, robotPose, cell, sensorReading);
-                        newMap[i, j] = logOddsInverse(
-                            logOdds(grid[i, j]) + logOdds(newProbability) - logOdds(OccupancyGrid.INITIAL_PROBABILITY)
+                        newMap[i, j] = ExtendedMath.logOddsInverse(
+                            ExtendedMath.logOdds(grid[i, j]) + ExtendedMath.logOdds(newProbability) - ExtendedMath.logOdds(OccupancyGrid.INITIAL_PROBABILITY)
                             );
                     }
                 }
@@ -233,14 +233,5 @@ namespace Control
                 return sensorReadings.SensorRight;
         }
 
-        private double logOdds(double cellPropability)
-        {
-            return Math.Log(cellPropability / (1 - cellPropability), LOG_ODDS_BASE);
-        }
-
-        private double logOddsInverse(double cellLogOdds)
-        {
-            return 1 - (1 / (1 + Math.Pow(LOG_ODDS_BASE, cellLogOdds)));
-        }
     }
 }

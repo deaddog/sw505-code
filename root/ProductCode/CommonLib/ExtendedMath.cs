@@ -6,6 +6,7 @@ namespace CommonLib
 {
     public static class ExtendedMath
     {
+        private const int DEFAULT_LOG_ODDS_BASE = 10;
         //private const long INTEGRAL_DIVISIONS = long.MaxValue;
         private const long INTEGRAL_DIVISIONS = 100000;
 
@@ -43,6 +44,28 @@ namespace CommonLib
                 areaSum += deltaX * f(xi);
             }
             return areaSum;
+        }
+
+
+
+        public static double logOdds(double cellPropability)
+        {
+            return logOdds(cellPropability, DEFAULT_LOG_ODDS_BASE);
+        }
+
+        public static double logOddsInverse(double cellLogOdds)
+        {
+            return logOddsInverse(cellLogOdds, DEFAULT_LOG_ODDS_BASE);
+        }
+
+        public static double logOdds(double cellPropability, int logbase)
+        {
+            return Math.Log(cellPropability / (1 - cellPropability), logbase);
+        }
+
+        public static double logOddsInverse(double cellLogOdds, int logbase)
+        {
+            return 1 - (1 / (1 + Math.Pow(logbase, cellLogOdds)));
         }
     }
 }
