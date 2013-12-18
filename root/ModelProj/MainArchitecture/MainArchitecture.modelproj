@@ -97,6 +97,13 @@
     <Content Include="ModelDefinition\Package_1607.uml">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="RequestLocation.sequencediagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="RequestLocation.sequencediagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>RequestLocation.sequencediagram</DependentUpon>
+    </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ArchitechtureDiagram.classdiagram">
       <SubType>Content</SubType>

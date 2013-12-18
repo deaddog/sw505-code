@@ -13,6 +13,10 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ControlModel", "..\..\Model
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ServicesModel", "..\..\ModelProj\ServicesModel\ServicesModel.modelproj", "{3FDB41E3-22BA-45DC-873F-BD4884823C37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotInterface", "..\..\ProductCode\RobotInterface\RobotInterface.csproj", "{EF1B5664-A887-4528-B8F3-580BC1786DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Control", "..\..\ProductCode\Control\Control.csproj", "{9EFEC74D-694B-48A9-A26E-A9359B312016}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FDB41E3-22BA-45DC-873F-BD4884823C37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF1B5664-A887-4528-B8F3-580BC1786DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF1B5664-A887-4528-B8F3-580BC1786DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF1B5664-A887-4528-B8F3-580BC1786DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF1B5664-A887-4528-B8F3-580BC1786DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EFEC74D-694B-48A9-A26E-A9359B312016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EFEC74D-694B-48A9-A26E-A9359B312016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EFEC74D-694B-48A9-A26E-A9359B312016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EFEC74D-694B-48A9-A26E-A9359B312016}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
