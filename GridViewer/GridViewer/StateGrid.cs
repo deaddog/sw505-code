@@ -22,7 +22,7 @@ namespace GridViewer
             this.columns = columns;
             this.rows = rows;
 
-            this.states=new CellState[columns,rows];
+            this.states = new CellState[columns, rows];
 
             for (int x = 0; x < columns; x++)
                 for (int y = 0; y < rows; y++)
@@ -41,6 +41,15 @@ namespace GridViewer
                     stateGrid.states[x, y] = staterule(grid[x, y]);
 
             return stateGrid;
+        }
+        public static OccupancyGrid BuildGrid(StateGrid grid, float cellsize, float xOffset, float yOffset, Func<CellState, double> probabilityrule)
+        {
+            double[,] values = new double[grid.columns, grid.rows];
+            for (int x = 0; x < grid.columns; x++)
+                for (int y = 0; y < grid.rows; y++)
+                    values[x, y] = probabilityrule(grid[x, y]);
+
+            return new OccupancyGrid(values, cellsize, xOffset, yOffset);
         }
 
         public int Columns
