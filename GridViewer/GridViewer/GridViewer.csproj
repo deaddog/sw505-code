@@ -47,6 +47,7 @@
     <Compile Include="..\..\root\ProductCode\GUI\Controls\GridLogger.cs">
       <Link>GridLogger.cs</Link>
     </Compile>
+    <Compile Include="CellState.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
