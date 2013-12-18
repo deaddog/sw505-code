@@ -37,17 +37,20 @@ namespace SystemInterface.GUI.Controls
 
             using (BinaryReader reader = new BinaryReader(new FileStream(filepath, FileMode.Open)))
             {
-                float xOff = reader.ReadSingle(), yOff = reader.ReadSingle();
-                float size = reader.ReadSingle();
+                while (reader.PeekChar() >= 0)
+                {
+                    float xOff = reader.ReadSingle(), yOff = reader.ReadSingle();
+                    float size = reader.ReadSingle();
 
-                int columns = reader.ReadInt32(), rows = reader.ReadInt32();
+                    int columns = reader.ReadInt32(), rows = reader.ReadInt32();
 
-                double[,] array = new double[columns, rows];
-                for (int x = 0; x < columns; x++)
-                    for (int y = 0; y < rows; y++)
-                        array[x, y] = reader.ReadDouble();
+                    double[,] array = new double[columns, rows];
+                    for (int x = 0; x < columns; x++)
+                        for (int y = 0; y < rows; y++)
+                            array[x, y] = reader.ReadDouble();
 
-                grids.Add(new OccupancyGrid(array, size, xOff, yOff));
+                    grids.Add(new OccupancyGrid(array, size, xOff, yOff));
+                }
             }
 
             return grids.ToArray();
