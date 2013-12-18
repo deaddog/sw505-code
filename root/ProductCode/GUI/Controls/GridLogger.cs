@@ -13,7 +13,7 @@ namespace SystemInterface.GUI.Controls
         {
             this.filepath = filepath;
             FileInfo f = new FileInfo(filepath);
-            f.Create();
+            using (var fs = f.Create()) { }
         }
 
         public void Log(OccupancyGrid grid)
