@@ -12,9 +12,20 @@ namespace GridViewer
 {
     public partial class Form1 : Form
     {
+        private Size diffSize;
         public Form1()
         {
             InitializeComponent();
+
+            diffSize = new Size(this.Width - gridControl.Width, this.Height - gridControl.Height);
+            gridControl.Resize += gridControl_Resize;
+        }
+        private void gridControl_Resize(object sender, EventArgs e)
+        {
+            if (DesignMode)
+                return;
+            else
+                this.Size = new Size(gridControl.Width + diffSize.Width, gridControl.Height + diffSize.Height);
         }
     }
 }
