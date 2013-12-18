@@ -195,7 +195,10 @@ namespace GridViewer
         {
             base.OnPaint(pe);
             if (DesignMode)
+            {
+                pe.Graphics.DrawRectangle(Pens.Black, 0, 0, this.Width - 1, this.Height - 1);
                 return;
+            }
 
             if (image != null)
                 pe.Graphics.DrawImage(image, Padding.Left, Padding.Top);
