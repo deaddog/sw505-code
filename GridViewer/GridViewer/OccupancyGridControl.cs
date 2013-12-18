@@ -16,8 +16,6 @@ namespace GridViewer
     {
         private const float DEFAULT_AREASIZE = 1;
         private const int GRID_TRANSPARANCY = 150;
-        // shows unexplored areas more clearly compared to other cells by lowering transparancy
-        private const int UNEXPLORED_TRANSPARANC_TO_SUBSTRACT = 25;
         private const float POSE_VECTOR_LENGTH = 50;
 
         // The image size below (640x480) is updated to match any image set using the Image property
@@ -222,8 +220,9 @@ namespace GridViewer
 
             RectangleF r = RectangleF.FromLTRB(topleft.X, topleft.Y, bottomright.X, bottomright.Y);
 
-            using (SolidBrush brush = new SolidBrush(getColor(grid[x, y])))
-                graphics.FillRectangle(brush, r);
+            if (grid[x, y] != 0.5)
+                using (SolidBrush brush = new SolidBrush(getColor(grid[x, y])))
+                    graphics.FillRectangle(brush, r);
 
             if (gridShowBorders)
                 using (Pen pen = new Pen(Color.FromArgb(70, Color.White)))
@@ -323,18 +322,8 @@ namespace GridViewer
                 int green = normalizeColor(probability, 0.5, 1.0);
                 return Color.FromArgb(GRID_TRANSPARANCY, 255, 255 - green, 0);
             }
-            else // yellow
-            {
-                int yellowAlpha = GRID_TRANSPARANCY;
-
-                // Only substract the transparancy of unexplored area if below the transparancy of a grid cell
-                if (GRID_TRANSPARANCY > UNEXPLORED_TRANSPARANC_TO_SUBSTRACT)
-                {
-                    yellowAlpha = GRID_TRANSPARANCY - UNEXPLORED_TRANSPARANC_TO_SUBSTRACT;
-                }
-
-                return Color.FromArgb(yellowAlpha, 255, 255, 0);
-            }
+            else
+                return Color.FromArgb(0, 0, 0, 0);
         }
         public CellIndex GetCellIndex(Point location)
         {
