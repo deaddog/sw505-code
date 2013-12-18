@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pointsLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.gridControl = new GridViewer.OccupancyGridControl();
+            this.tickLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,14 +50,14 @@
             this.trackBar1.Value = -1;
             this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
-            // label1
+            // pointsLabel
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(691, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Points: {0}";
+            this.pointsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pointsLabel.Location = new System.Drawing.Point(691, 38);
+            this.pointsLabel.Name = "pointsLabel";
+            this.pointsLabel.Size = new System.Drawing.Size(123, 13);
+            this.pointsLabel.TabIndex = 3;
+            this.pointsLabel.Text = "Points: {0}";
             // 
             // button1
             // 
@@ -84,19 +85,30 @@
             this.gridControl.DragDrop += new System.Windows.Forms.DragEventHandler(this.gridControl_DragDrop);
             this.gridControl.DragEnter += new System.Windows.Forms.DragEventHandler(this.gridControl_DragEnter);
             // 
+            // tickLabel
+            // 
+            this.tickLabel.AutoSize = true;
+            this.tickLabel.Location = new System.Drawing.Point(691, 392);
+            this.tickLabel.Name = "tickLabel";
+            this.tickLabel.Size = new System.Drawing.Size(48, 13);
+            this.tickLabel.TabIndex = 5;
+            this.tickLabel.Text = "Tick: {0}";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(826, 427);
+            this.Controls.Add(this.tickLabel);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pointsLabel);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.gridControl);
             this.Name = "Form1";
             this.Text = "Evaluator form";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -104,8 +116,9 @@
 
         private OccupancyGridControl gridControl;
         private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label pointsLabel;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label tickLabel;
     }
 }
 
