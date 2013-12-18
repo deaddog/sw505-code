@@ -15,33 +15,33 @@ namespace Data.SensorModel
         private readonly double low_a;
         private readonly double high_a;
 
-        private double calculateIntegrate(double sensorX)
+        private double calculateIntegrate(double mean, double value)
         {
             Func<double, double> gaussianPDF = x =>
-                Math.Pow(Math.E, -Math.Pow((x - sensorX), 2) / (2 * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2)))
+                Math.Pow(Math.E, -Math.Pow((x - mean), 2) / (2 * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2)))
                 / Math.Sqrt(2 * Math.PI * Math.Pow((AVERAGE_OBSTACLE_DEPTH_CM / 6), 2));
 
-            return ExtendedMath.DefIntegrate(gaussianPDF, sensorX - RHO, sensorX + RHO);
+            return ExtendedMath.DefIntegrate(gaussianPDF, value - RHO, value + RHO);
         }
 
         public GaussianSensorModel()
         {
-            center = calculateIntegrate(0);
-            low_deviation = calculateIntegrate(-AVERAGE_OBSTACLE_DEPTH_HALF);
-            high_deviation = calculateIntegrate(AVERAGE_OBSTACLE_DEPTH_HALF);
+            center = calculateIntegrate(0, 0);
+            low_deviation = calculateIntegrate(0, -AVERAGE_OBSTACLE_DEPTH_HALF);
+            high_deviation = calculateIntegrate(0, AVERAGE_OBSTACLE_DEPTH_HALF);
 
-            low_a = (OCCUPIED_CELL_PROBABILITY - INITIAL_CELL_PROBABILITY) / (center - high_deviation);
-            high_a = (OCCUPIED_CELL_PROBABILITY - FREE_CELL_PROBABILITY) / (center - low_deviation);
+            high_a = (OCCUPIED_CELL_PROBABILITY - INITIAL_CELL_PROBABILITY) / (center - high_deviation);
+            low_a = (OCCUPIED_CELL_PROBABILITY - FREE_CELL_PROBABILITY) / (center - low_deviation);
         }
 
         protected override double GetProbabilityInAlphaRange(OccupancyGrid grid, IPose robotPose, ICoordinate cellCenter, double distance, byte sensorX)
         {
-            double proba = calculateIntegrate(sensorX);
+            double proba = calculateIntegrate(sensorX, distance);
 
             if (sensorX < distance)
-                return low_a * (proba - center) + OCCUPIED_CELL_PROBABILITY;
-            else
                 return high_a * (proba - center) + OCCUPIED_CELL_PROBABILITY;
+            else
+                return low_a * (proba - center) + OCCUPIED_CELL_PROBABILITY;
         }
     }
 }
