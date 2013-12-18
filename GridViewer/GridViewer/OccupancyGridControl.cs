@@ -1,8 +1,14 @@
-﻿using System;
+﻿using CommonLib;
+using CommonLib.DTOs;
+using CommonLib.Interfaces;
+using Data;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GridViewer
 {
@@ -30,10 +36,6 @@ namespace GridViewer
             {
                 grid = value;
                 this.Invalidate();
-
-#if !LOWTECH
-                Control.MappingControl.Instance.Map(this.grid);
-#endif
             }
         }
 
@@ -171,9 +173,6 @@ namespace GridViewer
             get { return drawPoses; }
         }
 
-        private int gridUpdateCount = 0;
-        private GridLogger log;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OccupancyGridControl"/> control.
         /// </summary>
@@ -188,29 +187,8 @@ namespace GridViewer
             this.drawCoordinates = new CoordinateCollection(this);
             this.drawPoses = new PoseCollection(this);
 
-#if !LOWTECH
-            if (!DesignMode)
-                Control.DisplayControl.Instance.ImageUpdated += (s, e) => this.Image = Control.DisplayControl.Instance.Bitmap;
-
-            Control.MappingControl.Instance.GridUpdated += (s, e) => { gridUpdateCount++; this.grid = e.Grid; this.log.Log(e.Grid); };
-            this.Poses["robot"] = new Pose(0, 0, 0);
-            this.Coordinates["p1"] = new Vector2D(0, 0);
-            this.Coordinates["p2"] = new Vector2D(0, 0);
-            this.Coordinates.SetColor("p1", Color.Black);
-            this.Coordinates.SetColor("p2", Color.Black);
-
-            Control.LocationControl.Instance.RobotPoseChanged += (s, e) =>
-            {
-                this.Poses["robot"] = Control.LocationControl.Instance.RobotPose;
-                this.Coordinates["p1"] = Control.LocationControl.Instance.Front;
-                this.Coordinates["p2"] = Control.LocationControl.Instance.Rear;
-            };
-
-            Control.MappingControl.Instance.DestinationUpdated += (s, e) => this.Coordinates["destination"] = e.Destination;
-#endif
-            this.Coordinates.SetColor("destination", Color.Red);
-
-            this.log = new GridLogger(DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".log");
+            this.Coordinates.SetColor("robot", Color.Black);
+            this.Coordinates["robot"] = new Vector2D(0, 0);
         }
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -232,8 +210,6 @@ namespace GridViewer
             pe.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             drawCoordinates.Draw(pe.Graphics);
             drawPoses.Draw(pe.Graphics);
-
-            pe.Graphics.DrawString("Updates completed: " + gridUpdateCount, this.Font, Brushes.Red, new PointF(Padding.Left + 10, Padding.Top + 10));
         }
 
         private void drawCell(Graphics graphics, int x, int y)
