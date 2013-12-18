@@ -13,6 +13,7 @@ namespace Services.TrackingServices
     public class ColorTracker
     {
         private const float DEFAULT_THRESHOLD = 50;
+        private const float COLOR_DIFF_THRESHOLD = 30;
         public const int BOUNDS_INFLATE = 7;
         private const int BOUNDS_MAX = 100000;
         private const int MINIMUM_NUMBER_OF_INTERRESTING_NEIGHBOURS = 4;
@@ -85,7 +86,7 @@ namespace Services.TrackingServices
             Color newTarget = bitmap.GetPixel(p.X + oldBounds.X, p.Y + oldBounds.Y);
 
             double dist = distance(originalColor, newTarget);
-            if (dist < threshold)
+            if (dist < COLOR_DIFF_THRESHOLD)
                 targetColor = newTarget;
 
             Rectangle newBounds = grid.Bounds;
