@@ -10,7 +10,6 @@ namespace Data.SensorModel
 {
     public class SimpleSensorModel : AbstractSensorModel
     {
-
         public SimpleSensorModel()
             : base()
         {

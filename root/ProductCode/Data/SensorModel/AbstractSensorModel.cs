@@ -20,8 +20,8 @@ namespace Data.SensorModel
         protected const double ROBOT_RADIUS_CM = 10;
         protected const double AVERAGE_OBSTACLE_DEPTH_CM = 30;
         protected readonly double AVERAGE_OBSTACLE_DEPTH_HALF;
-
-        protected readonly double initialProbability;
+        
+        protected readonly double INITIAL_CELL_PROBABILITY;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSensorModel"/> class.
@@ -29,7 +29,7 @@ namespace Data.SensorModel
         /// <param name="cellDepthCM">The cell depth cm.</param>
         public AbstractSensorModel()
         {
-            this.initialProbability = OccupancyGrid.INITIAL_PROBABILITY;
+            this.INITIAL_CELL_PROBABILITY = OccupancyGrid.INITIAL_PROBABILITY;
             this.AVERAGE_OBSTACLE_DEPTH_HALF = AVERAGE_OBSTACLE_DEPTH_CM / 2;
         }
 
@@ -41,7 +41,7 @@ namespace Data.SensorModel
             if (r < ROBOT_RADIUS_CM)
                 return NEAR_CELL_PROBABILITY;
             else if (r > Math.Min(MAXIMUM_SENSOR_RANGE_CM, sensorX + AVERAGE_OBSTACLE_DEPTH_HALF))
-                return initialProbability;
+                return INITIAL_CELL_PROBABILITY;
             else if (sensorX - AVERAGE_OBSTACLE_DEPTH_HALF <= r && r <= sensorX + AVERAGE_OBSTACLE_DEPTH_HALF)
                 return sensorX < MINIMIM_SENSOR_RANGE_CM ? SMALL_MEASUREMENT_PROBABILITY : GetProbabilityInAlphaRange(grid, robot, c, r, sensorX);
             else
