@@ -59,6 +59,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetPerfectGridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetPerfectGridForm.Designer.cs">
+      <DependentUpon>SetPerfectGridForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StateGrid.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -73,6 +79,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SetPerfectGridForm.resx">
+      <DependentUpon>SetPerfectGridForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
