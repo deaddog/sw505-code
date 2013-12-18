@@ -36,6 +36,7 @@
             this.gridControl.AreaHeight = 231F;
             this.gridControl.AreaWidth = 308F;
             this.gridControl.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.gridControl.Image = null;
             this.gridControl.Location = new System.Drawing.Point(12, 12);
             this.gridControl.Name = "gridControl";
             this.gridControl.Size = new System.Drawing.Size(802, 403);

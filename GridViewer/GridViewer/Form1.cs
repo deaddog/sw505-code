@@ -25,6 +25,7 @@ namespace GridViewer
             gridControl.Resize += gridControl_Resize;
 
             gridControl.Grid = grid;
+            gridControl.Image = Properties.Resources.emptyGrid;
         }
         private void gridControl_Resize(object sender, EventArgs e)
         {

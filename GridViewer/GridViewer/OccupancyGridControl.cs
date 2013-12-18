@@ -40,7 +40,7 @@ namespace GridViewer
         }
 
         private Image image;
-        private Image Image
+        public Image Image
         {
             get { return image; }
             set
@@ -335,6 +335,14 @@ namespace GridViewer
 
                 return Color.FromArgb(yellowAlpha, 255, 255, 0);
             }
+        }
+        public CellIndex GetCellIndex(Point location)
+        {
+            return GetCellIndex(location.X, location.Y);
+        }
+        public CellIndex GetCellIndex(int x, int y)
+        {
+            return grid.GetIndex(conv.ConvertPixelToActual(new Vector2D(x - Padding.Left, y - Padding.Top)));
         }
 
         public class PoseCollection : DrawCollection<IPose>
