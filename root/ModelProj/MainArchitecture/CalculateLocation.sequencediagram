@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="46b2caa4-6039-4c35-8a67-01cdeb9a7c08" name="CalculateLocation" linkedPackageId="21828e62-ab5d-4d37-a573-399545d101e3" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="1766b203-e4df-4182-b961-e6b4e9c81061" name="CalculateLocation" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <elementDefinition Id="0350d0ba-9e23-4a8f-b221-cebcd44ef09e" />
+        <fragments>
+          <behaviorExecutionSpecification Id="c9d619e3-043e-4604-aa23-529ba730f2bd" name="BehaviorExecutionSpecification1">
+            <elementDefinition Id="e1bb3442-48e3-4afd-8839-a3b2d16091bb" />
+            <coveredLifelines>
+              <lifelineMoniker Id="8c6b57b7-64b4-4330-88ef-62dcd2ae10f8" LastKnownName="Control.LocationControl" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="afad94bf-9dd7-4995-8669-bc0a619cf280" LastKnownName="ExecutionOccurrenceSpecification2" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="351b4eb7-0687-496f-8a17-6460027078b0" LastKnownName="ExecutionOccurrenceSpecification1" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="5a2c8738-eb17-4da6-bcc4-634ac4daa879" LastKnownName="MessageOccurrenceSpecification1" />
+              <messageOccurrenceSpecificationMoniker Id="02faad78-82d0-43e6-914b-19bbe3376d82" LastKnownName="MessageOccurrenceSpecification2" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="351b4eb7-0687-496f-8a17-6460027078b0" name="ExecutionOccurrenceSpecification1">
+            <elementDefinition Id="9925e111-0919-4ad2-835c-08b682c8d384" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="916a9c12-a3af-4d2f-9fc5-2436dce681e2" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="8c6b57b7-64b4-4330-88ef-62dcd2ae10f8" LastKnownName="Control.LocationControl" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <lostFoundTarget Id="0abf5700-19dd-425c-96c5-cdbd45ad9805" name="LostFoundTarget1">
+            <elementDefinition Id="810fbfb3-1242-41e2-b7e7-be036c00cc03" />
+          </lostFoundTarget>
+          <messageOccurrenceSpecification Id="5a2c8738-eb17-4da6-bcc4-634ac4daa879" name="MessageOccurrenceSpecification1">
+            <elementDefinition Id="a238ce6c-0bb2-4852-b278-264e6df0b648" />
+            <covered>
+              <lifelineMoniker Id="8c6b57b7-64b4-4330-88ef-62dcd2ae10f8" LastKnownName="Control.LocationControl" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="02faad78-82d0-43e6-914b-19bbe3376d82" name="MessageOccurrenceSpecification2">
+            <elementDefinition Id="a79f9833-911e-4e57-8082-9f25f2110718" />
+            <covered>
+              <lifelineMoniker Id="8c6b57b7-64b4-4330-88ef-62dcd2ae10f8" LastKnownName="Control.LocationControl" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <lostFoundTarget Id="36a7ff83-d5f3-41d2-b607-dbb4fa851ad7" name="LostFoundTarget2">
+            <elementDefinition Id="0f54bdbe-b8f3-4dba-9096-5ec5e8c99364" />
+          </lostFoundTarget>
+          <executionOccurrenceSpecification Id="afad94bf-9dd7-4995-8669-bc0a619cf280" name="ExecutionOccurrenceSpecification2">
+            <elementDefinition Id="e0082a96-629e-4ba6-a8ea-5aa7bd8fb99c" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="77b2300a-dd9f-4d3c-b6ac-d7f8d11d0b58" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="8c6b57b7-64b4-4330-88ef-62dcd2ae10f8" LastKnownName="Control.LocationControl" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline Id="8c6b57b7-64b4-4330-88ef-62dcd2ae10f8" name="Control.LocationControl" isActor="false" lifelineDisplayName="Control.LocationControl">
+            <elementDefinition Id="7b53ab57-aead-4c0d-8c1f-10c12dd338fa" />
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker Id="351b4eb7-0687-496f-8a17-6460027078b0" LastKnownName="ExecutionOccurrenceSpecification1" />
+              <executionOccurrenceSpecificationMoniker Id="afad94bf-9dd7-4995-8669-bc0a619cf280" LastKnownName="ExecutionOccurrenceSpecification2" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="c1a5d320-fce0-4dd5-8b83-7726656f715c" name="Services.TrackingServices.RobotLocation" isActor="false" lifelineDisplayName="Services.TrackingServices.RobotLocation">
+            <elementDefinition Id="1d94b555-b519-447f-9574-3ed1ce2636ca" />
+          </lifeline>
+          <lifeline Id="b377f40c-c4f3-460a-a696-77d573c40257" name="Services.TrackingServices.OrientationTracker" isActor="false" lifelineDisplayName="Services.TrackingServices.OrientationTracker">
+            <elementDefinition Id="42467a23-6320-4039-b730-bdbf8fafc2b8" />
+          </lifeline>
+          <lifeline Id="941f9236-c704-4ca4-8fa3-90540ccf04f1" name="Services.TrackingServices.ColorTracker" isActor="false" lifelineDisplayName="Services.TrackingServices.ColorTracker">
+            <elementDefinition Id="bffdf8f9-a9d9-41da-8ac8-9fada383a962" />
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message Id="2420709d-2093-446a-b369-34e17b94d2c2" name="RobotPose()" messageKind="Found" messageSort="AsynchCall" createSelfMessage="false">
+            <elementDefinition Id="e37b3eae-ae45-4bc2-85a6-d3607b3ed5e0" />
+            <sendEvent>
+              <lostFoundTargetMoniker Id="0abf5700-19dd-425c-96c5-cdbd45ad9805" LastKnownName="LostFoundTarget1" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="5a2c8738-eb17-4da6-bcc4-634ac4daa879" LastKnownName="MessageOccurrenceSpecification1" />
+            </receiveEvent>
+          </message>
+          <message Id="c4f72889-68b1-479a-80c3-05a91c6e7fa1" name="IPose pose" messageKind="Lost" messageSort="AsynchCall" createSelfMessage="false">
+            <elementDefinition Id="747656c8-8ca5-448f-9e95-2dd8dc523e69" />
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="02faad78-82d0-43e6-914b-19bbe3376d82" LastKnownName="MessageOccurrenceSpecification2" />
+            </sendEvent>
+            <receiveEvent>
+              <lostFoundTargetMoniker Id="36a7ff83-d5f3-41d2-b607-dbb4fa851ad7" LastKnownName="LostFoundTarget2" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="916a9c12-a3af-4d2f-9fc5-2436dce681e2" name="ExecutionEvent">
+        <elementDefinition Id="5550a8c1-ff85-46ca-a623-44347485e915" />
+      </executionEvent>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="77b2300a-dd9f-4d3c-b6ac-d7f8d11d0b58" name="ExecutionEvent">
+        <elementDefinition Id="ddeaaa07-0c25-48eb-99c9-736ec1008449" />
+      </executionEvent>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="21828e62-ab5d-4d37-a573-399545d101e3" name="MainArchitecture">
+    <elementDefinition Id="36aa3848-8e82-4f19-b928-3d2b4554a778" />
+  </package>
+</SequenceDesignerModel>
