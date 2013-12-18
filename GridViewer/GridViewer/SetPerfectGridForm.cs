@@ -1,13 +1,8 @@
 ﻿using CommonLib.DTOs;
-using Data;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace GridViewer
@@ -17,6 +12,18 @@ namespace GridViewer
         private StateGrid grid;
         private Size diffSize;
 
+        public static string ExecutingDirectory
+        {
+            get
+            {
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                Uri uri = new Uri(assembly.CodeBase);
+                return Path.GetDirectoryName(uri.LocalPath);
+            }
+        }
+
+        private readonly string perfectPath;
+
         public SetPerfectGridForm()
         {
             InitializeComponent();
@@ -24,10 +31,21 @@ namespace GridViewer
             diffSize = new Size(this.Width - gridControl.Width, this.Height - gridControl.Height);
             gridControl.Resize += gridControl_Resize;
 
-            gridControl.Grid = new OccupancyGrid(30, 23, 10, -150, -115);
             gridControl.Image = Properties.Resources.emptyGrid;
 
-            this.grid = new StateGrid(30, 23);
+            this.perfectPath = ExecutingDirectory + "\\..\\..\\perfectgrid";
+            this.grid = StateGrid.Load(SystemInterface.GUI.Controls.GridLogger.LoadGrids(this.perfectPath)[0], CalcState);
+            this.gridControl.Grid = StateGrid.BuildGrid(grid, 10, -150, -115, CalcProbability);
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            FileInfo file = new FileInfo(perfectPath);
+            if (file.Exists)
+                file.Delete();
+
+            SystemInterface.GUI.Controls.GridLogger logger = new SystemInterface.GUI.Controls.GridLogger(perfectPath);
+            logger.Log(gridControl.Grid);
         }
         private void gridControl_Resize(object sender, EventArgs e)
         {
@@ -37,40 +55,39 @@ namespace GridViewer
                 this.Size = new Size(gridControl.Width + diffSize.Width, gridControl.Height + diffSize.Height);
         }
 
+        private CellState settingState = CellState.Unknown;
+
         private void gridControl_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 CellIndex index = gridControl.GetCellIndex(e.Location);
-                UpdateCell(index, CellState.Free);
+                settingState = grid[index.X, index.Y] == CellState.Free ? CellState.Unknown : CellState.Free;
+                UpdateCell(index);
             }
             else if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 CellIndex index = gridControl.GetCellIndex(e.Location);
-                UpdateCell(index, CellState.Occupied);
+                settingState = grid[index.X, index.Y] == CellState.Occupied ? CellState.Unknown : CellState.Occupied;
+                UpdateCell(index);
             }
         }
         private void gridControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == System.Windows.Forms.MouseButtons.Left || e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 CellIndex index = gridControl.GetCellIndex(e.Location);
-                UpdateCell(index, CellState.Free);
-            }
-            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                CellIndex index = gridControl.GetCellIndex(e.Location);
-                UpdateCell(index, CellState.Occupied);
+                UpdateCell(index);
             }
         }
 
-        private void UpdateCell(CellIndex index, CellState state)
+        private void UpdateCell(CellIndex index)
         {
             CellState oldstate = grid[index.X, index.Y];
-            if (state == oldstate)
+            if (settingState == oldstate)
                 return;
 
-            grid[index.X, index.Y] = state;
+            grid[index.X, index.Y] = settingState;
 
             gridControl.Grid = StateGrid.BuildGrid(grid,
                 gridControl.Grid.CellSize, gridControl.Grid.X, gridControl.Grid.Y, CalcProbability);
@@ -85,6 +102,16 @@ namespace GridViewer
                 case CellState.Unknown: return 0.5;
                 default: throw new ApplicationException("Invalid state");
             }
+        }
+
+        private CellState CalcState(double probability)
+        {
+            if (probability < 0.5)
+                return CellState.Free;
+            else if (probability > 0.5)
+                return CellState.Occupied;
+            else
+                return CellState.Unknown;
         }
     }
 }
