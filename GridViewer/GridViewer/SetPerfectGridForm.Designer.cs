@@ -41,7 +41,8 @@
             this.gridControl.Size = new System.Drawing.Size(632, 375);
             this.gridControl.TabIndex = 0;
             this.gridControl.Text = "occupancyGridControl1";
-            this.gridControl.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridControl_MouseClick);
+            this.gridControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridControl_MouseDown);
+            this.gridControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gridControl_MouseMove);
             // 
             // SetPerfectGridForm
             // 

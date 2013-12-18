@@ -37,8 +37,54 @@ namespace GridViewer
                 this.Size = new Size(gridControl.Width + diffSize.Width, gridControl.Height + diffSize.Height);
         }
 
-        private void gridControl_MouseClick(object sender, MouseEventArgs e)
+        private void gridControl_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                CellIndex index = gridControl.GetCellIndex(e.Location);
+                UpdateCell(index, CellState.Free);
+            }
+            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                CellIndex index = gridControl.GetCellIndex(e.Location);
+                UpdateCell(index, CellState.Occupied);
+            }
+        }
+        private void gridControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                CellIndex index = gridControl.GetCellIndex(e.Location);
+                UpdateCell(index, CellState.Free);
+            }
+            else if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                CellIndex index = gridControl.GetCellIndex(e.Location);
+                UpdateCell(index, CellState.Occupied);
+            }
+        }
+
+        private void UpdateCell(CellIndex index, CellState state)
+        {
+            CellState oldstate = grid[index.X, index.Y];
+            if (state == oldstate)
+                return;
+
+            grid[index.X, index.Y] = state;
+
+            gridControl.Grid = StateGrid.BuildGrid(grid,
+                gridControl.Grid.CellSize, gridControl.Grid.X, gridControl.Grid.Y, CalcProbability);
+        }
+
+        private double CalcProbability(CellState state)
+        {
+            switch (state)
+            {
+                case CellState.Free: return 0;
+                case CellState.Occupied: return 1;
+                case CellState.Unknown: return 0.5;
+                default: throw new ApplicationException("Invalid state");
+            }
         }
     }
 }
