@@ -42,14 +42,14 @@
       </relativeChildShapes>
     </lifelineShape>
     <lifelineShape Id="27545e0c-e20e-4432-abff-65c75722c217" absoluteBounds="5.677083333333333, 1, 0.15, 7.7960069184005256" visible="true" visualStyleMode="Modified">
-      <lifelineMoniker Id="7036d527-74bd-4868-9f09-dbf463205bdc" LastKnownName="SystemInterface.RobotInterface" />
+      <lifelineMoniker Id="7036d527-74bd-4868-9f09-dbf463205bdc" LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter" />
       <relativeChildShapes>
         <umlLifelineHeadShape Id="ade5225f-38c3-433a-940f-0d9784dc81ae" absoluteBounds="4.7520833333333332, 0.6, 2, 0.4" customColor="White" visualStyleMode="Modified">
-          <lifelineMoniker Id="7036d527-74bd-4868-9f09-dbf463205bdc" LastKnownName="SystemInterface.RobotInterface" />
+          <lifelineMoniker Id="7036d527-74bd-4868-9f09-dbf463205bdc" LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter" />
           <relativeChildShapes />
         </umlLifelineHeadShape>
         <lifelineHoverShape Id="d70289d6-b952-493d-9fa2-535a742d82e9" absoluteBounds="5.677083333333333, 1, 0, 7.75">
-          <lifelineMoniker Id="7036d527-74bd-4868-9f09-dbf463205bdc" LastKnownName="SystemInterface.RobotInterface" />
+          <lifelineMoniker Id="7036d527-74bd-4868-9f09-dbf463205bdc" LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter" />
         </lifelineHoverShape>
         <umlExecutionSpecificationShape Id="0b4b008e-8e3d-405c-b3ea-22e8d5aa30a0" absoluteBounds="5.677083333333333, 1.3, 0.15, 7.1960069184005251" customColor="184, 204, 215" visualStyleMode="Modified">
           <behaviorExecutionSpecificationMoniker Id="468fcc3b-2e36-430f-8846-d51514cbc961" LastKnownName="BehaviorExecutionSpecification17" />
