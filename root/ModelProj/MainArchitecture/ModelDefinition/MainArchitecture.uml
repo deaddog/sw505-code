@@ -98,7 +98,7 @@
             <coveredLifelines>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </coveredLifelines>
             <finish>
@@ -204,7 +204,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </executionOccurrenceSpecification>
@@ -234,7 +234,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -281,7 +281,7 @@
                 LastKnownLocation="MainArchitecture.uml" />
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
               <lifelineMoniker
                 Id="2d77e3c3-688c-419a-a1c8-0c4c9fc9157a"
@@ -307,7 +307,7 @@
                     LastKnownLocation="MainArchitecture.uml" />
                   <lifelineMoniker
                     Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                    LastKnownName="SystemInterface.RobotInterface"
+                    LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                     LastKnownLocation="MainArchitecture.uml" />
                   <lifelineMoniker
                     Id="2d77e3c3-688c-419a-a1c8-0c4c9fc9157a"
@@ -334,7 +334,7 @@
                         LastKnownLocation="MainArchitecture.uml" />
                       <lifelineMoniker
                         Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                        LastKnownName="SystemInterface.RobotInterface"
+                        LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                         LastKnownLocation="MainArchitecture.uml" />
                       <lifelineMoniker
                         Id="2d77e3c3-688c-419a-a1c8-0c4c9fc9157a"
@@ -360,7 +360,7 @@
                             LastKnownLocation="MainArchitecture.uml" />
                           <lifelineMoniker
                             Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                            LastKnownName="SystemInterface.RobotInterface"
+                            LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                             LastKnownLocation="MainArchitecture.uml" />
                           <lifelineMoniker
                             Id="2d77e3c3-688c-419a-a1c8-0c4c9fc9157a"
@@ -424,8 +424,7 @@
                 </fragments>
                 <guard>
                   <interactionConstraint
-                    Id="c7d4ff94-b24c-4bb8-a3c3-875dacc60872"
-                    guardText="RUNNING == true">
+                    Id="c7d4ff94-b24c-4bb8-a3c3-875dacc60872">
                     <maxInt>
                       <literalString
                         Id="131ad692-2f83-4cff-8ceb-c1f1232eb72e"
@@ -519,7 +518,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </operandOccurrenceSpecification>
@@ -589,7 +588,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -619,7 +618,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -687,7 +686,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </operandOccurrenceSpecification>
@@ -747,7 +746,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -777,7 +776,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -869,7 +868,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -923,7 +922,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -1015,7 +1014,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -1111,7 +1110,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -1177,7 +1176,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </operandOccurrenceSpecification>
@@ -1227,7 +1226,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </operandOccurrenceSpecification>
@@ -1257,7 +1256,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -1285,7 +1284,7 @@
             <covered>
               <lifelineMoniker
                 Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-                LastKnownName="SystemInterface.RobotInterface"
+                LastKnownName="SystemInterface.RobotInterface.RobotCommandInterpreter"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </executionOccurrenceSpecification>
@@ -1385,9 +1384,9 @@
           </lifeline>
           <lifeline
             Id="5c2731dc-87d3-49fd-b46e-fa580b3c70e5"
-            name="SystemInterface.RobotInterface"
+            name="SystemInterface.RobotInterface.RobotCommandInterpreter"
             isActor="false"
-            lifelineDisplayName="SystemInterface.RobotInterface">
+            lifelineDisplayName="SystemInterface.RobotInterface.RobotCommandInterpreter">
             <topLevelOccurrences>
               <executionOccurrenceSpecificationMoniker
                 Id="28632faf-fcf5-457b-a1f9-338ac4259fa2"
@@ -3309,22 +3308,22 @@
             </covered>
           </executionOccurrenceSpecification>
           <messageOccurrenceSpecification
-            Id="41714e8f-9491-44c9-8838-cf03adfcb213"
-            name="MessageOccurrenceSpecification15">
-            <covered>
-              <lifelineMoniker
-                Id="42467a23-6320-4039-b730-bdbf8fafc2b8"
-                LastKnownName="Services.TrackingServices.OrientationTracker"
-                LastKnownLocation="MainArchitecture.uml" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification
             Id="eeadf4dc-2fd3-42d6-bf29-b5441ae35583"
             name="MessageOccurrenceSpecification16">
             <covered>
               <lifelineMoniker
                 Id="bffdf8f9-a9d9-41da-8ac8-9fada383a962"
                 LastKnownName="Services.TrackingServices.ColorTracker"
+                LastKnownLocation="MainArchitecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="41714e8f-9491-44c9-8838-cf03adfcb213"
+            name="MessageOccurrenceSpecification15">
+            <covered>
+              <lifelineMoniker
+                Id="42467a23-6320-4039-b730-bdbf8fafc2b8"
+                LastKnownName="Services.TrackingServices.OrientationTracker"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -3545,22 +3544,22 @@
             </covered>
           </messageOccurrenceSpecification>
           <messageOccurrenceSpecification
-            Id="1bbb3c7d-2703-42fd-9b60-3b41e1afb4b2"
-            name="MessageOccurrenceSpecification26">
-            <covered>
-              <lifelineMoniker
-                Id="42467a23-6320-4039-b730-bdbf8fafc2b8"
-                LastKnownName="Services.TrackingServices.OrientationTracker"
-                LastKnownLocation="MainArchitecture.uml" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification
             Id="dd6c62d7-db99-4def-8dfc-27b354289583"
             name="MessageOccurrenceSpecification25">
             <covered>
               <lifelineMoniker
                 Id="bffdf8f9-a9d9-41da-8ac8-9fada383a962"
                 LastKnownName="Services.TrackingServices.ColorTracker"
+                LastKnownLocation="MainArchitecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="1bbb3c7d-2703-42fd-9b60-3b41e1afb4b2"
+            name="MessageOccurrenceSpecification26">
+            <covered>
+              <lifelineMoniker
+                Id="42467a23-6320-4039-b730-bdbf8fafc2b8"
+                LastKnownName="Services.TrackingServices.OrientationTracker"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -3777,22 +3776,22 @@
             </covered>
           </messageOccurrenceSpecification>
           <messageOccurrenceSpecification
-            Id="6ae07249-9051-4b83-9dab-8db21ae8c5ff"
-            name="MessageOccurrenceSpecification30">
-            <covered>
-              <lifelineMoniker
-                Id="42467a23-6320-4039-b730-bdbf8fafc2b8"
-                LastKnownName="Services.TrackingServices.OrientationTracker"
-                LastKnownLocation="MainArchitecture.uml" />
-            </covered>
-          </messageOccurrenceSpecification>
-          <messageOccurrenceSpecification
             Id="d65c28ff-fcfd-4fec-b937-e526f6024c6c"
             name="MessageOccurrenceSpecification29">
             <covered>
               <lifelineMoniker
                 Id="bffdf8f9-a9d9-41da-8ac8-9fada383a962"
                 LastKnownName="Services.TrackingServices.ColorTracker"
+                LastKnownLocation="MainArchitecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="6ae07249-9051-4b83-9dab-8db21ae8c5ff"
+            name="MessageOccurrenceSpecification30">
+            <covered>
+              <lifelineMoniker
+                Id="42467a23-6320-4039-b730-bdbf8fafc2b8"
+                LastKnownName="Services.TrackingServices.OrientationTracker"
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
@@ -3998,9 +3997,6 @@
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </executionOccurrenceSpecification>
-          <lostFoundTarget
-            Id="0f54bdbe-b8f3-4dba-9096-5ec5e8c99364"
-            name="LostFoundTarget2" />
           <messageOccurrenceSpecification
             Id="a79f9833-911e-4e57-8082-9f25f2110718"
             name="MessageOccurrenceSpecification2">
@@ -4011,6 +4007,9 @@
                 LastKnownLocation="MainArchitecture.uml" />
             </covered>
           </messageOccurrenceSpecification>
+          <lostFoundTarget
+            Id="0f54bdbe-b8f3-4dba-9096-5ec5e8c99364"
+            name="LostFoundTarget2" />
           <executionOccurrenceSpecification
             Id="e0082a96-629e-4ba6-a8ea-5aa7bd8fb99c"
             name="ExecutionOccurrenceSpecification2">
